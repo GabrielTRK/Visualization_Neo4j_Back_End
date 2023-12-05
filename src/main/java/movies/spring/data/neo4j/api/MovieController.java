@@ -56,54 +56,6 @@ class MovieController {
 	MovieController(MovieService movieService) {
 		this.movieService = movieService;
 	}
-
-	/*@GetMapping("/movie/{title}")
-	public MovieDetailsDto findByTitle(@PathVariable("title") String title) {
-		return movieService.fetchDetailsByTitle(title);
-	}
-
-	@PostMapping("/movie/{title}/vote")
-	public int voteByTitle(@PathVariable("title") String title) {
-		return movieService.voteInMovieByTitle(title);
-	}
-
-	@GetMapping("/search")
-	List<MovieResultDto> search(@RequestParam("q") String title) {
-		return movieService.searchMoviesByTitle(stripWildcards(title));
-	}
-
-	@GetMapping("/graph")
-	public Map<String, List<Object>> getGraph() {
-		return movieService.fetchMovieGraph();
-	}*/
-	
-	/*@CrossOrigin
-	@GetMapping("/algoritmo")
-	public DatosConexiones ejecutarAlgoritmo(@RequestParam("dia_inicial") String dia_I, 
-			@RequestParam("dia_final") String dia_F,
-			@RequestParam("mes_inicial") String mes_I,
-			@RequestParam("mes_final") String mes_F,
-			@RequestParam("año_inicial") String año_I,
-			@RequestParam("año_final") String año_F,
-			@RequestParam("iteraciones") int num_Iteraciones) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosProblema datos = movieService.obtenerDatos(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		List<Double> pesos = new ArrayList<>();
-		pesos.add(1.0);
-		pesos.add(1.0);
-		pesos.add(1.0);
-		pesos.add(1.0);
-		pesos.add(1.0);
-		pesos.add(1.0);
-		pesos.add(1.0);
-		Problema problema = new GestionConexionesAeropuertos(datos, pesos); 
-		BPSO bpso = new BPSO(4, num_Iteraciones, problema, 0.9, 2, 2);
-		Individuo ind = bpso.ejecutarBPSO();
-		datos.rellenarConexionesFaltantes(ind);
-		List<Aeropuerto> lista = TraducirSalida.traducir(ind, datos.getConexiones());
-		
-    	DatosConexiones datosConexiones = new DatosConexiones(lista, ind);
-    	return datosConexiones;
-	}*/
 	
 	@CrossOrigin
 	@GetMapping("/algoritmo/dia")
@@ -143,18 +95,6 @@ class MovieController {
     	return datosConexiones;
 	}
 	
-	/*@CrossOrigin
-	@GetMapping("/datos")
-	public DatosProblema obtenerDatosVuelos(@RequestParam("dia_inicial") String dia_I, 
-			@RequestParam("dia_final") String dia_F,
-			@RequestParam("mes_inicial") String mes_I,
-			@RequestParam("mes_final") String mes_F,
-			@RequestParam("año_inicial") String año_I,
-			@RequestParam("año_final") String año_F) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosProblema datos = movieService.obtenerDatos(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		return datos;
-	}*/
-	
 	@CrossOrigin
 	@GetMapping("/datos/dia")
 	public DatosProblemaDias obtenerDatosVuelosPorDia(@RequestParam("dia_inicial") String dia_I, 
@@ -167,81 +107,39 @@ class MovieController {
 		return datos;
 	}
 	
-	/*@CrossOrigin
-	@GetMapping("/solucion")
-	public DatosConexiones obtenerUltimaSolucion() throws FileNotFoundException, IOException, CsvException, ParseException {
-		List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
-		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);
-		int numDias = Utils.obtenernumDiasUltimaSolucion();
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
-		return datosConexiones;
-	}*/
-	
-	/*@CrossOrigin
-	@GetMapping("/solucion/hist")
-	public List<FitnessI> obtenerHistUltimaSolucion() throws FileNotFoundException, IOException, CsvException, ParseException {
-		List<List<String>> listaSoluciones = Utils.leerCSVnombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
-		String nombreFichero = String.valueOf(listaSoluciones.size()-1);
-		return TraducirSalida.obtenerHistoricoDeFitness(Utils.leerCSVHistFitness(nombreFichero));
-	}*/
-	
 	@CrossOrigin
-	@GetMapping("/solucionI/hist")
-	public List<FitnessI> obtenerHistSolucionI(@RequestParam("id") int id_sol) throws FileNotFoundException, IOException, CsvException, ParseException {
-		String nombreFichero = String.valueOf(id_sol);
+	@GetMapping("/{id}/hist")
+	public List<FitnessI> obtenerHistSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		String nombreFichero = String.valueOf(id);
 		return TraducirSalida.obtenerHistoricoDeFitness(Utils.leerCSVHistFitness(nombreFichero));
 	}
 	
-	/*@CrossOrigin
-	@GetMapping("/solucion/objetivos")
-	public List<Objetivo> obtenerObjUltimaSolucion() throws FileNotFoundException, IOException, CsvException, ParseException {
-		List<List<String>> listaSoluciones = Utils.leerCSVnombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
-		String nombreFichero = String.valueOf(listaSoluciones.size()-1);
-		return TraducirSalida.obtenerObjetivos(Utils.leerCSVObjetivos(nombreFichero));
-	}*/
-	
 	@CrossOrigin
-	@GetMapping("/solucionI/objetivos")
-	public List<Objetivo> obtenerObjSolucionI(@RequestParam("id") int id_sol) throws FileNotFoundException, IOException, CsvException, ParseException {
-		String nombreFichero = String.valueOf(id_sol);
+	@GetMapping("/{id}/objetivos")
+	public List<Objetivo> obtenerObjSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		String nombreFichero = String.valueOf(id);
 		return TraducirSalida.obtenerObjetivos(Utils.leerCSVObjetivos(nombreFichero));
 	}
 	
-	/*@CrossOrigin
-	@GetMapping("/solucion/personas")
-	public List<Persona> obtenerPersonasUltimaSolucion() throws FileNotFoundException, IOException, CsvException, ParseException {
-		List<List<String>> listaSoluciones = Utils.leerCSVnombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
-		String nombreFichero = String.valueOf(listaSoluciones.size()-1);
-		return TraducirSalida.obtenerPersonasAfectadas(Utils.leerCSVPersonasAfectadas(nombreFichero));
-	}*/
-	
 	@CrossOrigin
-	@GetMapping("/solucionI/personas")
-	public List<Persona> obtenerPersonasSolucionI(@RequestParam("id") int id_sol) throws FileNotFoundException, IOException, CsvException, ParseException {
-		String nombreFichero = String.valueOf(id_sol);
+	@GetMapping("/{id}/personas")
+	public List<Persona> obtenerPersonasSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		String nombreFichero = String.valueOf(id);
 		return TraducirSalida.obtenerPersonasAfectadas(Utils.leerCSVPersonasAfectadas(nombreFichero));
 	}
 	
-	/*@CrossOrigin
-	@GetMapping("/solucion/vuelos")
-	public List<Vuelos> obtenerVuelosUltimaSolucion() throws FileNotFoundException, IOException, CsvException, ParseException {
-		List<List<String>> listaSoluciones = Utils.leerCSVnombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
-		String nombreFichero = String.valueOf(listaSoluciones.size()-1);
-		return TraducirSalida.obtenerVuelosCancelados(Utils.leerCSVVuelosCancelados(nombreFichero));
-	}*/
-	
 	@CrossOrigin
-	@GetMapping("/solucionI/vuelos")
-	public List<Vuelos> obtenerVuelosSolucionI(@RequestParam("id") int id_sol) throws FileNotFoundException, IOException, CsvException, ParseException {
-		String nombreFichero = String.valueOf(id_sol);
+	@GetMapping("/{id}/vuelos")
+	public List<Vuelos> obtenerVuelosSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		String nombreFichero = String.valueOf(id);
 		return TraducirSalida.obtenerVuelosCancelados(Utils.leerCSVVuelosCancelados(nombreFichero));
 	}
 	
 	@CrossOrigin
-	@GetMapping("/solucionI/diaJ")
-	public DatosConexiones obtenerSolucionI(@RequestParam("id") int id_sol, @RequestParam("dia") int dia) throws FileNotFoundException, IOException, CsvException, ParseException {
-		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(id_sol, dia);
-		List<Double> bits = Utils.obtenerBitsSolDiaI(id_sol, dia);
+	@GetMapping("/{id}/{dia}")
+	public DatosConexiones obtenerSolucionIDiaJ(@PathVariable int id, @PathVariable int dia) throws FileNotFoundException, IOException, CsvException, ParseException {
+		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(id, dia);
+		List<Double> bits = Utils.obtenerBitsSolDiaI(id, dia);
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
 		return datosConexiones;
 	}
@@ -253,18 +151,11 @@ class MovieController {
 		return Utils.leerCSVproblemaNumSoluciones();
 	}
 	
-	/*@CrossOrigin
-	@GetMapping("/numDias")
-	public int numDiasUltimaSolucion() throws FileNotFoundException, IOException, CsvException, ParseException {
-		
-		return Utils.obtenernumDiasUltimaSolucion();
-	}*/
-	
 	@CrossOrigin
-	@GetMapping("/solucionI/numDias")
-	public int numDiasSolucionI(@RequestParam("id") int id_sol) throws FileNotFoundException, IOException, CsvException, ParseException {
+	@GetMapping("/{id}/numDias")
+	public int numDiasSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		return Utils.obtenernumDiasSolucionI(id_sol);
+		return Utils.obtenernumDiasSolucionI(id);
 	}
 	
 	@CrossOrigin
