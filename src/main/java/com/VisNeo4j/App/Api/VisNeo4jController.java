@@ -61,7 +61,7 @@ class VisNeo4jController {
 		pesos.add(0.7);
 		pesos.add(0.7);*/
 		pesos.add(0.1);
-		Problema problema = new GestionConexionesAeropuertosPorDia(datos, pesos); 
+		Problema problema = new GestionConexionesAeropuertosPorDia(datos, pesos, 0.4); 
 		BPSO bpso = new BPSO(4, num_Iteraciones, problema, 0.9, 2, 2);
 		Individuo ind = bpso.ejecutarBPSO();
 		datos.rellenarConexionesFaltantes(ind);

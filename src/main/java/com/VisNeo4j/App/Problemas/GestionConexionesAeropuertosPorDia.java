@@ -14,12 +14,12 @@ import com.VisNeo4j.App.Utils.Utils;
 public class GestionConexionesAeropuertosPorDia extends Problema{
 	
 	private Double resInf = 0.0;
-	private Double resSup = 0.5;
+	private Double resSup;
 	private DatosProblemaDias datos;
 	private List<Double> pesos;
 	private int numInicializaciones = 0;
 
-	public GestionConexionesAeropuertosPorDia(DatosProblemaDias datos, List<Double> pesos) {
+	public GestionConexionesAeropuertosPorDia(DatosProblemaDias datos, List<Double> pesos, Double minRed) {
 		super(0, 1);
 		int numConexionesTotales = 0;
 		for(int i = 0; i < datos.getDatosPorDia().size(); i++) {
@@ -29,6 +29,7 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 		super.setNumVariables(numConexionesTotales);
 		this.datos = datos;
 		this.pesos = pesos;
+		this.resSup = 1 - minRed;
 		super.setNombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
 	}
 	
