@@ -7,13 +7,18 @@ public class Conexion {
 	private Double longitudeD;
 	private Double latitudeD;
 	private boolean abierto_cerrado;
+	private String iataOrigen;
+	private String iataDestino;
 	
-	public Conexion(Double longitudeO, Double latitudeO, Double longitudeD, Double latitudeD, boolean abierto_cerrado) {
+	public Conexion(Double longitudeO, Double latitudeO, Double longitudeD, Double latitudeD, 
+			boolean abierto_cerrado, String iataOrigen, String iataDestino) {
 		this.longitudeO = longitudeO;
 		this.latitudeO = latitudeO;
 		this.longitudeD = longitudeD;
 		this.latitudeD = latitudeD;
 		this.abierto_cerrado = abierto_cerrado;
+		this.iataOrigen = iataOrigen;
+		this.iataDestino = iataDestino;
 	}
 
 	public Double getLongitudeO() {
@@ -54,6 +59,22 @@ public class Conexion {
 
 	public void setAbierto_cerrado(boolean abierto_cerrado) {
 		this.abierto_cerrado = abierto_cerrado;
+	}
+
+	public String getIataOrigen() {
+		return iataOrigen;
+	}
+
+	public void setIataOrigen(String iataOrigen) {
+		this.iataOrigen = iataOrigen;
+	}
+
+	public String getIataDestino() {
+		return iataDestino;
+	}
+
+	public void setIataDestino(String iataDestino) {
+		this.iataDestino = iataDestino;
 	}
 	
 	

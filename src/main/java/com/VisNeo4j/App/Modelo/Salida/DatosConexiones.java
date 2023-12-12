@@ -24,7 +24,8 @@ public class DatosConexiones {
 					listaAeropuertos.get(i).getLatitud(), 
 					listaAeropuertos.get(i+1).getLongitud(), 
 					listaAeropuertos.get(i+1).getLatitud(),
-					abierto);
+					abierto, listaAeropuertos.get(i).getIata(), 
+					listaAeropuertos.get(i+1).getIata());
 			coordenadasConexiones.add(con);
 		}
 		
@@ -44,7 +45,8 @@ public class DatosConexiones {
 					listaAeropuertos.get(i).getLatitud(), 
 					listaAeropuertos.get(i+1).getLongitud(), 
 					listaAeropuertos.get(i+1).getLatitud(),
-					abierto);
+					abierto, listaAeropuertos.get(i).getIata(), 
+					listaAeropuertos.get(i+1).getIata());
 			coordenadasConexiones.add(con);
 		}
 		
