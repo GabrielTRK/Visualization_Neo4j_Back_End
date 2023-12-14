@@ -1,8 +1,11 @@
 package com.VisNeo4j.App.Api;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +14,7 @@ import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.WeightsVector;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
@@ -41,6 +45,38 @@ class VisNeo4jController {
 
 	VisNeo4jController(VisNeo4jService visNeo4jService) {
 		this.visNeo4jService = visNeo4jService;
+	}
+	
+	@CrossOrigin
+	@GetMapping("/algoritmo")
+	public DatosConexiones ejecutarAlgoritmo(@RequestParam("dia_inicial") String dia_I, 
+			@RequestParam("dia_final") String dia_F,
+			@RequestParam("mes_inicial") String mes_I,
+			@RequestParam("mes_final") String mes_F,
+			@RequestParam("año_inicial") String año_I,
+			@RequestParam("año_final") String año_F,
+			@RequestParam("iteraciones") int num_Iteraciones,
+			@RequestBody WeightsVector weights) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DatosProblemaDias datos = visNeo4jService.obtenerDatosDias(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		
+		Problema problema = new GestionConexionesAeropuertosPorDia(datos, weights.getWeights(), 0.4); 
+		BPSO bpso = new BPSO(4, num_Iteraciones, problema, 0.9, 2, 2);
+		Individuo ind = bpso.ejecutarBPSO();
+		datos.rellenarConexionesFaltantes(ind);
+		System.out.println(ind);
+		//TODO: Guardar solucion y conexiones en ficheros
+		String fila = Utils.modificarCSVproblemaGestionConexionesAeropuertos(ind, datos);
+		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
+		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
+		Utils.crearCSVPersonas_Afectadas(List.of(datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0), datos.getNumPasajerosTotales() - datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0)), fila);
+		Utils.crearCSVVuelos_Cancelados(List.of(Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados)), datos.getNumVuelosTotales() - Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados))), fila);
+		
+		System.out.println(weights);
+		List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
+		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);
+		Utils.obtenernumDiasUltimaSolucion();
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
+    	return datosConexiones;
 	}
 	
 	@CrossOrigin
@@ -146,12 +182,8 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@GetMapping("/test")
-	public void test(@RequestParam("dia_inicial") String dia_I, 
-			@RequestParam("dia_final") String dia_F,
-			@RequestParam("mes_inicial") String mes_I,
-			@RequestParam("mes_final") String mes_F,
-			@RequestParam("año_inicial") String año_I,
-			@RequestParam("año_final") String año_F) throws FileNotFoundException, IOException, CsvException, ParseException {
+	public void test(@RequestBody WeightsVector weights) throws FileNotFoundException, IOException, CsvException, ParseException {
+		System.out.println(weights);
 		/*DatosProblemaDias datos = movieService.obtenerDatosDias(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
 		List<Double> pesos1 = new ArrayList<>();
 		pesos1.add(0.7);
@@ -181,7 +213,7 @@ class VisNeo4jController {
 		ind.setVariables(bitsDouble);
 		problema.evaluate2(ind);
 		System.out.println(ind);*/
-		Utils.crearCSVVuelos_Cancelados(List.of(40, 60), "20");
+		//Utils.crearCSVVuelos_Cancelados(List.of(40, 60), "20");
 	}
 	
 	@CrossOrigin
