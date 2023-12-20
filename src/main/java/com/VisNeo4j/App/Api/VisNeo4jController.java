@@ -48,7 +48,7 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
-	@GetMapping("/algoritmo")
+	@PostMapping("/algoritmo")
 	public DatosConexiones ejecutarAlgoritmo(@RequestParam("dia_inicial") String dia_I, 
 			@RequestParam("dia_final") String dia_F,
 			@RequestParam("mes_inicial") String mes_I,
@@ -181,9 +181,10 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
-	@GetMapping("/test")
-	public void test(@RequestBody WeightsVector weights) throws FileNotFoundException, IOException, CsvException, ParseException {
+	@PostMapping("/test")
+	public int test(@RequestBody WeightsVector weights) throws FileNotFoundException, IOException, CsvException, ParseException {
 		System.out.println(weights);
+		return 0;
 		/*DatosProblemaDias datos = movieService.obtenerDatosDias(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
 		List<Double> pesos1 = new ArrayList<>();
 		pesos1.add(0.7);
