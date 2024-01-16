@@ -480,5 +480,85 @@ public class LecturaDeDatos {
             //do something with e, or handle this case
         }
 	}
+	
+	public static void leerDatosProblemaDiaI(String ruta, List<Double> riesgos, List<List<String>> conexiones,
+			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
+			List<String> companyias, Map<List<String>, Integer> pasajerosCompanyia, 
+			List<String> aeropuertosOrigen, List<String> aeropuertosDestino, 
+			Map<String, Double> conectividadesAeropuertosOrigen, Map<List<String>, Integer> vuelosEntrantesConexion, 
+			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
+			Map<String, Double> tasasPorAeropuertoDestino, Map<String, Integer> vuelosSalientes) {
+		try {
+            Scanner scanner = new Scanner(new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero));
+            //Comma as a delimiter
+            scanner.useDelimiter("\n");
+            scanner.next();
+            while (scanner.hasNext()) {
+                String str = scanner.next();
+                String split[] = str.split(",");
+                
+                if(!conexiones.contains(List.of(split[7], split[8]))) {
+                	conexiones.add(List.of(split[7], split[8]));
+                	vuelosEntrantesConexion.put(List.of(split[7], split[8]), 1);
+                }else {
+                	vuelosEntrantesConexion.put(List.of(split[7], split[8]), 1 + vuelosEntrantesConexion.get(List.of(split[7], split[8])));
+                }
+                if(!vuelosSalientesAEspanya.keySet().contains(split[7])) {
+					vuelosSalientesAEspanya.put(split[7], 1);
+				}else {
+					vuelosSalientesAEspanya.put(split[7], 1 + vuelosSalientesAEspanya.get(split[7]));
+				}
+                if(!companyias.contains(split[2])) {
+                	companyias.add(split[2]);
+                }
+                if(pasajerosCompanyia.keySet().contains(List.of(split[7], split[8], split[2]))) {
+					pasajerosCompanyia.put(List.of(split[7], split[8], split[2]),
+                            pasajerosCompanyia.get(List.of(split[7], split[8], split[2])) + Integer.parseInt(split[1]));
+				}else {
+					pasajerosCompanyia.put(List.of(split[7], split[8], split[2]), Integer.parseInt(split[1]));
+				}
+                if(!aeropuertosOrigen.contains(split[7])) {
+					aeropuertosOrigen.add(split[7]);
+					if(Double.parseDouble(split[3]) == -1.0) {
+						conectividadesAeropuertosOrigen.put(split[7],0.0);
+					}else {
+						conectividadesAeropuertosOrigen.put(split[7],Double.parseDouble(split[3]));
+					}
+				}
+                if(!aeropuertosDestino.contains(split[8])) {
+					aeropuertosDestino.add(split[8]);
+				}
+                if(!tasasPorAeropuertoDestino.keySet().contains(split[8])) {
+					tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6]));
+				}else {
+					tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6]) + tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6])));
+				}
+                if(!vuelosSalientes.keySet().contains(split[7])) {
+                	vuelosSalientes.put(split[7], Integer.parseInt(split[9]));
+                }
+                
+                int posicion = conexiones.indexOf(List.of(split[7], split[8]));
+                
+                if (posicion < riesgos.size() && posicion < pasajeros.size() && posicion < dineroMedioT.size()&& posicion < dineroMedioN.size()&& posicion < tasasAeropuertos.size()) {
+                   	riesgos.set(posicion, Double.parseDouble(split[0]) + riesgos.get(posicion));
+                   	pasajeros.set(posicion, Integer.parseInt(split[1]) + pasajeros.get(posicion));
+                   	dineroMedioT.set(posicion, Double.parseDouble(split[4]) + dineroMedioT.get(posicion));
+                   	dineroMedioN.set(posicion, Double.parseDouble(split[5]) + dineroMedioN.get(posicion));
+                   	tasasAeropuertos.set(posicion, Double.parseDouble(split[6]) + tasasAeropuertos.get(posicion));
+                } else {
+                    riesgos.add(posicion, Double.parseDouble(split[0]) + 0);
+                    pasajeros.add(posicion, Integer.parseInt(split[1]) + 0);
+                    dineroMedioT.add(posicion, Double.parseDouble(split[4]) + 0);
+                    dineroMedioN.add(posicion, Double.parseDouble(split[5]) + 0);
+                    tasasAeropuertos.add(posicion, Double.parseDouble(split[6]) + 0);
+                }
+            }
+            // Closing the scanner
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("El path del documento conexiones no está bien especificado");
+            //do something with e, or handle this case
+        }
+	}
 
 }

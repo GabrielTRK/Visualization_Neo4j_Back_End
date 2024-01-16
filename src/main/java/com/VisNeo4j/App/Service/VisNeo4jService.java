@@ -6,6 +6,7 @@ import org.neo4j.driver.SessionConfig;
 import org.springframework.data.neo4j.core.DatabaseSelectionProvider;
 import org.springframework.stereotype.Service;
 
+import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.DatosProblema;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
 
@@ -32,6 +33,78 @@ public class VisNeo4jService {
 
 		this.driver = driver;
 		this.databaseSelectionProvider = databaseSelectionProvider;
+	}
+	
+	public DatosProblemaDias obtenerDatosDiasFichero(String dia_I, String dia_F, String mes_I, String mes_F,
+			String año_I, String año_F) throws ParseException {
+		List<DatosProblema> datosPorDia = new ArrayList<>();
+		
+		String fecha_I = año_I + "-" + mes_I + "-" + dia_I;
+		String fecha_F = año_F + "-" + mes_F + "-" + dia_F;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date fechaInicio = sdf.parse(fecha_I);
+		Date fechaFinal = sdf.parse(fecha_F);
+		
+		long diffInMillies = Math.abs(fechaFinal.getTime() - fechaInicio.getTime());
+	    int numDias = (int)TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+	    
+	    Calendar c = Calendar.getInstance();
+	    c.setTime(fechaInicio);
+	    
+	    for(int i = 0; i <= numDias; i++) {
+		    
+		    String dia_Inicial = String.valueOf(c.get(Calendar.DATE));
+		    if(dia_Inicial.length() == 1) {
+		    	dia_Inicial = "0" + dia_Inicial;
+		    }
+		    String dia_Final = dia_Inicial;
+		    String mes_Inicial = String.valueOf(c.get(Calendar.MONTH)+1);
+		    if(mes_Inicial.length() == 1) {
+		    	mes_Inicial = "0" + mes_Inicial;
+		    }
+		    String mes_Final = mes_Inicial;
+			String año_Inicial = String.valueOf(c.get(Calendar.YEAR));
+			String año_Final = año_Inicial;
+		    
+		    datosPorDia.add(obtenerDatosFichero(dia_Inicial, dia_Final, mes_Inicial, mes_Final, 
+		    		año_Inicial, año_Final, año_Inicial + "-" + mes_Inicial + "-" + dia_Inicial));
+		    
+		    
+		    c.add(Calendar.DATE, 1);
+	    }
+	    
+	    
+		return new DatosProblemaDias(numDias, sdf.format(fechaInicio), sdf.format(fechaFinal), datosPorDia);
+	}
+	
+	public DatosProblema obtenerDatosFichero(String dia_I, String dia_F, String mes_I, String mes_F,
+			String año_I, String año_F, String ruta){
+		List<Double> riesgos = new ArrayList<>();
+		List<List<String>> conexiones = new ArrayList<>();
+		List<Integer> pasajeros = new ArrayList<>();
+		List<Double> dineroMedioT = new ArrayList<>();
+		List<Double> dineroMedioN = new ArrayList<>();
+		List<String> companyias = new ArrayList<>();
+		Map<List<String>, Integer> pasajerosCompanyia = new HashMap<>();
+		List<String> aeropuertosOrigen = new ArrayList<>();
+		List<String> aeropuertosDestino = new ArrayList<>();
+		Map<String, Double> conectividadesAeropuertosOrigen = new HashMap<>();
+		Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();
+		Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
+		List<Double> tasasAeropuertos = new ArrayList<>();
+		Map<String, Double> tasasPorAeropuertoDestino = new HashMap<>();
+		Map<String, Integer> vuelosSalientes = new HashMap<>();
+		
+		LecturaDeDatos.leerDatosProblemaDiaI(ruta, riesgos, conexiones, pasajeros, dineroMedioT, dineroMedioN, companyias, pasajerosCompanyia, aeropuertosOrigen, aeropuertosDestino, conectividadesAeropuertosOrigen, vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, tasasPorAeropuertoDestino, vuelosSalientes);
+		//Map<String, Integer> vuelosSalientes = this.vuelosSalientesDeOrigen(dia_I, dia_F, mes_I, mes_F, año_I, año_F, aeropuertosOrigen);
+		
+		return new DatosProblema(riesgos, conexiones, pasajeros, dineroMedioT, dineroMedioN,
+				companyias, pasajerosCompanyia, aeropuertosOrigen, aeropuertosDestino, vuelosSalientes, 
+				vuelosEntrantesConexion, vuelosSalientesAEspanya, 
+				conectividadesAeropuertosOrigen, tasasAeropuertos, 
+				tasasPorAeropuertoDestino);
 	}
 	
 	public DatosProblema obtenerDatos(String dia_I, String dia_F, String mes_I, String mes_F,
@@ -62,7 +135,7 @@ public class VisNeo4jService {
 		try (Session session = sessionFor(database())) {
 			var records = session.readTransaction(tx -> tx.run(""
 				+ " match (a:Airport)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->(ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
-				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN'" 
+				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0" 
 				+ " with f,a,a2 order by a.iata, a2.iata "
 				+ " return f.flightIfinal as sir,f.passengers as pasajeros,f.operator as companyia,a.connectivity as conectividad,f.incomeFromTurism as dineroT,f.incomeFromBusiness as dineroN,f.destinationAirportIncome as tasas,a.iata as origen,a2.iata as destino"
 			).list());

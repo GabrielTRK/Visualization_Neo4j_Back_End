@@ -8,6 +8,7 @@ public class Constantes {
 	public static final String rutaFicheros = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\";
 	public static final String rutaDatos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\";
 	public static final String rutaDatos_por_aeropuerto = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\datos_por_aeropuerto\\";
+	public static final String rutaDatosPorDia = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\datos_por_dia\\";
 	public static final String rutaFicherosFitness = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Fitness\\";
 	public static final String rutaFicherosObjetivos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Objetivos\\";
 	public static final String rutaFicherosPersonas_Afectadas = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Personas_Afectadas\\";

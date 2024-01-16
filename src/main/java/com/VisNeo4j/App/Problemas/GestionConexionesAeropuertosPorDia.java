@@ -19,7 +19,7 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 	private List<Double> pesos;
 	private int numInicializaciones = 0;
 
-	public GestionConexionesAeropuertosPorDia(DatosProblemaDias datos, List<Double> pesos, Double minRed) {
+	public GestionConexionesAeropuertosPorDia(DatosProblemaDias datos, List<Double> pesos, Double maxRiesgo) {
 		super(0, 1);
 		int numConexionesTotales = 0;
 		for(int i = 0; i < datos.getDatosPorDia().size(); i++) {
@@ -29,7 +29,7 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 		super.setNumVariables(numConexionesTotales);
 		this.datos = datos;
 		this.pesos = pesos;
-		this.resSup = 1 - minRed;
+		this.resSup = maxRiesgo;
 		super.setNombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
 	}
 	
@@ -63,12 +63,12 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 			objetivos.set(i, objetivos.get(i) / subObjetivos.size());
 		}
 		
-		double sumaObj = 0;
+		/*double sumaObj = 0;
 		
 		for (int i = 1; i < 7; i++) {
 			sumaObj += sumaObj;
 		}
-		sumaObj = sumaObj / 6;
+		sumaObj = sumaObj / 6;*/
 		
 		restricciones.add(0, objetivos.get(0));
 		ind.setRestricciones(restricciones);
@@ -76,12 +76,12 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 		ind.setObjetivosNorm(objetivos.subList(1, objetivos.size()));
 		Double sumaPesos = 0.0;
 		
-		sumaPesos += sumaObj * this.pesos.get(0);
-		sumaPesos += objetivos.get(7) * this.pesos.get(1);
+		/*sumaPesos += sumaObj * this.pesos.get(0);
+		sumaPesos += objetivos.get(7) * this.pesos.get(1);*/
 		
-		/*for(int i = 1; i < objetivos.size(); i++) {
+		for(int i = 1; i < objetivos.size(); i++) {
 			sumaPesos = sumaPesos + objetivos.get(i) * this.pesos.get(i-1); 
-		}*/
+		}
 		
 		ind.setObjetivos(List.of(sumaPesos));
 		
