@@ -44,8 +44,7 @@ public class BPSO {
 		this.v1 = new ArrayList<>();
 		this.poblacionPartículas = new Poblacion(this.numIndividuos, this.problema);
 		//Inicializar población o partículas y calcular fitness
-		this.poblacionPartículas.generarPoblacionInicial(problema, false, null);
-		
+		this.poblacionPartículas.generarPoblacionInicial(problema, false, 29);
 		//Calcular Pbest
 		this.poblacionPbest = new Poblacion(this.numIndividuos, problema);
 		this.calcularPbests();
@@ -56,7 +55,7 @@ public class BPSO {
 		this.Max_Num_Iteraciones = Max_Num_Iteraciones;
 		
 		this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
-		System.out.println(this.num_Iteraciones + ": " + this.Gbest.getObjetivos());
+		System.out.println(this.num_Iteraciones + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 	}
 	
 	public Individuo ejecutarBPSO() throws FileNotFoundException, IOException, CsvException {
@@ -83,7 +82,7 @@ public class BPSO {
 			//System.out.println(this.v0);
 			//System.out.println(this.v1);
 			//System.out.println();
-			System.out.println(this.num_Iteraciones + ": " + this.Gbest.getObjetivos());
+			System.out.println(this.num_Iteraciones + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
 		}
 		//System.out.println(this.poblacionPartículas);

@@ -17,9 +17,10 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 	private Double resSup;
 	private DatosProblemaDias datos;
 	private List<Double> pesos;
+	private List<Integer> ordenObj;
 	private int numInicializaciones = 0;
 
-	public GestionConexionesAeropuertosPorDia(DatosProblemaDias datos, List<Double> pesos, Double maxRiesgo) {
+	public GestionConexionesAeropuertosPorDia(DatosProblemaDias datos, List<Integer> ordenObj, Double maxRiesgo) {
 		super(0, 1);
 		int numConexionesTotales = 0;
 		for(int i = 0; i < datos.getDatosPorDia().size(); i++) {
@@ -28,7 +29,7 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 		}
 		super.setNumVariables(numConexionesTotales);
 		this.datos = datos;
-		this.pesos = pesos;
+		this.ordenObj = ordenObj;
 		this.resSup = maxRiesgo;
 		super.setNombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
 	}
@@ -462,6 +463,11 @@ public class GestionConexionesAeropuertosPorDia extends Problema{
 		
 		
 		return valores;
+	}
+	
+	@Override
+	public void sumarNumInicializaciones() {
+		this.numInicializaciones++;
 	}
 
 }

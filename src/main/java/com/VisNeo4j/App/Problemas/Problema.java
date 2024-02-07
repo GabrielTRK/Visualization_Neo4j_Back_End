@@ -29,6 +29,7 @@ public class Problema {
     private List<Double> limitesSuperiores;
     private String nombre;
     private List<Boolean> MinOMax;
+    private int numInicializaciones = 0;
 	
 	public Problema(int numVariables, int numObjetivos) {
 		this.numObjetivos = numObjetivos;
@@ -131,6 +132,10 @@ public class Problema {
 	
 	public Map<String, String> calcularValoresAdicionales(Individuo ind){
 		return new HashMap<>();
+	}
+	
+	public void sumarNumInicializaciones() {
+		this.numInicializaciones++;
 	}
 	
 }
