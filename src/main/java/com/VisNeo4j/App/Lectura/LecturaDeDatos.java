@@ -560,5 +560,82 @@ public class LecturaDeDatos {
             //do something with e, or handle this case
         }
 	}
+	
+	public static void leerDatosRRPS_PATDiaI(String ruta, List<Double> riesgos, List<List<String>> conexiones,
+			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
+			List<String> companyias, List<String> companyiasTotal, Map<List<String>, Integer> pasajerosCompanyia, 
+			List<String> aeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> aeropuertosDestino, List<String> aeropuertosDestinoTotal,
+			Map<String, Double> conectividadesAeropuertosOrigen, List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion, 
+			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
+			Map<String, Double> tasasPorAeropuertoDestino, Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen) {
+		try {
+            Scanner scanner = new Scanner(new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero));
+            //Comma as a delimiter
+            scanner.useDelimiter("\n");
+            scanner.next();
+            while (scanner.hasNext()) {
+                String str = scanner.next();
+                String split[] = str.split(",");
+                
+                if(!conexiones.contains(List.of(split[7], split[8]))) {
+                	conexiones.add(List.of(split[7], split[8]));
+                	vuelosEntrantesConexion.put(List.of(split[7], split[8]), 1);
+                	if(Double.parseDouble(split[3]) == -1.0) {
+                		conectividades.add(0.0);
+					}else {
+						conectividades.add(Double.parseDouble(split[3]));
+					}
+                }else {
+                	vuelosEntrantesConexion.put(List.of(split[7], split[8]), 1 + vuelosEntrantesConexion.get(List.of(split[7], split[8])));
+                }
+                if(!vuelosSalientesAEspanya.keySet().contains(split[7])) {
+					vuelosSalientesAEspanya.put(split[7], 1);
+				}else {
+					vuelosSalientesAEspanya.put(split[7], 1 + vuelosSalientesAEspanya.get(split[7]));
+				}/*
+                if(!companyias.contains(split[2])) {
+                	companyias.add(split[2]);
+                }
+                if(pasajerosCompanyia.keySet().contains(List.of(split[7], split[8], split[2]))) {
+					pasajerosCompanyia.put(List.of(split[7], split[8], split[2]),
+                            pasajerosCompanyia.get(List.of(split[7], split[8], split[2])) + Integer.parseInt(split[1]));
+				}else {
+					pasajerosCompanyia.put(List.of(split[7], split[8], split[2]), Integer.parseInt(split[1]));
+				}*/
+                if(!aeropuertosOrigen.contains(split[7])) {
+					aeropuertosOrigen.add(split[7]);
+					if(Double.parseDouble(split[3]) == -1.0) {
+						conectividadesAeropuertosOrigen.put(split[7],0.0);
+					}else {
+						conectividadesAeropuertosOrigen.put(split[7],Double.parseDouble(split[3]));
+					}
+				}/*
+                if(!aeropuertosDestino.contains(split[8])) {
+					aeropuertosDestino.add(split[8]);
+				}
+                if(!tasasPorAeropuertoDestino.keySet().contains(split[8])) {
+					tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6]));
+				}else {
+					tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6]) + tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6])));
+				}*/
+                if(!vuelosSalientes.keySet().contains(split[7])) {
+                	vuelosSalientes.put(split[7], Integer.parseInt(split[9]));
+                }
+                
+                conexionesTotal.add(List.of(split[7], split[8]));
+                riesgos.add(Double.parseDouble(split[0]));
+                pasajeros.add(Integer.parseInt(split[1]));
+                dineroMedioT.add(Double.parseDouble(split[4]));
+                dineroMedioN.add(Double.parseDouble(split[5]));
+                tasasAeropuertos.add(Double.parseDouble(split[6]));
+                
+            }
+            // Closing the scanner
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("El path del documento conexiones no está bien especificado");
+            //do something with e, or handle this case
+        }
+	}
 
 }

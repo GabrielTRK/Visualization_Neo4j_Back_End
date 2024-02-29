@@ -13,6 +13,7 @@ import com.VisNeo4j.App.Algoritmo.BPSO;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
+import com.VisNeo4j.App.Modelo.DatosRRPS_PAT;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.ObjectivesOrder;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
@@ -24,6 +25,7 @@ import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Modelo.Salida.Vuelos;
 import com.VisNeo4j.App.Problemas.GestionConexionesAeropuertosPorDia;
 import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problemas.RRPS_PAT;
 import com.VisNeo4j.App.Problemas.SubVuelos;
 import com.VisNeo4j.App.Service.VisNeo4jService;
 import com.VisNeo4j.App.Utils.Utils;
@@ -47,7 +49,7 @@ class VisNeo4jController {
 		this.visNeo4jService = visNeo4jService;
 	}
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@PostMapping("/algoritmo")
 	public DatosConexiones ejecutarAlgoritmo(@RequestParam("dia_inicial") String dia_I, 
 			@RequestParam("dia_final") String dia_F,
@@ -77,9 +79,9 @@ class VisNeo4jController {
 		Utils.obtenernumDiasUltimaSolucion();
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
     	return datosConexiones;
-	}
+	}*/
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@GetMapping("/algoritmo/dia")
 	public DatosConexiones ejecutarAlgoritmoDia(@RequestParam("dia_inicial") String dia_I, 
 			@RequestParam("dia_final") String dia_F,
@@ -115,7 +117,7 @@ class VisNeo4jController {
 		Utils.obtenernumDiasUltimaSolucion();
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
     	return datosConexiones;
-	}
+	}*/
 	
 	@CrossOrigin
 	@GetMapping("/algoritmo/diaF")
@@ -127,15 +129,15 @@ class VisNeo4jController {
 			@RequestParam("año_final") String año_F,
 			@RequestParam("iteraciones") int num_Iteraciones) throws FileNotFoundException, IOException, CsvException, ParseException {
 		DatosProblemaDias datos = visNeo4jService.obtenerDatosDiasFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		List<Integer> ordenObj = new ArrayList<>();
-		ordenObj.add(1);//*Z6 Pérdida de pasajeros
-		ordenObj.add(2);//*Z1 Pérdida de ingresos turismo
-		ordenObj.add(3);//Z3 Homogeneidad Pérdida de pasajeros Aerolineas
-		ordenObj.add(4);//Z2 Homogeneidad Pérdida de ingresos turismo
-		ordenObj.add(5);//*Z4 Tasas
-		ordenObj.add(6);//Z5 Homogeneidad tasas
-		ordenObj.add(7);//Z7 Conectividad
-		Problema problema = new GestionConexionesAeropuertosPorDia(datos, ordenObj, 0.75);
+		List<Double> pesos = new ArrayList<>();
+		pesos.add(0.06861682918020946189960274467317);//Z6 Pérdida de pasajeros
+		pesos.add(0.30335861321776814734561213434453);//Z1 Pérdida de ingresos turismo
+		pesos.add(0.15890213073311664860960635608523);//Z3 Homogeneidad Pérdida de pasajeros Aerolineas
+		pesos.add(0.2058504875406283856988082340195);//Z2 Homogeneidad Pérdida de ingresos turismo
+		pesos.add(0.12459371614301191765980498374865);//Z4 Tasas
+		pesos.add(0.09534127843986998916576381365114);//Z5 Homogeneidad tasas
+		pesos.add(0.04333694474539544962080173347779);//Z7 Conectividad
+		Problema problema = new GestionConexionesAeropuertosPorDia(datos, pesos, 0.75);
 		BPSO bpso = new BPSO(4, num_Iteraciones, problema, 0.9, 1.5, 1.5);
 		Individuo ind = bpso.ejecutarBPSO();
 		datos.rellenarConexionesFaltantes(ind);
@@ -153,6 +155,36 @@ class VisNeo4jController {
 		Utils.obtenernumDiasUltimaSolucion();
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
     	return datosConexiones;
+	}
+	
+	@CrossOrigin
+	@GetMapping("/datosF")
+	public DatosRRPS_PAT obtenerDatosFichero(@RequestParam("dia_inicial") String dia_I, 
+			@RequestParam("dia_final") String dia_F,
+			@RequestParam("mes_inicial") String mes_I,
+			@RequestParam("mes_final") String mes_F,
+			@RequestParam("año_inicial") String año_I,
+			@RequestParam("año_final") String año_F) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PATFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		
+		List<Double> pesos = new ArrayList<>();
+		pesos.add(0.06861682918020946189960274467317);//Z6 Pérdida de pasajeros
+		pesos.add(0.30335861321776814734561213434453);//Z1 Pérdida de ingresos turismo
+		pesos.add(0.15890213073311664860960635608523);//Z3 Homogeneidad Pérdida de pasajeros Aerolineas
+		pesos.add(0.2058504875406283856988082340195);//Z2 Homogeneidad Pérdida de ingresos turismo
+		pesos.add(0.12459371614301191765980498374865);//Z4 Tasas
+		pesos.add(0.09534127843986998916576381365114);//Z5 Homogeneidad tasas
+		pesos.add(0.04333694474539544962080173347779);//Z7 Conectividad
+		Problema problema = new RRPS_PAT(datos, pesos, 0.75);
+		Individuo ind = new Individuo(problema.getNumVariables(), 1);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.evaluate(ind);
+		System.out.println(ind);
+		
+		return datos;
 	}
 	
 	@CrossOrigin
@@ -242,15 +274,15 @@ class VisNeo4jController {
 		List<String> bits = Utils.leerCSVproblema(id);
 		
 		DatosProblemaDias datos = visNeo4jService.obtenerDatosDiasFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		List<Integer> ordenObj = new ArrayList<>();
-		ordenObj.add(1);//*Z6 Pérdida de pasajeros
-		ordenObj.add(2);//*Z1 Pérdida de ingresos turismo
-		ordenObj.add(3);//Z3 Homogeneidad Pérdida de pasajeros Aerolineas
-		ordenObj.add(4);//Z2 Homogeneidad Pérdida de ingresos turismo
-		ordenObj.add(5);//*Z4 Tasas
-		ordenObj.add(6);//Z5 Homogeneidad tasas
-		ordenObj.add(7);//Z7 Conectividad
-		Problema problema = new GestionConexionesAeropuertosPorDia(datos, ordenObj, 0.75);
+		List<Double> pesos = new ArrayList<>();
+		pesos.add(0.06861682918020946189960274467317);//Z6 Pérdida de pasajeros
+		pesos.add(0.30335861321776814734561213434453);//Z1 Pérdida de ingresos turismo
+		pesos.add(0.15890213073311664860960635608523);//Z3 Homogeneidad Pérdida de pasajeros Aerolineas
+		pesos.add(0.2058504875406283856988082340195);//Z2 Homogeneidad Pérdida de ingresos turismo
+		pesos.add(0.12459371614301191765980498374865);//Z4 Tasas
+		pesos.add(0.09534127843986998916576381365114);//Z5 Homogeneidad tasas
+		pesos.add(0.04333694474539544962080173347779);//Z7 Conectividad
+		GestionConexionesAeropuertosPorDia problema = new GestionConexionesAeropuertosPorDia(datos, pesos, 0.75);
 		List<Double> bitsDouble = new ArrayList<>();
 		for(int i = 2; i < bits.size(); i++) {
 			bitsDouble.add(Double.valueOf(bits.get(i)));
@@ -258,7 +290,7 @@ class VisNeo4jController {
 		
 		Individuo ind = new Individuo(problema.getNumVariables(), problema.getNumObjetivos());
 		ind.setVariables(bitsDouble);
-		System.out.println(problema.evaluate(ind));
+		System.out.println(problema.evaluate2(ind));
 	}
 	
 	@CrossOrigin

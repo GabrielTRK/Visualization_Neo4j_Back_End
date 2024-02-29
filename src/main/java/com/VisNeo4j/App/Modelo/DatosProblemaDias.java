@@ -15,6 +15,7 @@ public class DatosProblemaDias {
 	
 	private List<DatosProblema> datosPorDia;
 	private List<List<String>> conexionesTotales;
+	
 
 	public DatosProblemaDias(int numDias, String fechaInicio, String fechaFinal, List<DatosProblema> datosPorDia) {
 		super();

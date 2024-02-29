@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.DatosProblema;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
+import com.VisNeo4j.App.Modelo.DatosRRPS_PAT;
+import com.VisNeo4j.App.Modelo.DatosRRPS_PATDiaI;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +36,85 @@ public class VisNeo4jService {
 		this.driver = driver;
 		this.databaseSelectionProvider = databaseSelectionProvider;
 	}
+	
+	public DatosRRPS_PAT obtenerDatosRRPS_PATFichero(String dia_I, String dia_F, String mes_I, String mes_F,
+			String año_I, String año_F) throws ParseException {
+		List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
+		
+		String fecha_I = año_I + "-" + mes_I + "-" + dia_I;
+		String fecha_F = año_F + "-" + mes_F + "-" + dia_F;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date fechaInicio = sdf.parse(fecha_I);
+		Date fechaFinal = sdf.parse(fecha_F);
+		
+		long diffInMillies = Math.abs(fechaFinal.getTime() - fechaInicio.getTime());
+	    int numDias = (int)TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+	    
+	    Calendar c = Calendar.getInstance();
+	    c.setTime(fechaInicio);
+	    
+	    for(int i = 0; i <= numDias; i++) {
+		    
+		    String dia_Inicial = String.valueOf(c.get(Calendar.DATE));
+		    if(dia_Inicial.length() == 1) {
+		    	dia_Inicial = "0" + dia_Inicial;
+		    }
+		    String dia_Final = dia_Inicial;
+		    String mes_Inicial = String.valueOf(c.get(Calendar.MONTH)+1);
+		    if(mes_Inicial.length() == 1) {
+		    	mes_Inicial = "0" + mes_Inicial;
+		    }
+		    String mes_Final = mes_Inicial;
+			String año_Inicial = String.valueOf(c.get(Calendar.YEAR));
+			String año_Final = año_Inicial;
+		    
+		    datosPorDia.add(obtenerDatosRRPS_PATFicheroDiaI(dia_Inicial, dia_Final, mes_Inicial, mes_Final, 
+		    		año_Inicial, año_Final, año_Inicial + "-" + mes_Inicial + "-" + dia_Inicial));
+		    
+		    
+		    c.add(Calendar.DATE, 1);
+	    }
+	    
+	    
+		return new DatosRRPS_PAT(numDias, sdf.format(fechaInicio), sdf.format(fechaFinal), datosPorDia);
+	}
+	
+	public DatosRRPS_PATDiaI obtenerDatosRRPS_PATFicheroDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
+			String año_I, String año_F, String ruta){
+		List<Double> riesgos = new ArrayList<>();
+		List<List<String>> conexiones = new ArrayList<>();
+		List<List<String>> conexionesTotal = new ArrayList<>();
+		List<Integer> pasajeros = new ArrayList<>();
+		List<Double> dineroMedioT = new ArrayList<>();
+		List<Double> dineroMedioN = new ArrayList<>();
+		List<String> companyias = new ArrayList<>();
+		List<String> companyiasTotal = new ArrayList<>();
+		Map<List<String>, Integer> pasajerosCompanyia = new HashMap<>();//
+		List<String> aeropuertosOrigen = new ArrayList<>();
+		List<String> aeropuertosOrigenTotal = new ArrayList<>();
+		List<String> aeropuertosDestino = new ArrayList<>();
+		List<String> aeropuertosDestinoTotal = new ArrayList<>();
+		Map<String, Integer> vuelosSalientes = new HashMap<>();
+		Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();//
+		Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
+		Map<String, Double> conectividadesAeropuertosOrigen = new HashMap<>();//
+		List<Double> conectividades = new ArrayList<>();
+		List<Double> tasasAeropuertos = new ArrayList<>();
+		Map<String, Double> tasasPorAeropuertoDestino = new HashMap<>();//
+		List<Integer> vuelosSalientesDeOrigen = new ArrayList<>();
+		
+		LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, conexiones, conexionesTotal, pasajeros, dineroMedioT, dineroMedioN, companyias, companyiasTotal, pasajerosCompanyia, aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, aeropuertosDestinoTotal, conectividadesAeropuertosOrigen, conectividades, vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, tasasPorAeropuertoDestino, vuelosSalientes, vuelosSalientesDeOrigen);
+		
+		return new DatosRRPS_PATDiaI(riesgos, conexiones, conexionesTotal, pasajeros, dineroMedioT, dineroMedioN,
+				companyias, companyiasTotal, pasajerosCompanyia, aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, aeropuertosDestinoTotal, vuelosSalientes, 
+				vuelosEntrantesConexion, vuelosSalientesAEspanya, 
+				conectividadesAeropuertosOrigen, conectividades, tasasAeropuertos, 
+				tasasPorAeropuertoDestino, vuelosSalientesDeOrigen);
+	}
+	
+	
 	
 	public DatosProblemaDias obtenerDatosDiasFichero(String dia_I, String dia_F, String mes_I, String mes_F,
 			String año_I, String año_F) throws ParseException {

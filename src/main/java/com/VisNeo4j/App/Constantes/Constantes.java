@@ -25,6 +25,7 @@ public class Constantes {
     public static final String nombreProblemaVuelosExt = "problemaVuelosExt";
     public static final String nombreProblemaGestionConexionesAeropuertos = "problemaGestionConexionesAeropuertos";
     public static final String nombreProblemaGestionConexionesAeropuertosPorDia = "problemaGestionConexionesAeropuertosPorDia";
+    public static final String nombreProblemaRRPS_PAT = "problemaRRPS_PAT";
     public static final String nombreFicheroSIR = "sir";
     public static final String nombreFicheroAeropuertos_Entradas = "aeropuertos_entradas";
     public static final String nombreFicheroAeropuertos_Espanyoles = "aeropuertos_españoles";
@@ -39,7 +40,7 @@ public class Constantes {
     public static final String nombreFicheroConexiones = "conexionesAeropuertos";
     public static final String nombreFicheroNumConDia = "numConexionesDia";
     public static final List<String> nombresRestricciones = List.of("Epi");
-    public static final List<String> nombresObjetivos = List.of("Ec1","Ec2","Ec3","Ec4","Ec5","Ec6","Soc");
+    public static final List<String> nombresObjetivos = List.of("Z1","Z2","Z3","Z4","Z5","Z6","Z7");
     public static final List<String> nombresPersonas = List.of("Personas afectadas", "Personas restantes");
     public static final List<String> estadosVuelos = List.of("Vuelos cancelados", "Vuelos restantes");
     public static final String nombreCampoVuelosCancelados = "VuelosCancelados";

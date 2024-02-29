@@ -1,0 +1,294 @@
+package com.VisNeo4j.App.Problemas;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import com.VisNeo4j.App.Constantes.Constantes;
+import com.VisNeo4j.App.Modelo.DatosProblemaDias;
+import com.VisNeo4j.App.Modelo.DatosRRPS_PAT;
+import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Utils.Utils;
+
+public class RRPS_PAT extends Problema{
+	
+	private Double resInf = 0.0;
+	private Double resSup;
+	private DatosRRPS_PAT datos;
+	private List<Double> pesos;
+	private List<Integer> ordenObj;
+	private int numInicializaciones = 0;
+
+	public RRPS_PAT(DatosRRPS_PAT datos, List<Double> pesos, Double maxRiesgo) {
+		super(0, 1);
+		int numConexionesTotales = 0;
+		for (int i = 0; i < datos.getDatosPorDia().size(); i++) {
+			numConexionesTotales += datos.getDatosPorDia().get(i).getConexiones().size()
+					- datos.getDatosPorDia().get(i).getDireccionesAMantener().size();
+		}
+		super.setNumVariables(numConexionesTotales);
+		this.datos = datos;
+		this.pesos = pesos;
+		this.resSup = maxRiesgo;
+		super.setNombre(Constantes.nombreProblemaRRPS_PAT);
+	}
+	
+	@Override
+	public Individuo evaluate(Individuo ind) {
+		List<Double> aux = ind.getVariables();
+
+		for (int i = 0; i < this.datos.getDatosPorDia().size(); i++) {
+			this.rellenarDireccionesDia(i, aux);
+		}
+		ind.setVariables(aux);
+		
+		List<Double> objetivos = this.calcularObjetivos(ind);
+
+		
+		List<Double> restricciones = new ArrayList<>(1);
+
+		restricciones.add(0, objetivos.get(0));
+		ind.setRestricciones(restricciones);
+		this.comprobarRestricciones(ind);
+		ind.setObjetivosNorm(objetivos.subList(1, objetivos.size()));
+		Double sumaPesos = 0.0;
+
+		for (int i = 1; i < objetivos.size(); i++) {
+			sumaPesos = sumaPesos + objetivos.get(i) * this.pesos.get(i - 1); // TODO: cambiar
+		}
+
+		ind.setObjetivos(List.of(sumaPesos));
+
+		int cont = 0;
+		for (int i = 0; i < this.datos.getDatosPorDia().size(); i++) {
+			cont = this.quitarDireccionesDia(i, aux, cont);
+		}
+
+		ind.setVariables(aux);
+		
+		
+		
+
+		return ind;
+	}
+	
+	private List<Double> calcularObjetivos(Individuo solucion){
+		List<Double> objetivos = new ArrayList<>();
+		Double Riesgosumatorio = 0.0;
+        Double RiesgosumatorioTotal = 0.0;
+        
+        Double IngresosTsuma = 0.0;
+        Double IngresosTtotalSuma = 0.0;
+        
+        Double Pasajerossumatorio = 0.0;
+        Double Pasajerostotal = 0.0;
+        
+        Double Tasassumatorio = 0.0;
+        Double Tasastotal = 0.0;
+		
+        int pos = 0;
+		for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			//Para las homogeneidades: Al recorrer la lista se calcula las pérdidas de cada entidad.
+			//Al salir del bucle se hace la desviación media
+			while(pos < this.datos.getConexionesTotalesSeparadas().size() && 
+					this.datos.getConexionesTotalesSeparadas().get(pos).get(0).equals(this.datos.getConexionesTotales().get(i).get(0)) && 
+					this.datos.getConexionesTotalesSeparadas().get(pos).get(1).equals(this.datos.getConexionesTotales().get(i).get(1))) {
+				Riesgosumatorio += this.datos.getRiesgos().get(pos) * 
+	        			solucion.getVariables().get(i);
+	            RiesgosumatorioTotal += this.datos.getRiesgos().get(pos);
+	            
+	            IngresosTsuma += this.datos.getIngresos().get(pos) * 
+	        			solucion.getVariables().get(i);
+	        	IngresosTtotalSuma += this.datos.getIngresos().get(pos);
+	            
+	        	Pasajerossumatorio += this.datos.getPasajeros().get(pos) * 
+	            		solucion.getVariables().get(i);
+	            Pasajerostotal += this.datos.getPasajeros().get(pos);
+	            
+	            Tasassumatorio += this.datos.getTasas().get(pos) * 
+	            		solucion.getVariables().get(i);
+	            Tasastotal += this.datos.getTasas().get(pos);
+	        	
+	            pos++;
+			}
+		}
+		
+		Double aux = 0.0;
+        if (IngresosTtotalSuma != 0.0) {
+            aux = IngresosTsuma / IngresosTtotalSuma;
+        }
+        Double Pasajerosporcentaje = 1 - Pasajerossumatorio / Pasajerostotal;
+        Double Tasasporcentaje = 1 - Tasassumatorio / Tasastotal;
+		
+		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);//Riesgo
+		objetivos.add(1 - aux);//Ingresos
+		objetivos.add(Pasajerosporcentaje);//Pasajeros
+		objetivos.add(Tasasporcentaje);//Tasas
+		
+		//Riesgo
+		//this.calcularRiesgo(ind);
+		
+		//Ingresos turismo
+		//this.calcularPerdidaDeIngresos(ind);
+		
+		//Homogeneidad turismo
+		//Homogeneidad pasajeros compañía
+		//Ingresos tasas
+		//this.calcularPerdidaTasas(ind);
+		
+		//Pasajeros
+		//this.calcularPasajerosPerdidos(ind);
+		
+		//Conectividad
+		
+		return objetivos;
+	}
+	
+	//TODO: Cambiar
+	private Double calculoConectividad(Individuo solution) { // Perfecto, se compara con objetivo conectividad
+		String origen = "";
+		String destino = "";
+		Double suma = 0.0;
+        Double totalSuma = 0.0;
+        Double solucion = 0.0;
+        
+        Double auxSuma = 0.0;
+        Double auxTotalSuma = 0.0;
+		for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			if(!this.datos.getConexionesTotales().get(i).get(0).equals(origen)) {
+				if(i > 0) {
+					Double aux = 0.0;
+		            if (auxTotalSuma != 0) {
+		                aux = auxSuma / auxTotalSuma;
+		            }
+		            suma += this.datos.getConectividadesTotales().get(i-1) * (1 - aux);
+		            totalSuma += this.datos.getConectividadesTotales().get(i-1);
+				}
+				//Sumar las conectividades de los destinos y guardar el origen
+				origen = this.datos.getConexionesTotales().get(i).get(0);
+				auxSuma = 0.0;
+		        auxTotalSuma = 0.0;
+				
+				
+			}
+			//origen = this.datos.getConexionesTotales().get(i).get(0);
+			auxSuma += solution.getVariables().get(i)
+            		* this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
+            auxTotalSuma += this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
+			
+		}
+		
+		Double aux = 0.0;
+        if (auxTotalSuma != 0) {
+            aux = auxSuma / auxTotalSuma;
+        }
+        suma += this.datos.getConectividadesTotales().get(this.datos.getConexionesTotales().size()-1) * (1 - aux);
+        totalSuma += this.datos.getConectividadesTotales().get(this.datos.getConexionesTotales().size()-1);
+		
+		if (totalSuma != 0) {
+            solucion = suma / totalSuma;
+        }
+        return solucion;
+	
+	}
+	
+	/*
+	 private Double calculoConectividad(Individuo solution) { // Perfecto, se compara con objetivo conectividad
+        Double suma = 0.0;
+        Double totalSuma = 0.0;
+        Double solucion = 0.0;
+        
+        for (String origen : this.AeropuertosOrigen) {
+            Double auxSuma = 0.0;
+            Double auxTotalSuma = 0.0;
+            
+            for (String destino : this.listaConexionesSalidas.get(origen)) {
+                auxSuma += solution.getVariables().get(
+                		Utils.encontrarIndiceEnLista(this.listaConexiones, List.of(origen, destino)))
+                		* this.vuelosEntrantesConexion.get(List.of(origen, destino));
+                auxTotalSuma += this.vuelosEntrantesConexion.get(List.of(origen, destino));
+            }
+            Double aux = 0.0;
+            if (auxTotalSuma != 0) {
+                aux = auxSuma / auxTotalSuma;
+            }
+            suma += this.conectividadesAeropuertosOrigen.get(origen) * (1 - aux);
+            totalSuma += this.conectividadesAeropuertosOrigen.get(origen);
+        }
+        if (totalSuma != 0) {
+            solucion = suma / totalSuma;
+        }
+        return solucion;
+    }
+	
+	*/
+	
+	@Override
+	public Individuo inicializarValores(Individuo ind) {
+		List<Double> valores = new ArrayList<>(super.getNumVariables());
+		for (int i = 0; i < super.getNumVariables(); i++) {
+
+			if (this.numInicializaciones < super.getNumVariables()) {
+				if (i == this.numInicializaciones) {
+					valores.add(i, 1.0);
+				} else {
+					valores.add(i, 0.0);
+				}
+			} else if (this.numInicializaciones == super.getNumVariables()) {
+				valores.add(i, 0.0);
+			} else if (this.numInicializaciones == super.getNumVariables() + 1) {
+				valores.add(i, 1.0);
+			}
+
+		}
+		this.numInicializaciones++;
+		ind.setVariables(valores);
+		return ind;
+	}
+	
+	private List<Double> rellenarDireccionesDia(int dia, List<Double> variables) {
+		int offset = 0;
+		for (int i = 0; i < dia; i++) {
+			offset += this.datos.getDatosPorDia().get(i).getConexiones().size();
+		}
+
+		for (int i = 0; i < this.datos.getDatosPorDia().get(dia).getDireccionesAMantener().size(); i++) {
+			variables.add(offset + this.datos.getDatosPorDia().get(dia).getDireccionesAMantener().get(i), 1.0);
+		}
+		return variables;
+	}
+
+	private int quitarDireccionesDia(int dia, List<Double> variables, int cont) {
+		int offset = 0;
+		for (int i = 0; i < dia; i++) {
+			offset += this.datos.getDatosPorDia().get(i).getConexiones().size();
+		}
+
+		for (int i = 0; i < this.datos.getDatosPorDia().get(dia).getDireccionesAMantener().size(); i++) {
+			variables.remove(offset + this.datos.getDatosPorDia().get(dia).getDireccionesAMantener().get(i) - cont);
+			cont++;
+		}
+		return cont;
+	}
+	
+	@Override
+	public Individuo comprobarRestricciones(Individuo ind) {
+		if (ind.getRestricciones().get(0) > this.resSup) {
+			ind.setFactible(false);
+			ind.setConstraintViolation(Math.abs(this.resSup - ind.getRestricciones().get(0)));
+		} else if (ind.getRestricciones().get(0) < this.resInf) {
+			ind.setFactible(false);
+			ind.setConstraintViolation(Math.abs(this.resInf - ind.getRestricciones().get(0)));
+		} else {
+			ind.setFactible(true);
+			ind.setConstraintViolation(0.0);
+		}
+		return ind;
+	}
+	
+	@Override
+	public void sumarNumInicializaciones() {
+		this.numInicializaciones++;
+	}
+
+}
