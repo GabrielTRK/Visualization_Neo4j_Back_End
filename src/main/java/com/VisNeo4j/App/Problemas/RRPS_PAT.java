@@ -1,8 +1,10 @@
 package com.VisNeo4j.App.Problemas;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
@@ -85,11 +87,23 @@ public class RRPS_PAT extends Problema{
         
         Double Tasassumatorio = 0.0;
         Double Tasastotal = 0.0;
+        
+        String origen = "";
+		String destino = "";
+		
+		Double Conectividadsuma = 0.0;
+        Double ConectividadtotalSuma = 0.0;
+        Double Conectividadsolucion = 0.0;
+        
+        Double ConectividadauxSuma = 0.0;
+        Double ConectividadauxTotalSuma = 0.0;
+        
+        Map<String, List<Double>> pasajerosPorCompanyia = new HashMap<>();
+        Map<String, List<Double>> ingresosPorAreaInf = new HashMap<>();
+        Map<String, List<Double>> ingresosPorAerDest = new HashMap<>();
 		
         int pos = 0;
 		for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
-			//Para las homogeneidades: Al recorrer la lista se calcula las pérdidas de cada entidad.
-			//Al salir del bucle se hace la desviación media
 			while(pos < this.datos.getConexionesTotalesSeparadas().size() && 
 					this.datos.getConexionesTotalesSeparadas().get(pos).get(0).equals(this.datos.getConexionesTotales().get(i).get(0)) && 
 					this.datos.getConexionesTotalesSeparadas().get(pos).get(1).equals(this.datos.getConexionesTotales().get(i).get(1))) {
@@ -108,120 +122,138 @@ public class RRPS_PAT extends Problema{
 	            Tasassumatorio += this.datos.getTasas().get(pos) * 
 	            		solucion.getVariables().get(i);
 	            Tasastotal += this.datos.getTasas().get(pos);
+	            
+	            if(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
+	            	pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos), 
+	            			List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0) + this.datos.getPasajeros().get(pos) * 
+	        	            		solucion.getVariables().get(i), 
+	        	            		pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1) + this.datos.getPasajeros().get(pos)));
+	            }else {
+	            	pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos), 
+	            			List.of(this.datos.getPasajeros().get(pos) * 
+	        	            		solucion.getVariables().get(i), 
+	        	            		this.datos.getPasajeros().get(pos) * 1.0));
+	            }
+	            if(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
+	            	ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos), 
+	            			List.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0) + this.datos.getIngresos().get(pos) * 
+	            					solucion.getVariables().get(i), 
+	            					ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1) + this.datos.getIngresos().get(pos)));
+	            }else {
+	            	ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos), 
+	            			List.of(this.datos.getIngresos().get(pos) * 
+	            					solucion.getVariables().get(i), 
+	            					this.datos.getIngresos().get(pos)));
+	            }
+	            if(ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
+	            	ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), 
+	            			List.of(ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0) + this.datos.getTasas().get(pos) * 
+	        	            		solucion.getVariables().get(i), 
+	        	            		ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0) + this.datos.getTasas().get(pos)));
+	            }else {
+	            	ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), 
+	            			List.of(this.datos.getTasas().get(pos) * 
+	        	            		solucion.getVariables().get(i), 
+	        	            		this.datos.getTasas().get(pos)));
+	            }
+	            
 	        	
 	            pos++;
 			}
-		}
-		
-		Double aux = 0.0;
-        if (IngresosTtotalSuma != 0.0) {
-            aux = IngresosTsuma / IngresosTtotalSuma;
-        }
-        Double Pasajerosporcentaje = 1 - Pasajerossumatorio / Pasajerostotal;
-        Double Tasasporcentaje = 1 - Tasassumatorio / Tasastotal;
-		
-		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);//Riesgo
-		objetivos.add(1 - aux);//Ingresos
-		objetivos.add(Pasajerosporcentaje);//Pasajeros
-		objetivos.add(Tasasporcentaje);//Tasas
-		
-		//Riesgo
-		//this.calcularRiesgo(ind);
-		
-		//Ingresos turismo
-		//this.calcularPerdidaDeIngresos(ind);
-		
-		//Homogeneidad turismo
-		//Homogeneidad pasajeros compañía
-		//Ingresos tasas
-		//this.calcularPerdidaTasas(ind);
-		
-		//Pasajeros
-		//this.calcularPasajerosPerdidos(ind);
-		
-		//Conectividad
-		
-		return objetivos;
-	}
-	
-	//TODO: Cambiar
-	private Double calculoConectividad(Individuo solution) { // Perfecto, se compara con objetivo conectividad
-		String origen = "";
-		String destino = "";
-		Double suma = 0.0;
-        Double totalSuma = 0.0;
-        Double solucion = 0.0;
-        
-        Double auxSuma = 0.0;
-        Double auxTotalSuma = 0.0;
-		for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			
 			if(!this.datos.getConexionesTotales().get(i).get(0).equals(origen)) {
 				if(i > 0) {
-					Double aux = 0.0;
-		            if (auxTotalSuma != 0) {
-		                aux = auxSuma / auxTotalSuma;
+					Double Conectividadaux = 0.0;
+		            if (ConectividadauxTotalSuma != 0) {
+		            	Conectividadaux = ConectividadauxSuma / ConectividadauxTotalSuma;
 		            }
-		            suma += this.datos.getConectividadesTotales().get(i-1) * (1 - aux);
-		            totalSuma += this.datos.getConectividadesTotales().get(i-1);
+		            Conectividadsuma += this.datos.getConectividadesTotales().get(i-1) * (1 - Conectividadaux);
+		            ConectividadtotalSuma += this.datos.getConectividadesTotales().get(i-1);
 				}
 				//Sumar las conectividades de los destinos y guardar el origen
 				origen = this.datos.getConexionesTotales().get(i).get(0);
-				auxSuma = 0.0;
-		        auxTotalSuma = 0.0;
-				
-				
+				ConectividadauxSuma = 0.0;
+				ConectividadauxTotalSuma = 0.0;
 			}
 			//origen = this.datos.getConexionesTotales().get(i).get(0);
-			auxSuma += solution.getVariables().get(i)
+			ConectividadauxSuma += solucion.getVariables().get(i)
             		* this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
-            auxTotalSuma += this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
-			
+			ConectividadauxTotalSuma += this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
 		}
 		
-		Double aux = 0.0;
-        if (auxTotalSuma != 0) {
-            aux = auxSuma / auxTotalSuma;
-        }
-        suma += this.datos.getConectividadesTotales().get(this.datos.getConexionesTotales().size()-1) * (1 - aux);
-        totalSuma += this.datos.getConectividadesTotales().get(this.datos.getConexionesTotales().size()-1);
 		
-		if (totalSuma != 0) {
-            solucion = suma / totalSuma;
+		Double Ingresosaux = 0.0;
+        if (IngresosTtotalSuma != 0.0) {
+            Ingresosaux = IngresosTsuma / IngresosTtotalSuma;
         }
-        return solucion;
-	
-	}
-	
-	/*
-	 private Double calculoConectividad(Individuo solution) { // Perfecto, se compara con objetivo conectividad
-        Double suma = 0.0;
-        Double totalSuma = 0.0;
-        Double solucion = 0.0;
+        Double Pasajerosporcentaje = 1 - Pasajerossumatorio / Pasajerostotal;
+        Double Tasasporcentaje = 1 - Tasassumatorio / Tasastotal;
         
-        for (String origen : this.AeropuertosOrigen) {
-            Double auxSuma = 0.0;
-            Double auxTotalSuma = 0.0;
-            
-            for (String destino : this.listaConexionesSalidas.get(origen)) {
-                auxSuma += solution.getVariables().get(
-                		Utils.encontrarIndiceEnLista(this.listaConexiones, List.of(origen, destino)))
-                		* this.vuelosEntrantesConexion.get(List.of(origen, destino));
-                auxTotalSuma += this.vuelosEntrantesConexion.get(List.of(origen, destino));
-            }
-            Double aux = 0.0;
-            if (auxTotalSuma != 0) {
-                aux = auxSuma / auxTotalSuma;
-            }
-            suma += this.conectividadesAeropuertosOrigen.get(origen) * (1 - aux);
-            totalSuma += this.conectividadesAeropuertosOrigen.get(origen);
+        Double Conectividadaux = 0.0;
+        if (ConectividadauxTotalSuma != 0) {
+        	Conectividadaux = ConectividadauxSuma / ConectividadauxTotalSuma;
         }
-        if (totalSuma != 0) {
-            solucion = suma / totalSuma;
+        Conectividadsuma += this.datos.getConectividadesTotales().get(this.datos.getConexionesTotales().size()-1) * (1 - Conectividadaux);
+        ConectividadtotalSuma += this.datos.getConectividadesTotales().get(this.datos.getConexionesTotales().size()-1);
+		
+		if (ConectividadtotalSuma != 0) {
+			Conectividadsolucion = Conectividadsuma / ConectividadtotalSuma;
         }
-        return solucion;
-    }
-	
-	*/
+		
+		double pasajerosPorCompanyiaMediaPerdida = 0.0;
+		for(String companyia : pasajerosPorCompanyia.keySet()) {
+			pasajerosPorCompanyiaMediaPerdida += 1 - (pasajerosPorCompanyia.get(companyia).get(0) / 
+					pasajerosPorCompanyia.get(companyia).get(1));
+		}
+		pasajerosPorCompanyiaMediaPerdida = pasajerosPorCompanyiaMediaPerdida / pasajerosPorCompanyia.keySet().size();
+		double pasajerosPorCompanyiaDesvTipPerdida = 0.0;
+		for(String companyia : pasajerosPorCompanyia.keySet()) {
+			pasajerosPorCompanyiaDesvTipPerdida += Math.pow((1 - pasajerosPorCompanyia.get(companyia).get(0) / pasajerosPorCompanyia.get(companyia).get(1)) - pasajerosPorCompanyiaMediaPerdida,2);
+		}
+		pasajerosPorCompanyiaDesvTipPerdida /= pasajerosPorCompanyia.keySet().size();
+		pasajerosPorCompanyiaDesvTipPerdida = Math.sqrt(pasajerosPorCompanyiaDesvTipPerdida);
+		
+		
+		double ingresoPerdidoAreasInfMedia = 0.0;
+		for(String areaInf : ingresosPorAreaInf.keySet()) {
+			ingresoPerdidoAreasInfMedia += 1 - (ingresosPorAreaInf.get(areaInf).get(0) / 
+					ingresosPorAreaInf.get(areaInf).get(1));
+		}
+		ingresoPerdidoAreasInfMedia = ingresoPerdidoAreasInfMedia / ingresosPorAreaInf.keySet().size();
+		double ingresoPerdidoAreasInfDesvTip = 0.0;
+		for(String areaInf : ingresosPorAreaInf.keySet()) {
+			ingresoPerdidoAreasInfDesvTip += Math.pow((1 - ingresosPorAreaInf.get(areaInf).get(0) / ingresosPorAreaInf.get(areaInf).get(1)) - ingresoPerdidoAreasInfMedia,2);
+		}
+		ingresoPerdidoAreasInfDesvTip /= ingresosPorAreaInf.keySet().size();
+		ingresoPerdidoAreasInfDesvTip = Math.sqrt(ingresoPerdidoAreasInfDesvTip);
+		
+		
+		double ingresoPorAerDestMedia = 0.0;
+		for(String aeropuerto : ingresosPorAerDest.keySet()) {
+			ingresoPorAerDestMedia += 1 - (ingresosPorAerDest.get(aeropuerto).get(0) /
+					ingresosPorAerDest.get(aeropuerto).get(1));
+		}
+		ingresoPorAerDestMedia = ingresoPorAerDestMedia / ingresosPorAerDest.keySet().size();
+		double ingresoPorAerDestDesvTip = 0.0;
+		for(String aeropuerto : ingresosPorAerDest.keySet()) {
+			ingresoPorAerDestDesvTip += Math.pow((1 - ingresosPorAerDest.get(aeropuerto).get(0) / ingresosPorAerDest.get(aeropuerto).get(1)) - ingresoPorAerDestMedia,2);
+		}
+		ingresoPorAerDestDesvTip /= ingresosPorAerDest.keySet().size();
+		ingresoPorAerDestDesvTip = Math.sqrt(ingresoPorAerDestDesvTip);
+		
+		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);//Riesgo
+		
+		objetivos.add(1 - Ingresosaux);//Ingresos
+		objetivos.add(Pasajerosporcentaje);//Pasajeros
+		objetivos.add(Tasasporcentaje);//Tasas
+		objetivos.add(Conectividadsolucion);//Conectividad
+		objetivos.add(pasajerosPorCompanyiaDesvTipPerdida); //Homogen pasajerosComp
+		objetivos.add(ingresoPerdidoAreasInfDesvTip); //Homogen ingresos areas inf
+		objetivos.add(ingresoPorAerDestDesvTip); //Homogen tasas aeropuerto dest
+		System.out.println(ingresosPorAreaInf);
+		
+		return objetivos;
+	}
 	
 	@Override
 	public Individuo inicializarValores(Individuo ind) {

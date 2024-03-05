@@ -43,6 +43,7 @@ public class DatosRRPS_PATDiaI {
 	
 	//Cálculo homogeneidad pérdida de ingresos entre aeropuertos destino mediante las tasas
 	private Map<String, Double> tasasPorAeropuertoDestino;
+	private List<String> areasInf;
 	
 	//Conectividad
 	private List<String> AeropuertosOrigen;
@@ -59,7 +60,7 @@ public class DatosRRPS_PATDiaI {
 			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
 			List<String> companyias, List<String> companyiasTotal, Map<List<String>, Integer> pasajerosCompanyia,
 			List<String> AeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> AeropuertosDestino, 
-			List<String> aeropuertosDestinoTotal, Map<String, Integer> vuelosSalientes,
+			List<String> areasInf, Map<String, Integer> vuelosSalientes,
 			Map<List<String>, Integer> vuelosEntrantesConexion, Map<String, Integer> vuelosSalientesAEspanya, 
 			Map<String, Double> conectividadesAeropuertosOrigen, List<Double> conectividades, List<Double> tasas,
 			Map<String, Double> tasasPorAeropuertoDestino, List<Integer> vuelosSalientesDeOrigen){
@@ -79,6 +80,9 @@ public class DatosRRPS_PATDiaI {
 		this.vuelosSalientes = vuelosSalientes;
 		this.AeropuertosOrigen = AeropuertosOrigen;
 		this.conectividades = conectividades;
+		
+		this.companyias = companyias;
+		this.areasInf = areasInf;
 		
 		this.obtenerDatosConectividad();
 		
@@ -284,6 +288,14 @@ public class DatosRRPS_PATDiaI {
 
 	public void setConectividades(List<Double> conectividades) {
 		this.conectividades = conectividades;
+	}
+
+	public List<String> getAreasInf() {
+		return areasInf;
+	}
+
+	public void setAreasInf(List<String> areasInf) {
+		this.areasInf = areasInf;
 	}
 
 	

@@ -564,7 +564,7 @@ public class LecturaDeDatos {
 	public static void leerDatosRRPS_PATDiaI(String ruta, List<Double> riesgos, List<List<String>> conexiones,
 			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
 			List<String> companyias, List<String> companyiasTotal, Map<List<String>, Integer> pasajerosCompanyia, 
-			List<String> aeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> aeropuertosDestino, List<String> aeropuertosDestinoTotal,
+			List<String> aeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> aeropuertosDestino, List<String> areasInf,
 			Map<String, Double> conectividadesAeropuertosOrigen, List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
 			Map<String, Double> tasasPorAeropuertoDestino, Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen) {
@@ -621,6 +621,9 @@ public class LecturaDeDatos {
                 if(!vuelosSalientes.keySet().contains(split[7])) {
                 	vuelosSalientes.put(split[7], Integer.parseInt(split[9]));
                 }
+                if(!aeropuertosDestino.contains(split[8])) {
+                	aeropuertosDestino.add(split[8]);
+                }
                 
                 conexionesTotal.add(List.of(split[7], split[8]));
                 riesgos.add(Double.parseDouble(split[0]));
@@ -628,7 +631,8 @@ public class LecturaDeDatos {
                 dineroMedioT.add(Double.parseDouble(split[4]));
                 dineroMedioN.add(Double.parseDouble(split[5]));
                 tasasAeropuertos.add(Double.parseDouble(split[6]));
-                
+                companyias.add(split[2]);
+                areasInf.add(split[10]);
             }
             // Closing the scanner
             scanner.close();

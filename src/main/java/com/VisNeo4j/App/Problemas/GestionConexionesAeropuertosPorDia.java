@@ -406,6 +406,7 @@ public class GestionConexionesAeropuertosPorDia extends Problema {
 
 		// System.out.println("Vuelos: " + vuelos_cancelados);
 		objetivos.add(0, Riesgosumatorio / RiesgosumatorioTotal);// Riesgo SIR
+		
 		objetivos.add(1, 1 - Pasajerossumatorio / Pasajerostotal);// Pérdida de pasajeros
 		objetivos.add(2, 1 - aux);// Pérdida de ingresos turismo
 		objetivos.add(3, porcentajePerdidoDesviacionMedia);// Homogeneidad Pérdida de pasajeros Aerolineas

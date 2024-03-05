@@ -23,6 +23,10 @@ public class DatosRRPS_PAT {
 	
 	private List<Integer> vuelosEntrantesConexionOrdenadoTotales;
 	private List<Double> conectividadesTotales;
+	
+	private List<String> companyiasTotales;
+	
+	private List<String> aresInfTotales;
 
 	public DatosRRPS_PAT(int numDias, String fechaInicio, String fechaFinal, List<DatosRRPS_PATDiaI> datosPorDia) {
 		this.numDias = numDias;
@@ -58,8 +62,13 @@ public class DatosRRPS_PAT {
 		}
 		
 		this.ingresos = new ArrayList<>();
+		List<Double> ingresosN = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			ingresosN.addAll(this.datosPorDia.get(i).getDineroMedioN());
 			ingresos.addAll(this.datosPorDia.get(i).getDineroMedioT());
+		}
+		for(int i = 0; i < this.ingresos.size(); i++) {
+			this.ingresos.set(i, this.ingresos.get(i) + ingresosN.get(i));
 		}
 		
 		this.tasas = new ArrayList<>();
@@ -75,6 +84,16 @@ public class DatosRRPS_PAT {
 		this.conectividadesTotales = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			this.conectividadesTotales.addAll(this.datosPorDia.get(i).getConectividades());
+		}
+		
+		this.companyiasTotales = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			this.companyiasTotales.addAll(this.datosPorDia.get(i).getCompanyias());
+		}
+		
+		this.aresInfTotales = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			this.aresInfTotales.addAll(this.datosPorDia.get(i).getAreasInf());
 		}
 	}
 	
@@ -207,6 +226,22 @@ public class DatosRRPS_PAT {
 
 	public void setConectividadesTotales(List<Double> conectividadesTotales) {
 		this.conectividadesTotales = conectividadesTotales;
+	}
+
+	public List<String> getCompanyiasTotales() {
+		return companyiasTotales;
+	}
+
+	public void setCompanyiasTotales(List<String> companyiasTotales) {
+		this.companyiasTotales = companyiasTotales;
+	}
+
+	public List<String> getAresInfTotales() {
+		return aresInfTotales;
+	}
+
+	public void setAresInfTotales(List<String> aresInfTotales) {
+		this.aresInfTotales = aresInfTotales;
 	}
 	
 	

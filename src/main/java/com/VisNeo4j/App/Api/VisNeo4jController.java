@@ -181,8 +181,21 @@ class VisNeo4jController {
 		problema.inicializarValores(ind);
 		problema.inicializarValores(ind);
 		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		
 		problema.evaluate(ind);
 		System.out.println(ind);
+		
+		DatosProblemaDias datos2 = visNeo4jService.obtenerDatosDiasFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		Problema problema2 = new GestionConexionesAeropuertosPorDia(datos2, pesos, 0.75);
+		Individuo ind2 = new Individuo(problema2.getNumVariables(), 1);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.evaluate(ind2);
+		System.out.println(ind2);
 		
 		return datos;
 	}
