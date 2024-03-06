@@ -661,7 +661,7 @@ public class Utils {
 			for(int i = 0; i < obj.size(); i++) {
 				iter_Fit = new String[2];
 				
-				iter_Fit[0] = Constantes.nombresObjetivos.get(i);
+				iter_Fit[0] = Constantes.nombreObjetivos.get(i);
 				iter_Fit[1] = String.valueOf(obj.get(i));
 				
 				lista.add(iter_Fit);
@@ -895,5 +895,12 @@ public class Utils {
 			}
 		}
 		return nueva;
+	}
+	
+	public static List<Double> rellenarListaDeCeros(List<Double> lista, int numCeros){
+		for(int i = 0; i < numCeros; i++) {
+			lista.add(0.0);
+		}
+		return lista;
 	}
 }

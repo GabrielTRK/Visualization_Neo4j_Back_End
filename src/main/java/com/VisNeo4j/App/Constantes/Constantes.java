@@ -40,7 +40,8 @@ public class Constantes {
     public static final String nombreFicheroConexiones = "conexionesAeropuertos";
     public static final String nombreFicheroNumConDia = "numConexionesDia";
     public static final List<String> nombresRestricciones = List.of("Epi");
-    public static final List<String> nombresObjetivos = List.of("Z1","Z2","Z3","Z4","Z5","Z6","Z7");
+    public static final List<String> nombreObjetivos = List.of("1","2","3","4","5","6","7");
+    public static final List<Integer> idObjetivos = List.of(1,2,3,4,5,6,7);
     public static final List<String> nombresPersonas = List.of("Personas afectadas", "Personas restantes");
     public static final List<String> estadosVuelos = List.of("Vuelos cancelados", "Vuelos restantes");
     public static final String nombreCampoVuelosCancelados = "VuelosCancelados";

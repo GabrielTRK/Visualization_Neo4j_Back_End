@@ -10,6 +10,7 @@ import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
 import com.VisNeo4j.App.Modelo.DatosRRPS_PAT;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class RRPS_PAT extends Problema{
@@ -17,11 +18,10 @@ public class RRPS_PAT extends Problema{
 	private Double resInf = 0.0;
 	private Double resSup;
 	private DatosRRPS_PAT datos;
-	private List<Double> pesos;
-	private List<Integer> ordenObj;
 	private int numInicializaciones = 0;
+	private DMPreferences preferencias;
 
-	public RRPS_PAT(DatosRRPS_PAT datos, List<Double> pesos, Double maxRiesgo) {
+	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, DMPreferences preferencias) {
 		super(0, 1);
 		int numConexionesTotales = 0;
 		for (int i = 0; i < datos.getDatosPorDia().size(); i++) {
@@ -30,8 +30,8 @@ public class RRPS_PAT extends Problema{
 		}
 		super.setNumVariables(numConexionesTotales);
 		this.datos = datos;
-		this.pesos = pesos;
 		this.resSup = maxRiesgo;
+		this.preferencias = preferencias;
 		super.setNombre(Constantes.nombreProblemaRRPS_PAT);
 	}
 	
@@ -56,7 +56,7 @@ public class RRPS_PAT extends Problema{
 		Double sumaPesos = 0.0;
 
 		for (int i = 1; i < objetivos.size(); i++) {
-			sumaPesos = sumaPesos + objetivos.get(i) * this.pesos.get(i - 1); // TODO: cambiar
+			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
 		}
 
 		ind.setObjetivos(List.of(sumaPesos));
@@ -230,13 +230,23 @@ public class RRPS_PAT extends Problema{
 		
 		double ingresoPorAerDestMedia = 0.0;
 		for(String aeropuerto : ingresosPorAerDest.keySet()) {
-			ingresoPorAerDestMedia += 1 - (ingresosPorAerDest.get(aeropuerto).get(0) /
-					ingresosPorAerDest.get(aeropuerto).get(1));
+			if(ingresosPorAerDest.get(aeropuerto).get(1) == 0.0) {
+				ingresoPorAerDestMedia += 0.0;
+			}else {
+				ingresoPorAerDestMedia += 1 - (ingresosPorAerDest.get(aeropuerto).get(0) /
+						ingresosPorAerDest.get(aeropuerto).get(1));
+			}
+			
 		}
 		ingresoPorAerDestMedia = ingresoPorAerDestMedia / ingresosPorAerDest.keySet().size();
 		double ingresoPorAerDestDesvTip = 0.0;
 		for(String aeropuerto : ingresosPorAerDest.keySet()) {
-			ingresoPorAerDestDesvTip += Math.pow((1 - ingresosPorAerDest.get(aeropuerto).get(0) / ingresosPorAerDest.get(aeropuerto).get(1)) - ingresoPorAerDestMedia,2);
+			if(ingresosPorAerDest.get(aeropuerto).get(1) == 0.0) {
+				ingresoPorAerDestDesvTip += Math.pow(0.0 - ingresoPorAerDestMedia,2);
+			}else {
+				ingresoPorAerDestDesvTip += Math.pow((1 - ingresosPorAerDest.get(aeropuerto).get(0) / ingresosPorAerDest.get(aeropuerto).get(1)) - ingresoPorAerDestMedia,2);
+			}
+			
 		}
 		ingresoPorAerDestDesvTip /= ingresosPorAerDest.keySet().size();
 		ingresoPorAerDestDesvTip = Math.sqrt(ingresoPorAerDestDesvTip);
@@ -244,13 +254,14 @@ public class RRPS_PAT extends Problema{
 		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);//Riesgo
 		
 		objetivos.add(1 - Ingresosaux);//Ingresos
-		objetivos.add(Pasajerosporcentaje);//Pasajeros
-		objetivos.add(Tasasporcentaje);//Tasas
-		objetivos.add(Conectividadsolucion);//Conectividad
-		objetivos.add(pasajerosPorCompanyiaDesvTipPerdida); //Homogen pasajerosComp
 		objetivos.add(ingresoPerdidoAreasInfDesvTip); //Homogen ingresos areas inf
+		objetivos.add(pasajerosPorCompanyiaDesvTipPerdida); //Homogen pasajerosCom
+		objetivos.add(Tasasporcentaje);//Tasas
 		objetivos.add(ingresoPorAerDestDesvTip); //Homogen tasas aeropuerto dest
-		System.out.println(ingresosPorAreaInf);
+		
+		objetivos.add(Pasajerosporcentaje);//Pasajeros
+		objetivos.add(Conectividadsolucion);//Conectividad
+		
 		
 		return objetivos;
 	}

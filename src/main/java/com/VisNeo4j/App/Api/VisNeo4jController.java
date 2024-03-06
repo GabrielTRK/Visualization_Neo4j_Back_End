@@ -15,7 +15,6 @@ import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
 import com.VisNeo4j.App.Modelo.DatosRRPS_PAT;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.ObjectivesOrder;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
@@ -27,6 +26,9 @@ import com.VisNeo4j.App.Problemas.GestionConexionesAeropuertosPorDia;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
 import com.VisNeo4j.App.Problemas.SubVuelos;
+import com.VisNeo4j.App.QDMP.DMPreferences;
+import com.VisNeo4j.App.QDMP.ObjectivesOrder;
+import com.VisNeo4j.App.QDMP.SR;
 import com.VisNeo4j.App.Service.VisNeo4jService;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
@@ -120,15 +122,66 @@ class VisNeo4jController {
 	}*/
 	
 	@CrossOrigin
-	@GetMapping("/algoritmo/diaF")
+	@PostMapping("/algoritmo/diaF")
 	public DatosConexiones ejecutarAlgoritmoDiaFichero(@RequestParam("dia_inicial") String dia_I, 
 			@RequestParam("dia_final") String dia_F,
 			@RequestParam("mes_inicial") String mes_I,
 			@RequestParam("mes_final") String mes_F,
 			@RequestParam("año_inicial") String año_I,
 			@RequestParam("año_final") String año_F,
-			@RequestParam("iteraciones") int num_Iteraciones) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosProblemaDias datos = visNeo4jService.obtenerDatosDiasFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+			@RequestParam("iteraciones") int num_Iteraciones,
+			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PATFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		
+		DMPreferences preferencias = new SR(order);
+		preferencias.generateWeightsVector(order.getOrder().size());
+		
+		Problema problema = new RRPS_PAT(datos, 0.75, preferencias);
+		
+		BPSO bpso = new BPSO(4, num_Iteraciones, problema, 0.9, 1.5, 1.5);
+		Individuo ind = bpso.ejecutarBPSO();
+		datos.rellenarConexionesFaltantes(ind);
+		System.out.println(ind);
+		//TODO: Guardar solucion y conexiones en ficheros
+		/*String fila = Utils.modificarCSVproblemaGestionConexionesAeropuertos(ind, datos);
+		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
+		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
+		Utils.crearCSVPersonas_Afectadas(List.of(datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0), datos.getNumPasajerosTotales() - datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0)), fila);
+		Utils.crearCSVVuelos_Cancelados(List.of(Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados)), datos.getNumVuelosTotales() - Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados))), fila);
+		//List<Aeropuerto> lista = TraducirSalida.traducir(ind, datos.getConexionesTotales());
+		*/
+		List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
+		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);
+		Utils.obtenernumDiasUltimaSolucion();
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
+    	return datosConexiones;
+	}
+	
+	@CrossOrigin
+	@PostMapping("/testEva")
+	public DatosRRPS_PAT testEvaluacion(@RequestParam("dia_inicial") String dia_I, 
+			@RequestParam("dia_final") String dia_F,
+			@RequestParam("mes_inicial") String mes_I,
+			@RequestParam("mes_final") String mes_F,
+			@RequestParam("año_inicial") String año_I,
+			@RequestParam("año_final") String año_F,
+			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PATFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		
+		DMPreferences preferencias = new SR(order);
+		preferencias.generateWeightsVector(order.getOrder().size());
+		
+		Problema problema = new RRPS_PAT(datos, 0.75, preferencias);
+		Individuo ind = new Individuo(problema.getNumVariables(), 1);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		
+		problema.evaluate(ind);
+		System.out.println(ind);
+		
 		List<Double> pesos = new ArrayList<>();
 		pesos.add(0.06861682918020946189960274467317);//Z6 Pérdida de pasajeros
 		pesos.add(0.30335861321776814734561213434453);//Z1 Pérdida de ingresos turismo
@@ -137,24 +190,18 @@ class VisNeo4jController {
 		pesos.add(0.12459371614301191765980498374865);//Z4 Tasas
 		pesos.add(0.09534127843986998916576381365114);//Z5 Homogeneidad tasas
 		pesos.add(0.04333694474539544962080173347779);//Z7 Conectividad
-		Problema problema = new GestionConexionesAeropuertosPorDia(datos, pesos, 0.75);
-		BPSO bpso = new BPSO(4, num_Iteraciones, problema, 0.9, 1.5, 1.5);
-		Individuo ind = bpso.ejecutarBPSO();
-		datos.rellenarConexionesFaltantes(ind);
-		System.out.println(ind);
-		//TODO: Guardar solucion y conexiones en ficheros
-		String fila = Utils.modificarCSVproblemaGestionConexionesAeropuertos(ind, datos);
-		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
-		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
-		Utils.crearCSVPersonas_Afectadas(List.of(datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0), datos.getNumPasajerosTotales() - datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0)), fila);
-		Utils.crearCSVVuelos_Cancelados(List.of(Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados)), datos.getNumVuelosTotales() - Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados))), fila);
-		//List<Aeropuerto> lista = TraducirSalida.traducir(ind, datos.getConexionesTotales());
+		DatosProblemaDias datos2 = visNeo4jService.obtenerDatosDiasFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		Problema problema2 = new GestionConexionesAeropuertosPorDia(datos2, pesos, 0.75);
+		Individuo ind2 = new Individuo(problema2.getNumVariables(), 1);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.inicializarValores(ind2);
+		problema2.evaluate(ind2);
+		System.out.println(ind2);
 		
-		List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
-		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);
-		Utils.obtenernumDiasUltimaSolucion();
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
-    	return datosConexiones;
+		return datos;
 	}
 	
 	@CrossOrigin
@@ -166,36 +213,6 @@ class VisNeo4jController {
 			@RequestParam("año_inicial") String año_I,
 			@RequestParam("año_final") String año_F) throws FileNotFoundException, IOException, CsvException, ParseException {
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PATFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		
-		List<Double> pesos = new ArrayList<>();
-		pesos.add(0.06861682918020946189960274467317);//Z6 Pérdida de pasajeros
-		pesos.add(0.30335861321776814734561213434453);//Z1 Pérdida de ingresos turismo
-		pesos.add(0.15890213073311664860960635608523);//Z3 Homogeneidad Pérdida de pasajeros Aerolineas
-		pesos.add(0.2058504875406283856988082340195);//Z2 Homogeneidad Pérdida de ingresos turismo
-		pesos.add(0.12459371614301191765980498374865);//Z4 Tasas
-		pesos.add(0.09534127843986998916576381365114);//Z5 Homogeneidad tasas
-		pesos.add(0.04333694474539544962080173347779);//Z7 Conectividad
-		Problema problema = new RRPS_PAT(datos, pesos, 0.75);
-		Individuo ind = new Individuo(problema.getNumVariables(), 1);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		
-		problema.evaluate(ind);
-		System.out.println(ind);
-		
-		DatosProblemaDias datos2 = visNeo4jService.obtenerDatosDiasFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		Problema problema2 = new GestionConexionesAeropuertosPorDia(datos2, pesos, 0.75);
-		Individuo ind2 = new Individuo(problema2.getNumVariables(), 1);
-		problema2.inicializarValores(ind2);
-		problema2.inicializarValores(ind2);
-		problema2.inicializarValores(ind2);
-		problema2.inicializarValores(ind2);
-		problema2.inicializarValores(ind2);
-		problema2.evaluate(ind2);
-		System.out.println(ind2);
 		
 		return datos;
 	}
@@ -310,6 +327,11 @@ class VisNeo4jController {
 	@PostMapping("/test")
 	public int test(@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		System.out.println(order);
+		
+		DMPreferences weights = new SR(order);
+		weights.generateWeightsVector(7);
+		System.out.println(weights.getWeightsVector());
+		
 		return 0;
 		/*DatosProblemaDias datos = movieService.obtenerDatosDias(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
 		List<Double> pesos1 = new ArrayList<>();

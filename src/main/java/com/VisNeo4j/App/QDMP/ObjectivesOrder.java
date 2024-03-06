@@ -1,4 +1,4 @@
-package com.VisNeo4j.App.Modelo;
+package com.VisNeo4j.App.QDMP;
 
 import java.util.List;
 
