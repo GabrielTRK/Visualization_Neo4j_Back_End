@@ -6,12 +6,16 @@ import org.neo4j.driver.SessionConfig;
 import org.springframework.data.neo4j.core.DatabaseSelectionProvider;
 import org.springframework.stereotype.Service;
 
+import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.DatosProblema;
 import com.VisNeo4j.App.Modelo.DatosProblemaDias;
 import com.VisNeo4j.App.Modelo.DatosRRPS_PAT;
 import com.VisNeo4j.App.Modelo.DatosRRPS_PATDiaI;
+import com.VisNeo4j.App.Utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +39,219 @@ public class VisNeo4jService {
 
 		this.driver = driver;
 		this.databaseSelectionProvider = databaseSelectionProvider;
+	}
+	
+	public DatosRRPS_PAT obtenerDatosRRPS_PAT(String dia_I, String dia_F, String mes_I, String mes_F,
+	String año_I, String año_F) throws ParseException, IOException {
+	List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
+		
+		String fecha_I = año_I + "-" + mes_I + "-" + dia_I;
+		String fecha_F = año_F + "-" + mes_F + "-" + dia_F;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date fechaInicio = sdf.parse(fecha_I);
+		Date fechaFinal = sdf.parse(fecha_F);
+		
+		long diffInMillies = Math.abs(fechaFinal.getTime() - fechaInicio.getTime());
+	    int numDias = (int)TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+	    
+	    Calendar c = Calendar.getInstance();
+	    c.setTime(fechaInicio);
+	    
+	    for(int i = 0; i <= numDias; i++) {
+		    
+		    String dia_Inicial = String.valueOf(c.get(Calendar.DATE));
+		    if(dia_Inicial.length() == 1) {
+		    	dia_Inicial = "0" + dia_Inicial;
+		    }
+		    String dia_Final = dia_Inicial;
+		    String mes_Inicial = String.valueOf(c.get(Calendar.MONTH)+1);
+		    if(mes_Inicial.length() == 1) {
+		    	mes_Inicial = "0" + mes_Inicial;
+		    }
+		    String mes_Final = mes_Inicial;
+			String año_Inicial = String.valueOf(c.get(Calendar.YEAR));
+			String año_Final = año_Inicial;
+		    
+		    datosPorDia.add(obtenerDatosRRPS_PATDiaI(dia_Inicial, dia_Final, mes_Inicial, mes_Final, 
+		    		año_Inicial, año_Final, año_Inicial + "-" + mes_Inicial + "-" + dia_Inicial));
+		    
+		    
+		    c.add(Calendar.DATE, 1);
+	    }
+	    
+	    
+		return new DatosRRPS_PAT(numDias, sdf.format(fechaInicio), sdf.format(fechaFinal), datosPorDia);
+	}
+	
+	public DatosRRPS_PATDiaI obtenerDatosRRPS_PATDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
+			String año_I, String año_F, String ruta) throws IOException{
+		List<Double> riesgos = new ArrayList<>();
+		List<List<String>> conexiones = new ArrayList<>();
+		List<List<String>> conexionesTotal = new ArrayList<>();
+		List<Integer> pasajeros = new ArrayList<>();
+		List<Double> dineroMedioT = new ArrayList<>();
+		List<Double> dineroMedioN = new ArrayList<>();
+		List<String> companyias = new ArrayList<>();
+		List<String> companyiasTotal = new ArrayList<>();
+		Map<List<String>, Integer> pasajerosCompanyia = new HashMap<>();//
+		List<String> aeropuertosOrigen = new ArrayList<>();
+		List<String> aeropuertosOrigenTotal = new ArrayList<>();
+		List<String> aeropuertosDestino = new ArrayList<>();
+		List<String> aeropuertosDestinoTotal = new ArrayList<>();
+		Map<String, Integer> vuelosSalientes = new HashMap<>();
+		Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();//
+		Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
+		Map<String, Double> conectividadesAeropuertosOrigen = new HashMap<>();//
+		List<Double> conectividades = new ArrayList<>();
+		List<Double> tasasAeropuertos = new ArrayList<>();
+		Map<String, Double> tasasPorAeropuertoDestino = new HashMap<>();//
+		List<Integer> vuelosSalientesDeOrigen = new ArrayList<>();
+		
+		//TODO: Comprobar si existe el fichero paar ese día. Sino buscar en la BBDD y guardar el fichero
+		File file = new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero);
+		
+		if (file.exists()) {
+			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, conexiones, conexionesTotal, pasajeros, dineroMedioT, dineroMedioN, companyias, companyiasTotal, pasajerosCompanyia, aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, aeropuertosDestinoTotal, conectividadesAeropuertosOrigen, conectividades, vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, tasasPorAeropuertoDestino, vuelosSalientes, vuelosSalientesDeOrigen);
+		}
+        else {
+        	obtenerDatosRRPS_PAT_BBDD(riesgos, conexiones, conexionesTotal, pasajeros, 
+        			dineroMedioT, dineroMedioN, companyias, companyiasTotal, pasajerosCompanyia, 
+        			aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, 
+        			aeropuertosDestinoTotal, conectividadesAeropuertosOrigen, conectividades, 
+        			vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, tasasPorAeropuertoDestino, 
+        			vuelosSalientes, vuelosSalientesDeOrigen, dia_I, dia_F, mes_I, mes_F, 
+        			año_I, año_F, ruta);
+        }
+		
+		
+		
+		return new DatosRRPS_PATDiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
+				dineroMedioT, dineroMedioN, companyias, companyiasTotal, pasajerosCompanyia, 
+				aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, 
+				aeropuertosDestinoTotal, vuelosSalientes, vuelosEntrantesConexion, vuelosSalientesAEspanya, 
+				conectividadesAeropuertosOrigen, conectividades, tasasAeropuertos, 
+				tasasPorAeropuertoDestino, vuelosSalientesDeOrigen);
+	}
+	
+	public void obtenerDatosRRPS_PAT_BBDD(List<Double> riesgos, List<List<String>> conexiones,
+			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
+			List<String> companyias, List<String> companyiasTotal, Map<List<String>, Integer> pasajerosCompanyia, 
+			List<String> aeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> aeropuertosDestino, List<String> areasInf,
+			Map<String, Double> conectividadesAeropuertosOrigen, List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion, 
+			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
+			Map<String, Double> tasasPorAeropuertoDestino, Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen,
+			String dia_I, String dia_F, String mes_I, String mes_F,
+			String año_I, String año_F, String ruta) throws IOException {
+		
+		String fecha_I = "\"" + año_I + "-" + mes_I + "-" + dia_I + "\"";
+		String fecha_F = "\"" + año_F + "-" + mes_F + "-" + dia_F + "\"";
+		
+		List<String[]> datosFichero = new ArrayList<>();
+		String[] cabecera = new String[11];
+		
+		cabecera[0] = String.valueOf(Constantes.sirDBField);
+		cabecera[1] = String.valueOf(Constantes.pasajerosDBField);
+		cabecera[2] = String.valueOf(Constantes.companyiaDBField);
+		cabecera[3] = String.valueOf(Constantes.conectividadDBField);
+		cabecera[4] = String.valueOf(Constantes.dineroTDBField);
+		cabecera[5] = String.valueOf(Constantes.dineroNDBField);
+		cabecera[6] = String.valueOf(Constantes.tasasDBField);
+		cabecera[7] = String.valueOf(Constantes.origenDBField);
+		cabecera[8] = String.valueOf(Constantes.destinoDBField);
+		cabecera[9] = String.valueOf(Constantes.VuelosDesdeOrigenDBField);
+		cabecera[10] = String.valueOf(Constantes.areaInfDBField);
+		
+		datosFichero.add(cabecera);
+		
+		try (Session session = sessionFor(database())) {
+			var records = session.readTransaction(tx -> tx.run(""
+				+ " match (a:Airport)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->(ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
+				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0" 
+				+ " with f,a,a2 order by a.iata, a2.iata "
+				
+				+ " call{ "
+				+ " with a "
+				+ " match (a)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->   (ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
+				+ " where f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' "
+				+ " return count(*) as numVuelos "
+				+ " } "
+				
+				+ " return f.flightIfinal as sir,f.passengers as pasajeros,f.operator as companyia,a.connectivity as conectividad,f.incomeFromTurism as dineroT,f.incomeFromBusiness as dineroN,f.destinationAirportIncome as tasas,a.iata as origen,a2.iata as destino, numVuelos as VuelosDesdeOrigen, a2.regionName as areaInf"
+			).list());
+			records.forEach(record -> {
+				var sir = record.get(Constantes.sirDBField).asDouble();
+				var origen = record.get(Constantes.origenDBField).asString();
+				var destino = record.get(Constantes.destinoDBField).asString();
+				var Num_Pasajeros = record.get(Constantes.pasajerosDBField).asInt();
+				var companyia = record.get(Constantes.companyiaDBField).asString();
+				var conectividad = record.get(Constantes.conectividadDBField).asDouble();
+				var dineroT = record.get(Constantes.dineroTDBField).asDouble();
+				var dineroN = record.get(Constantes.dineroNDBField).asDouble();
+				var tasas = record.get(Constantes.tasasDBField).asDouble();
+				var VuelosDesdeOrigen = record.get(Constantes.VuelosDesdeOrigenDBField).asInt();
+				var areaInf = record.get(Constantes.areaInfDBField).asString();
+				
+				if(!conexiones.contains(List.of(origen, destino))) {
+                	conexiones.add(List.of(origen, destino));
+                	vuelosEntrantesConexion.put(List.of(origen, destino), 1);
+                	if(conectividad == -1.0) {
+                		conectividades.add(0.0);
+					}else {
+						conectividades.add(conectividad);
+					}
+                }else {
+                	vuelosEntrantesConexion.put(List.of(origen, destino), 1 + vuelosEntrantesConexion.get(List.of(origen, destino)));
+                }
+                if(!vuelosSalientesAEspanya.keySet().contains(origen)) {
+					vuelosSalientesAEspanya.put(origen, 1);
+				}else {
+					vuelosSalientesAEspanya.put(origen, 1 + vuelosSalientesAEspanya.get(origen));
+				}
+                if(!aeropuertosOrigen.contains(origen)) {
+					aeropuertosOrigen.add(origen);
+					if(conectividad == -1.0) {
+						conectividadesAeropuertosOrigen.put(origen,0.0);
+					}else {
+						conectividadesAeropuertosOrigen.put(origen,conectividad);
+					}
+				}
+                if(!vuelosSalientes.keySet().contains(origen)) {
+                	vuelosSalientes.put(origen, VuelosDesdeOrigen);
+                }
+                if(!aeropuertosDestino.contains(destino)) {
+                	aeropuertosDestino.add(destino);
+                }
+				
+				conexionesTotal.add(List.of(origen, destino));
+                riesgos.add(sir);
+                pasajeros.add(Num_Pasajeros);
+                dineroMedioT.add(dineroT);
+                dineroMedioN.add(dineroN);
+                tasasAeropuertos.add(tasas);
+                companyias.add(companyia);
+                areasInf.add(areaInf);
+                
+                String[] filaIFichero = new String[11];
+                
+                filaIFichero[0] = String.valueOf(sir);
+                filaIFichero[1] = String.valueOf(Num_Pasajeros);
+                filaIFichero[2] = String.valueOf(companyia);
+                filaIFichero[3] = String.valueOf(conectividad);
+                filaIFichero[4] = String.valueOf(dineroT);
+                filaIFichero[5] = String.valueOf(dineroN);
+                filaIFichero[6] = String.valueOf(tasas);
+                filaIFichero[7] = String.valueOf(origen);
+                filaIFichero[8] = String.valueOf(destino);
+                filaIFichero[9] = String.valueOf(VuelosDesdeOrigen);
+                filaIFichero[10] = String.valueOf(areaInf);
+                
+                datosFichero.add(filaIFichero);
+			});
+		}
+		//TODO: Guardar en fichero
+		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
 	}
 	
 	public DatosRRPS_PAT obtenerDatosRRPS_PATFichero(String dia_I, String dia_F, String mes_I, String mes_F,

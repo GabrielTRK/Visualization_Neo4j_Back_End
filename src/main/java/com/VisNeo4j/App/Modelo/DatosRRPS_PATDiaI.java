@@ -104,7 +104,6 @@ public class DatosRRPS_PATDiaI {
 	private void obtenerDatosConectividad() {
 		for(int i = 0; i < this.conexiones.size(); i++) {
 			this.vuelosEntrantesConexionOrdenado.add(this.vuelosEntrantesConexion.get(this.conexiones.get(i)));
-			
 			if (this.vuelosSalientes.get(this.conexiones.get(i).get(0)) != 0) {
 				this.conectividades.set(i, this.conectividades.get(i) * 
 						this.vuelosSalientesAEspanya.get(this.conexiones.get(i).get(0))

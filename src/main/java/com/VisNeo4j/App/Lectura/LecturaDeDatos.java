@@ -592,16 +592,7 @@ public class LecturaDeDatos {
 					vuelosSalientesAEspanya.put(split[7], 1);
 				}else {
 					vuelosSalientesAEspanya.put(split[7], 1 + vuelosSalientesAEspanya.get(split[7]));
-				}/*
-                if(!companyias.contains(split[2])) {
-                	companyias.add(split[2]);
-                }
-                if(pasajerosCompanyia.keySet().contains(List.of(split[7], split[8], split[2]))) {
-					pasajerosCompanyia.put(List.of(split[7], split[8], split[2]),
-                            pasajerosCompanyia.get(List.of(split[7], split[8], split[2])) + Integer.parseInt(split[1]));
-				}else {
-					pasajerosCompanyia.put(List.of(split[7], split[8], split[2]), Integer.parseInt(split[1]));
-				}*/
+				}
                 if(!aeropuertosOrigen.contains(split[7])) {
 					aeropuertosOrigen.add(split[7]);
 					if(Double.parseDouble(split[3]) == -1.0) {
@@ -609,15 +600,7 @@ public class LecturaDeDatos {
 					}else {
 						conectividadesAeropuertosOrigen.put(split[7],Double.parseDouble(split[3]));
 					}
-				}/*
-                if(!aeropuertosDestino.contains(split[8])) {
-					aeropuertosDestino.add(split[8]);
 				}
-                if(!tasasPorAeropuertoDestino.keySet().contains(split[8])) {
-					tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6]));
-				}else {
-					tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6]) + tasasPorAeropuertoDestino.put(split[8], Double.parseDouble(split[6])));
-				}*/
                 if(!vuelosSalientes.keySet().contains(split[7])) {
                 	vuelosSalientes.put(split[7], Integer.parseInt(split[9]));
                 }

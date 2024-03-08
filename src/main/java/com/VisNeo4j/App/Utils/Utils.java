@@ -903,4 +903,15 @@ public class Utils {
 		}
 		return lista;
 	}
+	
+	public static void crearFicheroConDatosDiaI(List<String[]> datosFichero, String nombre) throws IOException {
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaDatosPorDia + nombre + Constantes.extensionFichero), ',', 
+                CSVWriter.NO_QUOTE_CHARACTER, 
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                CSVWriter.DEFAULT_LINE_END)) {
+			
+			
+            writer.writeAll(datosFichero);
+	}
+	}
 }

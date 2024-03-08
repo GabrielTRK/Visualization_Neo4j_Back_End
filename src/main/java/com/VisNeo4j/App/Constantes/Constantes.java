@@ -46,5 +46,17 @@ public class Constantes {
     public static final List<String> estadosVuelos = List.of("Vuelos cancelados", "Vuelos restantes");
     public static final String nombreCampoVuelosCancelados = "VuelosCancelados";
     
+    public static final String sirDBField = "sir";
+    public static final String pasajerosDBField = "pasajeros";
+    public static final String companyiaDBField = "companyia";
+    public static final String conectividadDBField = "conectividad";
+    public static final String dineroTDBField = "dineroT";
+    public static final String dineroNDBField = "dineroN";
+    public static final String tasasDBField = "tasas";
+    public static final String origenDBField = "origen";
+    public static final String destinoDBField = "destino";
+    public static final String VuelosDesdeOrigenDBField = "VuelosDesdeOrigen";
+    public static final String areaInfDBField = "areaInf";
+    
     
 }

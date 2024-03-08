@@ -85,7 +85,7 @@ public class GestionConexionesAeropuertosPorDia extends Problema {
 		 */
 
 		for (int i = 1; i < objetivos.size(); i++) {
-			sumaPesos = sumaPesos + objetivos.get(i) * this.pesos.get(i - 1); // TODO: cambiar
+			sumaPesos = sumaPesos + objetivos.get(i) * this.pesos.get(i - 1);
 		}
 
 		ind.setObjetivos(List.of(sumaPesos));

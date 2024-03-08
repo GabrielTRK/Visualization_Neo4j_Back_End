@@ -200,32 +200,54 @@ public class RRPS_PAT extends Problema{
 			Conectividadsolucion = Conectividadsuma / ConectividadtotalSuma;
         }
 		
+		
+		double ingresoPerdidoAreasInfMedia = 0.0;
+		for(String areaInf : ingresosPorAreaInf.keySet()) {
+			if(ingresosPorAreaInf.get(areaInf).get(1) == 0.0) {
+				ingresoPerdidoAreasInfMedia += 0.0;
+			}else {
+				ingresoPerdidoAreasInfMedia += 1 - (ingresosPorAreaInf.get(areaInf).get(0) / 
+						ingresosPorAreaInf.get(areaInf).get(1));
+			}
+		}
+		ingresoPerdidoAreasInfMedia = ingresoPerdidoAreasInfMedia / ingresosPorAreaInf.keySet().size();
+		double ingresoPerdidoAreasInfDesvTip = 0.0;
+		for(String areaInf : ingresosPorAreaInf.keySet()) {
+			if(ingresosPorAreaInf.get(areaInf).get(1) == 0.0) {
+				ingresoPerdidoAreasInfDesvTip += Math.pow(0.0 - ingresoPerdidoAreasInfMedia,2);
+			}else {
+				ingresoPerdidoAreasInfDesvTip += Math.pow((1 - ingresosPorAreaInf.get(areaInf).get(0) / ingresosPorAreaInf.get(areaInf).get(1)) - ingresoPerdidoAreasInfMedia,2);
+			}
+		}
+		ingresoPerdidoAreasInfDesvTip /= ingresosPorAreaInf.keySet().size();
+		ingresoPerdidoAreasInfDesvTip = Math.sqrt(ingresoPerdidoAreasInfDesvTip);
+		
+		
+		
+		
 		double pasajerosPorCompanyiaMediaPerdida = 0.0;
 		for(String companyia : pasajerosPorCompanyia.keySet()) {
-			pasajerosPorCompanyiaMediaPerdida += 1 - (pasajerosPorCompanyia.get(companyia).get(0) / 
-					pasajerosPorCompanyia.get(companyia).get(1));
+			if(pasajerosPorCompanyia.get(companyia).get(1) == 0.0) {
+				pasajerosPorCompanyiaMediaPerdida += 0.0;
+			}else {
+				pasajerosPorCompanyiaMediaPerdida += 1 - (pasajerosPorCompanyia.get(companyia).get(0) / 
+						pasajerosPorCompanyia.get(companyia).get(1));
+			}
 		}
 		pasajerosPorCompanyiaMediaPerdida = pasajerosPorCompanyiaMediaPerdida / pasajerosPorCompanyia.keySet().size();
 		double pasajerosPorCompanyiaDesvTipPerdida = 0.0;
 		for(String companyia : pasajerosPorCompanyia.keySet()) {
-			pasajerosPorCompanyiaDesvTipPerdida += Math.pow((1 - pasajerosPorCompanyia.get(companyia).get(0) / pasajerosPorCompanyia.get(companyia).get(1)) - pasajerosPorCompanyiaMediaPerdida,2);
+			if(pasajerosPorCompanyia.get(companyia).get(1) == 0.0) {
+				pasajerosPorCompanyiaDesvTipPerdida += Math.pow(0.0 - pasajerosPorCompanyiaMediaPerdida,2);
+			}else {
+				pasajerosPorCompanyiaDesvTipPerdida += Math.pow((1 - pasajerosPorCompanyia.get(companyia).get(0) / pasajerosPorCompanyia.get(companyia).get(1)) - pasajerosPorCompanyiaMediaPerdida,2);
+			}
 		}
 		pasajerosPorCompanyiaDesvTipPerdida /= pasajerosPorCompanyia.keySet().size();
 		pasajerosPorCompanyiaDesvTipPerdida = Math.sqrt(pasajerosPorCompanyiaDesvTipPerdida);
 		
 		
-		double ingresoPerdidoAreasInfMedia = 0.0;
-		for(String areaInf : ingresosPorAreaInf.keySet()) {
-			ingresoPerdidoAreasInfMedia += 1 - (ingresosPorAreaInf.get(areaInf).get(0) / 
-					ingresosPorAreaInf.get(areaInf).get(1));
-		}
-		ingresoPerdidoAreasInfMedia = ingresoPerdidoAreasInfMedia / ingresosPorAreaInf.keySet().size();
-		double ingresoPerdidoAreasInfDesvTip = 0.0;
-		for(String areaInf : ingresosPorAreaInf.keySet()) {
-			ingresoPerdidoAreasInfDesvTip += Math.pow((1 - ingresosPorAreaInf.get(areaInf).get(0) / ingresosPorAreaInf.get(areaInf).get(1)) - ingresoPerdidoAreasInfMedia,2);
-		}
-		ingresoPerdidoAreasInfDesvTip /= ingresosPorAreaInf.keySet().size();
-		ingresoPerdidoAreasInfDesvTip = Math.sqrt(ingresoPerdidoAreasInfDesvTip);
+		
 		
 		
 		double ingresoPorAerDestMedia = 0.0;
@@ -251,7 +273,12 @@ public class RRPS_PAT extends Problema{
 		ingresoPorAerDestDesvTip /= ingresosPorAerDest.keySet().size();
 		ingresoPorAerDestDesvTip = Math.sqrt(ingresoPorAerDestDesvTip);
 		
+		
+		//-------------RESTRICCIÓN--------------
+		
 		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);//Riesgo
+		
+		//-------------OBJETIVOS----------------
 		
 		objetivos.add(1 - Ingresosaux);//Ingresos
 		objetivos.add(ingresoPerdidoAreasInfDesvTip); //Homogen ingresos areas inf
@@ -261,7 +288,6 @@ public class RRPS_PAT extends Problema{
 		
 		objetivos.add(Pasajerosporcentaje);//Pasajeros
 		objetivos.add(Conectividadsolucion);//Conectividad
-		
 		
 		return objetivos;
 	}

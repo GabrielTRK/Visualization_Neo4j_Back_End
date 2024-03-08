@@ -31,9 +31,12 @@ import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.VisNeo4j.App.QDMP.SR;
 import com.VisNeo4j.App.Service.VisNeo4jService;
 import com.VisNeo4j.App.Utils.Utils;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -83,7 +86,7 @@ class VisNeo4jController {
     	return datosConexiones;
 	}*/
 	
-	/*@CrossOrigin
+	@CrossOrigin
 	@GetMapping("/algoritmo/dia")
 	public DatosConexiones ejecutarAlgoritmoDia(@RequestParam("dia_inicial") String dia_I, 
 			@RequestParam("dia_final") String dia_F,
@@ -92,16 +95,16 @@ class VisNeo4jController {
 			@RequestParam("año_inicial") String año_I,
 			@RequestParam("año_final") String año_F,
 			@RequestParam("iteraciones") int num_Iteraciones) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosProblemaDias datos = visNeo4jService.obtenerDatosDias(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		List<Integer> ordenObj = new ArrayList<>();
-		ordenObj.add(1);
-		ordenObj.add(2);
-		ordenObj.add(3);
-		ordenObj.add(4);
-		ordenObj.add(5);
-		ordenObj.add(6);
-		ordenObj.add(7);
-		Problema problema = new GestionConexionesAeropuertosPorDia(datos, ordenObj, 0.4); 
+		DatosProblemaDias datos = visNeo4jService.obtenerDatosDiasFichero(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		List<Double> pesos = new ArrayList<>();
+		pesos.add(0.06861682918020946189960274467317);//Z6 Pérdida de pasajeros
+		pesos.add(0.30335861321776814734561213434453);//Z1 Pérdida de ingresos turismo
+		pesos.add(0.15890213073311664860960635608523);//Z3 Homogeneidad Pérdida de pasajeros Aerolineas
+		pesos.add(0.2058504875406283856988082340195);//Z2 Homogeneidad Pérdida de ingresos turismo
+		pesos.add(0.12459371614301191765980498374865);//Z4 Tasas
+		pesos.add(0.09534127843986998916576381365114);//Z5 Homogeneidad tasas
+		pesos.add(0.04333694474539544962080173347779);//Z7 Conectividad
+		Problema problema = new GestionConexionesAeropuertosPorDia(datos, pesos, 0.4); 
 		BPSO bpso = new BPSO(4, num_Iteraciones, problema, 0.9, 2, 2);
 		Individuo ind = bpso.ejecutarBPSO();
 		datos.rellenarConexionesFaltantes(ind);
@@ -119,7 +122,7 @@ class VisNeo4jController {
 		Utils.obtenernumDiasUltimaSolucion();
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
     	return datosConexiones;
-	}*/
+	}
 	
 	@CrossOrigin
 	@PostMapping("/algoritmo/diaF")
@@ -325,44 +328,43 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/test")
-	public int test(@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
-		System.out.println(order);
+	public DatosRRPS_PAT test(@RequestParam("dia_inicial") String dia_I, 
+			@RequestParam("dia_final") String dia_F,
+			@RequestParam("mes_inicial") String mes_I,
+			@RequestParam("mes_final") String mes_F,
+			@RequestParam("año_inicial") String año_I,
+			@RequestParam("año_final") String año_F,
+			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		DMPreferences weights = new SR(order);
-		weights.generateWeightsVector(7);
-		System.out.println(weights.getWeightsVector());
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		  
+		return datos;
+	    /*try { 
+	        // create FileWriter object with file as parameter 
+	        FileWriter outputfile = new FileWriter(Constantes.rutaFicheros + "test.csv"); 
+	  
+	        // create CSVWriter with '|' as separator 
+	        CSVWriter writer = new CSVWriter(outputfile, ',', 
+	                                         CSVWriter.NO_QUOTE_CHARACTER, 
+	                                         CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+	                                         CSVWriter.DEFAULT_LINE_END);
+	        
+	        // create a List which contains String array 
+	        List<String[]> data = new ArrayList<String[]>(); 
+	        data.add(new String[] { "aaa", "Class", "Marks" }); 
+	        data.add(new String[] { "bbb", "10", "620" }); 
+	        data.add(new String[] { "ccc", "10", "630" }); 
+	        writer.writeAll(data); 
+	  
+	        // closing writer connection 
+	        writer.close(); 
+	    } 
+	    catch (IOException e) { 
+	        // TODO Auto-generated catch block 
+	        e.printStackTrace(); 
+	    }*/
 		
-		return 0;
-		/*DatosProblemaDias datos = movieService.obtenerDatosDias(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		List<Double> pesos1 = new ArrayList<>();
-		pesos1.add(0.7);
-		pesos1.add(0.7);
-		pesos1.add(0.7);
-		pesos1.add(0.7);
-		pesos1.add(0.7);
-		pesos1.add(0.7);
-		pesos1.add(0.3);
-		GestionConexionesAeropuertosPorDia problema = new GestionConexionesAeropuertosPorDia(datos, pesos1);
-		List<String> bits = Utils.leerCSVproblema(18);
-		List<Double> bitsDouble = new ArrayList<>();
-		for(int i = 2; i < bits.size(); i++) {
-			bitsDouble.add(Double.valueOf(bits.get(i)));
-		}
-		Individuo ind = new Individuo(problema.getNumVariables(), 1);
-		ind.setVariables(bitsDouble);
-		//problema.evaluate2(ind);
-		System.out.println(problema.calcularValoresAdicionales(ind));*/
 		
-		/*bits = Utils.leerCSVproblema(16);
-		bitsDouble = new ArrayList<>();
-		for(int i = 2; i < bits.size(); i++) {
-			bitsDouble.add(Double.valueOf(bits.get(i)));
-		}
-		ind = new Individuo(problema.getNumVariables(), 1);
-		ind.setVariables(bitsDouble);
-		problema.evaluate2(ind);
-		System.out.println(ind);*/
-		//Utils.crearCSVVuelos_Cancelados(List.of(40, 60), "20");
 	}
 	
 	@CrossOrigin
