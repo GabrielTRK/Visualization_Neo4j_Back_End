@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.VisNeo4j.App.Algoritmo.BPSO;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
+import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.DynamicDecreasingIW;
+import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaWGenérica;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
@@ -66,7 +68,8 @@ class VisNeo4jController {
 		
 		Problema problema = new RRPS_PAT(datos, resEpi, preferencias);
 		
-		BPSOParams params = new BPSOParams(problema.getNumVariables()+2, 0.9, 1.5, 1.5, 1000);
+		InertiaWGenérica inertiaW = new DynamicDecreasingIW(0.9);
+		BPSOParams params = new BPSOParams(problema.getNumVariables()+2, inertiaW, 1.5, 1.5, 1000);
 		BPSO bpso = new BPSO(problema, params);
 		Individuo ind = bpso.ejecutarBPSO();
 		datos.rellenarConexionesFaltantes(ind);

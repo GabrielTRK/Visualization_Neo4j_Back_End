@@ -62,7 +62,7 @@ public class BPSO {
 			this.r1 = Utils.getRandNumber(0.0, 1.0);
 			this.r2 = Utils.getRandNumber(0.0, 1.0);
 			//TODO: Añadir metodo de actualizacion de inertiaW
-			this.params.setInertiaW(this.params.getInertiaW() * 0.9);
+			this.params.updateInertiaW();
 			//System.out.println(r1);
 			//System.out.println(r2);
 			//System.out.println(poblacionPartículas);
@@ -103,8 +103,8 @@ public class BPSO {
 					d1_2 = -this.params.getC2() * this.r2;
 					d0_2 = this.params.getC2() * this.r2;
 				}
-				v1 = this.params.getInertiaW() * this.v1.get(i).get(j) + d1_1 + d1_2;
-				v0 = this.params.getInertiaW() * this.v0.get(i).get(j) + d0_1 + d0_2;
+				v1 = this.params.getInertiaW().getInertiaW() * this.v1.get(i).get(j) + d1_1 + d1_2;
+				v0 = this.params.getInertiaW().getInertiaW() * this.v0.get(i).get(j) + d0_1 + d0_2;
 				this.v1.get(i).set(j, v1);
 				this.v0.get(i).set(j, v0);
 				

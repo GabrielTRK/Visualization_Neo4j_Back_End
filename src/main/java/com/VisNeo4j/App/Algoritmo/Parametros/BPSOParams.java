@@ -1,17 +1,17 @@
 package com.VisNeo4j.App.Algoritmo.Parametros;
 
 import com.VisNeo4j.App.Algoritmo.Parametros.CondicionParada.CPGenérica;
+import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaWGenérica;
 
 public class BPSOParams {
 	
 	private int numIndividuos;
-	private double inertiaW;
+	private InertiaWGenérica inertiaW;
 	private double c1;
 	private double c2;
-	//TODO: Añadir condicion de parada
 	private CPGenérica condicionParada;
 	
-	public BPSOParams(int numIndividuos, double inertiaW, double c1, double c2, int max_Num_Iteraciones) {
+	public BPSOParams(int numIndividuos, InertiaWGenérica inertiaW, double c1, double c2, int max_Num_Iteraciones) {
 		super();
 		this.numIndividuos = numIndividuos;
 		this.inertiaW = inertiaW;
@@ -32,12 +32,16 @@ public class BPSOParams {
 		this.numIndividuos = numIndividuos;
 	}
 
-	public double getInertiaW() {
+	public InertiaWGenérica getInertiaW() {
 		return inertiaW;
 	}
 
-	public void setInertiaW(double inertiaW) {
+	public void setInertiaW(InertiaWGenérica inertiaW) {
 		this.inertiaW = inertiaW;
+	}
+	
+	public void updateInertiaW() {
+		this.inertiaW.updateIntertiaW(this.getIteracionActual());
 	}
 
 	public double getC1() {
