@@ -1,8 +1,10 @@
-package com.VisNeo4j.App.Modelo;
+package com.VisNeo4j.App.Problemas.Datos;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.VisNeo4j.App.Modelo.Individuo;
 
 public class DatosRRPS_PAT {
 	

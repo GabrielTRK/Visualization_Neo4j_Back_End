@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.DatosProblema;
-import com.VisNeo4j.App.Modelo.DatosProblemaDias;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
+import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class GestionConexionesAeropuertosPorDia extends Problema {

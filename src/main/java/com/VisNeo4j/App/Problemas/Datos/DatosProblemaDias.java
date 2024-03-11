@@ -1,10 +1,12 @@
-package com.VisNeo4j.App.Modelo;
+package com.VisNeo4j.App.Problemas.Datos;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.VisNeo4j.App.Modelo.Individuo;
 
 public class DatosProblemaDias {
 	private int numDias;

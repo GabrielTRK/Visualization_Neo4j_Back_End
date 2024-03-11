@@ -12,13 +12,13 @@ import java.util.Random;
 import org.apache.tomcat.util.bcel.Const;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.DatosProblema;
-import com.VisNeo4j.App.Modelo.DatosProblemaDias;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
+import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
@@ -265,8 +265,6 @@ public class Utils {
 		    return frente;
 		}
 	}
-	
-	//TODO: Hacer métodos para leer y modificar ficheros de Individuos y Conexiones
 	
 	public static List<String> leerCSVconexion(int numFila) throws FileNotFoundException, IOException, CsvException {
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + Constantes.nombreFicheroConexiones + Constantes.extensionFichero))) {

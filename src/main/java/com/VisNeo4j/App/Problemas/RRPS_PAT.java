@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.DatosProblemaDias;
-import com.VisNeo4j.App.Modelo.DatosRRPS_PAT;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
+import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
 

@@ -1,4 +1,4 @@
-package com.VisNeo4j.App.Modelo;
+package com.VisNeo4j.App.Problemas.Datos;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
+import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class DatosProblema {

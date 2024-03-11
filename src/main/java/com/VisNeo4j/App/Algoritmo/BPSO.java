@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
 import com.VisNeo4j.App.Problemas.Problema;
@@ -13,11 +14,8 @@ import com.opencsv.exceptions.CsvException;
 
 public class BPSO {
 	
-	private int numIndividuos;
+	private BPSOParams params;
 	private Problema problema;
-	private double inertiaW;
-	private double c1;
-	private double c2;
 	private Poblacion poblacionPartículas;
 	private Poblacion poblacionPbest;
 	private Individuo Gbest;
@@ -25,41 +23,32 @@ public class BPSO {
 	private List<List<Double>> v1;
 	private double r1;
 	private double r2;
-	private int num_Iteraciones = 0;
-	private int Max_Num_Iteraciones = 0;
 	private List<Double> fitnessHist = new ArrayList<>();
 	
-	public BPSO (int numIndividuos, int Max_Num_Iteraciones, Problema problema, double inertiaW, double c1, double c2) throws FileNotFoundException, IOException, CsvException {
-		//this.numIndividuos = numIndividuos;
-		this.numIndividuos = problema.getNumVariables() + 2;
+	public BPSO (Problema problema, BPSOParams params) throws FileNotFoundException, IOException, CsvException {
+		this.params = params;
 		this.problema = problema;
-		this.inertiaW = inertiaW;
-		this.c1 = c1;
-		this.c2 = c2;
 		this.r1 = Utils.getRandNumber(0.0, 1.0);
 		this.r2 = Utils.getRandNumber(0.0, 1.0);
-		/*this.r1 = 0.39;
-		this.r2 = 0.18;*/
 		this.v0 = new ArrayList<>();
 		this.v1 = new ArrayList<>();
-		this.poblacionPartículas = new Poblacion(this.numIndividuos, this.problema);
+		this.poblacionPartículas = new Poblacion(this.params.getNumIndividuos(), this.problema);
 		//Inicializar población o partículas y calcular fitness
 		this.poblacionPartículas.generarPoblacionInicial(problema, false, 29);
 		//Calcular Pbest
-		this.poblacionPbest = new Poblacion(this.numIndividuos, problema);
+		this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
 		this.calcularPbests();
 		//Calcular Gbest
 		this.compararFitness();
 		
 		this.rellenarVelocidadesIniciales();
-		this.Max_Num_Iteraciones = Max_Num_Iteraciones;
 		
 		this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
-		System.out.println(this.num_Iteraciones + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
+		System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 	}
 	
 	public Individuo ejecutarBPSO() throws FileNotFoundException, IOException, CsvException {
-		while (!condicionParadaConseguida()){
+		while (!this.params.condicionParadaConseguida()){
 				//Calcular velocidades para cada bit de cada partícula, actualizar bits y fitness
 			this.calcularVelocidades();
 				
@@ -72,8 +61,8 @@ public class BPSO {
 			
 			this.r1 = Utils.getRandNumber(0.0, 1.0);
 			this.r2 = Utils.getRandNumber(0.0, 1.0);
-			this.num_Iteraciones++;
-			this.inertiaW = this.inertiaW * 0.9;
+			//TODO: Añadir metodo de actualizacion de inertiaW
+			this.params.setInertiaW(this.params.getInertiaW() * 0.9);
 			//System.out.println(r1);
 			//System.out.println(r2);
 			//System.out.println(poblacionPartículas);
@@ -82,7 +71,7 @@ public class BPSO {
 			//System.out.println(this.v0);
 			//System.out.println(this.v1);
 			//System.out.println();
-			System.out.println(this.num_Iteraciones + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
+			System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
 		}
 		//System.out.println(this.poblacionPartículas);
@@ -95,27 +84,27 @@ public class BPSO {
 	}
 	
 	public void calcularVelocidades() throws FileNotFoundException, IOException, CsvException {
-		for(int i = 0; i < this.numIndividuos; i++) {
+		for(int i = 0; i < this.params.getNumIndividuos(); i++) {
 			double vc;
 			for(int j = 0; j < this.problema.getNumVariables(); j++) {
 				double d1_1, d0_1, d1_2, d0_2;
 				double v1, v0;
 				if(this.poblacionPbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
-					d1_1 = this.c1 * this.r1;
-					d0_1 = -this.c1 * this.r1;
+					d1_1 = this.params.getC1() * this.r1;
+					d0_1 = -this.params.getC1() * this.r1;
 				}else {
-					d1_1 = -this.c1 * this.r1;
-					d0_1 = this.c1 * this.r1;
+					d1_1 = -this.params.getC1() * this.r1;
+					d0_1 = this.params.getC1() * this.r1;
 				}
 				if(this.Gbest.getVariables().get(j) == 1.0) {
-					d1_2 = this.c2 * this.r2;
-					d0_2 = -this.c2 * this.r2;
+					d1_2 = this.params.getC2() * this.r2;
+					d0_2 = -this.params.getC2() * this.r2;
 				}else {
-					d1_2 = -this.c2 * this.r2;
-					d0_2 = this.c2 * this.r2;
+					d1_2 = -this.params.getC2() * this.r2;
+					d0_2 = this.params.getC2() * this.r2;
 				}
-				v1 = this.inertiaW * this.v1.get(i).get(j) + d1_1 + d1_2;
-				v0 = this.inertiaW * this.v0.get(i).get(j) + d0_1 + d0_2;
+				v1 = this.params.getInertiaW() * this.v1.get(i).get(j) + d1_1 + d1_2;
+				v0 = this.params.getInertiaW() * this.v0.get(i).get(j) + d0_1 + d0_2;
 				this.v1.get(i).set(j, v1);
 				this.v0.get(i).set(j, v0);
 				
@@ -142,7 +131,7 @@ public class BPSO {
 		//2. Si se compara 1 solucion factible con otra infactible es mejor la factible
 		//3. Si se comparan 2 soluciones infactibles es mejor la que tenga menor Contraint Violation
 		Individuo Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(0));
-		for (int i = 1; i < this.numIndividuos; i++) {
+		for (int i = 1; i < this.params.getNumIndividuos(); i++) {
 			if(Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
 				if(this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
 						.get(this.problema.getNumObjetivos() - 1) 
@@ -184,7 +173,7 @@ public class BPSO {
 		//2. Si se compara 1 solucion factible con otra infactible es mejor la factible
 		//3. Si se comparan 2 soluciones infactibles es mejor la que tenga menor Contraint Violation
 		List<Individuo> listaPBests = new ArrayList<>();
-		for(int i = 0; i < this.numIndividuos; i++) {
+		for(int i = 0; i < this.params.getNumIndividuos(); i++) {
 			
 			if(this.poblacionPbest.getPoblacion().get(i).getObjetivos().size() == this.poblacionPartículas.getPoblacion().get(i).getObjetivos().size()) {
 				if(this.poblacionPartículas.getPoblacion().get(i).isFactible() && this.poblacionPbest.getPoblacion().get(i).isFactible()) {
@@ -223,7 +212,7 @@ public class BPSO {
 	}
 	
 	private void rellenarVelocidadesIniciales() {
-		for(int i = 0; i < this.numIndividuos; i++) {
+		for(int i = 0; i < this.params.getNumIndividuos(); i++) {
 			List<Double> v0_i = new ArrayList<>();
 			List<Double> v1_i = new ArrayList<>();
 			for(int j = 0; j < this.problema.getNumVariables(); j++) {
@@ -233,15 +222,6 @@ public class BPSO {
 			this.v0.add(v0_i);
 			this.v1.add(v1_i);
 		}
-	}
-	
-	private boolean condicionParadaConseguida () {
-		if(this.num_Iteraciones >= this.Max_Num_Iteraciones) {
-			return true;
-		}else {
-			return false;
-		}
-		
 	}
 
 }
