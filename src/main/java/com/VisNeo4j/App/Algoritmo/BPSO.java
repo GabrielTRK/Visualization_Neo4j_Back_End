@@ -48,7 +48,7 @@ public class BPSO {
 	}
 	
 	public Individuo ejecutarBPSO() throws FileNotFoundException, IOException, CsvException {
-		while (!this.params.condicionParadaConseguida()){
+		while (!this.params.condicionParadaConseguida(this.poblacionPartículas, this.Gbest)){
 				//Calcular velocidades para cada bit de cada partícula, actualizar bits y fitness
 			this.calcularVelocidades();
 				
@@ -61,7 +61,7 @@ public class BPSO {
 			
 			this.r1 = Utils.getRandNumber(0.0, 1.0);
 			this.r2 = Utils.getRandNumber(0.0, 1.0);
-			//TODO: Añadir metodo de actualizacion de inertiaW
+			
 			this.params.updateInertiaW();
 			//System.out.println(r1);
 			//System.out.println(r2);
@@ -125,7 +125,7 @@ public class BPSO {
 		}
 	}
 	
-	private void compararFitness() { 
+	private void compararFitness() {
 		//Al comparar 2 soluciones:
 		//1. Si se comparan 2 soluciones factibles es mejor la que tenga mejor Fitness
 		//2. Si se compara 1 solucion factible con otra infactible es mejor la factible

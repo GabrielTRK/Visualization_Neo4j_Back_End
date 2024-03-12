@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.VisNeo4j.App.Algoritmo.BPSO;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
-import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.DynamicDecreasingIW;
-import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaWGenérica;
+import com.VisNeo4j.App.Algoritmo.Parametros.CondicionParada.CP;
+import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
+import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
@@ -52,24 +53,29 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/optimize")
-	public void runOptimization(@RequestParam("dia_inicial") String dia_I, 
-			@RequestParam("dia_final") String dia_F,
-			@RequestParam("mes_inicial") String mes_I,
-			@RequestParam("mes_final") String mes_F,
-			@RequestParam("año_inicial") String año_I,
-			@RequestParam("año_final") String año_F,
-			@RequestParam("iteraciones") int num_Iteraciones,
+	public void runOptimization(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F,
+			
+			@RequestParam("iteraciones") int numIteraciones,
+			@RequestParam("numIndividuos") int numIndividuos,
+			@RequestParam("inertiaW") double inertiaW,
+			@RequestParam("c1") double c1,
+			@RequestParam("c2") double c2,
+			@RequestParam("w") double w,
+			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
 		DMPreferences preferencias = new SR(order);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
 		Problema problema = new RRPS_PAT(datos, resEpi, preferencias);
 		
-		InertiaWGenérica inertiaW = new DynamicDecreasingIW(0.9);
-		BPSOParams params = new BPSOParams(problema.getNumVariables()+2, inertiaW, 1.5, 1.5, 1000);
+		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
+				numIteraciones, w, p, Constantes.nombreCPMaxDistQuick, 
+				Constantes.nombreIWDyanamicDecreasing);
+		
 		BPSO bpso = new BPSO(problema, params);
 		Individuo ind = bpso.ejecutarBPSO();
 		datos.rellenarConexionesFaltantes(ind);
@@ -91,14 +97,10 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/testEva")
-	public DatosRRPS_PAT testEvaluacion(@RequestParam("dia_inicial") String dia_I, 
-			@RequestParam("dia_final") String dia_F,
-			@RequestParam("mes_inicial") String mes_I,
-			@RequestParam("mes_final") String mes_F,
-			@RequestParam("año_inicial") String año_I,
-			@RequestParam("año_final") String año_F,
+	public DatosRRPS_PAT testEvaluacion(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
 		DMPreferences preferencias = new SR(order);
 		preferencias.generateWeightsVector(order.getOrder().size());
@@ -119,14 +121,10 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
-	@GetMapping("/datosF")
-	public DatosRRPS_PAT obtenerDatosFichero(@RequestParam("dia_inicial") String dia_I, 
-			@RequestParam("dia_final") String dia_F,
-			@RequestParam("mes_inicial") String mes_I,
-			@RequestParam("mes_final") String mes_F,
-			@RequestParam("año_inicial") String año_I,
-			@RequestParam("año_final") String año_F) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+	@GetMapping("/data")
+	public DatosRRPS_PAT obtenerDatos(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
 		return datos;
 	}
@@ -215,17 +213,14 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/test")
-	public DatosRRPS_PAT test(@RequestParam("dia_inicial") String dia_I, 
-			@RequestParam("dia_final") String dia_F,
-			@RequestParam("mes_inicial") String mes_I,
-			@RequestParam("mes_final") String mes_F,
-			@RequestParam("año_inicial") String año_I,
-			@RequestParam("año_final") String año_F,
+	public void test(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		  
-		return datos;
+		//DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
+		  System.out.println(fecha_I);
+		  System.out.println(fecha_F);
+		//return datos;
 	}
 	
 	@CrossOrigin

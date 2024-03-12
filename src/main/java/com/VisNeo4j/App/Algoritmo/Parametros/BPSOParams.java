@@ -1,27 +1,30 @@
 package com.VisNeo4j.App.Algoritmo.Parametros;
 
-import com.VisNeo4j.App.Algoritmo.Parametros.CondicionParada.CPGenérica;
-import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaWGenérica;
+import com.VisNeo4j.App.Algoritmo.Parametros.CondicionParada.CP;
+import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
+import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Poblacion;
 
 public class BPSOParams {
 	
 	private int numIndividuos;
-	private InertiaWGenérica inertiaW;
+	private InertiaW inertiaW;
 	private double c1;
 	private double c2;
-	private CPGenérica condicionParada;
+	private CP condicionParada;
 	
-	public BPSOParams(int numIndividuos, InertiaWGenérica inertiaW, double c1, double c2, int max_Num_Iteraciones) {
+	public BPSOParams(int numIndividuos, double inertiaW, double c1, double c2, int maxIteraciones, 
+			double m, double p, String CPMethod, String IWMethod) {
 		super();
 		this.numIndividuos = numIndividuos;
-		this.inertiaW = inertiaW;
+		this.inertiaW = new InertiaW(inertiaW, IWMethod);
 		this.c1 = c1;
 		this.c2 = c2;
-		this.condicionParada = new CPGenérica(max_Num_Iteraciones, 0);
+		this.condicionParada = new CP(maxIteraciones, m, p, CPMethod);
 	}
 	
-	public boolean condicionParadaConseguida() {
-		return this.condicionParada.condicionParadaConseguida();
+	public boolean condicionParadaConseguida(Poblacion particulas, Individuo GBest) {
+		return this.condicionParada.condicionParadaConseguida(particulas, GBest);
 	}
 
 	public int getNumIndividuos() {
@@ -32,11 +35,11 @@ public class BPSOParams {
 		this.numIndividuos = numIndividuos;
 	}
 
-	public InertiaWGenérica getInertiaW() {
+	public InertiaW getInertiaW() {
 		return inertiaW;
 	}
 
-	public void setInertiaW(InertiaWGenérica inertiaW) {
+	public void setInertiaW(InertiaW inertiaW) {
 		this.inertiaW = inertiaW;
 	}
 	

@@ -41,12 +41,8 @@ public class VisNeo4jService {
 		this.databaseSelectionProvider = databaseSelectionProvider;
 	}
 	
-	public DatosRRPS_PAT obtenerDatosRRPS_PAT(String dia_I, String dia_F, String mes_I, String mes_F,
-	String año_I, String año_F) throws ParseException, IOException {
+	public DatosRRPS_PAT obtenerDatosRRPS_PAT(String fecha_I, String fecha_F) throws ParseException, IOException {
 	List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
-		
-		String fecha_I = año_I + "-" + mes_I + "-" + dia_I;
-		String fecha_F = año_F + "-" + mes_F + "-" + dia_F;
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		

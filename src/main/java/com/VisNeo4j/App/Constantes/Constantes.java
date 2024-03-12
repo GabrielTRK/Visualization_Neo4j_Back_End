@@ -58,5 +58,10 @@ public class Constantes {
     public static final String VuelosDesdeOrigenDBField = "VuelosDesdeOrigen";
     public static final String areaInfDBField = "areaInf";
     
+	public static final String nombreIWGenerica = "IWGenerica";
+    public static final String nombreIWDyanamicDecreasing = "DynamicDecreasingIW";
+    public static final String nombreCPGenerica = "maxIteraciones";
+    public static final String nombreCPMaxDistQuick = "MaxDistQuick";
+    
     
 }
