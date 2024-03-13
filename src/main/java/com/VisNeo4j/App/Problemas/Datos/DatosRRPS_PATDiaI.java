@@ -27,43 +27,34 @@ public class DatosRRPS_PATDiaI {
 	private List<Double> dineroMedioT;
 	private List<Double> dineroMedioN;
 	
-	//Cálculo pérdida de ingresos por turismo
 	
 	//Cálculo homogeneidad pasajeros aerolineas
 	private List<String> companyias;
-	private Map<List<String>, Integer> pasajerosCompanyia;
 	
-	
-	//Cálculo homogeneidad ingresos turismo Aeropuertos
-	private Map<String, Double> ingresosTAeropuertoTotal = new HashMap<>();
 	
 	//Calculo pérdida de ingresos por tasas aeropoertuarias
 	private List<Double> tasas;
-	private List<String> AeropuertosDestino;
+	
 	
 	//Cálculo homogeneidad pérdida de ingresos entre aeropuertos destino mediante las tasas
-	private Map<String, Double> tasasPorAeropuertoDestino;
 	private List<String> areasInf;
 	
 	//Conectividad
-	private List<String> AeropuertosOrigen;
+	
 	private Map<List<String>, Integer> vuelosEntrantesConexion;
 	private List<Integer> vuelosEntrantesConexionOrdenado = new ArrayList<>();
 	private Map<String, Integer> vuelosSalientesAEspanya;
 	private Map<String, Integer> vuelosSalientes;
-	private Map<String, Double> conectividadesAeropuertosOrigen;
-	private Map<String, Set<String>> listaConexionesSalidas;
 	
 	private List<Double> conectividades;
 	
 	public DatosRRPS_PATDiaI(List<Double> riesgos, List<List<String>> conexiones, List<List<String>> conexionesTotal, 
 			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
-			List<String> companyias, List<String> companyiasTotal, Map<List<String>, Integer> pasajerosCompanyia,
-			List<String> AeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> AeropuertosDestino, 
-			List<String> areasInf, Map<String, Integer> vuelosSalientes,
-			Map<List<String>, Integer> vuelosEntrantesConexion, Map<String, Integer> vuelosSalientesAEspanya, 
-			Map<String, Double> conectividadesAeropuertosOrigen, List<Double> conectividades, List<Double> tasas,
-			Map<String, Double> tasasPorAeropuertoDestino, List<Integer> vuelosSalientesDeOrigen){
+			List<String> companyias, List<String> areasInf, Map<String, Integer> vuelosSalientes,
+			Map<List<String>, Integer> vuelosEntrantesConexion, 
+			Map<String, Integer> vuelosSalientesAEspanya,  
+			List<Double> conectividades, List<Double> tasas, 
+			List<Integer> vuelosSalientesDeOrigen){
 		
 		this.conexiones = conexiones;
 		this.conexionesTotal = conexionesTotal;
@@ -76,9 +67,9 @@ public class DatosRRPS_PATDiaI {
 		
 		this.vuelosEntrantesConexion = vuelosEntrantesConexion;
 		this.vuelosSalientesAEspanya = vuelosSalientesAEspanya;
-		this.conectividadesAeropuertosOrigen = conectividadesAeropuertosOrigen;
+		
 		this.vuelosSalientes = vuelosSalientes;
-		this.AeropuertosOrigen = AeropuertosOrigen;
+		
 		this.conectividades = conectividades;
 		
 		this.companyias = companyias;
@@ -185,52 +176,12 @@ public class DatosRRPS_PATDiaI {
 		this.companyias = companyias;
 	}
 
-	public Map<List<String>, Integer> getPasajerosCompanyia() {
-		return pasajerosCompanyia;
-	}
-
-	public void setPasajerosCompanyia(Map<List<String>, Integer> pasajerosCompanyia) {
-		this.pasajerosCompanyia = pasajerosCompanyia;
-	}
-
-	public Map<String, Double> getIngresosTAeropuertoTotal() {
-		return ingresosTAeropuertoTotal;
-	}
-
-	public void setIngresosTAeropuertoTotal(Map<String, Double> ingresosTAeropuertoTotal) {
-		this.ingresosTAeropuertoTotal = ingresosTAeropuertoTotal;
-	}
-
 	public List<Double> getTasas() {
 		return tasas;
 	}
 
 	public void setTasas(List<Double> tasas) {
 		this.tasas = tasas;
-	}
-
-	public List<String> getAeropuertosDestino() {
-		return AeropuertosDestino;
-	}
-
-	public void setAeropuertosDestino(List<String> aeropuertosDestino) {
-		AeropuertosDestino = aeropuertosDestino;
-	}
-
-	public Map<String, Double> getTasasPorAeropuertoDestino() {
-		return tasasPorAeropuertoDestino;
-	}
-
-	public void setTasasPorAeropuertoDestino(Map<String, Double> tasasPorAeropuertoDestino) {
-		this.tasasPorAeropuertoDestino = tasasPorAeropuertoDestino;
-	}
-
-	public List<String> getAeropuertosOrigen() {
-		return AeropuertosOrigen;
-	}
-
-	public void setAeropuertosOrigen(List<String> aeropuertosOrigen) {
-		AeropuertosOrigen = aeropuertosOrigen;
 	}
 
 	public Map<List<String>, Integer> getVuelosEntrantesConexion() {
@@ -255,22 +206,6 @@ public class DatosRRPS_PATDiaI {
 
 	public void setVuelosSalientes(Map<String, Integer> vuelosSalientes) {
 		this.vuelosSalientes = vuelosSalientes;
-	}
-
-	public Map<String, Double> getConectividadesAeropuertosOrigen() {
-		return conectividadesAeropuertosOrigen;
-	}
-
-	public void setConectividadesAeropuertosOrigen(Map<String, Double> conectividadesAeropuertosOrigen) {
-		this.conectividadesAeropuertosOrigen = conectividadesAeropuertosOrigen;
-	}
-
-	public Map<String, Set<String>> getListaConexionesSalidas() {
-		return listaConexionesSalidas;
-	}
-
-	public void setListaConexionesSalidas(Map<String, Set<String>> listaConexionesSalidas) {
-		this.listaConexionesSalidas = listaConexionesSalidas;
 	}
 
 	public List<Integer> getVuelosEntrantesConexionOrdenado() {

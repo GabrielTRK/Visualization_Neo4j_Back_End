@@ -78,7 +78,7 @@ public class VisNeo4jService {
 	    }
 	    
 	    
-		return new DatosRRPS_PAT(numDias, sdf.format(fechaInicio), sdf.format(fechaFinal), datosPorDia);
+		return new DatosRRPS_PAT(numDias+1, sdf.format(fechaInicio), sdf.format(fechaFinal), datosPorDia);
 	}
 	
 	public DatosRRPS_PATDiaI obtenerDatosRRPS_PATDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
@@ -90,55 +90,45 @@ public class VisNeo4jService {
 		List<Double> dineroMedioT = new ArrayList<>();
 		List<Double> dineroMedioN = new ArrayList<>();
 		List<String> companyias = new ArrayList<>();
-		List<String> companyiasTotal = new ArrayList<>();
-		Map<List<String>, Integer> pasajerosCompanyia = new HashMap<>();//
-		List<String> aeropuertosOrigen = new ArrayList<>();
-		List<String> aeropuertosOrigenTotal = new ArrayList<>();
-		List<String> aeropuertosDestino = new ArrayList<>();
-		List<String> aeropuertosDestinoTotal = new ArrayList<>();
+		List<String> areasInf = new ArrayList<>();
 		Map<String, Integer> vuelosSalientes = new HashMap<>();
-		Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();//
+		Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();
 		Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
-		Map<String, Double> conectividadesAeropuertosOrigen = new HashMap<>();//
 		List<Double> conectividades = new ArrayList<>();
 		List<Double> tasasAeropuertos = new ArrayList<>();
-		Map<String, Double> tasasPorAeropuertoDestino = new HashMap<>();//
 		List<Integer> vuelosSalientesDeOrigen = new ArrayList<>();
 		
 		File file = new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero);
 		
 		if (file.exists()) {
-			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, conexiones, conexionesTotal, pasajeros, dineroMedioT, dineroMedioN, companyias, companyiasTotal, pasajerosCompanyia, aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, aeropuertosDestinoTotal, conectividadesAeropuertosOrigen, conectividades, vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, tasasPorAeropuertoDestino, vuelosSalientes, vuelosSalientesDeOrigen);
+			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, conexiones, conexionesTotal, 
+					pasajeros, dineroMedioT, dineroMedioN, companyias, areasInf, conectividades, 
+					vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, 
+					vuelosSalientes, vuelosSalientesDeOrigen);
 		}
         else {
         	obtenerDatosRRPS_PAT_BBDD_DiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
-        			dineroMedioT, dineroMedioN, companyias, companyiasTotal, pasajerosCompanyia, 
-        			aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, 
-        			aeropuertosDestinoTotal, conectividadesAeropuertosOrigen, conectividades, 
-        			vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, tasasPorAeropuertoDestino, 
-        			vuelosSalientes, vuelosSalientesDeOrigen, dia_I, dia_F, mes_I, mes_F, 
-        			año_I, año_F, ruta);
+        			dineroMedioT, dineroMedioN, companyias, areasInf, conectividades, 
+        			vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, 
+        			vuelosSalientes, vuelosSalientesDeOrigen, 
+        			dia_I, dia_F, mes_I, mes_F, año_I, año_F, ruta);
         }
 		
-		
-		
 		return new DatosRRPS_PATDiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
-				dineroMedioT, dineroMedioN, companyias, companyiasTotal, pasajerosCompanyia, 
-				aeropuertosOrigen, aeropuertosOrigenTotal, aeropuertosDestino, 
-				aeropuertosDestinoTotal, vuelosSalientes, vuelosEntrantesConexion, vuelosSalientesAEspanya, 
-				conectividadesAeropuertosOrigen, conectividades, tasasAeropuertos, 
-				tasasPorAeropuertoDestino, vuelosSalientesDeOrigen);
+				dineroMedioT, dineroMedioN, companyias, areasInf, 
+				vuelosSalientes, vuelosEntrantesConexion, vuelosSalientesAEspanya,  
+				conectividades, tasasAeropuertos, vuelosSalientesDeOrigen);
 	}
 	
 	public void obtenerDatosRRPS_PAT_BBDD_DiaI(List<Double> riesgos, List<List<String>> conexiones,
-			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
-			List<String> companyias, List<String> companyiasTotal, Map<List<String>, Integer> pasajerosCompanyia, 
-			List<String> aeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> aeropuertosDestino, List<String> areasInf,
-			Map<String, Double> conectividadesAeropuertosOrigen, List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion, 
+			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT, 
+			List<Double> dineroMedioN, List<String> companyias, 
+			List<String> areasInf, List<Double> conectividades, 
+			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
-			Map<String, Double> tasasPorAeropuertoDestino, Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen,
-			String dia_I, String dia_F, String mes_I, String mes_F,
-			String año_I, String año_F, String ruta) throws IOException {
+			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen, 
+			String dia_I, String dia_F, String mes_I, 
+			String mes_F, String año_I, String año_F, String ruta) throws IOException {
 		
 		String fecha_I = "\"" + año_I + "-" + mes_I + "-" + dia_I + "\"";
 		String fecha_F = "\"" + año_F + "-" + mes_F + "-" + dia_F + "\"";
@@ -163,7 +153,7 @@ public class VisNeo4jService {
 		try (Session session = sessionFor(database())) {
 			var records = session.readTransaction(tx -> tx.run(""
 				+ " match (a:Airport)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->(ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
-				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0" 
+				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0 and a2.weightFee > 0.0" 
 				+ " with f,a,a2 order by a.iata, a2.iata "
 				
 				+ " call{ "
@@ -204,19 +194,8 @@ public class VisNeo4jService {
 				}else {
 					vuelosSalientesAEspanya.put(origen, 1 + vuelosSalientesAEspanya.get(origen));
 				}
-                if(!aeropuertosOrigen.contains(origen)) {
-					aeropuertosOrigen.add(origen);
-					if(conectividad == -1.0) {
-						conectividadesAeropuertosOrigen.put(origen,0.0);
-					}else {
-						conectividadesAeropuertosOrigen.put(origen,conectividad);
-					}
-				}
                 if(!vuelosSalientes.keySet().contains(origen)) {
                 	vuelosSalientes.put(origen, VuelosDesdeOrigen);
-                }
-                if(!aeropuertosDestino.contains(destino)) {
-                	aeropuertosDestino.add(destino);
                 }
 				
 				conexionesTotal.add(List.of(origen, destino));

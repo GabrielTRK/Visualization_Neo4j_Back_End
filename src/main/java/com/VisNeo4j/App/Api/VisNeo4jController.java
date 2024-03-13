@@ -28,7 +28,6 @@ import com.VisNeo4j.App.Problemas.SubVuelos;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
-import com.VisNeo4j.App.QDMP.SR;
 import com.VisNeo4j.App.Service.VisNeo4jService;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
@@ -67,7 +66,7 @@ class VisNeo4jController {
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		DMPreferences preferencias = new SR(order);
+		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
 		Problema problema = new RRPS_PAT(datos, resEpi, preferencias);
@@ -102,16 +101,16 @@ class VisNeo4jController {
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		DMPreferences preferencias = new SR(order);
+		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
 		Problema problema = new RRPS_PAT(datos, 0.75, preferencias);
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		problema.inicializarValores(ind);
 		problema.inicializarValores(ind);
+		/*problema.inicializarValores(ind);
 		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);*/
 		
 		problema.evaluate(ind);
 		System.out.println(ind);

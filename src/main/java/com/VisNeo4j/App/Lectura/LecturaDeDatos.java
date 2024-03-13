@@ -561,13 +561,13 @@ public class LecturaDeDatos {
         }
 	}
 	
-	public static void leerDatosRRPS_PATDiaI(String ruta, List<Double> riesgos, List<List<String>> conexiones,
-			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
-			List<String> companyias, List<String> companyiasTotal, Map<List<String>, Integer> pasajerosCompanyia, 
-			List<String> aeropuertosOrigen, List<String> aeropuertosOrigenTotal, List<String> aeropuertosDestino, List<String> areasInf,
-			Map<String, Double> conectividadesAeropuertosOrigen, List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion, 
+	public static void leerDatosRRPS_PATDiaI(String ruta, List<Double> riesgos, 
+			List<List<String>> conexiones, List<List<String>> conexionesTotal, 
+			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
+			List<String> companyias, List<String> areasInf, List<Double> conectividades, 
+			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
-			Map<String, Double> tasasPorAeropuertoDestino, Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen) {
+			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen) {
 		try {
             Scanner scanner = new Scanner(new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero));
             //Comma as a delimiter
@@ -593,19 +593,8 @@ public class LecturaDeDatos {
 				}else {
 					vuelosSalientesAEspanya.put(split[7], 1 + vuelosSalientesAEspanya.get(split[7]));
 				}
-                if(!aeropuertosOrigen.contains(split[7])) {
-					aeropuertosOrigen.add(split[7]);
-					if(Double.parseDouble(split[3]) == -1.0) {
-						conectividadesAeropuertosOrigen.put(split[7],0.0);
-					}else {
-						conectividadesAeropuertosOrigen.put(split[7],Double.parseDouble(split[3]));
-					}
-				}
                 if(!vuelosSalientes.keySet().contains(split[7])) {
                 	vuelosSalientes.put(split[7], Integer.parseInt(split[9]));
-                }
-                if(!aeropuertosDestino.contains(split[8])) {
-                	aeropuertosDestino.add(split[8]);
                 }
                 
                 conexionesTotal.add(List.of(split[7], split[8]));

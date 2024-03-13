@@ -11,8 +11,6 @@ public class DatosRRPS_PAT {
 	private int numDias;
 	private String fechaInicio;
 	private String fechaFinal;
-	private int numPasajerosTotales = 0;
-	private int numVuelosTotales = 0;
 	
 	private List<DatosRRPS_PATDiaI> datosPorDia;
 	private List<List<String>> conexionesTotales;
@@ -43,16 +41,6 @@ public class DatosRRPS_PAT {
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			conexionesTotalesSeparadas.addAll(this.datosPorDia.get(i).getConexionesTotal());
 		}
-		for(int i = 0; i < this.datosPorDia.size(); i++) {
-			for(int j = 0; j < this.datosPorDia.get(i).getPasajeros().size(); j++) {
-				numPasajerosTotales += this.datosPorDia.get(i).getPasajeros().get(j);
-			}
-		}
-		/*for(int i = 0; i < this.datosPorDia.size(); i++) {
-			for(int j = 0; j < this.datosPorDia.get(i).getConexiones().size(); j++) {
-				numVuelosTotales += this.datosPorDia.get(i).getVuelosEntrantesConexion().get(this.datosPorDia.get(i).getConexiones().get(i));
-			}
-		}*/
 		this.riesgos = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			riesgos.addAll(this.datosPorDia.get(i).getRiesgos());
@@ -140,22 +128,6 @@ public class DatosRRPS_PAT {
 
 	public void setFechaFinal(String fechaFinal) {
 		this.fechaFinal = fechaFinal;
-	}
-
-	public int getNumPasajerosTotales() {
-		return numPasajerosTotales;
-	}
-
-	public void setNumPasajerosTotales(int numPasajerosTotales) {
-		this.numPasajerosTotales = numPasajerosTotales;
-	}
-
-	public int getNumVuelosTotales() {
-		return numVuelosTotales;
-	}
-
-	public void setNumVuelosTotales(int numVuelosTotales) {
-		this.numVuelosTotales = numVuelosTotales;
 	}
 
 	public List<DatosRRPS_PATDiaI> getDatosPorDia() {

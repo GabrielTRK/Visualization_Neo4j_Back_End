@@ -253,7 +253,7 @@ public class RRPS_PAT extends Problema{
 		double ingresoPorAerDestMedia = 0.0;
 		for(String aeropuerto : ingresosPorAerDest.keySet()) {
 			if(ingresosPorAerDest.get(aeropuerto).get(1) == 0.0) {
-				ingresoPorAerDestMedia += 0.0;
+				ingresoPorAerDestMedia += 1.0;
 			}else {
 				ingresoPorAerDestMedia += 1 - (ingresosPorAerDest.get(aeropuerto).get(0) /
 						ingresosPorAerDest.get(aeropuerto).get(1));
@@ -264,7 +264,7 @@ public class RRPS_PAT extends Problema{
 		double ingresoPorAerDestDesvTip = 0.0;
 		for(String aeropuerto : ingresosPorAerDest.keySet()) {
 			if(ingresosPorAerDest.get(aeropuerto).get(1) == 0.0) {
-				ingresoPorAerDestDesvTip += Math.pow(0.0 - ingresoPorAerDestMedia,2);
+				ingresoPorAerDestDesvTip += Math.pow(1.0 - ingresoPorAerDestMedia,2);
 			}else {
 				ingresoPorAerDestDesvTip += Math.pow((1 - ingresosPorAerDest.get(aeropuerto).get(0) / ingresosPorAerDest.get(aeropuerto).get(1)) - ingresoPorAerDestMedia,2);
 			}
@@ -297,7 +297,19 @@ public class RRPS_PAT extends Problema{
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for (int i = 0; i < super.getNumVariables(); i++) {
 
-			if (this.numInicializaciones < super.getNumVariables()) {
+			if(this.numInicializaciones == 0) {
+				valores.add(i, 0.0);
+			}else if(this.numInicializaciones == 1) {
+				valores.add(i, 1.0);
+			}else {
+				if (i == this.numInicializaciones-2) {
+					valores.add(i, 1.0);
+				} else {
+					valores.add(i, 0.0);
+				}
+			}
+			
+			/*if (this.numInicializaciones < super.getNumVariables()) {
 				if (i == this.numInicializaciones) {
 					valores.add(i, 1.0);
 				} else {
@@ -307,7 +319,7 @@ public class RRPS_PAT extends Problema{
 				valores.add(i, 0.0);
 			} else if (this.numInicializaciones == super.getNumVariables() + 1) {
 				valores.add(i, 1.0);
-			}
+			}*/
 
 		}
 		this.numInicializaciones++;
