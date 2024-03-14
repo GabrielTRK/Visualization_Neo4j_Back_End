@@ -77,4 +77,28 @@ public class CP {
 		this.numIteracionesActual = numIteracionesActual;
 	}
 
+	public double getM() {
+		return m;
+	}
+
+	public void setM(double m) {
+		this.m = m;
+	}
+
+	public double getP() {
+		return p;
+	}
+
+	public void setP(double p) {
+		this.p = p;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
+
 }

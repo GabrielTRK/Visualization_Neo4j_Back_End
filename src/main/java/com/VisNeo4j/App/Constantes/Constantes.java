@@ -11,6 +11,8 @@ public class Constantes {
 	public static final String rutaDatosPorDia = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\datos_por_dia\\";
 	public static final String rutaFicherosFitness = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Fitness\\";
 	public static final String rutaFicherosObjetivos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Objetivos\\";
+	public static final String rutaFicherosParams = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Parámetros\\";
+	public static final String rutaFicherosPreferencias = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Preferencias\\";
 	
 	public static final String extensionFichero = ".csv";
     public static final DateFormat formatoFecha = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -66,5 +68,11 @@ public class Constantes {
     public static final String nombreCPGenerica = "maxIteraciones";
     public static final String nombreCPMaxDistQuick = "MaxDistQuick";
     
-    
+    public static final String nombreParamNumIndividuos = "numIndividuos";
+    public static final String nombreParamInertiaW = "inertiaW";
+    public static final String nombreParamC1 = "c1";
+    public static final String nombreParamC2 = "c2";
+    public static final String nombreParamCPNumIter = "numIteraciones";
+    public static final String nombreParamCPM = "m";
+    public static final String nombreParamCPP = "p";
 }

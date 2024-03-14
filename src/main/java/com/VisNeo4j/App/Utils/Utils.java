@@ -11,6 +11,7 @@ import java.util.Random;
 
 import org.apache.tomcat.util.bcel.Const;
 
+import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
@@ -21,6 +22,7 @@ import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
+import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
@@ -658,6 +660,74 @@ public class Utils {
 			}
 		}
 		return iguales;
+	}
+	
+	public static String crearCSVParams(BPSOParams params, String nombreFichero) throws IOException{
+		String fileName = nombreFichero + Constantes.extensionFichero;
+			List<String[]> lista = new ArrayList<>();
+			String[] paramI = new String[2];
+			paramI[0] = Constantes.nombreParamNumIndividuos;
+			paramI[1] = String.valueOf(params.getNumIndividuos());
+			lista.add(paramI);
+			
+			paramI = new String[2];
+			paramI[0] = Constantes.nombreParamInertiaW;
+			paramI[1] = String.valueOf(params.getInertiaW().getInertiaW());
+			lista.add(paramI);
+			
+			paramI = new String[2];
+			paramI[0] = Constantes.nombreParamC1;
+			paramI[1] = String.valueOf(params.getC1());
+			lista.add(paramI);
+			
+			paramI = new String[2];
+			paramI[0] = Constantes.nombreParamC2;
+			paramI[1] = String.valueOf(params.getC2());
+			lista.add(paramI);
+			
+			paramI = new String[2];
+			if(params.getCondicionParada().getMethod().equals(Constantes.nombreCPGenerica)) {
+				paramI[0] = Constantes.nombreParamCPNumIter;
+				paramI[1] = String.valueOf(params.getMax_Num_Iteraciones());
+				lista.add(paramI);
+			}else if(params.getCondicionParada().getMethod().equals(Constantes.nombreCPMaxDistQuick)){
+				paramI[0] = Constantes.nombreParamCPM;
+				paramI[1] = String.valueOf(params.getCondicionParada().getM());
+				lista.add(paramI);
+				paramI = new String[2];
+				paramI[0] = Constantes.nombreParamCPP;
+				paramI[1] = String.valueOf(params.getCondicionParada().getP());
+				lista.add(paramI);
+			}
+			
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosParams + fileName), ',', 
+                    CSVWriter.NO_QUOTE_CHARACTER, 
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                    CSVWriter.DEFAULT_LINE_END)) {
+		            writer.writeAll(lista);
+			}
+			return fileName;
+		
+	}
+	
+	public static String crearCSVPref(DMPreferences preferencias, String nombreFichero) throws IOException{
+		String fileName = nombreFichero + Constantes.extensionFichero;
+			List<String[]> lista = new ArrayList<>();
+			
+			for(int i = 0; i < preferencias.getOrder().getOrder().size(); i++) {
+				String[] objI = new String[1];
+				objI[0] = String.valueOf(preferencias.getOrder().getOrder().get(i));
+				lista.add(objI);
+			}
+			
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosPreferencias + fileName), ',', 
+                    CSVWriter.NO_QUOTE_CHARACTER, 
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                    CSVWriter.DEFAULT_LINE_END)) {
+		            writer.writeAll(lista);
+			}
+			return fileName;
+		
 	}
 	
 	public static String crearCSVObjetivos(List<Double> obj, List<Double> res, String nombreFichero) throws IOException {

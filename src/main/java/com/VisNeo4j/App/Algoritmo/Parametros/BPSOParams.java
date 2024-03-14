@@ -75,4 +75,12 @@ public class BPSOParams {
 		return this.condicionParada.getNumIteracionesActual();
 	}
 
+	public CP getCondicionParada() {
+		return condicionParada;
+	}
+
+	public void setCondicionParada(CP condicionParada) {
+		this.condicionParada = condicionParada;
+	}
+
 }

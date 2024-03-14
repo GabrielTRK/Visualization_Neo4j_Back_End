@@ -235,7 +235,8 @@ public class VisNeo4jService {
 		String fila = Utils.modificarCSVproblemaGestionConexionesAeropuertos(ind, datos);
 		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
 		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
-		//TODO: guardar parametros y preferencias
+		Utils.crearCSVParams(params, fila);
+		Utils.crearCSVPref(preferencias, fila);
 	}
 	
 
