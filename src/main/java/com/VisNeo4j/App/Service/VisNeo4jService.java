@@ -6,13 +6,17 @@ import org.neo4j.driver.SessionConfig;
 import org.springframework.data.neo4j.core.DatabaseSelectionProvider;
 import org.springframework.stereotype.Service;
 
+import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
+import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
+import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.File;
 import java.io.IOException;
@@ -226,6 +230,14 @@ public class VisNeo4jService {
 		}
 		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
 	}
+	
+	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, BPSOParams params, DMPreferences preferencias) throws IOException, CsvException {
+		String fila = Utils.modificarCSVproblemaGestionConexionesAeropuertos(ind, datos);
+		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
+		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
+		//TODO: guardar parametros y preferencias
+	}
+	
 
 	private Session sessionFor(String database) {
 		if (database == null) {

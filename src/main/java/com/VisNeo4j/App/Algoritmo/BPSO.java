@@ -76,7 +76,7 @@ public class BPSO {
 		}
 		//System.out.println(this.poblacionPartículas);
 		//System.out.println(this.poblacionPbest);
-		System.out.println(this.Gbest);
+		
 		//System.out.println("Num conexiones: " + problema.getNumVariables());
 		System.out.println("fin");
 		this.Gbest.setFitnessHist(fitnessHist);

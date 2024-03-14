@@ -79,15 +79,10 @@ class VisNeo4jController {
 		Individuo ind = bpso.ejecutarBPSO();
 		datos.rellenarConexionesFaltantes(ind);
 		System.out.println(ind);
-		//TODO: Guardar solucion y conexiones en ficheros
-		//String fila = Utils.modificarCSVproblemaGestionConexionesAeropuertos(ind, datos);
-		/*Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
-		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
-		Utils.crearCSVPersonas_Afectadas(List.of(datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0), datos.getNumPasajerosTotales() - datos.getNumPasajerosTotales() * ind.getObjetivosNorm().get(0)), fila);
-		Utils.crearCSVVuelos_Cancelados(List.of(Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados)), datos.getNumVuelosTotales() - Integer.valueOf(problema.calcularValoresAdicionales(ind).get(Constantes.nombreCampoVuelosCancelados))), fila);
 		
-		System.out.println(order);
-		List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
+		visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, params, preferencias);
+		
+		/*List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
 		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);
 		Utils.obtenernumDiasUltimaSolucion();
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);*/
@@ -143,19 +138,6 @@ class VisNeo4jController {
 		return TraducirSalida.obtenerObjetivos(Utils.leerCSVObjetivos(nombreFichero));
 	}
 	
-	@CrossOrigin
-	@GetMapping("/{id}/personas")
-	public List<Persona> obtenerPersonasSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
-		String nombreFichero = String.valueOf(id);
-		return TraducirSalida.obtenerPersonasAfectadas(Utils.leerCSVPersonasAfectadas(nombreFichero));
-	}
-	
-	@CrossOrigin
-	@GetMapping("/{id}/vuelos")
-	public List<Vuelos> obtenerVuelosSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
-		String nombreFichero = String.valueOf(id);
-		return TraducirSalida.obtenerVuelosCancelados(Utils.leerCSVVuelosCancelados(nombreFichero));
-	}
 	
 	@CrossOrigin
 	@GetMapping("/{id}/{dia}")

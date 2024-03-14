@@ -19,6 +19,8 @@ import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
+import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
+import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
@@ -476,41 +478,6 @@ public class Utils {
 		return fichero;
 	}
 	
-	public static List<List<String>> leerCSVPersonasAfectadas(String nombreFichero) throws FileNotFoundException, IOException, CsvException {
-		List<List<String>> fichero = new ArrayList<>();
-		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosPersonas_Afectadas + nombreFichero + Constantes.extensionFichero))) {
-			List<String[]> r = reader.readAll();
-			numFilas = r.size();
-			for(int fila = 0; fila < numFilas; fila++) {
-				List<String> filaI = new ArrayList<>();
-				for(int columna = 0; columna < r.get(fila).length; columna++) {
-					
-					filaI.add(r.get(fila)[columna]);
-			    }
-				fichero.add(filaI);
-			}
-		}
-		return fichero;
-	}
-	
-	public static List<List<String>> leerCSVVuelosCancelados(String nombreFichero) throws FileNotFoundException, IOException, CsvException {
-		List<List<String>> fichero = new ArrayList<>();
-		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosVuelos_Cancelados + nombreFichero + Constantes.extensionFichero))) {
-			List<String[]> r = reader.readAll();
-			numFilas = r.size();
-			for(int fila = 0; fila < numFilas; fila++) {
-				List<String> filaI = new ArrayList<>();
-				for(int columna = 0; columna < r.get(fila).length; columna++) {
-					
-					filaI.add(r.get(fila)[columna]);
-			    }
-				fichero.add(filaI);
-			}
-		}
-		return fichero;
-	}
 	
 	public static int modificarCSVconexiones(List<List<String>> conexiones) throws IOException, CsvException {
 		if(conexiones.size() == 0) {
@@ -544,7 +511,10 @@ public class Utils {
 					}
 					lista.add(fila);
 				}
-				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreFicheroConexiones + Constantes.extensionFichero))) {
+				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreFicheroConexiones + Constantes.extensionFichero), ',', 
+	    	            CSVWriter.NO_QUOTE_CHARACTER, 
+	    	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+	    	            CSVWriter.DEFAULT_LINE_END)) {
 		            writer.writeAll(lista);
 				}
 				return listaPrevia.size()-1;
@@ -581,7 +551,10 @@ public class Utils {
 					}
 					lista.add(fila);
 				}
-				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero))) {
+				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero), ',', 
+	    	            CSVWriter.NO_QUOTE_CHARACTER, 
+	    	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+	    	            CSVWriter.DEFAULT_LINE_END)) {
 		            writer.writeAll(lista);
 				}
 				return listaPrevia.size()-1;
@@ -591,18 +564,61 @@ public class Utils {
 		
 	}
 	
-	public static String modificarCSVproblemaGestionConexionesAeropuertos(Individuo ind, DatosProblemaDias datos) throws IOException, CsvException {
+	public static int modificarCSVFechas(List<String> fechasIF) throws IOException, CsvException {
+		if(fechasIF.size() == 0) {
+			return -1;
+		}
+		else {
+			List<List<String>> listaPrevia = leerCSVnombre(Constantes.nombreFicheroFechas);
+			int pos = listaPrevia.size();
+			
+			
+			for(int i = 0; i < listaPrevia.size(); i++) {
+				if(comprobarListasIguales(fechasIF, listaPrevia.get(i))) {
+					pos = i;
+				}
+			}
+			if(pos < listaPrevia.size()) {
+				return pos;
+			}
+			else {
+				List<String[]> lista = new ArrayList<>();
+				listaPrevia.add(fechasIF);
+				for(int i = 0; i < listaPrevia.size(); i++) {
+					String[] fila = new String[listaPrevia.get(i).size()];
+					for(int j = 0; j < listaPrevia.get(i).size(); j++) {
+						fila[j] = listaPrevia.get(i).get(j);
+					}
+					lista.add(fila);
+				}
+				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreFicheroFechas + Constantes.extensionFichero), ',', 
+	    	            CSVWriter.NO_QUOTE_CHARACTER, 
+	    	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+	    	            CSVWriter.DEFAULT_LINE_END)) {
+		            writer.writeAll(lista);
+				}
+				return listaPrevia.size()-1;
+			}
+			
+		}
+		
+	}
+	
+	public static String modificarCSVproblemaGestionConexionesAeropuertos(Individuo ind, DatosRRPS_PAT datos) throws IOException, CsvException {
 		int filaConexiones = modificarCSVconexiones(datos.getConexionesTotales());
 		List<String> numConDia = new ArrayList<>();
-		for(DatosProblema  dato : datos.getDatosPorDia()) {
+		for(DatosRRPS_PATDiaI  dato : datos.getDatosPorDia()) {
 			numConDia.add(String.valueOf(dato.getConexiones().size()));
 		}
 		int filaNumDiasYCon = modificarCSVNumConYDias(numConDia);
+		
+		int filaFechas = modificarCSVFechas(List.of(datos.getFechaInicio(), datos.getFechaFinal()));
 		
 		List<List<String>> solucionesExistentes = leerCSVnombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
 		List<String> solucionNueva = new ArrayList<>();
 		solucionNueva.add(String.valueOf(filaConexiones));
 		solucionNueva.add(String.valueOf(filaNumDiasYCon));
+		solucionNueva.add(String.valueOf(filaFechas));
 		for(int i = 0; i < ind.getVariables().size(); i++) {
 			solucionNueva.add(String.valueOf(ind.getVariables().get(i)));
 		}
@@ -617,10 +633,15 @@ public class Utils {
 			}
 			lista.add(filaI);
 		}
-		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreProblemaGestionConexionesAeropuertosPorDia + Constantes.extensionFichero))) {
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreProblemaGestionConexionesAeropuertosPorDia + Constantes.extensionFichero), ',', 
+	            CSVWriter.NO_QUOTE_CHARACTER, 
+	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+	            CSVWriter.DEFAULT_LINE_END)) {
             writer.writeAll(lista);
+            
+            
 		}
-		return String.valueOf(solucionesExistentes.indexOf(solucionNueva));
+		return String.valueOf(solucionesExistentes.size()-1);
 	}
 	
 	public static boolean comprobarListasIguales(List<String> a, List<String> b) {
@@ -665,7 +686,10 @@ public class Utils {
 				lista.add(iter_Fit);
 			}
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosObjetivos + fileName))) {
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosObjetivos + fileName), ',', 
+                    CSVWriter.NO_QUOTE_CHARACTER, 
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                    CSVWriter.DEFAULT_LINE_END)) {
 		            writer.writeAll(lista);
 			}
 			return fileName;
@@ -689,7 +713,10 @@ public class Utils {
 				lista.add(iter_Fit);
 			}
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosFitness + fileName))) {
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosFitness + fileName), ',', 
+                    CSVWriter.NO_QUOTE_CHARACTER, 
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                    CSVWriter.DEFAULT_LINE_END)) {
 		            writer.writeAll(lista);
 			}
 			return fileName;
@@ -697,47 +724,6 @@ public class Utils {
 		
 	}
 	
-	public static String crearCSVPersonas_Afectadas(List<Double> valores, String nombreFichero) throws IOException {
-		String fileName = nombreFichero + Constantes.extensionFichero;
-		
-		List<String[]> lista = new ArrayList<>();
-			
-			for(int i = 0; i < valores.size(); i++) {
-				String[] iter_Fit = new String[2];
-				
-				iter_Fit[0] = Constantes.nombresPersonas.get(i);
-				iter_Fit[1] = String.valueOf(valores.get(i));
-				
-				lista.add(iter_Fit);
-			}
-			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosPersonas_Afectadas + fileName))) {
-		            writer.writeAll(lista);
-			}
-			return fileName;
-		
-	}
-	
-	public static String crearCSVVuelos_Cancelados(List<Integer> valores, String nombreFichero) throws IOException {
-		String fileName = nombreFichero + Constantes.extensionFichero;
-		
-		List<String[]> lista = new ArrayList<>();
-			
-			for(int i = 0; i < valores.size(); i++) {
-				String[] iter_Fit = new String[2];
-				
-				iter_Fit[0] = Constantes.estadosVuelos.get(i);
-				iter_Fit[1] = String.valueOf(valores.get(i));
-				
-				lista.add(iter_Fit);
-			}
-			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosVuelos_Cancelados + fileName))) {
-		            writer.writeAll(lista);
-			}
-			return fileName;
-		
-	}
 	
 	public static String modificarCSV(String nombre, List<Individuo> listanueva) throws IOException, CsvException {
 		String fileName = nombre + Constantes.extensionFichero;

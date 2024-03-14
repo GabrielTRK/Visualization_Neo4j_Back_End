@@ -11,8 +11,7 @@ public class Constantes {
 	public static final String rutaDatosPorDia = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\datos_por_dia\\";
 	public static final String rutaFicherosFitness = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Fitness\\";
 	public static final String rutaFicherosObjetivos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Objetivos\\";
-	public static final String rutaFicherosPersonas_Afectadas = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Personas_Afectadas\\";
-	public static final String rutaFicherosVuelos_Cancelados = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Vuelos_Cancelados\\";
+	
 	public static final String extensionFichero = ".csv";
     public static final DateFormat formatoFecha = new SimpleDateFormat("yyyyMMddHHmmss");
     public static final String nombreProblemaDefecto = "problema";
@@ -39,6 +38,8 @@ public class Constantes {
     public static final String nombreFicheroCoorenadas = "coordenadasAeropuertos";
     public static final String nombreFicheroConexiones = "conexionesAeropuertos";
     public static final String nombreFicheroNumConDia = "numConexionesDia";
+    public static final String nombreFicheroFechas = "fechasSoluciones";
+    
     public static final List<String> nombresRestricciones = List.of("Epi");
     public static final List<String> nombreObjetivos = List.of("1","2","3","4","5","6","7");
     public static final List<Integer> idObjetivos = List.of(1,2,3,4,5,6,7);
