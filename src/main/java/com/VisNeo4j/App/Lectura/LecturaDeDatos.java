@@ -564,7 +564,8 @@ public class LecturaDeDatos {
 	public static void leerDatosRRPS_PATDiaI(String ruta, List<Double> riesgos, 
 			List<List<String>> conexiones, List<List<String>> conexionesTotal, 
 			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
-			List<String> companyias, List<String> areasInf, List<Double> conectividades, 
+			List<String> companyias, List<String> areasInf, List<String> continentes,
+			List<Boolean> capital, List<Double> conectividades, 
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
 			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen) {
@@ -605,6 +606,8 @@ public class LecturaDeDatos {
                 tasasAeropuertos.add(Double.parseDouble(split[6]));
                 companyias.add(split[2]);
                 areasInf.add(split[10]);
+                continentes.add(split[11]);
+                capital.add(Boolean.parseBoolean(split[12]));
             }
             // Closing the scanner
             scanner.close();

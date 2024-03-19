@@ -126,6 +126,10 @@ public class Problema {
 		return ind;
 	}
 	
+	public Individuo devolverSolucionCompleta(Individuo ind) {
+		return ind;
+	}
+	
 	public Individuo comprobarRestricciones(Individuo ind) {
 		return ind;
 	}

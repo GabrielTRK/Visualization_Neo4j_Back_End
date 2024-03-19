@@ -95,6 +95,8 @@ public class VisNeo4jService {
 		List<Double> dineroMedioN = new ArrayList<>();
 		List<String> companyias = new ArrayList<>();
 		List<String> areasInf = new ArrayList<>();
+		List<String> continentes = new ArrayList<>();
+		List<Boolean> capital = new ArrayList<>();
 		Map<String, Integer> vuelosSalientes = new HashMap<>();
 		Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();
 		Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
@@ -106,20 +108,22 @@ public class VisNeo4jService {
 		
 		if (file.exists()) {
 			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, conexiones, conexionesTotal, 
-					pasajeros, dineroMedioT, dineroMedioN, companyias, areasInf, conectividades, 
+					pasajeros, dineroMedioT, dineroMedioN, companyias, areasInf, continentes, 
+					capital, conectividades,  
 					vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, 
 					vuelosSalientes, vuelosSalientesDeOrigen);
 		}
         else {
         	obtenerDatosRRPS_PAT_BBDD_DiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
-        			dineroMedioT, dineroMedioN, companyias, areasInf, conectividades, 
+        			dineroMedioT, dineroMedioN, companyias, areasInf, continentes,
+        			capital, conectividades, 
         			vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, 
         			vuelosSalientes, vuelosSalientesDeOrigen, 
         			dia_I, dia_F, mes_I, mes_F, año_I, año_F, ruta);
         }
 		
 		return new DatosRRPS_PATDiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
-				dineroMedioT, dineroMedioN, companyias, areasInf, 
+				dineroMedioT, dineroMedioN, companyias, areasInf, continentes, capital, 
 				vuelosSalientes, vuelosEntrantesConexion, vuelosSalientesAEspanya,  
 				conectividades, tasasAeropuertos, vuelosSalientesDeOrigen);
 	}
@@ -127,8 +131,8 @@ public class VisNeo4jService {
 	public void obtenerDatosRRPS_PAT_BBDD_DiaI(List<Double> riesgos, List<List<String>> conexiones,
 			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT, 
 			List<Double> dineroMedioN, List<String> companyias, 
-			List<String> areasInf, List<Double> conectividades, 
-			Map<List<String>, Integer> vuelosEntrantesConexion, 
+			List<String> areasInf, List<String> continentes, List<Boolean> capital,
+			List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
 			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen, 
 			String dia_I, String dia_F, String mes_I, 
@@ -138,7 +142,7 @@ public class VisNeo4jService {
 		String fecha_F = "\"" + año_F + "-" + mes_F + "-" + dia_F + "\"";
 		
 		List<String[]> datosFichero = new ArrayList<>();
-		String[] cabecera = new String[11];
+		String[] cabecera = new String[13];
 		
 		cabecera[0] = String.valueOf(Constantes.sirDBField);
 		cabecera[1] = String.valueOf(Constantes.pasajerosDBField);
@@ -151,14 +155,16 @@ public class VisNeo4jService {
 		cabecera[8] = String.valueOf(Constantes.destinoDBField);
 		cabecera[9] = String.valueOf(Constantes.VuelosDesdeOrigenDBField);
 		cabecera[10] = String.valueOf(Constantes.areaInfDBField);
+		cabecera[11] = String.valueOf(Constantes.continentDBField);
+		cabecera[11] = String.valueOf(Constantes.capitalDBField);
 		
 		datosFichero.add(cabecera);
 		
 		try (Session session = sessionFor(database())) {
 			var records = session.readTransaction(tx -> tx.run(""
-				+ " match (a:Airport)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->(ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
+				+ " match (cont:Continent)<-[:BELONGS_TO]-(c:Country)-[:INFLUENCE_ZONE]->(a:Airport)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->(ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
 				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0 and a2.weightFee > 0.0" 
-				+ " with f,a,a2 order by a.iata, a2.iata "
+				+ " with cont,f,a,a2 order by a.iata, a2.iata "
 				
 				+ " call{ "
 				+ " with a "
@@ -167,7 +173,7 @@ public class VisNeo4jService {
 				+ " return count(*) as numVuelos "
 				+ " } "
 				
-				+ " return f.flightIfinal as sir,f.passengers as pasajeros,f.operator as companyia,a.connectivity as conectividad,f.incomeFromTurism as dineroT,f.incomeFromBusiness as dineroN,f.destinationAirportIncome as tasas,a.iata as origen,a2.iata as destino, numVuelos as VuelosDesdeOrigen, a2.regionName as areaInf"
+				+ " return f.flightIfinal as sir,f.passengers as pasajeros,f.operator as companyia,a.connectivity as conectividad,f.incomeFromTurism as dineroT,f.incomeFromBusiness as dineroN,f.destinationAirportIncome as tasas,a.iata as origen,a2.iata as destino, numVuelos as VuelosDesdeOrigen, a2.regionName as areaInf, cont.continentId as continente, a.capital as capital"
 			).list());
 			records.forEach(record -> {
 				var sir = record.get(Constantes.sirDBField).asDouble();
@@ -181,6 +187,8 @@ public class VisNeo4jService {
 				var tasas = record.get(Constantes.tasasDBField).asDouble();
 				var VuelosDesdeOrigen = record.get(Constantes.VuelosDesdeOrigenDBField).asInt();
 				var areaInf = record.get(Constantes.areaInfDBField).asString();
+				var continente = record.get(Constantes.continentDBField).asString();
+				var isCapital = record.get(Constantes.capitalDBField).asBoolean();
 				
 				if(!conexiones.contains(List.of(origen, destino))) {
                 	conexiones.add(List.of(origen, destino));
@@ -210,8 +218,10 @@ public class VisNeo4jService {
                 tasasAeropuertos.add(tasas);
                 companyias.add(companyia);
                 areasInf.add(areaInf);
+                continentes.add(continente);
+                capital.add(isCapital);
                 
-                String[] filaIFichero = new String[11];
+                String[] filaIFichero = new String[13];
                 
                 filaIFichero[0] = String.valueOf(sir);
                 filaIFichero[1] = String.valueOf(Num_Pasajeros);
@@ -224,6 +234,8 @@ public class VisNeo4jService {
                 filaIFichero[8] = String.valueOf(destino);
                 filaIFichero[9] = String.valueOf(VuelosDesdeOrigen);
                 filaIFichero[10] = String.valueOf(areaInf);
+                filaIFichero[11] = String.valueOf(continente);
+                filaIFichero[12] = String.valueOf(isCapital);
                 
                 datosFichero.add(filaIFichero);
 			});

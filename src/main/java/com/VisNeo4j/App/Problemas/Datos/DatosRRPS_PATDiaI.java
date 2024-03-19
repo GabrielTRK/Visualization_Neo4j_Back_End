@@ -12,9 +12,11 @@ import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 public class DatosRRPS_PATDiaI {
 	
 	private List<List<String>> conexiones;
-	private List<List<String>> conexionesAMantener = new ArrayList<>();
-	private List<Integer> direccionesAMantener = new ArrayList<>();
+	
 	private List<List<String>> conexionesTotal;
+	
+	private List<String> continentes;
+	private List<Boolean> capitales;
 	
 	//Cálculo riesgo
 	private List<Double> riesgos;
@@ -50,7 +52,8 @@ public class DatosRRPS_PATDiaI {
 	
 	public DatosRRPS_PATDiaI(List<Double> riesgos, List<List<String>> conexiones, List<List<String>> conexionesTotal, 
 			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
-			List<String> companyias, List<String> areasInf, Map<String, Integer> vuelosSalientes,
+			List<String> companyias, List<String> areasInf, List<String> continentes, 
+			List<Boolean> capitales, Map<String, Integer> vuelosSalientes,
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya,  
 			List<Double> conectividades, List<Double> tasas, 
@@ -58,6 +61,9 @@ public class DatosRRPS_PATDiaI {
 		
 		this.conexiones = conexiones;
 		this.conexionesTotal = conexionesTotal;
+		
+		this.continentes = continentes;
+		this.capitales = capitales;
 		
 		this.riesgos = riesgos;
 		this.pasajeros = pasajeros;
@@ -77,20 +83,10 @@ public class DatosRRPS_PATDiaI {
 		
 		this.obtenerDatosConectividad();
 		
-		LecturaDeDatos.leerConexionesAMantener(this.conexionesAMantener);
-		this.calcularDireccionesAMantener();
+		
 	}
 	
-	private void calcularDireccionesAMantener() {
-		for(int i = 0; i < this.conexionesAMantener.size(); i++) {
-			this.direccionesAMantener.add(this.conexiones.indexOf(conexionesAMantener.get(i)));
-			if(this.direccionesAMantener.get(this.direccionesAMantener.size()-1) == -1) {
-				this.direccionesAMantener.remove(this.direccionesAMantener.size()-1);
-			}
-			
-		}
-		Collections.sort(this.direccionesAMantener);
-	}
+	
 	
 	private void obtenerDatosConectividad() {
 		for(int i = 0; i < this.conexiones.size(); i++) {
@@ -110,22 +106,6 @@ public class DatosRRPS_PATDiaI {
 
 	public void setConexiones(List<List<String>> conexiones) {
 		this.conexiones = conexiones;
-	}
-
-	public List<List<String>> getConexionesAMantener() {
-		return conexionesAMantener;
-	}
-
-	public void setConexionesAMantener(List<List<String>> conexionesAMantener) {
-		this.conexionesAMantener = conexionesAMantener;
-	}
-
-	public List<Integer> getDireccionesAMantener() {
-		return direccionesAMantener;
-	}
-
-	public void setDireccionesAMantener(List<Integer> direccionesAMantener) {
-		this.direccionesAMantener = direccionesAMantener;
 	}
 
 	public List<List<String>> getConexionesTotal() {
@@ -230,6 +210,22 @@ public class DatosRRPS_PATDiaI {
 
 	public void setAreasInf(List<String> areasInf) {
 		this.areasInf = areasInf;
+	}
+
+	public List<String> getContinentes() {
+		return continentes;
+	}
+
+	public void setContinentes(List<String> continentes) {
+		this.continentes = continentes;
+	}
+
+	public List<Boolean> getCapitales() {
+		return capitales;
+	}
+
+	public void setCapitales(List<Boolean> capitales) {
+		this.capitales = capitales;
 	}
 
 	

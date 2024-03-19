@@ -45,6 +45,7 @@ public class Constantes {
     public static final List<String> nombresRestricciones = List.of("Epi");
     public static final List<String> nombreObjetivos = List.of("1","2","3","4","5","6","7");
     public static final List<Integer> idObjetivos = List.of(1,2,3,4,5,6,7);
+    public static final List<String> idContinentes = List.of("AF","AS","EU","NA","OC","SA");
     public static final List<String> nombresPersonas = List.of("Personas afectadas", "Personas restantes");
     public static final List<String> estadosVuelos = List.of("Vuelos cancelados", "Vuelos restantes");
     public static final String nombreCampoVuelosCancelados = "VuelosCancelados";
@@ -60,6 +61,8 @@ public class Constantes {
     public static final String destinoDBField = "destino";
     public static final String VuelosDesdeOrigenDBField = "VuelosDesdeOrigen";
     public static final String areaInfDBField = "areaInf";
+    public static final String continentDBField = "continente";
+    public static final String capitalDBField = "capital";
     
     public static final String nombreQDMPGenerica = "QDMPGenerico";
     public static final String nombreQDMPSR = "SR";

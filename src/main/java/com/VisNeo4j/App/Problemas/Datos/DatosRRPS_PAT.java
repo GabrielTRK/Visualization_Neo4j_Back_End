@@ -27,6 +27,8 @@ public class DatosRRPS_PAT {
 	private List<String> companyiasTotales;
 	
 	private List<String> aresInfTotales;
+	private List<String> continentesTotales;
+	private List<Boolean> capitalesTotales;
 
 	public DatosRRPS_PAT(int numDias, String fechaInicio, String fechaFinal, List<DatosRRPS_PATDiaI> datosPorDia) {
 		this.numDias = numDias;
@@ -85,24 +87,14 @@ public class DatosRRPS_PAT {
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			this.aresInfTotales.addAll(this.datosPorDia.get(i).getAreasInf());
 		}
-	}
-	
-	public Individuo rellenarConexionesFaltantes(Individuo ind) {
-		List<Double> aux = ind.getVariables();
+		this.continentesTotales = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
-			this.rellenarConexionesFaltantesDia(i, aux);
+			this.continentesTotales.addAll(this.datosPorDia.get(i).getContinentes());
 		}
-		ind.setVariables(aux);
-		return ind;
-	}
-	
-	private void rellenarConexionesFaltantesDia(int dia, List<Double> aux) {
-		int offset = 0;
-		for(int i = 0; i < dia; i++) {
-			offset += this.datosPorDia.get(i).getConexiones().size();
-		}
-		for(int i = 0; i < this.datosPorDia.get(dia).getDireccionesAMantener().size(); i++) {
-			aux.add(offset + this.datosPorDia.get(dia).getDireccionesAMantener().get(i), 1.0);
+		
+		this.capitalesTotales = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			this.capitalesTotales.addAll(this.datosPorDia.get(i).getCapitales());
 		}
 	}
 
@@ -216,6 +208,22 @@ public class DatosRRPS_PAT {
 
 	public void setAresInfTotales(List<String> aresInfTotales) {
 		this.aresInfTotales = aresInfTotales;
+	}
+
+	public List<String> getContinentesTotales() {
+		return continentesTotales;
+	}
+
+	public void setContinentesTotales(List<String> continentesTotales) {
+		this.continentesTotales = continentesTotales;
+	}
+
+	public List<Boolean> getCapitalesTotales() {
+		return capitalesTotales;
+	}
+
+	public void setCapitalesTotales(List<Boolean> capitalesTotales) {
+		this.capitalesTotales = capitalesTotales;
 	}
 	
 	

@@ -63,13 +63,15 @@ class VisNeo4jController {
 			@RequestParam("w") double w,
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
+			@RequestParam("res_pol") String resPol,
+			
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
 		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
-		Problema problema = new RRPS_PAT(datos, resEpi, preferencias);
+		Problema problema = new RRPS_PAT(datos, resEpi, resPol, preferencias);
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, w, p, Constantes.nombreCPMaxDistQuick, 
@@ -77,7 +79,7 @@ class VisNeo4jController {
 		
 		BPSO bpso = new BPSO(problema, params);
 		Individuo ind = bpso.ejecutarBPSO();
-		datos.rellenarConexionesFaltantes(ind);
+		problema.devolverSolucionCompleta(ind);
 		System.out.println(ind);
 		
 		visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, params, preferencias);
@@ -99,17 +101,18 @@ class VisNeo4jController {
 		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
-		Problema problema = new RRPS_PAT(datos, 0.75, preferencias);
+		Problema problema = new RRPS_PAT(datos, 0.75, "", preferencias);
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
+		//problema.inicializarValores(ind);
 		/*problema.inicializarValores(ind);
 		problema.inicializarValores(ind);
 		problema.inicializarValores(ind);*/
 		
 		problema.evaluate(ind);
+		ind = problema.devolverSolucionCompleta(ind);
 		System.out.println(ind);
-		
+		System.out.println();
 		
 		return datos;
 	}
