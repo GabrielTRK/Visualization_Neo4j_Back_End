@@ -51,6 +51,74 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
+	@PostMapping("/saveP")
+	public void guardarProyecto(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F,
+			
+			@RequestParam("iteraciones") int numIteraciones,
+			@RequestParam("numIndividuos") int numIndividuos,
+			@RequestParam("inertiaW") double inertiaW,
+			@RequestParam("c1") double c1,
+			@RequestParam("c2") double c2,
+			@RequestParam("w") double w,
+			@RequestParam("p") double p,
+			@RequestParam("res_epi") double resEpi,
+			@RequestParam("res_pol") String resPol,
+			@RequestParam("nombre") String nombreProyecto,
+			@RequestBody ObjectivesOrder order) throws IOException {
+		//TODO: Crear directorio del proyecto. Guardar parametros y preferencias
+		
+		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(order.getOrder().size());
+		
+		
+		
+		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
+				numIteraciones, w, p, Constantes.nombreCPGenerica, 
+				Constantes.nombreIWDyanamicDecreasing);
+		
+		visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F);
+	}
+	
+	@CrossOrigin
+	@PostMapping("/saveRunP")
+	public void guardarProyectoYEjecutar(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F,
+			
+			@RequestParam("iteraciones") int numIteraciones,
+			@RequestParam("numIndividuos") int numIndividuos,
+			@RequestParam("inertiaW") double inertiaW,
+			@RequestParam("c1") double c1,
+			@RequestParam("c2") double c2,
+			@RequestParam("w") double w,
+			@RequestParam("p") double p,
+			@RequestParam("res_epi") double resEpi,
+			@RequestParam("res_pol") String resPol,
+			@RequestParam("nombre") String nombreProyecto,
+			@RequestBody ObjectivesOrder order) {
+		//TODO: Crear directorio del proyecto. Guardar parametros y preferencias. Ejecutar
+	}
+	
+	@CrossOrigin
+	@GetMapping("/loadP")
+	public void cargarProyectos() {
+		//TODO: Devolver lista de proyectos (nombres)
+	}
+	
+	@CrossOrigin
+	@GetMapping("/{proyecto}/loadS")
+	public void cargarSolucionesProyectoI(@PathVariable String proyecto) {
+		//TODO: Devolver lista de soluciones (IDs)
+	}
+	
+	@CrossOrigin
+	@GetMapping("/{proyecto}/{idS}/{dia}")
+	public void cargarProyectoISolucionJDiaK(@PathVariable String proyecto, @PathVariable int idS,
+			@PathVariable int dia) {
+		//TODO: Devolver solucion
+	}
+	
+	@CrossOrigin
 	@PostMapping("/optimize")
 	public void runOptimization(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
@@ -73,8 +141,8 @@ class VisNeo4jController {
 		
 		Problema problema = new RRPS_PAT(datos, resEpi, resPol, preferencias);
 		
-		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
-				numIteraciones, w, p, Constantes.nombreCPMaxDistQuick, 
+		BPSOParams params = new BPSOParams(problema.getNumVariables()+2, inertiaW, c1, c2, 
+				numIteraciones, w, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
 		BPSO bpso = new BPSO(problema, params);

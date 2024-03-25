@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -606,7 +609,7 @@ public class Utils {
 		
 	}
 	
-	public static String modificarCSVproblemaGestionConexionesAeropuertos(Individuo ind, DatosRRPS_PAT datos) throws IOException, CsvException {
+	public static String modificarCSVproblemaRRPS_PAT(Individuo ind, DatosRRPS_PAT datos) throws IOException, CsvException {
 		int filaConexiones = modificarCSVconexiones(datos.getConexionesTotales());
 		List<String> numConDia = new ArrayList<>();
 		for(DatosRRPS_PATDiaI  dato : datos.getDatosPorDia()) {
@@ -616,7 +619,7 @@ public class Utils {
 		
 		int filaFechas = modificarCSVFechas(List.of(datos.getFechaInicio(), datos.getFechaFinal()));
 		
-		List<List<String>> solucionesExistentes = leerCSVnombre(Constantes.nombreProblemaGestionConexionesAeropuertosPorDia);
+		List<List<String>> solucionesExistentes = leerCSVnombre(Constantes.nombreProblemaRRPS_PAT);
 		List<String> solucionNueva = new ArrayList<>();
 		solucionNueva.add(String.valueOf(filaConexiones));
 		solucionNueva.add(String.valueOf(filaNumDiasYCon));
@@ -662,8 +665,7 @@ public class Utils {
 		return iguales;
 	}
 	
-	public static String crearCSVParams(BPSOParams params, String nombreFichero) throws IOException{
-		String fileName = nombreFichero + Constantes.extensionFichero;
+	public static void crearCSVParams(BPSOParams params, String nombre) throws IOException{
 			List<String[]> lista = new ArrayList<>();
 			String[] paramI = new String[2];
 			paramI[0] = Constantes.nombreParamNumIndividuos;
@@ -700,18 +702,17 @@ public class Utils {
 				lista.add(paramI);
 			}
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosParams + fileName), ',', 
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroParametros + Constantes.extensionFichero), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                     CSVWriter.DEFAULT_LINE_END)) {
 		            writer.writeAll(lista);
 			}
-			return fileName;
+			
 		
 	}
 	
-	public static String crearCSVPref(DMPreferences preferencias, String nombreFichero) throws IOException{
-		String fileName = nombreFichero + Constantes.extensionFichero;
+	public static void crearCSVPref(DMPreferences preferencias, String nombre) throws IOException{
 			List<String[]> lista = new ArrayList<>();
 			
 			for(int i = 0; i < preferencias.getOrder().getOrder().size(); i++) {
@@ -720,15 +721,35 @@ public class Utils {
 				lista.add(objI);
 			}
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosPreferencias + fileName), ',', 
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                     CSVWriter.DEFAULT_LINE_END)) {
 		            writer.writeAll(lista);
 			}
-			return fileName;
 		
 	}
+	
+	public static void crearCSVFechas(String fecha_I, String fecha_F, String nombre) throws IOException{
+		List<String[]> lista = new ArrayList<>();
+		String[] paramI = new String[2];
+		paramI[0] = Constantes.nombreFechaInicial;
+		paramI[1] = String.valueOf(fecha_I);
+		lista.add(paramI);
+		
+		paramI = new String[2];
+		paramI[0] = Constantes.nombreFechaFinal;
+		paramI[1] = String.valueOf(fecha_F);
+		lista.add(paramI);
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero), ',', 
+                CSVWriter.NO_QUOTE_CHARACTER, 
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                CSVWriter.DEFAULT_LINE_END)) {
+	            writer.writeAll(lista);
+		}
+	
+}
 	
 	public static String crearCSVObjetivos(List<Double> obj, List<Double> res, String nombreFichero) throws IOException {
 		String fileName = nombreFichero + Constantes.extensionFichero;
@@ -832,6 +853,21 @@ public class Utils {
 			return fileName;
 		}
 		
+	}
+	
+	public static void crearDirectorioProyecto(String nombre) throws IOException {
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre);
+		Files.createDirectories(path);
+	}
+	
+	public static void crearDirectorioFitness(String nombre) throws IOException {
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + Constantes.nombreDirectorioFicherosFitness);
+		Files.createDirectories(path);
+	}
+	
+	public static void crearDirectorioObjetivos(String nombre) throws IOException {
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + Constantes.nombreDirectorioFicherosObjetivos);
+		Files.createDirectories(path);
 	}
 	
 	public static int encontrarIndiceEnLista(List<List<String>> listaConexiones, List<String> origenDestino){

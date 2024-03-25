@@ -13,6 +13,7 @@ public class Constantes {
 	public static final String rutaFicherosObjetivos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Objetivos\\";
 	public static final String rutaFicherosParams = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Parámetros\\";
 	public static final String rutaFicherosPreferencias = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Preferencias\\";
+	public static final String rutaFicherosProyectos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Proyectos\\";
 	
 	public static final String extensionFichero = ".csv";
     public static final DateFormat formatoFecha = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -41,6 +42,12 @@ public class Constantes {
     public static final String nombreFicheroConexiones = "conexionesAeropuertos";
     public static final String nombreFicheroNumConDia = "numConexionesDia";
     public static final String nombreFicheroFechas = "fechasSoluciones";
+    public static final String nombreFicheroNombreProyectos = "nombreProyectos";
+    public static final String nombreFicheroParametros = "parametros";
+    public static final String nombreFicheroPreferencias = "preferencias";
+    public static final String nombreFicheroFechasSoluciones = "fechasSoluciones";
+    public static final String nombreDirectorioFicherosFitness = "Ficheros_Fitness";
+    public static final String nombreDirectorioFicherosObjetivos = "Ficheros_Objetivos";
     
     public static final List<String> nombresRestricciones = List.of("Epi");
     public static final List<String> nombreObjetivos = List.of("1","2","3","4","5","6","7");
@@ -78,4 +85,7 @@ public class Constantes {
     public static final String nombreParamCPNumIter = "numIteraciones";
     public static final String nombreParamCPM = "m";
     public static final String nombreParamCPP = "p";
+    
+    public static final String nombreFechaInicial = "Fecha Inicial";
+    public static final String nombreFechaFinal = "Fecha Final";
 }

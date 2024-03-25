@@ -243,8 +243,21 @@ public class VisNeo4jService {
 		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
 	}
 	
+	public void guardarNuevoproyecto(String nombre, BPSOParams params, DMPreferences preferencias, 
+			String fecha_I, String fecha_F) throws IOException {
+		//Comprobar que el nombre no está duplicado
+		Utils.crearDirectorioProyecto(nombre);
+		
+		Utils.crearDirectorioFitness(nombre);
+		Utils.crearDirectorioObjetivos(nombre);
+		//Guardar preferencias y parametros
+		Utils.crearCSVFechas(fecha_I, fecha_F, nombre);
+		Utils.crearCSVParams(params, nombre);
+		Utils.crearCSVPref(preferencias, nombre);
+	}
+	
 	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, BPSOParams params, DMPreferences preferencias) throws IOException, CsvException {
-		String fila = Utils.modificarCSVproblemaGestionConexionesAeropuertos(ind, datos);
+		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos);
 		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
 		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
 		Utils.crearCSVParams(params, fila);
