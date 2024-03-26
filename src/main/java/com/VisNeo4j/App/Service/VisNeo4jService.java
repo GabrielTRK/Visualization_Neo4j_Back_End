@@ -244,7 +244,7 @@ public class VisNeo4jService {
 	}
 	
 	public void guardarNuevoproyecto(String nombre, BPSOParams params, DMPreferences preferencias, 
-			String fecha_I, String fecha_F) throws IOException {
+			String fecha_I, String fecha_F, double resEpi, String resPol) throws IOException {
 		//Comprobar que el nombre no está duplicado
 		Utils.crearDirectorioProyecto(nombre);
 		
@@ -254,6 +254,7 @@ public class VisNeo4jService {
 		Utils.crearCSVFechas(fecha_I, fecha_F, nombre);
 		Utils.crearCSVParams(params, nombre);
 		Utils.crearCSVPref(preferencias, nombre);
+		Utils.crearCSVRestricciones(resEpi, resPol, nombre);
 	}
 	
 	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, BPSOParams params, DMPreferences preferencias) throws IOException, CsvException {

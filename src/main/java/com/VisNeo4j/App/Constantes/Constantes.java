@@ -42,9 +42,9 @@ public class Constantes {
     public static final String nombreFicheroConexiones = "conexionesAeropuertos";
     public static final String nombreFicheroNumConDia = "numConexionesDia";
     public static final String nombreFicheroFechas = "fechasSoluciones";
-    public static final String nombreFicheroNombreProyectos = "nombreProyectos";
     public static final String nombreFicheroParametros = "parametros";
     public static final String nombreFicheroPreferencias = "preferencias";
+    public static final String nombreFicheroRestricciones = "restricciones";
     public static final String nombreFicheroFechasSoluciones = "fechasSoluciones";
     public static final String nombreDirectorioFicherosFitness = "Ficheros_Fitness";
     public static final String nombreDirectorioFicherosObjetivos = "Ficheros_Objetivos";
@@ -88,4 +88,7 @@ public class Constantes {
     
     public static final String nombreFechaInicial = "Fecha Inicial";
     public static final String nombreFechaFinal = "Fecha Final";
+    
+    public static final String nombreRestriccionEpidemiologica = "Restricción Epidemiológica";
+    public static final String nombreRestriccionSocial = "Restricción Social";
 }

@@ -32,6 +32,7 @@ import com.VisNeo4j.App.Service.VisNeo4jService;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
@@ -60,7 +61,7 @@ class VisNeo4jController {
 			@RequestParam("inertiaW") double inertiaW,
 			@RequestParam("c1") double c1,
 			@RequestParam("c2") double c2,
-			@RequestParam("w") double w,
+			@RequestParam("m") double m,
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("res_pol") String resPol,
@@ -74,10 +75,10 @@ class VisNeo4jController {
 		
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
-				numIteraciones, w, p, Constantes.nombreCPGenerica, 
+				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
-		visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F);
+		visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol);
 	}
 	
 	@CrossOrigin
@@ -90,7 +91,7 @@ class VisNeo4jController {
 			@RequestParam("inertiaW") double inertiaW,
 			@RequestParam("c1") double c1,
 			@RequestParam("c2") double c2,
-			@RequestParam("w") double w,
+			@RequestParam("m") double m,
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("res_pol") String resPol,
@@ -269,10 +270,12 @@ class VisNeo4jController {
 			@RequestParam("fecha_final") String fecha_F,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		//DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(dia_I, dia_F, mes_I, mes_F, año_I, año_F);
-		  System.out.println(fecha_I);
-		  System.out.println(fecha_F);
-		//return datos;
+		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+	      //List of all files and directories
+	      String contents[] = directoryPath.list();
+	      for(int i=0; i<contents.length; i++) {
+	         System.out.println(contents[i]);
+	      }
 	}
 	
 	@CrossOrigin

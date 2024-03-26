@@ -749,7 +749,28 @@ public class Utils {
 	            writer.writeAll(lista);
 		}
 	
-}
+	}
+	
+	public static void crearCSVRestricciones(double epi, String pol, String nombre) throws IOException{
+		List<String[]> lista = new ArrayList<>();
+		String[] paramI = new String[2];
+		paramI[0] = Constantes.nombreRestriccionEpidemiologica;
+		paramI[1] = String.valueOf(epi);
+		lista.add(paramI);
+		
+		paramI = new String[2];
+		paramI[0] = Constantes.nombreRestriccionSocial;
+		paramI[1] = String.valueOf(pol);
+		lista.add(paramI);
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero), ',', 
+                CSVWriter.NO_QUOTE_CHARACTER, 
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                CSVWriter.DEFAULT_LINE_END)) {
+	            writer.writeAll(lista);
+		}
+	
+	}
 	
 	public static String crearCSVObjetivos(List<Double> obj, List<Double> res, String nombreFichero) throws IOException {
 		String fileName = nombreFichero + Constantes.extensionFichero;
@@ -861,12 +882,12 @@ public class Utils {
 	}
 	
 	public static void crearDirectorioFitness(String nombre) throws IOException {
-		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + Constantes.nombreDirectorioFicherosFitness);
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosFitness);
 		Files.createDirectories(path);
 	}
 	
 	public static void crearDirectorioObjetivos(String nombre) throws IOException {
-		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + Constantes.nombreDirectorioFicherosObjetivos);
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosObjetivos);
 		Files.createDirectories(path);
 	}
 	
