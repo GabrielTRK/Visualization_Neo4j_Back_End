@@ -67,37 +67,15 @@ class VisNeo4jController {
 			@RequestParam("res_pol") String resPol,
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ObjectivesOrder order) throws IOException {
-		//TODO: Crear directorio del proyecto. Guardar parametros y preferencias
 		
 		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
-		
-		
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
 		visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol);
-	}
-	
-	@CrossOrigin
-	@PostMapping("/saveRunP")
-	public void guardarProyectoYEjecutar(@RequestParam("fecha_inicial") String fecha_I, 
-			@RequestParam("fecha_final") String fecha_F,
-			
-			@RequestParam("iteraciones") int numIteraciones,
-			@RequestParam("numIndividuos") int numIndividuos,
-			@RequestParam("inertiaW") double inertiaW,
-			@RequestParam("c1") double c1,
-			@RequestParam("c2") double c2,
-			@RequestParam("m") double m,
-			@RequestParam("p") double p,
-			@RequestParam("res_epi") double resEpi,
-			@RequestParam("res_pol") String resPol,
-			@RequestParam("nombre") String nombreProyecto,
-			@RequestBody ObjectivesOrder order) {
-		//TODO: Crear directorio del proyecto. Guardar parametros y preferencias. Ejecutar
 	}
 	
 	@CrossOrigin
@@ -133,7 +111,7 @@ class VisNeo4jController {
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("res_pol") String resPol,
-			
+			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
@@ -151,7 +129,9 @@ class VisNeo4jController {
 		problema.devolverSolucionCompleta(ind);
 		System.out.println(ind);
 		
-		visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, params, preferencias);
+		visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol);
+		
+		visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
 		
 		/*List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
 		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);

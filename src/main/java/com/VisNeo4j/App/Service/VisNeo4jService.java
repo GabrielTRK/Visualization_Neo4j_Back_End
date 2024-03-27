@@ -257,12 +257,10 @@ public class VisNeo4jService {
 		Utils.crearCSVRestricciones(resEpi, resPol, nombre);
 	}
 	
-	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, BPSOParams params, DMPreferences preferencias) throws IOException, CsvException {
-		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos);
-		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila);
-		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila);
-		Utils.crearCSVParams(params, fila);
-		Utils.crearCSVPref(preferencias, fila);
+	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
+		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos, nombre);
+		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila, nombre);
+		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila, nombre);
 	}
 	
 
