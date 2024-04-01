@@ -20,6 +20,10 @@ import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
+import com.VisNeo4j.App.Modelo.Salida.BPSOParamsSalida;
+import com.VisNeo4j.App.Modelo.Salida.FechasProyecto;
+import com.VisNeo4j.App.Modelo.Salida.OrdenObjSalida;
+import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
@@ -691,6 +695,26 @@ public class Utils {
 		
 	}
 	
+	public static BPSOParamsSalida leerCSVParams(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroParametros + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		BPSOParamsSalida params = new BPSOParamsSalida(Integer.valueOf(fichero.get(0).get(1)), Double.valueOf(fichero.get(1).get(1)), Double.valueOf(fichero.get(2).get(1)), Double.valueOf(fichero.get(3).get(1)));
+		return params;
+	
+}
+	
 	public static void crearCSVPref(DMPreferences preferencias, String nombre) throws IOException{
 			List<String[]> lista = new ArrayList<>();
 			
@@ -708,6 +732,29 @@ public class Utils {
 			}
 		
 	}
+	
+	public static OrdenObjSalida leerCSVPref(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		List<Integer> listaOrden = new ArrayList<>();
+		for(List<String> lista : fichero) {
+			listaOrden.add(Integer.valueOf(lista.get(0)));
+		}
+		OrdenObjSalida orden = new OrdenObjSalida(listaOrden);
+		return orden;
+}
 	
 	public static void crearCSVFechas(String fecha_I, String fecha_F, String nombre) throws IOException{
 		List<String[]> lista = new ArrayList<>();
@@ -730,6 +777,26 @@ public class Utils {
 	
 	}
 	
+	public static FechasProyecto leerCSVFechas(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		FechasProyecto fechas = new FechasProyecto(fichero.get(0).get(1), fichero.get(1).get(1));
+		return fechas;
+	
+	}
+	
 	public static void crearCSVRestricciones(double epi, String pol, String nombre) throws IOException{
 		List<String[]> lista = new ArrayList<>();
 		String[] paramI = new String[2];
@@ -749,6 +816,25 @@ public class Utils {
 	            writer.writeAll(lista);
 		}
 	
+	}
+	
+	public static Restricciones leerCSVRestricciones(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		Restricciones res = new Restricciones(fichero.get(1).get(1), Double.valueOf(fichero.get(0).get(1)));
+		return res;
 	}
 	
 	public static String crearCSVObjetivos(List<Double> obj, List<Double> res, String nombreFichero, String nombreProyecto) throws IOException {

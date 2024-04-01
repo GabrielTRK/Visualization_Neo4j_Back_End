@@ -10,6 +10,7 @@ import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
@@ -261,6 +262,20 @@ public class VisNeo4jService {
 		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos, nombre);
 		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila, nombre);
 		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila, nombre);
+	}
+	
+	public List<Proyecto> obtenerListaProyectos() throws IOException, CsvException{
+		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+		String contents[] = directoryPath.list();
+		List<Proyecto> proyectos = new ArrayList<>();
+		for(String nombre : contents) {
+			Proyecto proyecto = new Proyecto(nombre, 
+					Utils.leerCSVFechas(nombre), 
+					Utils.leerCSVParams(nombre), 
+					Utils.leerCSVPref(nombre));
+			proyectos.add(proyecto);
+		}
+		return proyectos;
 	}
 	
 
