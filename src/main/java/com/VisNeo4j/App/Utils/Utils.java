@@ -10,7 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.tomcat.util.bcel.Const;
@@ -31,6 +33,7 @@ import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
+import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
@@ -695,7 +698,7 @@ public class Utils {
 		
 	}
 	
-	public static BPSOParamsSalida leerCSVParams(String nombre) throws IOException, CsvException{
+	public static BPSOParamsSalida leerCSVParamsSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroParametros + Constantes.extensionFichero))) {
@@ -713,7 +716,35 @@ public class Utils {
 		BPSOParamsSalida params = new BPSOParamsSalida(Integer.valueOf(fichero.get(0).get(1)), Double.valueOf(fichero.get(1).get(1)), Double.valueOf(fichero.get(2).get(1)), Double.valueOf(fichero.get(3).get(1)));
 		return params;
 	
-}
+	}
+	
+	public static BPSOParams leerCSVParams(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroParametros + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		BPSOParams params = new BPSOParams(Integer.valueOf(fichero.get(0).get(1)), 
+				Double.valueOf(fichero.get(1).get(1)), 
+				Double.valueOf(fichero.get(2).get(1)), 
+				Double.valueOf(fichero.get(3).get(1)),
+				0,
+				Double.valueOf(fichero.get(3).get(1)), 
+				Double.valueOf(fichero.get(3).get(1)), 
+				Constantes.nombreCPMaxDistQuick, 
+				Constantes.nombreIWDyanamicDecreasing);
+		return params;
+	
+	}
 	
 	public static void crearCSVPref(DMPreferences preferencias, String nombre) throws IOException{
 			List<String[]> lista = new ArrayList<>();
@@ -733,7 +764,7 @@ public class Utils {
 		
 	}
 	
-	public static OrdenObjSalida leerCSVPref(String nombre) throws IOException, CsvException{
+	public static OrdenObjSalida leerCSVPrefSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero))) {
@@ -754,7 +785,31 @@ public class Utils {
 		}
 		OrdenObjSalida orden = new OrdenObjSalida(listaOrden);
 		return orden;
-}
+	}
+	
+	public static ObjectivesOrder leerCSVPref(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		List<Integer> listaOrden = new ArrayList<>();
+		for(List<String> lista : fichero) {
+			listaOrden.add(Integer.valueOf(lista.get(0)));
+		}
+		ObjectivesOrder orden = new ObjectivesOrder();
+		orden.setOrder(listaOrden);
+		return orden;
+	}
 	
 	public static void crearCSVFechas(String fecha_I, String fecha_F, String nombre) throws IOException{
 		List<String[]> lista = new ArrayList<>();
@@ -777,7 +832,7 @@ public class Utils {
 	
 	}
 	
-	public static FechasProyecto leerCSVFechas(String nombre) throws IOException, CsvException{
+	public static FechasProyecto leerCSVFechasSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero))) {
@@ -795,6 +850,28 @@ public class Utils {
 		FechasProyecto fechas = new FechasProyecto(fichero.get(0).get(1), fichero.get(1).get(1));
 		return fechas;
 	
+	}
+	
+	public static Map<String, String> leerCSVFechas(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		Map<String, String> fechas = new HashMap<>();
+		fechas.put(Constantes.nombreFechaInicial, fichero.get(0).get(1));
+		fechas.put(Constantes.nombreFechaInicial, fichero.get(1).get(1));
+		
+		return fechas;
 	}
 	
 	public static void crearCSVRestricciones(double epi, String pol, String nombre) throws IOException{
@@ -818,7 +895,7 @@ public class Utils {
 	
 	}
 	
-	public static Restricciones leerCSVRestricciones(String nombre) throws IOException, CsvException{
+	public static Restricciones leerCSVRestriccionesSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
@@ -834,6 +911,30 @@ public class Utils {
 			}
 		}
 		Restricciones res = new Restricciones(fichero.get(1).get(1), Double.valueOf(fichero.get(0).get(1)));
+		return res;
+	}
+	
+	public static Map<String, String> leerCSVRestricciones(String nombre) throws IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		
+		Map<String, String> res = new HashMap<>();
+		
+		res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(0).get(1));
+		res.put(Constantes.nombreRestriccionSocial, fichero.get(1).get(1));
+		
 		return res;
 	}
 	

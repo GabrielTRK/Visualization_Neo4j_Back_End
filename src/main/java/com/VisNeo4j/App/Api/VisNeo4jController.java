@@ -54,7 +54,7 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/saveP")
-	public void guardarProyecto(@RequestParam("fecha_inicial") String fecha_I, 
+	public boolean guardarProyecto(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
 			
 			@RequestParam("iteraciones") int numIteraciones,
@@ -76,7 +76,7 @@ class VisNeo4jController {
 				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
-		visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol);
+		return visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol);
 	}
 	
 	@CrossOrigin
@@ -101,7 +101,7 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/optimize")
-	public void runOptimization(@RequestParam("fecha_inicial") String fecha_I, 
+	public boolean runOptimization(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
 			
 			@RequestParam("iteraciones") int numIteraciones,
@@ -109,37 +109,64 @@ class VisNeo4jController {
 			@RequestParam("inertiaW") double inertiaW,
 			@RequestParam("c1") double c1,
 			@RequestParam("c2") double c2,
-			@RequestParam("w") double w,
+			@RequestParam("m") double m,
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("res_pol") String resPol,
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
-		
 		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
-		Problema problema = new RRPS_PAT(datos, resEpi, resPol, preferencias);
-		
-		BPSOParams params = new BPSOParams(problema.getNumVariables()+2, inertiaW, c1, c2, 
-				numIteraciones, w, p, Constantes.nombreCPGenerica, 
+		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
+				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
-		BPSO bpso = new BPSO(problema, params);
-		Individuo ind = bpso.ejecutarBPSO();
-		problema.devolverSolucionCompleta(ind);
-		System.out.println(ind);
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol);
+		Problema problema = new RRPS_PAT(datos, resEpi, resPol, preferencias);
 		
-		visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+		if(visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol)) {
+			BPSO bpso = new BPSO(problema, params);
+			Individuo ind = bpso.ejecutarBPSO();
+			problema.devolverSolucionCompleta(ind);
+			System.out.println(ind);
+			
+			visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+			return true;
+		}else {
+			return false;
+		}
 		
 		/*List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
 		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);
 		Utils.obtenernumDiasUltimaSolucion();
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);*/
     	//return datosConexiones;
+	}
+	
+	@CrossOrigin
+	@PostMapping("/{proyecto}/optimize")
+	public boolean runOptimization(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DMPreferences preferencias = visNeo4jService.cargarPreferenciasProyecto(proyecto);
+		
+		BPSOParams params = visNeo4jService.cargarParametrosProyecto(proyecto);
+		
+		Map<String, String> fechas = visNeo4jService.cargarFechasProyecto(proyecto);
+		
+		Map<String, String> res = visNeo4jService.cargarRestriccionesProyecto(proyecto);
+		
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), Constantes.nombreFechaFinal);
+		
+		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica)), Constantes.nombreRestriccionSocial, preferencias);
+		
+		BPSO bpso = new BPSO(problema, params);
+		Individuo ind = bpso.ejecutarBPSO();
+		problema.devolverSolucionCompleta(ind);
+		System.out.println(ind);
+			
+		visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
+		return true;
 	}
 	
 	@CrossOrigin

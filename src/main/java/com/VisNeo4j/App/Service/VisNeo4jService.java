@@ -11,11 +11,13 @@ import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
+import com.VisNeo4j.App.Problemas.RRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
+import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
@@ -244,18 +246,35 @@ public class VisNeo4jService {
 		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
 	}
 	
-	public void guardarNuevoproyecto(String nombre, BPSOParams params, DMPreferences preferencias, 
+	public boolean guardarNuevoproyecto(String nombre, BPSOParams params, DMPreferences preferencias, 
 			String fecha_I, String fecha_F, double resEpi, String resPol) throws IOException {
 		//Comprobar que el nombre no está duplicado
-		Utils.crearDirectorioProyecto(nombre);
-		
-		Utils.crearDirectorioFitness(nombre);
-		Utils.crearDirectorioObjetivos(nombre);
-		//Guardar preferencias y parametros
-		Utils.crearCSVFechas(fecha_I, fecha_F, nombre);
-		Utils.crearCSVParams(params, nombre);
-		Utils.crearCSVPref(preferencias, nombre);
-		Utils.crearCSVRestricciones(resEpi, resPol, nombre);
+		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+	      //List of all files and directories
+	    String contents[] = directoryPath.list();
+	    int pos = 0;
+	    boolean igual = false;
+	    while(!igual && pos < contents.length) {
+	    	if(contents[pos].equals(nombre)) {
+	    		igual = true;
+	    	}
+	    	pos++;
+	    }
+	    
+		if(igual) {
+			return false;
+		}else {
+			Utils.crearDirectorioProyecto(nombre);
+			
+			Utils.crearDirectorioFitness(nombre);
+			Utils.crearDirectorioObjetivos(nombre);
+			//Guardar preferencias y parametros
+			Utils.crearCSVFechas(fecha_I, fecha_F, nombre);
+			Utils.crearCSVParams(params, nombre);
+			Utils.crearCSVPref(preferencias, nombre);
+			Utils.crearCSVRestricciones(resEpi, resPol, nombre);
+			return true;
+		}
 	}
 	
 	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
@@ -270,14 +289,42 @@ public class VisNeo4jService {
 		List<Proyecto> proyectos = new ArrayList<>();
 		for(String nombre : contents) {
 			Proyecto proyecto = new Proyecto(nombre, 
-					Utils.leerCSVFechas(nombre), 
-					Utils.leerCSVParams(nombre), 
-					Utils.leerCSVPref(nombre));
+					Utils.leerCSVFechasSalida(nombre), 
+					Utils.leerCSVParamsSalida(nombre), 
+					Utils.leerCSVPrefSalida(nombre),
+					Utils.leerCSVRestriccionesSalida(nombre));
 			proyectos.add(proyecto);
 		}
 		return proyectos;
 	}
 	
+	public DMPreferences cargarPreferenciasProyecto(String nombre) throws IOException, CsvException {
+		ObjectivesOrder orden = Utils.leerCSVPref(nombre);
+		DMPreferences pref = new DMPreferences(orden, Constantes.nombreQDMPSR);
+		pref.generateWeightsVector(orden.getOrder().size());
+		return pref;
+	}
+	
+	public BPSOParams cargarParametrosProyecto(String nombre) throws IOException, CsvException {
+		BPSOParams params = Utils.leerCSVParams(nombre);
+		return params;
+	}
+	
+	public Map<String, String> cargarFechasProyecto(String nombre) throws IOException, CsvException{
+		return Utils.leerCSVFechas(nombre);
+	}
+	
+	public Map<String, String> cargarRestriccionesProyecto(String nombre) throws IOException, CsvException{
+		return Utils.leerCSVRestricciones(nombre);
+	}
+	
+	/*public RRPS_PAT cargarProblemaRRPS_PATProyecto(String nombre, DatosRRPS_PAT datos) throws IOException, CsvException, ParseException {
+		RRPS_PAT problema = new RRPS_PAT(datos, 
+				Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica)), 
+				res.get(Constantes.nombreRestriccionSocial), 
+				cargarPreferenciasProyecto(nombre));
+		return problema;
+	}*/
 
 	private Session sessionFor(String database) {
 		if (database == null) {

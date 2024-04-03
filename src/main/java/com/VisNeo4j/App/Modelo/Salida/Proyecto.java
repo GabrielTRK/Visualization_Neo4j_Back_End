@@ -11,12 +11,13 @@ public class Proyecto {
 	private OrdenObjSalida order;
 	private Restricciones res;
 	
-	public Proyecto(String nombre, FechasProyecto fechas, BPSOParamsSalida params, OrdenObjSalida order) {
+	public Proyecto(String nombre, FechasProyecto fechas, BPSOParamsSalida params, OrdenObjSalida order, Restricciones res) {
 		super();
 		this.nombre = nombre;
 		this.fechas = fechas;
 		this.params = params;
 		this.order = order;
+		this.res = res;
 	}
 	public String getNombre() {
 		return nombre;
@@ -41,6 +42,12 @@ public class Proyecto {
 	}
 	public void setOrder(OrdenObjSalida order) {
 		this.order = order;
+	}
+	public Restricciones getRes() {
+		return res;
+	}
+	public void setRes(Restricciones res) {
+		this.res = res;
 	}
 	
 	
