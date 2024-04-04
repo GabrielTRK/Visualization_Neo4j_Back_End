@@ -975,6 +975,32 @@ public class Utils {
 		
 	}
 	
+	public static List<Double> leerCSVObjetivosSalida(String id, String nombreProyecto) throws IOException, CsvException {
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" + id + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		
+		List<Double> obj = new ArrayList<>();
+		
+		for(int i = 0; i < fichero.size(); i++) {
+			obj.add(Double.valueOf(fichero.get(i).get(1)));
+		}
+		
+		return obj;
+		
+	}
+	
 	public static String crearCSVConFitnessPorIteracion(List<Double> listaF, String nombreFichero, String nombreProyecto) throws IOException {
 		String fileName = nombreFichero + Constantes.extensionFichero;
 		if(listaF.size() == 0) {
@@ -999,6 +1025,31 @@ public class Utils {
 			}
 			return fileName;
 		}
+		
+	}
+	
+	public static List<Double> leerCSVConFitnessPorIteracionSalida(String id, String nombreProyecto) throws IOException, CsvException {
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" + id + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		
+		List<Double> fit = new ArrayList<>();
+		
+		fit.add(Double.valueOf(fichero.get(numFilas-1).get(0)));
+		fit.add(Double.valueOf(fichero.get(numFilas-1).get(1)));
+		
+		return fit;
 		
 	}
 	

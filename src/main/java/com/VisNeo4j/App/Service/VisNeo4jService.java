@@ -11,6 +11,7 @@ import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
+import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
@@ -296,6 +297,26 @@ public class VisNeo4jService {
 			proyectos.add(proyecto);
 		}
 		return proyectos;
+	}
+	
+	public List<Solucion> obtenerListaSolucionesProyectoI(String nombre) throws IOException, CsvException{
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosObjetivos);
+		String contents[] = directoryPath.list();
+		
+		List<Solucion> soluciones = new ArrayList<>();
+		for(String id : contents) {
+			//Obtener fitness
+			List<Double> fit = Utils.leerCSVConFitnessPorIteracionSalida(id, nombre);
+			
+			//Obtener obj y res
+			List<Double> obj = Utils.leerCSVObjetivosSalida(id, nombre);
+			
+			
+			Solucion sol = new Solucion(Integer.valueOf(id), (int)Math.round(fit.get(0)), fit.get(1), obj.subList(1, obj.size()), obj.get(0));
+			soluciones.add(sol);
+		}
+		
+		return soluciones;
 	}
 	
 	public DMPreferences cargarPreferenciasProyecto(String nombre) throws IOException, CsvException {

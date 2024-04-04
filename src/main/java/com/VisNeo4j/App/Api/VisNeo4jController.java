@@ -21,6 +21,7 @@ import com.VisNeo4j.App.Modelo.Salida.FitnessI;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Persona;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
+import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Modelo.Salida.Vuelos;
 import com.VisNeo4j.App.Problemas.Problema;
@@ -87,9 +88,9 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@GetMapping("/{proyecto}/loadS")
-	public void cargarSolucionesProyectoI(@PathVariable String proyecto) {
-		//TODO: Devolver lista de soluciones (IDs)
-		
+	public List<Solucion> cargarSolucionesProyectoI(@PathVariable String proyecto) throws IOException, CsvException {
+		//TODO: Devolver lista de soluciones
+		return visNeo4jService.obtenerListaSolucionesProyectoI(proyecto);
 	}
 	
 	@CrossOrigin
