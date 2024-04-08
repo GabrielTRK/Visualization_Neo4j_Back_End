@@ -25,7 +25,7 @@ public class BPSO {
 	private double r2;
 	private List<Double> fitnessHist = new ArrayList<>();
 	
-	public BPSO (Problema problema, BPSOParams params) throws FileNotFoundException, IOException, CsvException {
+	public BPSO (Problema problema, BPSOParams params, String proyecto) throws FileNotFoundException, IOException, CsvException {
 		this.params = params;
 		this.problema = problema;
 		this.r1 = Utils.getRandNumber(0.0, 1.0);
@@ -34,7 +34,7 @@ public class BPSO {
 		this.v1 = new ArrayList<>();
 		this.poblacionPartículas = new Poblacion(this.params.getNumIndividuos(), this.problema);
 		//Inicializar población o partículas y calcular fitness
-		this.poblacionPartículas.generarPoblacionInicial(problema, false, 29);
+		this.poblacionPartículas.generarPoblacionInicial(problema, false, 29, proyecto);
 		//Calcular Pbest
 		this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
 		this.calcularPbests();

@@ -94,10 +94,22 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
-	@GetMapping("/{proyecto}/{idS}/{dia}")
-	public void cargarProyectoISolucionJDiaK(@PathVariable String proyecto, @PathVariable int idS,
-			@PathVariable int dia) {
+	@GetMapping("/{proyecto}/{id}/{dia}")
+	public DatosConexiones cargarProyectoISolucionJDiaK(@PathVariable String proyecto, @PathVariable int id,
+			@PathVariable int dia) throws FileNotFoundException, IOException, CsvException {
 		//TODO: Devolver solucion
+		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
+		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
+		
+		return datosConexiones;
+	}
+	
+	@CrossOrigin
+	@GetMapping("/{proyecto}/{id}/numDias")
+	public int numDiasSolucionI(@PathVariable String proyecto, @PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		
+		return Utils.obtenernumDiasSolucionI(proyecto, id);
 	}
 	
 	@CrossOrigin
@@ -128,7 +140,7 @@ class VisNeo4jController {
 		Problema problema = new RRPS_PAT(datos, resEpi, resPol, preferencias);
 		
 		if(visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol)) {
-			BPSO bpso = new BPSO(problema, params);
+			BPSO bpso = new BPSO(problema, params, nombreProyecto);
 			Individuo ind = bpso.ejecutarBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
@@ -157,11 +169,11 @@ class VisNeo4jController {
 		
 		Map<String, String> res = visNeo4jService.cargarRestriccionesProyecto(proyecto);
 		
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), Constantes.nombreFechaFinal);
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
 		
 		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica)), Constantes.nombreRestriccionSocial, preferencias);
 		
-		BPSO bpso = new BPSO(problema, params);
+		BPSO bpso = new BPSO(problema, params, proyecto);
 		Individuo ind = bpso.ejecutarBPSO();
 		problema.devolverSolucionCompleta(ind);
 		System.out.println(ind);
@@ -221,27 +233,20 @@ class VisNeo4jController {
 	}
 	
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@GetMapping("/{id}/{dia}")
 	public DatosConexiones obtenerSolucionIDiaJ(@PathVariable int id, @PathVariable int dia) throws FileNotFoundException, IOException, CsvException, ParseException {
 		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(id, dia);
 		List<Double> bits = Utils.obtenerBitsSolDiaI(id, dia);
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
 		return datosConexiones;
-	}
+	}*/
 	
 	@CrossOrigin
 	@GetMapping("/numSoluciones")
 	public int obtenerNumSoluciones() throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		return Utils.leerCSVproblemaNumSoluciones();
-	}
-	
-	@CrossOrigin
-	@GetMapping("/{id}/numDias")
-	public int numDiasSolucionI(@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
-		
-		return Utils.obtenernumDiasSolucionI(id);
 	}
 	
 	/*@CrossOrigin
@@ -280,7 +285,7 @@ class VisNeo4jController {
 			@RequestParam("fecha_final") String fecha_F,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + "Test2" + "\\" + Constantes.nombreDirectorioFicherosObjetivos);
 	      //List of all files and directories
 	      String contents[] = directoryPath.list();
 	      for(int i=0; i<contents.length; i++) {

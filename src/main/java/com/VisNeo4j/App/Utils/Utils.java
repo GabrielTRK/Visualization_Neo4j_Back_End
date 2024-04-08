@@ -281,8 +281,8 @@ public class Utils {
 		}
 	}
 	
-	public static List<String> leerCSVconexion(int numFila) throws FileNotFoundException, IOException, CsvException {
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + Constantes.nombreFicheroConexiones + Constantes.extensionFichero))) {
+	public static List<String> leerCSVconexion(String proyecto, int numFila) throws FileNotFoundException, IOException, CsvException {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreFicheroConexiones + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			List<String> conexiones = new ArrayList<>();
 			
@@ -295,8 +295,8 @@ public class Utils {
 		}
 	}
 	
-	public static List<String> leerCSVproblema(int numFila) throws FileNotFoundException, IOException, CsvException {
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + Constantes.nombreProblemaGestionConexionesAeropuertosPorDia + Constantes.extensionFichero))) {
+	public static List<String> leerCSVproblema(String proyecto, int numFila) throws FileNotFoundException, IOException, CsvException {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			List<String> solucion = new ArrayList<>();
 			if(r.size() > 0) {
@@ -331,10 +331,10 @@ public class Utils {
 		}
 	}
 	
-	public static List<Aeropuerto> obtenerSolucionDiaI(int numFila, int dia) throws FileNotFoundException, IOException, CsvException {
-		List<String> solucion = leerCSVproblema(numFila);
-		List<String> conexiones = leerCSVconexion(Integer.valueOf(solucion.get(0)));
-		List<String> numConDia = leerCSVnumDiasYCon(Integer.valueOf(solucion.get(1)));
+	public static List<Aeropuerto> obtenerSolucionDiaI(String proyecto, int numFila, int dia) throws FileNotFoundException, IOException, CsvException {
+		List<String> solucion = leerCSVproblema(proyecto, numFila);
+		List<String> conexiones = leerCSVconexion(proyecto, Integer.valueOf(solucion.get(0)));
+		List<String> numConDia = leerCSVnumDiasYCon(proyecto, Integer.valueOf(solucion.get(1)));
 		int offsetBits = 0;
 		for(int i = 0; i < dia; i++) {
 			offsetBits += Integer.valueOf(numConDia.get(i));
@@ -350,7 +350,7 @@ public class Utils {
 		return TraducirSalida.añadirCoordenadas(variablesDouble, conexiones.subList(offsetBits * 2, (offsetBits * 2) + Integer.valueOf(numConDia.get(dia)) * 2));
 	}
 	
-	public static List<Aeropuerto> obtenerUltimaSolucionDiaI(int dia) throws FileNotFoundException, IOException, CsvException {
+	/*public static List<Aeropuerto> obtenerUltimaSolucionDiaI(int dia) throws FileNotFoundException, IOException, CsvException {
 		List<String> solucion = leerCSVproblemaUltimo();
 		List<String> conexiones = leerCSVconexion(Integer.valueOf(solucion.get(0)));
 		List<String> numConDia = leerCSVnumDiasYCon(Integer.valueOf(solucion.get(1)));
@@ -367,9 +367,9 @@ public class Utils {
 		}
 		
 		return TraducirSalida.añadirCoordenadas(variablesDouble, conexiones.subList(offsetBits * 2, (offsetBits * 2) + Integer.valueOf(numConDia.get(dia)) * 2));
-	}
+	}*/
 	
-	public static List<Double> obtenerUltimosBitsDiaI(int dia) throws FileNotFoundException, IOException, CsvException {
+	/*public static List<Double> obtenerUltimosBitsDiaI(int dia) throws FileNotFoundException, IOException, CsvException {
 		List<String> solucion = leerCSVproblemaUltimo();
 		List<String> numConDia = leerCSVnumDiasYCon(Integer.valueOf(solucion.get(1)));
 		int offsetBits = 0;
@@ -385,11 +385,11 @@ public class Utils {
 		}
 		
 		return variablesDouble;
-	}
+	}*/
 	
-	public static List<Double> obtenerBitsSolDiaI(int sol, int dia) throws FileNotFoundException, IOException, CsvException {
-		List<String> solucion = leerCSVproblema(sol);
-		List<String> numConDia = leerCSVnumDiasYCon(Integer.valueOf(solucion.get(1)));
+	public static List<Double> obtenerBitsSolDiaI(String proyecto, int sol, int dia) throws FileNotFoundException, IOException, CsvException {
+		List<String> solucion = leerCSVproblema(proyecto, sol);
+		List<String> numConDia = leerCSVnumDiasYCon(proyecto, Integer.valueOf(solucion.get(1)));
 		int offsetBits = 0;
 		for(int i = 0; i < dia; i++) {
 			offsetBits += Integer.valueOf(numConDia.get(i));
@@ -405,26 +405,26 @@ public class Utils {
 		return variablesDouble;
 	}
 	
-	public static int obtenernumDiasUltimaSolucion() throws FileNotFoundException, IOException, CsvException {
+	/*public static int obtenernumDiasUltimaSolucion() throws FileNotFoundException, IOException, CsvException {
 		List<String> solucion = leerCSVproblemaUltimo();
 		List<String> numConDia = leerCSVnumDiasYCon(Integer.valueOf(solucion.get(1)));
 		
 		
 		
 		return numConDia.size();
-	}
+	}*/
 	
-	public static int obtenernumDiasSolucionI(int sol) throws FileNotFoundException, IOException, CsvException {
-		List<String> solucion = leerCSVproblema(sol);
-		List<String> numConDia = leerCSVnumDiasYCon(Integer.valueOf(solucion.get(1)));
+	public static int obtenernumDiasSolucionI(String proyecto, int sol) throws FileNotFoundException, IOException, CsvException {
+		List<String> solucion = leerCSVproblema(proyecto, sol);
+		List<String> numConDia = leerCSVnumDiasYCon(proyecto, Integer.valueOf(solucion.get(1)));
 		
 		
 		
 		return numConDia.size();
 	}
 	
-	public static List<String> leerCSVnumDiasYCon(int numFila) throws FileNotFoundException, IOException, CsvException {
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero))) {
+	public static List<String> leerCSVnumDiasYCon(String proyecto, int numFila) throws FileNotFoundException, IOException, CsvException {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			List<String> solucion = new ArrayList<>();
 			if(r.size() > 0) {
@@ -738,8 +738,8 @@ public class Utils {
 				Double.valueOf(fichero.get(2).get(1)), 
 				Double.valueOf(fichero.get(3).get(1)),
 				0,
-				Double.valueOf(fichero.get(3).get(1)), 
-				Double.valueOf(fichero.get(3).get(1)), 
+				Double.valueOf(fichero.get(4).get(1)), 
+				Double.valueOf(fichero.get(5).get(1)), 
 				Constantes.nombreCPMaxDistQuick, 
 				Constantes.nombreIWDyanamicDecreasing);
 		return params;
@@ -869,7 +869,7 @@ public class Utils {
 		}
 		Map<String, String> fechas = new HashMap<>();
 		fechas.put(Constantes.nombreFechaInicial, fichero.get(0).get(1));
-		fechas.put(Constantes.nombreFechaInicial, fichero.get(1).get(1));
+		fechas.put(Constantes.nombreFechaFinal, fichero.get(1).get(1));
 		
 		return fechas;
 	}

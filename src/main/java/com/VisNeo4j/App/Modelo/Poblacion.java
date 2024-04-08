@@ -66,13 +66,13 @@ public class Poblacion {
 		
 	}
 	
-	public void generarPoblacionInicial(Problema p, boolean leerFichero, int filaFichero) throws FileNotFoundException, IOException, CsvException {
+	public void generarPoblacionInicial(Problema p, boolean leerFichero, int filaFichero, String proyecto) throws FileNotFoundException, IOException, CsvException {
 		if(!leerFichero) {
 			this.obtenerValores(p);
 			this.calcularObjetivos(p);
 		}else {
 			List<Individuo> poblacionAux = new ArrayList<Individuo>();
-			List<String> bits = Utils.leerCSVproblema(filaFichero);
+			List<String> bits = Utils.leerCSVproblema(proyecto, filaFichero);
 			List<Double> bitsDouble = new ArrayList<>();
 			for(int i = 2; i < bits.size(); i++) {
 				bitsDouble.add(Double.valueOf(bits.get(i)));

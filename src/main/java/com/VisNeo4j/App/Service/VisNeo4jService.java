@@ -306,13 +306,13 @@ public class VisNeo4jService {
 		List<Solucion> soluciones = new ArrayList<>();
 		for(String id : contents) {
 			//Obtener fitness
-			List<Double> fit = Utils.leerCSVConFitnessPorIteracionSalida(id, nombre);
+			List<Double> fit = Utils.leerCSVConFitnessPorIteracionSalida(id.replace(Constantes.extensionFichero, ""), nombre);
 			
 			//Obtener obj y res
-			List<Double> obj = Utils.leerCSVObjetivosSalida(id, nombre);
+			List<Double> obj = Utils.leerCSVObjetivosSalida(id.replace(Constantes.extensionFichero, ""), nombre);
 			
 			
-			Solucion sol = new Solucion(Integer.valueOf(id), (int)Math.round(fit.get(0)), fit.get(1), obj.subList(1, obj.size()), obj.get(0));
+			Solucion sol = new Solucion(Integer.valueOf(id.replace(Constantes.extensionFichero, "")), (int)Math.round(fit.get(0))+1, fit.get(1), obj.subList(1, obj.size()), obj.get(0));
 			soluciones.add(sol);
 		}
 		
