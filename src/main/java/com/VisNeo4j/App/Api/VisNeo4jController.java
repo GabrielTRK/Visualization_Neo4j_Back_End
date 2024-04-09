@@ -89,7 +89,6 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/{proyecto}/loadS")
 	public List<Solucion> cargarSolucionesProyectoI(@PathVariable String proyecto) throws IOException, CsvException {
-		//TODO: Devolver lista de soluciones
 		return visNeo4jService.obtenerListaSolucionesProyectoI(proyecto);
 	}
 	
@@ -97,10 +96,21 @@ class VisNeo4jController {
 	@GetMapping("/{proyecto}/{id}/{dia}")
 	public DatosConexiones cargarProyectoISolucionJDiaK(@PathVariable String proyecto, @PathVariable int id,
 			@PathVariable int dia) throws FileNotFoundException, IOException, CsvException {
-		//TODO: Devolver solucion
 		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
 		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
 		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
+		
+		return datosConexiones;
+	}
+	
+	@CrossOrigin
+	@GetMapping("/{proyecto}/{id}/{dia}/{con}")
+	public DatosConexiones cargarProyectoISolucionJDiaKFiltro(@PathVariable String proyecto, @PathVariable int id,
+			@PathVariable int dia, @PathVariable String con) throws FileNotFoundException, IOException, CsvException {
+		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
+		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
+		datosConexiones.aplicarFiltro(con);
 		
 		return datosConexiones;
 	}

@@ -51,6 +51,25 @@ public class DatosConexiones {
 		}
 		
 	}
+	
+	public void aplicarFiltro(String con) {
+		
+		List<Aeropuerto> nuevaListaAeropuertos = new ArrayList<>();
+		List<Conexion> nuevasCoordenadasConexiones = new ArrayList<>();
+		
+		for(int i = 0; i < this.listaAeropuertos.size(); i = i+2) {
+			
+			if(this.listaAeropuertos.get(i).getIata().contains(con) || this.listaAeropuertos.get(i+1).getIata().contains(con)) {
+				nuevaListaAeropuertos.add(this.listaAeropuertos.get(i));
+				nuevaListaAeropuertos.add(this.listaAeropuertos.get(i+1));
+					
+				nuevasCoordenadasConexiones.add(this.coordenadasConexiones.get(i/2));
+			}
+		}
+		this.listaAeropuertos = nuevaListaAeropuertos;
+		this.coordenadasConexiones = nuevasCoordenadasConexiones;
+		
+	}
 
 	public List<Aeropuerto> getListaAeropuertos() {
 		return listaAeropuertos;
