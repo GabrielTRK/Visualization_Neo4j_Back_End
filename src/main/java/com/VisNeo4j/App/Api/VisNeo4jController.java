@@ -95,10 +95,16 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/{proyecto}/{id}/{dia}")
 	public DatosConexiones cargarProyectoISolucionJDiaK(@PathVariable String proyecto, @PathVariable int id,
-			@PathVariable int dia) throws FileNotFoundException, IOException, CsvException {
+			@PathVariable int dia) throws FileNotFoundException, IOException, CsvException, ParseException {
+		Map<String, String> fechas = visNeo4jService.cargarFechasProyecto(proyecto);
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		
 		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
 		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
+		
+		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
+		
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia));
 		
 		return datosConexiones;
 	}
@@ -106,10 +112,16 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/{proyecto}/{id}/{dia}/{con}")
 	public DatosConexiones cargarProyectoISolucionJDiaKFiltro(@PathVariable String proyecto, @PathVariable int id,
-			@PathVariable int dia, @PathVariable String con) throws FileNotFoundException, IOException, CsvException {
+			@PathVariable int dia, @PathVariable String con) throws FileNotFoundException, IOException, CsvException, ParseException {
+		Map<String, String> fechas = visNeo4jService.cargarFechasProyecto(proyecto);
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		
 		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
 		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);
+		
+		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
+		
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia));
 		datosConexiones.aplicarFiltro(con);
 		
 		return datosConexiones;
@@ -301,82 +313,6 @@ class VisNeo4jController {
 	      for(int i=0; i<contents.length; i++) {
 	         System.out.println(contents[i]);
 	      }
-	}
-	
-	@CrossOrigin
-	@GetMapping("/airports")
-	public DatosConexiones getAirports() throws FileNotFoundException, IOException, CsvException {
-		List<String> AeropuertosEntrada = new ArrayList<>();
-		List<String> AeropuertosEspanyoles = new ArrayList<>();
-        List<String> AeropuertosOrigen = new ArrayList<>();
-        List<String> companyias = new ArrayList<>();
-        Map<List<String>, Integer> pasajerosCompanyia = new HashMap<>();
-        Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();
-        Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
-        Map<String, Integer> vuelosSalientes = new HashMap<>();
-        Map<String, Double> conectividadesAeropuertosOrigen = new HashMap<>();
-        Map<String, Set<String>> listaConexionesPorAeropuertoEspanyol = new HashMap<>();
-        Map<String, Set<String>> listaConexionesSalidas = new HashMap<>();
-        List<Integer> indPorAeropuerto = new ArrayList<>();
-        Map<String, List<List<String>>> conexionesPorAeropuerto = new HashMap<>();
-        List<List<String>> conexionesAMantener = new ArrayList<>();
-        
-        List<List<String>> conexiones = new ArrayList<>();
-        List<Double> riesgos = new ArrayList<>();
-        List<Integer> vuelos = new ArrayList<>();
-        List<Double> dineroMedio = new ArrayList<>();
-        List<Integer> pasajeros = new ArrayList<>();
-    	
-        LecturaDeDatos.leerDatosNuevo(conexiones, riesgos, vuelos);
-    	LecturaDeDatos.leerDatosDineroMedioNuevo(conexiones, dineroMedio);
-    	LecturaDeDatos.leerDatosPasajerosNuevo(conexiones, pasajeros);
-    	LecturaDeDatos.leerDatosAeropuertosEntradas(AeropuertosEntrada);
-    	LecturaDeDatos.leerDatosAeropuertosEspanyoles(AeropuertosEspanyoles);
-    	LecturaDeDatos.leerDatosAeropuertosOrigen(AeropuertosOrigen);
-    	LecturaDeDatos.leerDatosCompanyias(companyias);
-    	LecturaDeDatos.leerDatosPasajerosCompanyia(pasajerosCompanyia);
-    	LecturaDeDatos.leerDatosConectividad(vuelosEntrantesConexion, vuelosSalientesAEspanya,
-    			vuelosSalientes, conectividadesAeropuertosOrigen, conexiones, AeropuertosOrigen);
-    	LecturaDeDatos.leerDatosListaConexiones(listaConexionesPorAeropuertoEspanyol, AeropuertosEntrada, conexiones);
-    	LecturaDeDatos.leerDatosListaConexionesSalidas(listaConexionesSalidas, AeropuertosOrigen, conexiones);
-    	LecturaDeDatos.leerFicherosAeropuertos(AeropuertosEntrada, indPorAeropuerto, conexionesPorAeropuerto);
-    	LecturaDeDatos.leerConexionesAMantener(conexionesAMantener);
-		
-    	/*VuelosExt problemaext = new VuelosExt(conexiones.size(), 
-    			AeropuertosEntrada, AeropuertosEspanyoles, AeropuertosOrigen,
-    			companyias, pasajerosCompanyia,
-    			vuelosEntrantesConexion, vuelosSalientesAEspanya, 
-    			vuelosSalientes, conectividadesAeropuertosOrigen,
-    			listaConexionesPorAeropuertoEspanyol, listaConexionesSalidas, conexionesAMantener, 
-    			conexiones, riesgos, vuelos, dineroMedio, pasajeros);*/
-    	
-    	SubVuelos subproblema = new SubVuelos(AeropuertosEntrada.size(), AeropuertosEntrada, AeropuertosOrigen,
-    			companyias, pasajerosCompanyia,
-    			vuelosEntrantesConexion, vuelosSalientesAEspanya, 
-    			vuelosSalientes, conectividadesAeropuertosOrigen,
-    			listaConexionesPorAeropuertoEspanyol, listaConexionesSalidas, indPorAeropuerto, 
-    			conexionesPorAeropuerto, conexiones, riesgos, dineroMedio, pasajeros);
-    	
-    	List<Individuo> solucionesOptimas = Utils.leerCSV("solucionesCompromiso.csv");
-    	Individuo ind = subproblema.traducirIndividuo(solucionesOptimas.get(0));
-    	
-    	
-    	/*ind = problemaext.inicializarValores(ind);
-    	ind = problemaext.inicializarValores(ind);
-    	ind = problemaext.inicializarValores(ind);*/
-    	
-    	/*List<Double> aux = ind.getVariables();
-		for(int i = 0; i < problemaext.getDireccionesAMantener().size(); i++) {
-			aux.add(problemaext.getDireccionesAMantener().get(i), 1.0);
-		}*/
-		
-		//ind.setVariables(aux);
-    	
-    	List<Aeropuerto> lista = TraducirSalida.traducir(ind, conexiones);
-		
-    	DatosConexiones datosConexiones = new DatosConexiones(lista, ind);
-    	
-		return datosConexiones;
 	}
 
 }

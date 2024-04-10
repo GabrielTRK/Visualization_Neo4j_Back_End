@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
+import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
 
 public class DatosConexiones {
 	
 	private List<Aeropuerto> listaAeropuertos;
 	private List<Conexion> coordenadasConexiones;
 
-	public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind) {
+	public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind, DatosRRPS_PAT datos) {
 		this.listaAeropuertos = listaAeropuertos;
 		this.coordenadasConexiones = new ArrayList<>();
 		for(int i = 0; i < listaAeropuertos.size(); i = i+2) {
@@ -25,13 +27,17 @@ public class DatosConexiones {
 					listaAeropuertos.get(i+1).getLongitud(), 
 					listaAeropuertos.get(i+1).getLatitud(),
 					abierto, listaAeropuertos.get(i).getIata(), 
-					listaAeropuertos.get(i+1).getIata());
+					listaAeropuertos.get(i+1).getIata(), 
+					datos.getRiesgos().get(i/2), 
+					datos.getPasajeros().get(i/2),
+					datos.getIngresos().get(i/2), 
+					datos.getTasas().get(i/2));
 			coordenadasConexiones.add(con);
 		}
 		
 	}
 	
-	public DatosConexiones(List<Aeropuerto> listaAeropuertos, List<Double> ind) {
+	public DatosConexiones(List<Aeropuerto> listaAeropuertos, List<Double> ind, DatosRRPS_PATDiaI datos) {
 		this.listaAeropuertos = listaAeropuertos;
 		this.coordenadasConexiones = new ArrayList<>();
 		for(int i = 0; i < listaAeropuertos.size(); i = i+2) {
@@ -41,15 +47,18 @@ public class DatosConexiones {
 				}
 			
 			
-			Conexion con = new Conexion(listaAeropuertos.get(i).getLongitud(), 
-					listaAeropuertos.get(i).getLatitud(), 
-					listaAeropuertos.get(i+1).getLongitud(), 
-					listaAeropuertos.get(i+1).getLatitud(),
-					abierto, listaAeropuertos.get(i).getIata(), 
-					listaAeropuertos.get(i+1).getIata());
-			coordenadasConexiones.add(con);
+				Conexion con = new Conexion(listaAeropuertos.get(i).getLongitud(), 
+						listaAeropuertos.get(i).getLatitud(), 
+						listaAeropuertos.get(i+1).getLongitud(), 
+						listaAeropuertos.get(i+1).getLatitud(),
+						abierto, listaAeropuertos.get(i).getIata(), 
+						listaAeropuertos.get(i+1).getIata(), 
+						datos.getRiesgosJuntos().get(i/2), 
+						datos.getPasajerosJuntos().get(i/2),
+						datos.getIngresosJuntos().get(i/2), 
+						datos.getTasasJuntos().get(i/2));
+			this.coordenadasConexiones.add(con);
 		}
-		
 	}
 	
 	public void aplicarFiltro(String con) {

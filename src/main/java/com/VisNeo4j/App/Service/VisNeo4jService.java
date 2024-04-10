@@ -338,14 +338,6 @@ public class VisNeo4jService {
 	public Map<String, String> cargarRestriccionesProyecto(String nombre) throws IOException, CsvException{
 		return Utils.leerCSVRestricciones(nombre);
 	}
-	
-	/*public RRPS_PAT cargarProblemaRRPS_PATProyecto(String nombre, DatosRRPS_PAT datos) throws IOException, CsvException, ParseException {
-		RRPS_PAT problema = new RRPS_PAT(datos, 
-				Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica)), 
-				res.get(Constantes.nombreRestriccionSocial), 
-				cargarPreferenciasProyecto(nombre));
-		return problema;
-	}*/
 
 	private Session sessionFor(String database) {
 		if (database == null) {

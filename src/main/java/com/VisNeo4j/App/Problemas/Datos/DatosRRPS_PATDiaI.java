@@ -20,14 +20,17 @@ public class DatosRRPS_PATDiaI {
 	
 	//Cálculo riesgo
 	private List<Double> riesgos;
+	private List<Double> riesgosJuntos;
 	
 	//Cálculo pérdida de pasajeros
 	private List<Integer> pasajeros;
+	private List<Integer> pasajerosJuntos;
 	
 	
 	//Cálculo dinero
 	private List<Double> dineroMedioT;
 	private List<Double> dineroMedioN;
+	private List<Double> ingresosJuntos;
 	
 	
 	//Cálculo homogeneidad pasajeros aerolineas
@@ -36,6 +39,7 @@ public class DatosRRPS_PATDiaI {
 	
 	//Calculo pérdida de ingresos por tasas aeropoertuarias
 	private List<Double> tasas;
+	private List<Double> tasasJuntos;
 	
 	
 	//Cálculo homogeneidad pérdida de ingresos entre aeropuertos destino mediante las tasas
@@ -97,6 +101,45 @@ public class DatosRRPS_PATDiaI {
 						/ 
 						this.vuelosSalientes.get(this.conexiones.get(i).get(0)));
             }
+		}
+	}
+	
+	public void calcularDatosJuntos() {
+		this.riesgosJuntos = new ArrayList<>();
+		this.pasajerosJuntos = new ArrayList<>();
+		this.ingresosJuntos = new ArrayList<>();
+		this.tasasJuntos = new ArrayList<>();
+		
+		for(int i = 0; i < this.conexionesTotal.size(); i++) {
+			
+			if(this.conexiones.indexOf(this.conexionesTotal.get(i)) < this.riesgosJuntos.size()) {
+				this.riesgosJuntos.set(this.conexiones.indexOf(this.conexionesTotal.get(i)), 
+						this.riesgos.get(i) + 
+						this.riesgosJuntos.get(this.conexiones.indexOf(this.conexionesTotal.get(i))));
+			}else {
+				this.riesgosJuntos.add(this.riesgos.get(i));
+			}
+			if(this.conexiones.indexOf(this.conexionesTotal.get(i)) < this.pasajerosJuntos.size()) {
+				this.pasajerosJuntos.set(this.conexiones.indexOf(this.conexionesTotal.get(i)), 
+						this.pasajeros.get(i) + 
+						this.pasajerosJuntos.get(this.conexiones.indexOf(this.conexionesTotal.get(i))));
+			}else {
+				this.pasajerosJuntos.add(this.pasajeros.get(i));
+			}
+			if(this.conexiones.indexOf(this.conexionesTotal.get(i)) < this.ingresosJuntos.size()) {
+				this.ingresosJuntos.set(this.conexiones.indexOf(this.conexionesTotal.get(i)), 
+						this.dineroMedioN.get(i) + this.dineroMedioT.get(i) + 
+						this.ingresosJuntos.get(this.conexiones.indexOf(this.conexionesTotal.get(i))));
+			}else {
+				this.ingresosJuntos.add(this.dineroMedioN.get(i) + this.dineroMedioT.get(i));
+			}
+			if(this.conexiones.indexOf(this.conexionesTotal.get(i)) < this.tasasJuntos.size()) {
+				this.tasasJuntos.set(this.conexiones.indexOf(this.conexionesTotal.get(i)), 
+						this.tasas.get(i) + 
+						this.tasasJuntos.get(this.conexiones.indexOf(this.conexionesTotal.get(i))));
+			}else {
+				this.tasasJuntos.add(this.tasas.get(i));
+			}
 		}
 	}
 
@@ -228,5 +271,35 @@ public class DatosRRPS_PATDiaI {
 		this.capitales = capitales;
 	}
 
-	
+	public List<Double> getRiesgosJuntos() {
+		return riesgosJuntos;
+	}
+
+	public void setRiesgosJuntos(List<Double> riesgosJuntos) {
+		this.riesgosJuntos = riesgosJuntos;
+	}
+
+	public List<Integer> getPasajerosJuntos() {
+		return pasajerosJuntos;
+	}
+
+	public void setPasajerosJuntos(List<Integer> pasajerosJuntos) {
+		this.pasajerosJuntos = pasajerosJuntos;
+	}
+
+	public List<Double> getIngresosJuntos() {
+		return ingresosJuntos;
+	}
+
+	public void setIngresosJuntos(List<Double> ingresosJuntos) {
+		this.ingresosJuntos = ingresosJuntos;
+	}
+
+	public List<Double> getTasasJuntos() {
+		return tasasJuntos;
+	}
+
+	public void setTasasJuntos(List<Double> tasasJuntos) {
+		this.tasasJuntos = tasasJuntos;
+	}
 }

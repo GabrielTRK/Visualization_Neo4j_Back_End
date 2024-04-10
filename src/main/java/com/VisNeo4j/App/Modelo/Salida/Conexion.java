@@ -9,9 +9,14 @@ public class Conexion {
 	private boolean abierto_cerrado;
 	private String iataOrigen;
 	private String iataDestino;
+	private Double riesgo;
+	private Integer pasajeros;
+	private Double ingresos;
+	private Double tasas;
 	
 	public Conexion(Double longitudeO, Double latitudeO, Double longitudeD, Double latitudeD, 
-			boolean abierto_cerrado, String iataOrigen, String iataDestino) {
+			boolean abierto_cerrado, String iataOrigen, String iataDestino, Double riesgo, 
+			Integer pasajeros, Double ingresos, Double tasas) {
 		this.longitudeO = longitudeO;
 		this.latitudeO = latitudeO;
 		this.longitudeD = longitudeD;
@@ -19,6 +24,10 @@ public class Conexion {
 		this.abierto_cerrado = abierto_cerrado;
 		this.iataOrigen = iataOrigen;
 		this.iataDestino = iataDestino;
+		this.riesgo = riesgo;
+		this.pasajeros = pasajeros;
+		this.ingresos = ingresos;
+		this.tasas = tasas;
 	}
 
 	public Double getLongitudeO() {
@@ -75,6 +84,38 @@ public class Conexion {
 
 	public void setIataDestino(String iataDestino) {
 		this.iataDestino = iataDestino;
+	}
+
+	public Double getRiesgo() {
+		return riesgo;
+	}
+
+	public void setRiesgo(Double riesgo) {
+		this.riesgo = riesgo;
+	}
+
+	public Integer getPasajeros() {
+		return pasajeros;
+	}
+
+	public void setPasajeros(Integer pasajeros) {
+		this.pasajeros = pasajeros;
+	}
+
+	public Double getIngresos() {
+		return ingresos;
+	}
+
+	public void setIngresos(Double ingresos) {
+		this.ingresos = ingresos;
+	}
+
+	public Double getTasas() {
+		return tasas;
+	}
+
+	public void setTasas(Double tasas) {
+		this.tasas = tasas;
 	}
 	
 	

@@ -405,15 +405,6 @@ public class Utils {
 		return variablesDouble;
 	}
 	
-	/*public static int obtenernumDiasUltimaSolucion() throws FileNotFoundException, IOException, CsvException {
-		List<String> solucion = leerCSVproblemaUltimo();
-		List<String> numConDia = leerCSVnumDiasYCon(Integer.valueOf(solucion.get(1)));
-		
-		
-		
-		return numConDia.size();
-	}*/
-	
 	public static int obtenernumDiasSolucionI(String proyecto, int sol) throws FileNotFoundException, IOException, CsvException {
 		List<String> solucion = leerCSVproblema(proyecto, sol);
 		List<String> numConDia = leerCSVnumDiasYCon(proyecto, Integer.valueOf(solucion.get(1)));
