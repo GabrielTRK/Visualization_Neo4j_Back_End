@@ -10,6 +10,7 @@ import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
@@ -337,6 +338,20 @@ public class VisNeo4jService {
 	
 	public Map<String, String> cargarRestriccionesProyecto(String nombre) throws IOException, CsvException{
 		return Utils.leerCSVRestricciones(nombre);
+	}
+	
+	public boolean comprobarUsuario(Usuario usuario) throws IOException, CsvException {
+		Map<String, String> usuarios = Utils.leerCSVUsuarios();
+		
+		for(String username : usuarios.keySet()) {
+			if(username.equals(usuario.getUsuario())) {
+				if(usuarios.get(username).equals(usuario.getPass())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	private Session sessionFor(String database) {

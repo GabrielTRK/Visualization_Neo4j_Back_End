@@ -1044,6 +1044,31 @@ public class Utils {
 		
 	}
 	
+	public static Map<String, String> leerCSVUsuarios() throws IOException, CsvException {
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + Constantes.nombreFicheroUsuarios + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		
+		Map<String, String> usuarios = new HashMap<>();
+		
+		for(List<String> usuario : fichero) {
+			usuarios.put(usuario.get(0), usuario.get(1));
+		}
+		
+		return usuarios;
+		
+	}
 	
 	public static String modificarCSV(String nombre, List<Individuo> listanueva) throws IOException, CsvException {
 		String fileName = nombre + Constantes.extensionFichero;

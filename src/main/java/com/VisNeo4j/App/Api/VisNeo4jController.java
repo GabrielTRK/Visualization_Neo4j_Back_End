@@ -15,6 +15,7 @@ import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
@@ -303,16 +304,9 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/test")
-	public void test(@RequestParam("fecha_inicial") String fecha_I, 
-			@RequestParam("fecha_final") String fecha_F,
-			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
+	public boolean test(@RequestBody Usuario user/*, @RequestBody String pass*/) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + "Test2" + "\\" + Constantes.nombreDirectorioFicherosObjetivos);
-	      //List of all files and directories
-	      String contents[] = directoryPath.list();
-	      for(int i=0; i<contents.length; i++) {
-	         System.out.println(contents[i]);
-	      }
+		return visNeo4jService.comprobarUsuario(user);
 	}
 
 }

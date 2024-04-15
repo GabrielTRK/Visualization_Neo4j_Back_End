@@ -46,6 +46,7 @@ public class Constantes {
     public static final String nombreFicheroPreferencias = "preferencias";
     public static final String nombreFicheroRestricciones = "restricciones";
     public static final String nombreFicheroFechasSoluciones = "fechasSoluciones";
+    public static final String nombreFicheroUsuarios = "Usuarios";
     public static final String nombreDirectorioFicherosFitness = "Ficheros_Fitness";
     public static final String nombreDirectorioFicherosObjetivos = "Ficheros_Objetivos";
     
