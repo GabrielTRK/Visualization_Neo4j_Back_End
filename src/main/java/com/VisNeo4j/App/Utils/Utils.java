@@ -865,16 +865,18 @@ public class Utils {
 		return fechas;
 	}
 	
-	public static void crearCSVRestricciones(double epi, String pol, String nombre) throws IOException{
+	public static void crearCSVRestricciones(double epi, List<String> pol, String nombre) throws IOException{
 		List<String[]> lista = new ArrayList<>();
 		String[] paramI = new String[2];
 		paramI[0] = Constantes.nombreRestriccionEpidemiologica;
 		paramI[1] = String.valueOf(epi);
 		lista.add(paramI);
 		
-		paramI = new String[2];
-		paramI[0] = Constantes.nombreRestriccionSocial;
-		paramI[1] = String.valueOf(pol);
+		paramI = new String[1+pol.size()];
+		paramI[0] = Constantes.nombreRestriccionPolitica;
+		for(int i = 0; i < pol.size(); i++) {
+			paramI[i+1] = pol.get(i);
+		}
 		lista.add(paramI);
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero), ',', 
@@ -905,7 +907,7 @@ public class Utils {
 		return res;
 	}
 	
-	public static Map<String, String> leerCSVRestricciones(String nombre) throws IOException, CsvException{
+	public static Map<String, List<String>> leerCSVRestricciones(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
@@ -921,10 +923,10 @@ public class Utils {
 			}
 		}
 		
-		Map<String, String> res = new HashMap<>();
+		Map<String, List<String>> res = new HashMap<>();
 		
-		res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(0).get(1));
-		res.put(Constantes.nombreRestriccionSocial, fichero.get(1).get(1));
+		res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(1).subList(1, fichero.get(0).size()));
+		res.put(Constantes.nombreRestriccionPolitica, fichero.get(1).subList(1, fichero.get(1).size()));
 		
 		return res;
 	}

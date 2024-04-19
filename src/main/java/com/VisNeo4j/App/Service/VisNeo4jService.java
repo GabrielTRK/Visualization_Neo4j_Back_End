@@ -10,7 +10,7 @@ import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Usuario;
+import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
@@ -249,7 +249,7 @@ public class VisNeo4jService {
 	}
 	
 	public boolean guardarNuevoproyecto(String nombre, BPSOParams params, DMPreferences preferencias, 
-			String fecha_I, String fecha_F, double resEpi, String resPol) throws IOException {
+			String fecha_I, String fecha_F, double resEpi, List<String> resPol) throws IOException {
 		//Comprobar que el nombre no está duplicado
 		File directoryPath = new File(Constantes.rutaFicherosProyectos);
 	      //List of all files and directories
@@ -336,7 +336,7 @@ public class VisNeo4jService {
 		return Utils.leerCSVFechas(nombre);
 	}
 	
-	public Map<String, String> cargarRestriccionesProyecto(String nombre) throws IOException, CsvException{
+	public Map<String, List<String>> cargarRestriccionesProyecto(String nombre) throws IOException, CsvException{
 		return Utils.leerCSVRestricciones(nombre);
 	}
 	

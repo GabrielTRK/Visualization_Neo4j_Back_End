@@ -91,5 +91,5 @@ public class Constantes {
     public static final String nombreFechaFinal = "Fecha Final";
     
     public static final String nombreRestriccionEpidemiologica = "Restricción Epidemiológica";
-    public static final String nombreRestriccionSocial = "Restricción Social";
+    public static final String nombreRestriccionPolitica = "Restricción Política";
 }

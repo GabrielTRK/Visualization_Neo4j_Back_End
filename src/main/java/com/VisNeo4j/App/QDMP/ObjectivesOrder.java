@@ -9,6 +9,10 @@ public class ObjectivesOrder {
 	public ObjectivesOrder() {
 		super();
 	}
+	
+	public ObjectivesOrder(List<Integer> order) {
+		this.order = order;
+	}
 
 	public List<Integer> getOrder() {
 		return order;

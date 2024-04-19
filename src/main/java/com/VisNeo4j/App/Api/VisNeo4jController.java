@@ -15,13 +15,15 @@ import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Usuario;
+import com.VisNeo4j.App.Modelo.Entrada.ResPolPref;
+import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Persona;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
+import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Modelo.Salida.Vuelos;
@@ -67,18 +69,17 @@ class VisNeo4jController {
 			@RequestParam("m") double m,
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
-			@RequestParam("res_pol") String resPol,
 			@RequestParam("nombre") String nombreProyecto,
-			@RequestBody ObjectivesOrder order) throws IOException {
+			@RequestBody ResPolPref resPolPref) throws IOException {
 		
-		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
-		preferencias.generateWeightsVector(order.getOrder().size());
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
-		return visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol);
+		return visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPolPref.getPol());
 	}
 	
 	@CrossOrigin
@@ -148,11 +149,10 @@ class VisNeo4jController {
 			@RequestParam("m") double m,
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
-			@RequestParam("res_pol") String resPol,
 			@RequestParam("nombre") String nombreProyecto,
-			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
-		preferencias.generateWeightsVector(order.getOrder().size());
+			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
@@ -160,9 +160,9 @@ class VisNeo4jController {
 		
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Problema problema = new RRPS_PAT(datos, resEpi, resPol, preferencias);
+		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
 		
-		if(visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPol)) {
+		if(visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPolPref.getPol())) {
 			BPSO bpso = new BPSO(problema, params, nombreProyecto);
 			Individuo ind = bpso.ejecutarBPSO();
 			problema.devolverSolucionCompleta(ind);
@@ -190,11 +190,11 @@ class VisNeo4jController {
 		
 		Map<String, String> fechas = visNeo4jService.cargarFechasProyecto(proyecto);
 		
-		Map<String, String> res = visNeo4jService.cargarRestriccionesProyecto(proyecto);
+		Map<String, List<String>> res = visNeo4jService.cargarRestriccionesProyecto(proyecto);
 		
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
 		
-		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica)), Constantes.nombreRestriccionSocial, preferencias);
+		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
 		BPSO bpso = new BPSO(problema, params, proyecto);
 		Individuo ind = bpso.ejecutarBPSO();
@@ -215,7 +215,7 @@ class VisNeo4jController {
 		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
-		Problema problema = new RRPS_PAT(datos, 0.75, "", preferencias);
+		Problema problema = new RRPS_PAT(datos, 0.75, List.of(), preferencias);
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		problema.inicializarValores(ind);
 		//problema.inicializarValores(ind);
@@ -268,8 +268,13 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/numSoluciones")
 	public int obtenerNumSoluciones() throws FileNotFoundException, IOException, CsvException, ParseException {
-		
 		return Utils.leerCSVproblemaNumSoluciones();
+	}
+	
+	@CrossOrigin
+	@PostMapping("/login")
+	public boolean logIn(@RequestBody Usuario user/*, @RequestBody String pass*/) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.comprobarUsuario(user);
 	}
 	
 	/*@CrossOrigin
@@ -304,9 +309,9 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/test")
-	public boolean test(@RequestBody Usuario user/*, @RequestBody String pass*/) throws FileNotFoundException, IOException, CsvException, ParseException {
-		
-		return visNeo4jService.comprobarUsuario(user);
+	public void test(/*@RequestBody Usuario user, */@RequestBody ResPolPref res) throws FileNotFoundException, IOException, CsvException, ParseException {
+		System.out.println(res);
+		//return visNeo4jService.comprobarUsuario(user);
 	}
 
 }

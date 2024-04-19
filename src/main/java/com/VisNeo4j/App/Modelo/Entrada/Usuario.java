@@ -1,12 +1,16 @@
-package com.VisNeo4j.App.Modelo;
+package com.VisNeo4j.App.Modelo.Entrada;
+
+import java.util.List;
 
 public class Usuario {
 	
 	private String usuario;
 	private String pass;
 	
-	public Usuario() {
+	public Usuario(String usuario, String pass) {
 		super();
+		this.usuario = usuario;
+		this.pass = pass;
 	}
 	public String getUsuario() {
 		return usuario;

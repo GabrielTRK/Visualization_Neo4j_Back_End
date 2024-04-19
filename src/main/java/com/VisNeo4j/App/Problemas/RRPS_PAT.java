@@ -20,10 +20,10 @@ public class RRPS_PAT extends Problema {
 	private DatosRRPS_PAT datos;
 	private int numInicializaciones = 0;
 	private DMPreferences preferencias;
-	private String resPol;
+	private List<String> resPol;
 	private List<Integer> direccionesAMantener;
 
-	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, String resPol, DMPreferences preferencias) {
+	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, List<String> resPol, DMPreferences preferencias) {
 		super(0, 1);
 		
 		this.datos = datos;
@@ -39,7 +39,7 @@ public class RRPS_PAT extends Problema {
 
 	private void calcularDireccionesAMantener() {
 		for (int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
-			if (this.datos.getContinentesTotales().get(i).equals(this.resPol)
+			if (this.resPol.contains(this.datos.getContinentesTotales().get(i))
 					&& this.datos.getCapitalesTotales().get(i)) {
 				this.direccionesAMantener.add(i);
 			}
