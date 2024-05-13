@@ -151,6 +151,7 @@ class VisNeo4jController {
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		//TODO: Devolver id de solucion
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		

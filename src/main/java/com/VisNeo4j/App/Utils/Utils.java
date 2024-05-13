@@ -745,7 +745,6 @@ public class Utils {
 				objI[0] = String.valueOf(preferencias.getOrder().getOrder().get(i));
 				lista.add(objI);
 			}
-			
 			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
@@ -903,7 +902,13 @@ public class Utils {
 				fichero.add(filaI);
 			}
 		}
-		Restricciones res = new Restricciones(fichero.get(1).get(1), Double.valueOf(fichero.get(0).get(1)));
+		Restricciones res;
+		if(fichero.get(1).size() > 1){//TODO: Obtener restricciones pol en forma de lista
+			res = new Restricciones(fichero.get(1).subList(1, fichero.get(1).size()), Double.valueOf(fichero.get(0).get(1)));
+		}else {
+			res = new Restricciones(List.of(), Double.valueOf(fichero.get(0).get(1)));
+		}
+		
 		return res;
 	}
 	

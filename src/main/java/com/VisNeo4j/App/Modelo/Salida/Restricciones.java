@@ -1,20 +1,25 @@
 package com.VisNeo4j.App.Modelo.Salida;
 
+import java.util.List;
+
 public class Restricciones {
 	
-	private String soc;
+	private List<String> pol;
 	private Double epi;
-	public Restricciones(String soc, Double epi) {
+	public Restricciones(List<String> pol, Double epi) {
 		super();
-		this.soc = soc;
+		this.pol = pol;
 		this.epi = epi;
 	}
-	public String getSoc() {
-		return soc;
+	
+	public List<String> getPol() {
+		return pol;
 	}
-	public void setSoc(String soc) {
-		this.soc = soc;
+
+	public void setPol(List<String> pol) {
+		this.pol = pol;
 	}
+
 	public Double getEpi() {
 		return epi;
 	}
