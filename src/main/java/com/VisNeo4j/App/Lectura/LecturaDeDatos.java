@@ -581,6 +581,8 @@ public class LecturaDeDatos {
                 if(!conexiones.contains(List.of(split[7], split[8]))) {
                 	conexiones.add(List.of(split[7], split[8]));
                 	vuelosEntrantesConexion.put(List.of(split[7], split[8]), 1);
+                    continentes.add(split[11]);
+                    capital.add(Boolean.parseBoolean(split[12]));
                 	if(Double.parseDouble(split[3]) == -1.0) {
                 		conectividades.add(0.0);
 					}else {
@@ -606,8 +608,6 @@ public class LecturaDeDatos {
                 tasasAeropuertos.add(Double.parseDouble(split[6]));
                 companyias.add(split[2]);
                 areasInf.add(split[10]);
-                continentes.add(split[11]);
-                capital.add(Boolean.parseBoolean(split[12]));
             }
             // Closing the scanner
             scanner.close();

@@ -198,6 +198,8 @@ public class VisNeo4jService {
 				if(!conexiones.contains(List.of(origen, destino))) {
                 	conexiones.add(List.of(origen, destino));
                 	vuelosEntrantesConexion.put(List.of(origen, destino), 1);
+                    continentes.add(continente);
+                    capital.add(isCapital);
                 	if(conectividad == -1.0) {
                 		conectividades.add(0.0);
 					}else {
@@ -223,8 +225,6 @@ public class VisNeo4jService {
                 tasasAeropuertos.add(tasas);
                 companyias.add(companyia);
                 areasInf.add(areaInf);
-                continentes.add(continente);
-                capital.add(isCapital);
                 
                 String[] filaIFichero = new String[13];
                 

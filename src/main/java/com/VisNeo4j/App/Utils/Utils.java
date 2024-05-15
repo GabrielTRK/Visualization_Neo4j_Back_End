@@ -903,7 +903,7 @@ public class Utils {
 			}
 		}
 		Restricciones res;
-		if(fichero.get(1).size() > 1){//TODO: Obtener restricciones pol en forma de lista
+		if(fichero.get(1).size() > 1){
 			res = new Restricciones(fichero.get(1).subList(1, fichero.get(1).size()), Double.valueOf(fichero.get(0).get(1)));
 		}else {
 			res = new Restricciones(List.of(), Double.valueOf(fichero.get(0).get(1)));
