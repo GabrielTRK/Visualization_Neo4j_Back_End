@@ -930,7 +930,7 @@ public class Utils {
 		
 		Map<String, List<String>> res = new HashMap<>();
 		
-		res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(1).subList(1, fichero.get(0).size()));
+		res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(0).subList(1, fichero.get(0).size()));
 		res.put(Constantes.nombreRestriccionPolitica, fichero.get(1).subList(1, fichero.get(1).size()));
 		
 		return res;
