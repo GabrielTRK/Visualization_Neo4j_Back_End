@@ -312,8 +312,7 @@ public class VisNeo4jService {
 			//Obtener obj y res
 			List<Double> obj = Utils.leerCSVObjetivosSalida(id.replace(Constantes.extensionFichero, ""), nombre);
 			
-			
-			Solucion sol = new Solucion(Integer.valueOf(id.replace(Constantes.extensionFichero, "")), (int)Math.round(fit.get(0))+1, fit.get(1), obj.subList(1, obj.size()), obj.get(0));
+			Solucion sol = new Solucion(Integer.valueOf(id.replace(Constantes.extensionFichero, "")), (int)Math.round(fit.get(0))+1, fit.get(1), obj, this.cargarPreferenciasProyecto(nombre).getOrder());
 			soluciones.add(sol);
 		}
 		

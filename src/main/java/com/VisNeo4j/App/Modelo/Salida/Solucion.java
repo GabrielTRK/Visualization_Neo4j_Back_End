@@ -1,22 +1,28 @@
 package com.VisNeo4j.App.Modelo.Salida;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.VisNeo4j.App.Constantes.Constantes;
+import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 
 public class Solucion {
 	
 	private int id;
 	private int iter;
 	private double fitness;
-	private List<Double> obj;
-	private double res;
+	private List<Objetivo> obj;
 	
-	public Solucion(int id, int iter, double fitness, List<Double> obj, double res) {
+	public Solucion(int id, int iter, double fitness, List<Double> obj, ObjectivesOrder order) {
 		super();
 		this.id = id;
 		this.iter = iter;
 		this.fitness = fitness;
-		this.obj = obj;
-		this.res = res;
+		this.obj = new ArrayList<>();
+		this.obj.add(new Objetivo(Constantes.nombresRestricciones.get(0), obj.get(0)));
+		for(int i = 0; i < order.getOrder().size(); i++) {
+			this.obj.add(new Objetivo(Constantes.nombreObjetivos.get(order.getOrder().get(i)-1), obj.get(order.getOrder().get(i))));
+		}
 	}
 	public int getId() {
 		return id;
@@ -36,17 +42,11 @@ public class Solucion {
 	public void setFitness(double fitness) {
 		this.fitness = fitness;
 	}
-	public List<Double> getObj() {
+	public List<Objetivo> getObj() {
 		return obj;
 	}
-	public void setObj(List<Double> obj) {
+	public void setObj(List<Objetivo> obj) {
 		this.obj = obj;
-	}
-	public double getRes() {
-		return res;
-	}
-	public void setRes(double res) {
-		this.res = res;
 	}
 	
 	
