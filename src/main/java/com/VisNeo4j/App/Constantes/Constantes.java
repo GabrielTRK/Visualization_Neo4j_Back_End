@@ -17,6 +17,7 @@ public class Constantes {
 	
 	public static final String extensionFichero = ".csv";
     public static final DateFormat formatoFecha = new SimpleDateFormat("yyyyMMddHHmmss");
+    public static final SimpleDateFormat formatoFechaRRPS_PAT = new SimpleDateFormat("yyyy-MM-dd");
     public static final String nombreProblemaDefecto = "problema";
     public static final String nombreDTLZ1 = "dtlz1";
     public static final String nombreDTLZ2 = "dtlz2";
@@ -87,8 +88,9 @@ public class Constantes {
     public static final String nombreParamCPM = "m";
     public static final String nombreParamCPP = "p";
     
-    public static final String nombreFechaInicial = "Fecha Inicial";
-    public static final String nombreFechaFinal = "Fecha Final";
+    public static final String nombreFechaInicial = "Fecha_Inicial";
+    public static final String nombreFechaFinal = "Fecha_Final";
+    public static final String nombreFechaActual = "Fecha_Actual";
     
     public static final String nombreRestriccionEpidemiologica = "Restricción Epidemiológica";
     public static final String nombreRestriccionPolitica = "Restricción Política";

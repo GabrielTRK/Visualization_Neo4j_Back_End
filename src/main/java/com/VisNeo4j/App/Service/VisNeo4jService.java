@@ -51,12 +51,10 @@ public class VisNeo4jService {
 	}
 	
 	public DatosRRPS_PAT obtenerDatosRRPS_PAT(String fecha_I, String fecha_F) throws ParseException, IOException {
-	List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
+		List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Date fechaInicio = sdf.parse(fecha_I);
-		Date fechaFinal = sdf.parse(fecha_F);
+		Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fecha_I);
+		Date fechaFinal = Constantes.formatoFechaRRPS_PAT.parse(fecha_F);
 		
 		long diffInMillies = Math.abs(fechaFinal.getTime() - fechaInicio.getTime());
 	    int numDias = (int)TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
@@ -87,7 +85,8 @@ public class VisNeo4jService {
 	    }
 	    
 	    
-		return new DatosRRPS_PAT(numDias+1, sdf.format(fechaInicio), sdf.format(fechaFinal), datosPorDia);
+		return new DatosRRPS_PAT(numDias+1, Constantes.formatoFechaRRPS_PAT.format(fechaInicio), 
+				Constantes.formatoFechaRRPS_PAT.format(fechaFinal), datosPorDia);
 	}
 	
 	public DatosRRPS_PATDiaI obtenerDatosRRPS_PATDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
@@ -333,6 +332,31 @@ public class VisNeo4jService {
 	
 	public Map<String, String> cargarFechasProyecto(String nombre) throws IOException, CsvException{
 		return Utils.leerCSVFechas(nombre);
+	}
+	
+	public String calcularFecha(String fechaInicial, int dia) throws ParseException {
+		Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fechaInicial);
+		Calendar c = Calendar.getInstance();
+	    c.setTime(fechaInicio);
+	    c.add(Calendar.DATE, dia);
+	    
+	    return this.formatearFecha(c);
+	}
+	
+	public String formatearFecha(Calendar c) {
+		String dia_Inicial = String.valueOf(c.get(Calendar.DATE));
+	    if(dia_Inicial.length() == 1) {
+	    	dia_Inicial = "0" + dia_Inicial;
+	    }
+	    
+	    String mes_Inicial = String.valueOf(c.get(Calendar.MONTH)+1);
+	    if(mes_Inicial.length() == 1) {
+	    	mes_Inicial = "0" + mes_Inicial;
+	    }
+	    
+		String año_Inicial = String.valueOf(c.get(Calendar.YEAR));
+		
+		return año_Inicial + "-" + mes_Inicial + "-" + dia_Inicial;
 	}
 	
 	public Map<String, List<String>> cargarRestriccionesProyecto(String nombre) throws IOException, CsvException{

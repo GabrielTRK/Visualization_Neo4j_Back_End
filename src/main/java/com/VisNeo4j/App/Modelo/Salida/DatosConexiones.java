@@ -2,6 +2,7 @@ package com.VisNeo4j.App.Modelo.Salida;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
@@ -11,10 +12,12 @@ public class DatosConexiones {
 	
 	private List<Aeropuerto> listaAeropuertos;
 	private List<Conexion> coordenadasConexiones;
+	private Map<String, String> fechas;
 
-	public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind, DatosRRPS_PAT datos) {
+	public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind, DatosRRPS_PAT datos, Map<String, String> fechas) {
 		this.listaAeropuertos = listaAeropuertos;
 		this.coordenadasConexiones = new ArrayList<>();
+		this.fechas = fechas;
 		for(int i = 0; i < listaAeropuertos.size(); i = i+2) {
 			boolean abierto = false;
 				if(ind.getVariables().get(i/2) == 1.0) {
@@ -37,9 +40,10 @@ public class DatosConexiones {
 		
 	}
 	
-	public DatosConexiones(List<Aeropuerto> listaAeropuertos, List<Double> ind, DatosRRPS_PATDiaI datos) {
+	public DatosConexiones(List<Aeropuerto> listaAeropuertos, List<Double> ind, DatosRRPS_PATDiaI datos, Map<String, String> fechas) {
 		this.listaAeropuertos = listaAeropuertos;
 		this.coordenadasConexiones = new ArrayList<>();
+		this.fechas = fechas;
 		for(int i = 0; i < listaAeropuertos.size(); i = i+2) {
 			boolean abierto = false;
 				if(ind.get(i/2) == 1.0) {
@@ -94,6 +98,14 @@ public class DatosConexiones {
 
 	public void setCoordenadasConexiones(List<Conexion> coordenadasConexiones) {
 		this.coordenadasConexiones = coordenadasConexiones;
+	}
+
+	public Map<String, String> getFechas() {
+		return fechas;
+	}
+
+	public void setFechas(Map<String, String> fechas) {
+		this.fechas = fechas;
 	}
 
 }

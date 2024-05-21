@@ -106,7 +106,9 @@ class VisNeo4jController {
 		
 		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
 		
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia));
+		fechas.put(Constantes.nombreFechaActual, visNeo4jService.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
+		
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
 		
 		return datosConexiones;
 	}
@@ -123,7 +125,9 @@ class VisNeo4jController {
 		
 		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
 		
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia));
+		fechas.put(Constantes.nombreFechaActual, visNeo4jService.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
+		
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
 		datosConexiones.aplicarFiltro(con);
 		
 		return datosConexiones;
