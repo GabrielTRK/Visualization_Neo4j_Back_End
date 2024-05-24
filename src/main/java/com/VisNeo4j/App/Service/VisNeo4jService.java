@@ -5,16 +5,25 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.SessionConfig;
 import org.springframework.data.neo4j.core.DatabaseSelectionProvider;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.VisNeo4j.App.Algoritmo.BPSO;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Entrada.ResPolPref;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
+import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
+import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
+import com.VisNeo4j.App.Modelo.Salida.FitnessI;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
+import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
 import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
@@ -250,16 +259,23 @@ public class VisNeo4jService {
 		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
 	}
 	
-	public boolean guardarNuevoproyecto(String nombre, BPSOParams params, DMPreferences preferencias, 
-			String fecha_I, String fecha_F, double resEpi, List<String> resPol) throws IOException {
-		//Comprobar que el nombre no está duplicado
+	public boolean guardarProyecto(String fecha_I, String fecha_F, int numIteraciones,
+			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
+			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws IOException {
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
+		
+		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
+				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
+				Constantes.nombreIWDyanamicDecreasing);
+		
 		File directoryPath = new File(Constantes.rutaFicherosProyectos);
 	      //List of all files and directories
 	    String contents[] = directoryPath.list();
 	    int pos = 0;
 	    boolean igual = false;
 	    while(!igual && pos < contents.length) {
-	    	if(contents[pos].equals(nombre)) {
+	    	if(contents[pos].equals(nombreProyecto)) {
 	    		igual = true;
 	    	}
 	    	pos++;
@@ -268,17 +284,70 @@ public class VisNeo4jService {
 		if(igual) {
 			return false;
 		}else {
-			Utils.crearDirectorioProyecto(nombre);
+			Utils.crearDirectorioProyecto(nombreProyecto);
 			
-			Utils.crearDirectorioFitness(nombre);
-			Utils.crearDirectorioObjetivos(nombre);
+			Utils.crearDirectorioFitness(nombreProyecto);
+			Utils.crearDirectorioObjetivos(nombreProyecto);
 			//Guardar preferencias y parametros
-			Utils.crearCSVFechas(fecha_I, fecha_F, nombre);
-			Utils.crearCSVParams(params, nombre);
-			Utils.crearCSVPref(preferencias, nombre);
-			Utils.crearCSVRestricciones(resEpi, resPol, nombre);
+			Utils.crearCSVFechas(fecha_I, fecha_F, nombreProyecto);
+			Utils.crearCSVParams(params, nombreProyecto);
+			Utils.crearCSVPref(preferencias, nombreProyecto);
+			Utils.crearCSVRestricciones(resEpi, resPolPref.getPol(), nombreProyecto);
 			return true;
 		}
+		
+	}
+	
+	public boolean guardarYOptimizar(String fecha_I, String fecha_F, int numIteraciones,
+			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
+			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
+		
+		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
+				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
+				Constantes.nombreIWDyanamicDecreasing);
+		
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		
+		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
+		
+		if(this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref)) {
+			BPSO bpso = new BPSO(problema, params, nombreProyecto);
+			Individuo ind = bpso.ejecutarBPSO();
+			problema.devolverSolucionCompleta(ind);
+			System.out.println(ind);
+			
+			this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
+	public boolean optimizar(String proyecto) throws IOException, CsvException, ParseException {
+		DMPreferences preferencias = this.cargarPreferenciasProyecto(proyecto);
+		
+		BPSOParams params = this.cargarParametrosProyecto(proyecto);
+		
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		
+		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
+		
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		
+		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		
+		BPSO bpso = new BPSO(problema, params, proyecto);
+		Individuo ind = bpso.ejecutarBPSO();
+		problema.devolverSolucionCompleta(ind);
+		System.out.println(ind);
+			
+		this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
+		return true;
 	}
 	
 	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
@@ -319,6 +388,48 @@ public class VisNeo4jService {
 		}
 		
 		return soluciones;
+	}
+	
+	public DatosConexiones cargarProyectoISolucionJDiaK(String proyecto, int id, int dia) throws FileNotFoundException, IOException, CsvException, ParseException {
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		
+		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
+		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
+		
+		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
+		
+		fechas.put(Constantes.nombreFechaActual, this.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
+		
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
+		
+		return datosConexiones;
+	}
+	
+	public DatosConexiones cargarProyectoISolucionJDiaKFiltro(String proyecto, int id,
+			int dia, String con) throws FileNotFoundException, IOException, CsvException, ParseException {
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		
+		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
+		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
+		
+		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
+		
+		fechas.put(Constantes.nombreFechaActual, this.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
+		
+		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
+		datosConexiones.aplicarFiltro(con);
+		
+		return datosConexiones;
+	}
+	
+	public int numDiasSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return Utils.obtenernumDiasSolucionI(proyecto, id);
+	}
+	
+	public List<FitnessI> obtenerHistSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return TraducirSalida.obtenerHistoricoDeFitness(Utils.leerCSVHistFitness(proyecto, String.valueOf(id)));
 	}
 	
 	public List<Objetivo> obtenerObjSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException{

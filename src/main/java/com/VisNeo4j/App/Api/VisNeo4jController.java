@@ -72,14 +72,8 @@ class VisNeo4jController {
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws IOException {
 		
-		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
-		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
-		
-		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
-				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
-				Constantes.nombreIWDyanamicDecreasing);
-		
-		return visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPolPref.getPol());
+		return visNeo4jService.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
 	}
 	
 	@CrossOrigin
@@ -98,46 +92,20 @@ class VisNeo4jController {
 	@GetMapping("/{proyecto}/{id}/{dia}")
 	public DatosConexiones cargarProyectoISolucionJDiaK(@PathVariable String proyecto, @PathVariable int id,
 			@PathVariable int dia) throws FileNotFoundException, IOException, CsvException, ParseException {
-		Map<String, String> fechas = visNeo4jService.cargarFechasProyecto(proyecto);
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		
-		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
-		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
-		
-		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
-		
-		fechas.put(Constantes.nombreFechaActual, visNeo4jService.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
-		
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
-		
-		return datosConexiones;
+		return visNeo4jService.cargarProyectoISolucionJDiaK(proyecto, id, dia);
 	}
 	
 	@CrossOrigin
 	@GetMapping("/{proyecto}/{id}/{dia}/{con}")
 	public DatosConexiones cargarProyectoISolucionJDiaKFiltro(@PathVariable String proyecto, @PathVariable int id,
 			@PathVariable int dia, @PathVariable String con) throws FileNotFoundException, IOException, CsvException, ParseException {
-		Map<String, String> fechas = visNeo4jService.cargarFechasProyecto(proyecto);
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		
-		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
-		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
-		
-		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
-		
-		fechas.put(Constantes.nombreFechaActual, visNeo4jService.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
-		
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
-		datosConexiones.aplicarFiltro(con);
-		
-		return datosConexiones;
+		return visNeo4jService.cargarProyectoISolucionJDiaKFiltro(proyecto, id, dia, con);
 	}
 	
 	@CrossOrigin
 	@GetMapping("/{proyecto}/{id}/numDias")
 	public int numDiasSolucionI(@PathVariable String proyecto, @PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
-		
-		return Utils.obtenernumDiasSolucionI(proyecto, id);
+		return visNeo4jService.numDiasSolucionI(proyecto, id);
 	}
 	
 	@CrossOrigin
@@ -156,58 +124,15 @@ class VisNeo4jController {
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		//TODO: Devolver id de solucion
-		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
-		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
-		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
-				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
-				Constantes.nombreIWDyanamicDecreasing);
-		
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
-		
-		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
-		
-		if(visNeo4jService.guardarNuevoproyecto(nombreProyecto, params, preferencias, fecha_I, fecha_F, resEpi, resPolPref.getPol())) {
-			BPSO bpso = new BPSO(problema, params, nombreProyecto);
-			Individuo ind = bpso.ejecutarBPSO();
-			problema.devolverSolucionCompleta(ind);
-			System.out.println(ind);
-			
-			visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
-			return true;
-		}else {
-			return false;
-		}
-		
-		/*List<Aeropuerto> lista = Utils.obtenerUltimaSolucionDiaI(0);
-		List<Double> bits = Utils.obtenerUltimosBitsDiaI(0);
-		Utils.obtenernumDiasUltimaSolucion();
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits);*/
-    	//return datosConexiones;
+		return visNeo4jService.guardarYOptimizar(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
 	}
 	
 	@CrossOrigin
 	@PostMapping("/{proyecto}/optimize")
 	public boolean runOptimization(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DMPreferences preferencias = visNeo4jService.cargarPreferenciasProyecto(proyecto);
-		
-		BPSOParams params = visNeo4jService.cargarParametrosProyecto(proyecto);
-		
-		Map<String, String> fechas = visNeo4jService.cargarFechasProyecto(proyecto);
-		
-		Map<String, List<String>> res = visNeo4jService.cargarRestriccionesProyecto(proyecto);
-		
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		
-		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
-		
-		BPSO bpso = new BPSO(problema, params, proyecto);
-		Individuo ind = bpso.ejecutarBPSO();
-		problema.devolverSolucionCompleta(ind);
-		System.out.println(ind);
-			
-		visNeo4jService.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
-		return true;
+		return visNeo4jService.optimizar(proyecto);
 	}
 	
 	@CrossOrigin
@@ -249,8 +174,7 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/{proyecto}/{id}/hist")
 	public List<FitnessI> obtenerHistSolucionI(@PathVariable String proyecto, @PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
-		//TODO: Poner el Traducir en un metodo del VisNeo4jService
-		return TraducirSalida.obtenerHistoricoDeFitness(Utils.leerCSVHistFitness(proyecto, String.valueOf(id)));
+		return visNeo4jService.obtenerHistSolucionI(proyecto, id);
 	}
 	
 	@CrossOrigin
