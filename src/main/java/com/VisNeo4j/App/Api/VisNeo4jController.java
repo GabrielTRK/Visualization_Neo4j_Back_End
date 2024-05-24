@@ -249,6 +249,7 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/{proyecto}/{id}/hist")
 	public List<FitnessI> obtenerHistSolucionI(@PathVariable String proyecto, @PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		//TODO: Poner el Traducir en un metodo del VisNeo4jService
 		return TraducirSalida.obtenerHistoricoDeFitness(Utils.leerCSVHistFitness(proyecto, String.valueOf(id)));
 	}
 	
@@ -256,7 +257,7 @@ class VisNeo4jController {
 	@GetMapping("/{proyecto}/{id}/objetivos")
 	public List<Objetivo> obtenerObjSolucionI(@PathVariable String proyecto, 
 			@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
-		return TraducirSalida.obtenerObjetivos(Utils.leerCSVObjetivos(proyecto, String.valueOf(id)));
+		return visNeo4jService.obtenerObjSolucionI(proyecto, id);
 	}
 	
 

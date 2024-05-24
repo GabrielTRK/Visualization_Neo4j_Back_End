@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 
 public class TraducirSalida {
 	
@@ -62,11 +63,15 @@ public class TraducirSalida {
 		return histFit;
 	}
 	
-	public static List<Objetivo> obtenerObjetivos(List<List<String>> obj){
+	public static List<Objetivo> obtenerObjetivos(List<List<String>> obj, ObjectivesOrder order){
 		List<Objetivo> listObj = new ArrayList<>();
-		for(int i = 0; i < obj.size(); i++) {
+		listObj.add(new Objetivo(obj.get(0).get(0), Double.valueOf(obj.get(0).get(1))));
+		/*for(int i = 0; i < obj.size(); i++) {
 			Objetivo objI = new Objetivo(obj.get(i).get(0), Double.valueOf(obj.get(i).get(1)));
 			listObj.add(objI);
+		}*/
+		for(int i = 0; i < order.getOrder().size(); i++) {
+			listObj.add(new Objetivo(obj.get(order.getOrder().get(i)).get(0), Double.valueOf(obj.get(order.getOrder().get(i)).get(1))));
 		}
 		return listObj;
 	}
