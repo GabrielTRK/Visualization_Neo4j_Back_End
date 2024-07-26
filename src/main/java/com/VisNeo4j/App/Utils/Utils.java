@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -910,12 +911,13 @@ public class Utils {
 		}else {
 			List<String[]> lista = new ArrayList<>();
 			String[] iter_Fit;
+			DecimalFormat df = new DecimalFormat("0.00");
 			
 			for(int i = 0; i < res.size(); i++) {
 				iter_Fit = new String[2];
 				
 				iter_Fit[0] = Constantes.nombresRestricciones.get(i);
-				iter_Fit[1] = String.valueOf(res.get(i));
+				iter_Fit[1] = String.valueOf(df.format(res.get(i)));
 				
 				lista.add(iter_Fit);
 			}
@@ -924,7 +926,7 @@ public class Utils {
 				iter_Fit = new String[2];
 				
 				iter_Fit[0] = Constantes.nombreObjetivos.get(i);
-				iter_Fit[1] = String.valueOf(obj.get(i));
+				iter_Fit[1] = String.valueOf(df.format(obj.get(i)));
 				
 				lista.add(iter_Fit);
 			}
@@ -1018,6 +1020,145 @@ public class Utils {
 		
 	}
 	
+	public static String crearCSVHistogramas(List<Double> listaPasajerosPerdidosPorCompanyia, List<Double> listaIngresoPerdidoPorAreaInf, List<Double> listaIngresoPerdidoPorAerDest, String nombreFichero, String nombreProyecto) throws IOException{
+		String fileName = nombreFichero + Constantes.extensionFichero;
+		if(listaPasajerosPerdidosPorCompanyia.size() == 0 || listaIngresoPerdidoPorAreaInf.size() == 0 || listaIngresoPerdidoPorAerDest.size() == 0) {
+			return fileName;
+		}else {
+			List<String[]> lista = new ArrayList<>();
+			
+			String[] valores = new String[listaPasajerosPerdidosPorCompanyia.size()+1];
+			valores[0] = Constantes.nombreCampoPasajerosPerdidosPorCompañía;
+			for(int i = 0; i < listaPasajerosPerdidosPorCompanyia.size(); i++) {
+				
+				valores[i+1] = String.valueOf(listaPasajerosPerdidosPorCompanyia.get(i));
+				
+			}
+			lista.add(valores);
+			
+			valores = new String[listaIngresoPerdidoPorAreaInf.size()+1];
+			valores[0] = Constantes.nombreCampoIngresoPerdidoPorAreaInf;
+			for(int i = 0; i < listaIngresoPerdidoPorAreaInf.size(); i++) {
+				
+				valores[i+1] = String.valueOf(listaIngresoPerdidoPorAreaInf.get(i));
+				
+			}
+			lista.add(valores);
+			
+			valores = new String[listaIngresoPerdidoPorAerDest.size()+1];
+			valores[0] = Constantes.nombreCampoIngresoPerdidoPorAerDest;
+			for(int i = 0; i < listaIngresoPerdidoPorAerDest.size(); i++) {
+				
+				valores[i+1] = String.valueOf(listaIngresoPerdidoPorAerDest.get(i));
+				
+			}
+			lista.add(valores);
+			
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + fileName), ',', 
+                    CSVWriter.NO_QUOTE_CHARACTER, 
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+                    CSVWriter.DEFAULT_LINE_END)) {
+		            writer.writeAll(lista);
+			}
+			return fileName;
+		}
+	}
+	
+	public static Map<String, List<Double>> leerCSVHistogramas(String nombreProyecto, String id) throws FileNotFoundException, IOException, CsvException{
+		Map<String, List<Double>> valores = new HashMap<>();
+		
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + id + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			
+			List<Double> filaI = new ArrayList<>();
+			for(int columna = 1; columna < r.get(0).length; columna++) {
+					
+				filaI.add(Double.valueOf(r.get(0)[columna]));
+			}
+			valores.put(r.get(0)[0], filaI);
+			
+			filaI = new ArrayList<>();
+			for(int columna = 1; columna < r.get(1).length; columna++) {
+					
+				filaI.add(Double.valueOf(r.get(1)[columna]));
+			}
+			valores.put(r.get(1)[0], filaI);
+			
+			filaI = new ArrayList<>();
+			for(int columna = 1; columna < r.get(2).length; columna++) {
+					
+				filaI.add(Double.valueOf(r.get(2)[columna]));
+			}
+			valores.put(r.get(2)[0], filaI);
+			
+		}
+		
+		return valores;
+	}
+	
+	public static Map<String, List<Double>> obtenerRangos(String id, String nombreProyecto) throws FileNotFoundException, IOException, CsvException{
+		Map<String, List<Double>> valores = leerCSVHistogramas(id, nombreProyecto);
+		
+		int indMin = 0;
+		int indMax = valores.get(Constantes.nombreCampoPasajerosPerdidosPorCompañía).size()-1;
+		
+		double valorMin = valores.get(Constantes.nombreCampoPasajerosPerdidosPorCompañía).get(indMin);
+		double valorMax = valores.get(Constantes.nombreCampoPasajerosPerdidosPorCompañía).get(indMax);
+		
+		while(indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
+			if(valorMin == 0.0) {
+				valorMin = valores.get(Constantes.nombreCampoPasajerosPerdidosPorCompañía).get(indMin);
+				indMin++;
+			}
+			if(valorMax == 1.0) {
+				valorMax = valores.get(Constantes.nombreCampoPasajerosPerdidosPorCompañía).get(indMax);
+				indMax--;
+			}
+		}
+		valores.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(valorMin, valorMax));
+		
+		
+		indMin = 0;
+		indMax = valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf).size()-1;
+		
+		valorMin = valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf).get(indMin);
+		valorMax = valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf).get(indMax);
+		
+		while(indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
+			if(valorMin == 0.0) {
+				valorMin = valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf).get(indMin);
+				indMin++;
+			}
+			if(valorMax == 1.0) {
+				valorMax = valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf).get(indMax);
+				indMax--;
+			}
+		}
+		valores.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, List.of(valorMin, valorMax));
+		
+		
+		indMin = 0;
+		indMax = valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest).size()-1;
+		
+		valorMin = valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest).get(indMin);
+		valorMax = valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest).get(indMax);
+		
+		while(indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
+			if(valorMin == 0.0) {
+				valorMin = valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest).get(indMin);
+				indMin++;
+			}
+			if(valorMax == 1.0) {
+				valorMax = valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest).get(indMax);
+				indMax--;
+			}
+		}
+		valores.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, List.of(valorMin, valorMax));
+		
+		
+		return valores;
+	}
+	
 	public static Map<String, String> leerCSVUsuarios() throws IOException, CsvException {
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
@@ -1095,6 +1236,11 @@ public class Utils {
 	
 	public static void crearDirectorioObjetivos(String nombre) throws IOException {
 		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosObjetivos);
+		Files.createDirectories(path);
+	}
+	
+	public static void crearDirectorioRangos(String nombre) throws IOException {
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosRangos);
 		Files.createDirectories(path);
 	}
 	

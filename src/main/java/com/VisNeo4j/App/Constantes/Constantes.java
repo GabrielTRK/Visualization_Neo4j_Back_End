@@ -50,6 +50,7 @@ public class Constantes {
     public static final String nombreFicheroUsuarios = "Usuarios";
     public static final String nombreDirectorioFicherosFitness = "Ficheros_Fitness";
     public static final String nombreDirectorioFicherosObjetivos = "Ficheros_Objetivos";
+    public static final String nombreDirectorioFicherosRangos = "Ficheros_Rangos";
     
     public static final List<String> nombresRestricciones = List.of("Epi");
     public static final List<String> nombreObjetivos = List.of("1","2","3","4","5","6","7");
@@ -58,6 +59,9 @@ public class Constantes {
     public static final List<String> nombresPersonas = List.of("Personas afectadas", "Personas restantes");
     public static final List<String> estadosVuelos = List.of("Vuelos cancelados", "Vuelos restantes");
     public static final String nombreCampoVuelosCancelados = "VuelosCancelados";
+    public static final String nombreCampoPasajerosPerdidosPorCompañía = "PasajerosPerdidosPorCompañía";
+    public static final String nombreCampoIngresoPerdidoPorAreaInf = "IngresoPerdidoPorAreaInf";
+    public static final String nombreCampoIngresoPerdidoPorAerDest = "IngresoPerdidoPorAerDest";
     
     public static final String sirDBField = "sir";
     public static final String pasajerosDBField = "pasajeros";

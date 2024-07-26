@@ -1,6 +1,8 @@
 package com.VisNeo4j.App.Problemas;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,11 +27,11 @@ public class RRPS_PAT extends Problema {
 
 	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, List<String> resPol, DMPreferences preferencias) {
 		super(0, 1);
-		
+
 		this.datos = datos;
 		this.direccionesAMantener = new ArrayList<>();
 		this.resPol = resPol;
-		
+
 		this.calcularDireccionesAMantener();
 		super.setNumVariables(this.datos.getConexionesTotales().size() - this.direccionesAMantener.size());
 		this.resSup = maxRiesgo;
@@ -296,17 +298,16 @@ public class RRPS_PAT extends Problema {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for (int i = 0; i < super.getNumVariables(); i++) {
 
-			if (this.numInicializaciones == 0) {
-				valores.add(i, 0.0);
-			} else if (this.numInicializaciones == 1) {
+			/*
+			 * if (this.numInicializaciones == 0) { valores.add(i, 0.0); } else if
+			 * (this.numInicializaciones == 1) { valores.add(i, 1.0); } else {
+			 */
+			if (i == this.numInicializaciones) {
 				valores.add(i, 1.0);
 			} else {
-				if (i == this.numInicializaciones - 2) {
-					valores.add(i, 1.0);
-				} else {
-					valores.add(i, 0.0);
-				}
+				valores.add(i, 0.0);
 			}
+			// }
 
 			/*
 			 * if (this.numInicializaciones < super.getNumVariables()) { if (i ==
@@ -322,6 +323,170 @@ public class RRPS_PAT extends Problema {
 		return ind;
 	}
 
+	@Override
+	public Individuo extra(Individuo ind) {
+		Map<String, List<Double>> valoresAdicionales = ind.getExtra();
+
+		Map<String, List<Double>> pasajerosPorCompanyia = new HashMap<>();
+		Map<String, List<Double>> ingresosPorAreaInf = new HashMap<>();
+		Map<String, List<Double>> ingresosPorAerDest = new HashMap<>();
+
+		int pos = 0;
+		for (int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			while (pos < this.datos.getConexionesTotalesSeparadas().size()
+					&& this.datos.getConexionesTotalesSeparadas().get(pos).get(0)
+							.equals(this.datos.getConexionesTotales().get(i).get(0))
+					&& this.datos.getConexionesTotalesSeparadas().get(pos).get(1)
+							.equals(this.datos.getConexionesTotales().get(i).get(1))) {
+				
+
+				if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
+					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+							List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
+									+ this.datos.getPasajeros().get(pos) * ind.getVariables().get(i),
+									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
+											+ this.datos.getPasajeros().get(pos)));
+				} else {
+					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+							List.of(this.datos.getPasajeros().get(pos) * ind.getVariables().get(i),
+									this.datos.getPasajeros().get(pos) * 1.0));
+				}
+				if (ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
+					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
+							List.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
+									+ this.datos.getIngresos().get(pos) * ind.getVariables().get(i),
+									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
+											+ this.datos.getIngresos().get(pos)));
+				} else {
+					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
+							List.of(this.datos.getIngresos().get(pos) * ind.getVariables().get(i),
+									this.datos.getIngresos().get(pos)));
+				}
+				if (ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
+					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), List.of(
+							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
+									+ this.datos.getTasas().get(pos) * ind.getVariables().get(i),
+							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
+									+ this.datos.getTasas().get(pos)));
+				} else {
+					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1),
+							List.of(this.datos.getTasas().get(pos) * ind.getVariables().get(i),
+									this.datos.getTasas().get(pos)));
+				}
+
+				pos++;
+			}
+		}
+
+		List<Double> pasajerosPerdidosPorCompanyia = new ArrayList<>();
+		List<Double> ingresoPerdidoAreasInf = new ArrayList<>();
+		List<Double> ingresoPerdidoAerDest = new ArrayList<>();
+		
+		for (String companyia : pasajerosPorCompanyia.keySet()) {
+			if (pasajerosPorCompanyia.get(companyia).get(1) == 0.0) {
+				pasajerosPerdidosPorCompanyia.add(0.0);
+			} else {
+				pasajerosPerdidosPorCompanyia.add(100 * (1
+						- (pasajerosPorCompanyia.get(companyia).get(0) / pasajerosPorCompanyia.get(companyia).get(1))));
+			}
+		}
+		
+		for (String areaInf : ingresosPorAreaInf.keySet()) {
+			if (ingresosPorAreaInf.get(areaInf).get(1) == 0.0) {
+				ingresoPerdidoAreasInf.add(0.0);
+			} else {
+				ingresoPerdidoAreasInf.add(100 * (1
+						- (ingresosPorAreaInf.get(areaInf).get(0) / ingresosPorAreaInf.get(areaInf).get(1))));
+			}
+		}
+		
+		for (String aeropuerto : ingresosPorAerDest.keySet()) {
+			if (ingresosPorAerDest.get(aeropuerto).get(1) == 0.0) {
+				ingresoPerdidoAerDest.add(1.0 * 100); //TODO: Añadir datos restantes sobre aviones y tasas
+			} else {
+				ingresoPerdidoAerDest.add(100 * (1
+						- (ingresosPorAerDest.get(aeropuerto).get(0) / ingresosPorAerDest.get(aeropuerto).get(1))));
+			}
+
+		}
+		Collections.sort(pasajerosPerdidosPorCompanyia);
+		Collections.sort(ingresoPerdidoAreasInf);
+		Collections.sort(ingresoPerdidoAerDest);
+		
+		valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, pasajerosPerdidosPorCompanyia);
+		valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, ingresoPerdidoAreasInf);
+		valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, ingresoPerdidoAerDest);
+		
+		if(pasajerosPerdidosPorCompanyia.get(0) != 0.0 && pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) != 1.0) {
+			//valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
+		}
+		else {
+			/*if(pasajerosPerdidosPorCompanyia.get(0) == 0.0 && pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) != 1.0) {
+				double valorMin = pasajerosPerdidosPorCompanyia.get(0);
+				int index = 1;
+				while (index < pasajerosPerdidosPorCompanyia.size() && valorMin == 0.0) {
+					valorMin = pasajerosPerdidosPorCompanyia.get(index);
+					index++;
+				}
+				if(valorMin == 1.0) {
+					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
+				}else {
+					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(valorMin * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
+				}
+			}else if(pasajerosPerdidosPorCompanyia.get(0) != 0.0 && pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) == 1.0) {
+				double valorMax = pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1);
+				int index = 2;
+				while (index <= pasajerosPerdidosPorCompanyia.size() && valorMax == 1.0) {
+					valorMax = pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-index);
+					index++;
+				}
+				if(valorMax == 0.0) {
+					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
+				}else {
+					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, valorMax * 100));
+				}
+			}*/
+			
+			/*int indMin = 0;
+			int indMax = pasajerosPerdidosPorCompanyia.size()-1;
+			
+			double valorMin = pasajerosPerdidosPorCompanyia.get(indMin);
+			double valorMax = pasajerosPerdidosPorCompanyia.get(indMax);
+			
+			while(indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
+				if(valorMin == 0.0) {
+					valorMin = pasajerosPerdidosPorCompanyia.get(indMin);
+					indMin++;
+				}
+				if(valorMax == 1.0) {
+					valorMax = pasajerosPerdidosPorCompanyia.get(indMax);
+					indMax--;
+				}
+				
+			}
+			
+			valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(valorMin * 100, valorMax * 100));*/
+			
+		}
+		
+		/*if(ingresoPerdidoAreasInf.get(0) != 0.0 && ingresoPerdidoAreasInf.get(ingresoPerdidoAreasInf.size()-1) != 1.0) {
+			valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, List.of(ingresoPerdidoAreasInf.get(0) * 100, ingresoPerdidoAreasInf.get(ingresoPerdidoAreasInf.size()-1) * 100));
+		}
+		else {
+			
+		}
+		
+		if(ingresoPerdidoAerDest.get(0) != 0.0 && ingresoPerdidoAerDest.get(ingresoPerdidoAerDest.size()-1) != 1.0) {
+			valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, List.of(ingresoPerdidoAerDest.get(0) * 100, ingresoPerdidoAerDest.get(ingresoPerdidoAerDest.size()-1) * 100));
+		}
+		else {
+			
+		}*/
+
+		ind.setExtra(valoresAdicionales);
+		return ind;
+	}
+
 	public List<Double> rellenarDirecciones(List<Double> variables) {
 
 		for (int i = 0; i < this.direccionesAMantener.size(); i++) {
@@ -330,16 +495,16 @@ public class RRPS_PAT extends Problema {
 
 		return variables;
 	}
-	
+
 	@Override
 	public Individuo devolverSolucionCompleta(Individuo ind) {
-		
+
 		List<Double> aux = ind.getVariables();
-		
+
 		for (int i = 0; i < this.direccionesAMantener.size(); i++) {
 			aux.add(this.direccionesAMantener.get(i), 1.0);
 		}
-		
+
 		ind.setVariables(aux);
 
 		return ind;

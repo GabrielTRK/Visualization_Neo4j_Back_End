@@ -19,6 +19,7 @@ import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
+import com.VisNeo4j.App.Modelo.Salida.Histogramas;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
@@ -179,7 +180,7 @@ public class VisNeo4jService {
 		try (Session session = sessionFor(database())) {
 			var records = session.readTransaction(tx -> tx.run(""
 				+ " match (cont:Continent)<-[:BELONGS_TO]-(c:Country)-[:INFLUENCE_ZONE]->(a:Airport)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->(ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
-				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0 and a2.weightFee > 0.0" 
+				+ " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("+ fecha_F +") and f.dateOfDeparture >= date("+ fecha_I +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0 and a2.weightFee > 0.0 and f.passengers > 0" 
 				+ " with cont,f,a,a2 order by a.iata, a2.iata "
 				
 				+ " call{ "
@@ -288,6 +289,7 @@ public class VisNeo4jService {
 			
 			Utils.crearDirectorioFitness(nombreProyecto);
 			Utils.crearDirectorioObjetivos(nombreProyecto);
+			Utils.crearDirectorioRangos(nombreProyecto);
 			//Guardar preferencias y parametros
 			Utils.crearCSVFechas(fecha_I, fecha_F, nombreProyecto);
 			Utils.crearCSVParams(params, nombreProyecto);
@@ -328,6 +330,36 @@ public class VisNeo4jService {
 		
 	}
 	
+	public boolean guardarYOptimizarALT(String fecha_I, String fecha_F, int numIteraciones,
+			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
+			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
+		
+		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
+				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
+				Constantes.nombreIWDyanamicDecreasing);
+		
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		
+		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
+		
+		if(this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref)) {
+			BPSO bpso = new BPSO(problema, params, nombreProyecto);
+			Individuo ind = bpso.ejecutarBPSOALT();
+			problema.devolverSolucionCompleta(ind);
+			System.out.println(ind);
+			
+			this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
 	public boolean optimizar(String proyecto) throws IOException, CsvException, ParseException {
 		DMPreferences preferencias = this.cargarPreferenciasProyecto(proyecto);
 		
@@ -350,10 +382,36 @@ public class VisNeo4jService {
 		return true;
 	}
 	
+	public boolean optimizarALT(String proyecto) throws IOException, CsvException, ParseException {
+		DMPreferences preferencias = this.cargarPreferenciasProyecto(proyecto);
+		
+		BPSOParams params = this.cargarParametrosProyecto(proyecto);
+		
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		
+		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
+		
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		
+		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		
+		BPSO bpso = new BPSO(problema, params, proyecto);
+		Individuo ind = bpso.ejecutarBPSOALT();
+		problema.devolverSolucionCompleta(ind);
+		System.out.println(ind);
+			
+		this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
+		return true;
+	}
+	
 	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
 		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos, nombre);
 		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila, nombre);
 		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila, nombre);
+		Utils.crearCSVHistogramas(ind.getExtra().get(Constantes.nombreCampoPasajerosPerdidosPorCompañía), 
+				ind.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAreaInf), 
+				ind.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAerDest), fila, nombre);
+		
 	}
 	
 	public List<Proyecto> obtenerListaProyectos() throws IOException, CsvException{
@@ -434,6 +492,14 @@ public class VisNeo4jService {
 	
 	public List<Objetivo> obtenerObjSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException{
 		return TraducirSalida.obtenerObjetivos(Utils.leerCSVObjetivos(proyecto, String.valueOf(id)), this.cargarPreferenciasProyecto(proyecto).getOrder());
+	}
+	
+	public Histogramas obtenerHistogramasSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException{
+		return TraducirSalida.obtenerHistogramas(Utils.leerCSVHistogramas(proyecto, String.valueOf(id)));
+	}
+	
+	public Histogramas obtenerRangosSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException{
+		return TraducirSalida.obtenerRangos(Utils.obtenerRangos(proyecto, String.valueOf(id)));
 	}
 	
 	public DMPreferences cargarPreferenciasProyecto(String nombre) throws IOException, CsvException {

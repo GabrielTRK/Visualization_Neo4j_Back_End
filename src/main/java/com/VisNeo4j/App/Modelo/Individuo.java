@@ -1,7 +1,9 @@
 package com.VisNeo4j.App.Modelo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Individuo implements Comparable<Individuo> {
 	/*Cada individuo está compuesto por: 
@@ -20,6 +22,7 @@ public class Individuo implements Comparable<Individuo> {
 	private Double constraintViolation = 0.0;
 	private List<List<Double>> subObjetivos;
 	private List<Double> fitnessHist;
+	private Map<String, List<Double>> extra;
 	
 	public Individuo(int numVariables, int numObjetivos) {
 		this.variables = new ArrayList<Double>(numVariables);
@@ -58,10 +61,11 @@ public class Individuo implements Comparable<Individuo> {
 		this.objetivos.set(pos, obj);
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Individuo [variables=" + variables + ", objetivos=" + objetivos + ", objetivosNorm=" + objetivosNorm
-				+ ", restricciones=" + restricciones + ", constraintViolation=" + constraintViolation + "]";
+		return "Individuo [variables=" + variables + "]";
 	}
 
 	public int getdomina() {
@@ -118,6 +122,18 @@ public class Individuo implements Comparable<Individuo> {
 
 	public void setFitnessHist(List<Double> fitnessHist) {
 		this.fitnessHist = fitnessHist;
+	}
+	
+	public void initExtra() {
+		this.extra = new HashMap<>();
+	}
+
+	public Map<String, List<Double>> getExtra() {
+		return extra;
+	}
+
+	public void setExtra(Map<String, List<Double>> extra) {
+		this.extra = extra;
 	}
 
 	//Se comparan el número de individuos que dominan a 2 individuos para asigarles un ranking

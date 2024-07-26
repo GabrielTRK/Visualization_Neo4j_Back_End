@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
@@ -74,6 +75,22 @@ public class TraducirSalida {
 			listObj.add(new Objetivo(obj.get(order.getOrder().get(i)).get(0), Double.valueOf(obj.get(order.getOrder().get(i)).get(1))));
 		}
 		return listObj;
+	}
+	
+	public static Histogramas obtenerHistogramas(Map<String, List<Double>> valores){
+		Histogramas histogramas = new Histogramas(valores.get(
+				Constantes.nombreCampoPasajerosPerdidosPorCompañía), 
+				valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf), 
+				valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest));
+		return histogramas;
+	}
+	
+	public static Histogramas obtenerRangos(Map<String, List<Double>> valores) {
+		Histogramas histogramas = new Histogramas(valores.get(
+				Constantes.nombreCampoPasajerosPerdidosPorCompañía), 
+				valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf), 
+				valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest));
+		return histogramas;
 	}
 	
 	public static List<Persona> obtenerPersonasAfectadas(List<List<String>> per){

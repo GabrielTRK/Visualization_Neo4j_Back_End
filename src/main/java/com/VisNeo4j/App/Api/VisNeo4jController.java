@@ -20,6 +20,7 @@ import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
+import com.VisNeo4j.App.Modelo.Salida.Histogramas;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Persona;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
@@ -37,9 +38,11 @@ import com.VisNeo4j.App.Service.VisNeo4jService;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -184,7 +187,19 @@ class VisNeo4jController {
 		return visNeo4jService.obtenerObjSolucionI(proyecto, id);
 	}
 	
-
+	@CrossOrigin
+	@GetMapping("/{proyecto}/{id}/histogramas")
+	public Histogramas obtenerHistogramasSolucionI(@PathVariable String proyecto, 
+			@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.obtenerHistogramasSolucionI(proyecto, id);
+	}
+	
+	@CrossOrigin
+	@GetMapping("/{proyecto}/{id}/rangos")
+	public Histogramas obtenerRangosSolucionI(@PathVariable String proyecto, 
+			@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.obtenerRangosSolucionI(proyecto, id);
+	}//TODO: Devolver rangos
 	
 	
 	
@@ -225,10 +240,52 @@ class VisNeo4jController {
 	}*/
 	
 	@CrossOrigin
-	@PostMapping("/test")
-	public void test(/*@RequestBody Usuario user, */@RequestBody ResPolPref res) throws FileNotFoundException, IOException, CsvException, ParseException {
-		System.out.println(res);
-		//return visNeo4jService.comprobarUsuario(user);
+	@GetMapping("/test")
+	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
+		// Enter data using BufferReader
+        BufferedReader reader = new BufferedReader(
+            new InputStreamReader(System.in));
+        String name = "";
+        while(!name.equals("1")) {
+        	
+        	
+        	
+        	
+        	name = reader.readLine();
+        }
+        
+        // Reading data using readLine
+        
+
+        // Printing the read line
+        System.out.println(name);
+	}
+	
+	@CrossOrigin
+	@PostMapping("/optimizeALT")
+	public boolean runOptimizationALT(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F,
+			
+			@RequestParam("iteraciones") int numIteraciones,
+			@RequestParam("numIndividuos") int numIndividuos,
+			@RequestParam("inertiaW") double inertiaW,
+			@RequestParam("c1") double c1,
+			@RequestParam("c2") double c2,
+			@RequestParam("m") double m,
+			@RequestParam("p") double p,
+			@RequestParam("res_epi") double resEpi,
+			@RequestParam("nombre") String nombreProyecto,
+			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		//TODO: Devolver id de solucion
+		
+		return visNeo4jService.guardarYOptimizarALT(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+	}
+	
+	@CrossOrigin
+	@PostMapping("/{proyecto}/optimizeALT")
+	public boolean runOptimizationALT(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.optimizarALT(proyecto);
 	}
 
 }
