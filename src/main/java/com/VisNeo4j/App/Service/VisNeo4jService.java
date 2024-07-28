@@ -23,6 +23,7 @@ import com.VisNeo4j.App.Modelo.Salida.Histogramas;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
+import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
@@ -500,6 +501,10 @@ public class VisNeo4jService {
 	
 	public Histogramas obtenerRangosSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException{
 		return TraducirSalida.obtenerRangos(Utils.obtenerRangos(proyecto, String.valueOf(id)));
+	}
+	
+	public TooltipTexts obtenerTooltips(String fecha_I, String fecha_F) throws ParseException, IOException {
+		return TraducirSalida.obtenerTooltips(Utils.obtenerTooltips(this.obtenerDatosRRPS_PAT(fecha_I, fecha_F)));
 	}
 	
 	public DMPreferences cargarPreferenciasProyecto(String nombre) throws IOException, CsvException {

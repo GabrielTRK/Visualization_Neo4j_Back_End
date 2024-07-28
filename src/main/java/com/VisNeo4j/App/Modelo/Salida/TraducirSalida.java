@@ -93,6 +93,13 @@ public class TraducirSalida {
 		return histogramas;
 	}
 	
+	public static TooltipTexts obtenerTooltips(Map<Integer, String> tooltips) {
+		return new TooltipTexts(tooltips.get(Constantes.idObjetivo1), 
+				tooltips.get(Constantes.idObjetivo2), tooltips.get(Constantes.idObjetivo3), 
+				tooltips.get(Constantes.idObjetivo4), tooltips.get(Constantes.idObjetivo5), 
+				tooltips.get(Constantes.idObjetivo6), tooltips.get(Constantes.idObjetivo7));
+	}
+	
 	public static List<Persona> obtenerPersonasAfectadas(List<List<String>> per){
 		List<Persona> listPer = new ArrayList<>();
 		for(int i = 0; i < per.size(); i++) {

@@ -55,6 +55,13 @@ public class Constantes {
     public static final List<String> nombresRestricciones = List.of("Epi");
     public static final List<String> nombreObjetivos = List.of("1","2","3","4","5","6","7");
     public static final List<Integer> idObjetivos = List.of(1,2,3,4,5,6,7);
+    public static final int idObjetivo1 = 1;
+    public static final int idObjetivo2 = 2;
+    public static final int idObjetivo3 = 3;
+    public static final int idObjetivo4 = 4;
+    public static final int idObjetivo5 = 5;
+    public static final int idObjetivo6 = 6;
+    public static final int idObjetivo7 = 7;
     public static final List<String> idContinentes = List.of("AF","AS","EU","NA","OC","SA");
     public static final List<String> nombresPersonas = List.of("Personas afectadas", "Personas restantes");
     public static final List<String> estadosVuelos = List.of("Vuelos cancelados", "Vuelos restantes");

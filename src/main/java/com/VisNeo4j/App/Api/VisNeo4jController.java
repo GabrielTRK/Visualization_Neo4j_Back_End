@@ -26,6 +26,7 @@ import com.VisNeo4j.App.Modelo.Salida.Persona;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
+import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Modelo.Salida.Vuelos;
 import com.VisNeo4j.App.Problemas.Problema;
@@ -199,8 +200,14 @@ class VisNeo4jController {
 	public Histogramas obtenerRangosSolucionI(@PathVariable String proyecto, 
 			@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
 		return visNeo4jService.obtenerRangosSolucionI(proyecto, id);
-	}//TODO: Devolver rangos
+	}
 	
+	@CrossOrigin
+	@GetMapping("/tooltips")
+	public TooltipTexts consultarTooltips(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.obtenerTooltips(fecha_I, fecha_F);
+	}
 	
 	
 	@CrossOrigin

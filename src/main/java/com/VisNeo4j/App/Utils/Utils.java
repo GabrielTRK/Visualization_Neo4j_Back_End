@@ -1159,6 +1159,114 @@ public class Utils {
 		return valores;
 	}
 	
+	public static Map<Integer, String> obtenerTooltips(DatosRRPS_PAT datos){
+		Map<Integer, String> tooltips = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		Double IngresosTtotalSuma = 0.0;
+		int Pasajerostotal = 0;
+		Double Tasastotal = 0.0;
+		
+		List<String> areasInf = new ArrayList<>();
+		List<String> companyias = new ArrayList<>();
+		List<String> aerOr = new ArrayList<>();
+		List<String> aerDest = new ArrayList<>();
+		
+		int pos = 0;
+		for (int i = 0; i < datos.getConexionesTotales().size(); i++) {
+			while (pos < datos.getConexionesTotalesSeparadas().size()
+					&& datos.getConexionesTotalesSeparadas().get(pos).get(0)
+							.equals(datos.getConexionesTotales().get(i).get(0))
+					&& datos.getConexionesTotalesSeparadas().get(pos).get(1)
+							.equals(datos.getConexionesTotales().get(i).get(1))) {
+
+				IngresosTtotalSuma += datos.getIngresos().get(pos);
+
+				Pasajerostotal += datos.getPasajeros().get(pos);
+
+				Tasastotal += datos.getTasas().get(pos);
+				
+				if(!areasInf.contains(datos.getAresInfTotales().get(pos))) {
+					areasInf.add(datos.getAresInfTotales().get(pos));
+				}
+				if(!companyias.contains(datos.getCompanyiasTotales().get(pos))) {
+					companyias.add(datos.getCompanyiasTotales().get(pos));
+				}
+
+				/*if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
+					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+							List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
+									+ this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
+											+ this.datos.getPasajeros().get(pos)));
+				} else {
+					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+							List.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+									this.datos.getPasajeros().get(pos) * 1.0));
+				}
+				if (ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
+					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
+							List.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
+									+ this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
+									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
+											+ this.datos.getIngresos().get(pos)));
+				} else {
+					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
+							List.of(this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
+									this.datos.getIngresos().get(pos)));
+				}
+				if (ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
+					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), List.of(
+							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
+									+ this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
+							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
+									+ this.datos.getTasas().get(pos)));
+				} else {
+					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1),
+							List.of(this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
+									this.datos.getTasas().get(pos)));
+				}*/
+
+				pos++;
+			}
+			if(!aerDest.contains(datos.getConexionesTotales().get(i).get(1))) {
+				aerDest.add(datos.getConexionesTotales().get(i).get(1));
+			}
+			if(!aerOr.contains(datos.getConexionesTotales().get(i).get(0))) {
+				aerOr.add(datos.getConexionesTotales().get(i).get(0));
+			}
+
+			/*if (!this.datos.getConexionesTotales().get(i).get(0).equals(origen)) {
+				if (i > 0) {
+					Double Conectividadaux = 0.0;
+					if (ConectividadauxTotalSuma != 0) {
+						Conectividadaux = ConectividadauxSuma / ConectividadauxTotalSuma;
+					}
+					Conectividadsuma += this.datos.getConectividadesTotales().get(i - 1) * (1 - Conectividadaux);
+					ConectividadtotalSuma += this.datos.getConectividadesTotales().get(i - 1);
+				}
+				// Sumar las conectividades de los destinos y guardar el origen
+				origen = this.datos.getConexionesTotales().get(i).get(0);
+				ConectividadauxSuma = 0.0;
+				ConectividadauxTotalSuma = 0.0;
+			}
+			// origen = this.datos.getConexionesTotales().get(i).get(0);
+			ConectividadauxSuma += solucion.getVariables().get(i)
+					* this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
+			ConectividadauxTotalSuma += this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);*/
+		}
+		
+		tooltips.put(Constantes.idObjetivo1, "The losses in the catchment areas if all connections are cancelled would be " + String.valueOf(df.format(IngresosTtotalSuma)) + " euros.");
+		tooltips.put(Constantes.idObjetivo2, "The number of catchment areas with losses if all connections are cancelled would be " + String.valueOf(areasInf.size()) + ".");
+		tooltips.put(Constantes.idObjetivo3, "The number of airlines with losses if all connections are cancelled would be " + String.valueOf(companyias.size()) + ".");
+		tooltips.put(Constantes.idObjetivo4, "The destination airport losses if all connections are cancelled would be " + String.valueOf(df.format(Tasastotal)) + " euros.");
+		tooltips.put(Constantes.idObjetivo5, "The number of destination airports with losses if all connections are cancelled would be " + String.valueOf(aerDest.size()) + ".");
+		tooltips.put(Constantes.idObjetivo6, "The number of affected passengers if all connections are cancelled would be " + String.valueOf(Pasajerostotal) + ".");
+		tooltips.put(Constantes.idObjetivo7, "The number of origin airports with reduced communication if all connections are cancelled would be " + String.valueOf(aerOr.size()) + ".");
+		
+		return tooltips;
+	}
+	
 	public static Map<String, String> leerCSVUsuarios() throws IOException, CsvException {
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
