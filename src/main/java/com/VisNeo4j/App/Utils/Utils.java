@@ -1096,8 +1096,10 @@ public class Utils {
 		return valores;
 	}
 	
-	public static Map<String, List<Double>> obtenerRangos(String id, String nombreProyecto) throws FileNotFoundException, IOException, CsvException{
+	public static Map<String, List<String>> obtenerRangos(String id, String nombreProyecto) throws FileNotFoundException, IOException, CsvException{
 		Map<String, List<Double>> valores = leerCSVHistogramas(id, nombreProyecto);
+		Map<String, List<String>> valoresSalida = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.00");
 		
 		int indMin = 0;
 		int indMax = valores.get(Constantes.nombreCampoPasajerosPerdidosPorCompañía).size()-1;
@@ -1115,7 +1117,7 @@ public class Utils {
 				indMax--;
 			}
 		}
-		valores.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(valorMin, valorMax));
+		valoresSalida.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(df.format(valorMin), df.format(valorMax)));
 		
 		
 		indMin = 0;
@@ -1134,7 +1136,7 @@ public class Utils {
 				indMax--;
 			}
 		}
-		valores.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, List.of(valorMin, valorMax));
+		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, List.of(df.format(valorMin), df.format(valorMax)));
 		
 		
 		indMin = 0;
@@ -1153,10 +1155,10 @@ public class Utils {
 				indMax--;
 			}
 		}
-		valores.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, List.of(valorMin, valorMax));
+		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, List.of(df.format(valorMin), df.format(valorMax)));
 		
 		
-		return valores;
+		return valoresSalida;
 	}
 	
 	public static Map<Integer, String> obtenerTooltips(DatosRRPS_PAT datos){

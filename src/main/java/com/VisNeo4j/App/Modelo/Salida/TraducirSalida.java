@@ -85,12 +85,12 @@ public class TraducirSalida {
 		return histogramas;
 	}
 	
-	public static Histogramas obtenerRangos(Map<String, List<Double>> valores) {
-		Histogramas histogramas = new Histogramas(valores.get(
+	public static Rangos obtenerRangos(Map<String, List<String>> valores) {
+		Rangos rangos = new Rangos(valores.get(
 				Constantes.nombreCampoPasajerosPerdidosPorCompañía), 
 				valores.get(Constantes.nombreCampoIngresoPerdidoPorAreaInf), 
 				valores.get(Constantes.nombreCampoIngresoPerdidoPorAerDest));
-		return histogramas;
+		return rangos;
 	}
 	
 	public static TooltipTexts obtenerTooltips(Map<Integer, String> tooltips) {

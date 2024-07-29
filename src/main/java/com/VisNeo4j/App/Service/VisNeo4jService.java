@@ -22,6 +22,7 @@ import com.VisNeo4j.App.Modelo.Salida.FitnessI;
 import com.VisNeo4j.App.Modelo.Salida.Histogramas;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
+import com.VisNeo4j.App.Modelo.Salida.Rangos;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
@@ -499,7 +500,7 @@ public class VisNeo4jService {
 		return TraducirSalida.obtenerHistogramas(Utils.leerCSVHistogramas(proyecto, String.valueOf(id)));
 	}
 	
-	public Histogramas obtenerRangosSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException{
+	public Rangos obtenerRangosSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException{
 		return TraducirSalida.obtenerRangos(Utils.obtenerRangos(proyecto, String.valueOf(id)));
 	}
 	

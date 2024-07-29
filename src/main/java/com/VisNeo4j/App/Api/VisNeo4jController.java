@@ -24,6 +24,7 @@ import com.VisNeo4j.App.Modelo.Salida.Histogramas;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Persona;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
+import com.VisNeo4j.App.Modelo.Salida.Rangos;
 import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
@@ -197,7 +198,7 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@GetMapping("/{proyecto}/{id}/rangos")
-	public Histogramas obtenerRangosSolucionI(@PathVariable String proyecto, 
+	public Rangos obtenerRangosSolucionI(@PathVariable String proyecto, 
 			@PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
 		return visNeo4jService.obtenerRangosSolucionI(proyecto, id);
 	}
