@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Description</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script src="../js/description.js" defer></script>
+    <style type="text/css">
+        html {
+            font-family: Helvetica;
+        }
+
+        body {
+            background-color: #eeeded;
+            /*opacity: 1;
+            background-image:  radial-gradient(#b2b2b2 2px, transparent 2px), radial-gradient(#b2b2b2 2px, #eeeded 2px);
+            background-size: 120px 120px;
+            background-position: 0 0,80px 80px;*/
+            padding-bottom: 100px;
+        }
+
+        .PageTitle {
+            padding: 1rem 1rem 0rem 1rem;
+        }
+
+        .TitleChild {
+            display: inline-block;
+        }
+
+        #Load {
+            float: right;
+        }
+
+        #MainCard {
+            width: 64.0%;
+            margin: 0 auto;
+            margin-top: 2%;
+        }
+
+        #StartDateDiv {
+            width: 30%;
+            margin-left: 15%;
+        }
+
+        #EndDateDiv {
+            float: right;
+            width: 30%;
+            margin-right: 15%;
+
+        }
+
+        #Save {
+            padding: 1rem 1rem;
+            display: inline-block;
+        }
+
+        #Execute {
+            padding: 1rem 1rem;
+            float: right;
+        }
+
+        .DDContainer {
+            width: 100px;
+            height: 150px;
+            margin-left: 25%;
+        }
+
+        #div1a,
+        #div2a,
+        #div3a,
+        #div4a,
+        #div5a,
+        #div6a,
+        #div7a {
+            float: left;
+            width: 150px;
+            height: 50px;
+            border: 1px solid rgb(90, 89, 89);
+            border-radius: 6px;
+        }
+
+        #div1b,
+        #div2b,
+        #div3b,
+        #div4b,
+        #div5b,
+        #div6b,
+        #div7b {
+            float: left;
+            width: 150px;
+            height: 50px;
+            border: 1px solid #de4251;
+            border-radius: 6px;
+        }
+
+        /* Create three unequal columns that floats next to each other */
+        .column {
+            float: left;
+            padding: 10px;
+        }
+
+        .left,
+        .right {
+            width: 37.5%;
+        }
+
+        .middle {
+            width: 25%;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        #NumPHelp {
+            margin-left: 5%;
+
+        }
+
+        #IneWHelp {
+            margin-left: 5%;
+        }
+
+        #c1Help {
+            margin-left: 5%;
+        }
+
+        #c2Help {
+            margin-left: 5%;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .bi-arrow-right-square {
+            color: black;
+        }
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 200px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 35%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            font-size: 28px;
+            font-weight: bold;
+            margin-left: 98.5%;
+            margin-top: -3%;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(214, 213, 213);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                    class="bi bi-globe-americas" viewBox="0 0 16 16">
+                    <path
+                        d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484q-.121.12-.242.234c-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z" />
+                </svg>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="goHome()" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="/html/description.html">New project</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="goLoad()" href="#">Load project</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <a href="#" onclick="logOut()" data-toggle="tooltip" title="Log out">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black"
+                            class="bi bi-door-open" viewBox="0 0 16 16">
+                            <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
+                            <path
+                                d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
+                        </svg>
+                    </a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="card" id="MainCard">
+        <div class="PageTitle">
+
+            <div class="input-group mb-3">
+                <h2 class="TitleChild" style="margin-right: 20%;">Project description</h2>
+                <form action="" class="was-validated" style="width: 40%;">
+                    <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">Project name</span>
+                        <input type="text" class="form-control" id="projectName" aria-describedby="inputGroupPrepend"
+                            required>
+                        <div class="invalid-feedback">
+                            Mandatory field
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+
+
+
+
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                        Dates
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="input-group col">
+                                <form action="" class="was-validated" style="width: 70%; margin-left: 15%;">
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text" id="inputGroupPrepend">Start date</span>
+                                        <input id="start" type="date" class="form-control" aria-label="Default"
+                                            aria-describedby="inputGroup-sizing-default" required min="2020-01-01"
+                                            max="2021-01-01" onchange="startDateOnChange()">
+                                        <div class="invalid-feedback">
+                                            Invalid date
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="input-group col">
+                                <form action="" class="was-validated" style="width: 70%;">
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text" id="inputGroupPrepend">End date</span>
+                                        <input id="end" type="date" class="form-control" aria-label="Default"
+                                            aria-describedby="inputGroup-sizing-default" required min="2020-01-01"
+                                            max="2021-01-01" onchange="endDateOnChange()">
+                                        <div class="invalid-feedback">
+                                            Invalid date
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseTwo">
+                        Problem constraints
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+                        <div style="display: flex; justify-content: center;">
+                            <p>Maximum percentage risk of pandemic importation at Spanish airports during optimization
+                            </p><br>
+                        </div>
+                        <div style="display: flex; justify-content: center;">
+                            <input id="restriction" type="range" value="50" min="0" max="100"
+                                oninput="this.nextElementSibling.value = this.value + '%'">
+                            <output id="restrictionOut">50%</output>
+                        </div><br>
+
+                        <div style="display: flex; justify-content: center;">
+                            <p>Connections to be maintained to capitals in each region</p><br>
+                        </div>
+                        <div style="display: flex; justify-content: space-around;">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="EU">
+                                <label class="form-check-label" for="EU">Europe</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="NA">
+                                <label class="form-check-label" for="NA">North America</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="SA">
+                                <label class="form-check-label" for="SA">South America</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="AS">
+                                <label class="form-check-label" for="AS">Asia</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="AF">
+                                <label class="form-check-label" for="AF">Africa</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseThree">
+                        Quantification of decision maker's preferences
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+                        <div class="row" style="margin-bottom: -5%;">
+                            <div class="column left">
+                                <p style="display: flex; justify-content: center;"><b>Economic objectives</b></p>
+
+                                <div class="DDContainer">
+                                    <div id="div1a" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <img src="../Utils/Objective1.png" draggable="true" ondragstart="drag(event)"
+                                            id="1" width="149" height="49" data-toggle="tooltip"
+                                            title="The losses in the catchment areas if all connections are cancelled would be over 40 million euros per day.">
+                                    </div>
+                                    <div id="div2a" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <img src="../Utils/Objective2.png" draggable="true" ondragstart="drag(event)"
+                                            id="2" width="149" height="49" data-toggle="tooltip"
+                                            title="Depending on the popularity of the destination, their income may vary from €100,000 up to €9,000,000 per day">
+                                    </div>
+                                    <div id="div3a" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <img src="../Utils/Objective3.png" draggable="true" ondragstart="drag(event)"
+                                            id="3" width="149" height="49" data-toggle="tooltip"
+                                            title="Depending on the activity of each airline, they operate for range of 200 to more than 15,000 passengers per day">
+                                    </div>
+                                    <div id="div4a" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <img src="../Utils/Objective4.png" draggable="true" ondragstart="drag(event)"
+                                            id="4" width="149" height="49" data-toggle="tooltip"
+                                            title="Each flight may produce from €400 to €3,500 due to airport taxes depending on the airport fee and the weight of the aircraft">
+                                    </div>
+                                    <div id="div5a" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <img src="../Utils/Objective5.png" draggable="true" ondragstart="drag(event)"
+                                            id="5" width="149" height="49" data-toggle="tooltip"
+                                            title="The least busy airports may gain around €3,000 per day from taxes, while the bussiest ones may gain up to €100,000">
+                                    </div>
+                                </div><br><br><br><br><br><br>
+                                <p style="display: flex; justify-content: center;"><b>Social objectives</b></p>
+                                <div class="DDContainer">
+                                    <div id="div6a" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <img src="../Utils/Objective6.png" draggable="true" ondragstart="drag(event)"
+                                            id="6" width="149" height="49" data-toggle="tooltip"
+                                            title="Most commercial flights carry between 80 to 300 passengers">
+                                    </div>
+                                    <div id="div7a" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <img src="../Utils/Objective7.png" draggable="true" ondragstart="drag(event)"
+                                            id="7" width="149" height="49" data-toggle="tooltip"
+                                            title="The measurment of Hub Connectivity proposed by ACI Europe may vary from below 30 up to 70,000 depending on the activity of the airport">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="column middle">
+                                <div style="opacity: 0.5; display: flex; justify-content: center; margin-top: 5%;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
+                                        class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+                                    </svg>
+                                </div>
+
+                                <div
+                                    style="border-style: solid; border-width: 1px; border-radius: 6px; border-color: #e0e0e0; background-color: #f8f9fa; margin-top: 15%">
+                                    <p class="text-center"
+                                        style="display: flex; justify-content: center; margin-top: 30px; color: #000000;">
+                                        Drag and drop the criteria on the left to compile a ranking in the right-hand
+                                        column according to decision-maker preferences. The cells that are higher up in
+                                        the ranking will take priority over the cells that are lower down in the ranking
+                                        during optimization</p>
+                                </div>
+                                <div>
+                                    <p id="PrefValid" style="color: #de4251; text-align: center;">All the criteria must
+                                        be on the right column</p>
+                                </div>
+                            </div>
+                            <div class="column right">
+                                <p style="display: flex; justify-content: center; margin-bottom: -5%;"><b>Objectives
+                                        ranking</b></p><br><br>
+                                <div style="margin-left: 80%; margin-bottom: -22%;">
+                                    <svg style="margin-left: 10%;" xmlns="http://www.w3.org/2000/svg" width="35"
+                                        height="35" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5z" />
+                                        <path
+                                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1" />
+                                    </svg>
+
+                                    <svg style="margin-left: 19%; margin-top: 0%;" xmlns="http://www.w3.org/2000/svg"
+                                        width="25" height="25" fill="currentColor" class="bi bi-arrow-up"
+                                        viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                    </svg>
+                                </div>
+
+                                <div class="DDContainer">
+
+                                    <div id="div1b" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                        draggable="false"></div>
+                                    <div id="div2b" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                        draggable="false"></div>
+                                    <div id="div3b" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                        draggable="false"></div>
+                                    <div id="div4b" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                        draggable="false"></div>
+                                    <div id="div5b" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                        draggable="false"></div>
+                                    <div id="div6b" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                        draggable="false"></div>
+                                    <div id="div7b" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                        draggable="false"></div>
+
+                                </div>
+                                <div>
+                                    <svg style="margin-left: 14%; margin-bottom: -80%;"
+                                        xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                        class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                                    </svg>
+                                    <svg style="margin-left: -10.3%; margin-bottom: -100%;"
+                                        xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                                        class="bi bi-file-minus" viewBox="0 0 16 16">
+                                        <path d="M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5" />
+                                        <path
+                                            d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseFour">
+                        Advanced options
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingFour">
+                    <div class="accordion-body">
+                        <p><b>Metaheuristic parameters</b></p>
+                        <div class="container">
+                            <div class="row">
+                                <form action="" style="width: 40%;">
+                                    <div class="input-group col">
+                                        <span class="input-group-text" id="inputGroupPrepend">Number of particles
+                                            (N)</span>
+                                        <input type="number" class="form-control" id="numP"
+                                            aria-describedby="inputGroupPrepend" placeholder="5000" step="1" min="1"
+                                            max="9999" maxlength="4" onchange="numPOnChange()">
+                                    </div>
+                                </form>
+                                <div class="col">
+                                    <svg id="NumPHelp" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
+                                        data-toggle="tooltip" title="Defines the number of particles to be used
+                                    in the BPSOM" data-bs-placement="right">
+                                        <path
+                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                    </svg>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <form action="" style="width: 40%;">
+                                    <div class="input-group col">
+                                        <span class="input-group-text" id="inputGroupPrepend">Inertia weight (W)</span>
+                                        <input type="number" class="form-control" id="iW"
+                                            aria-describedby="inputGroupPrepend" placeholder="0.9" step="0.1" min="0.0"
+                                            max="9.9">
+                                    </div>
+                                </form>
+                                <div class="col">
+                                    <svg id="IneWHelp" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
+                                        data-toggle="tooltip"
+                                        title="Defines how fast the particles move through the search space"
+                                        data-bs-placement="right">
+                                        <path
+                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                    </svg>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <form action="" style="width: 40%;">
+                                    <div class="input-group col">
+                                        <span class="input-group-text" id="inputGroupPrepend">Cognitive component
+                                            (C1)</span>
+                                        <input type="number" class="form-control" id="c1"
+                                            aria-describedby="inputGroupPrepend" placeholder="1.5" step="0.1" min="0.0"
+                                            max="9.9">
+                                    </div>
+                                </form>
+                                <div class="col">
+                                    <svg id="c1Help" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
+                                        data-toggle="tooltip"
+                                        title="Defines the weight of the personal bests over
+                                        the global
+                                        best"
+                                        data-bs-placement="right">
+                                        <path
+                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                    </svg>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <form action="" style="width: 40%;">
+                                    <div class="input-group col">
+                                        <span class="input-group-text" id="inputGroupPrepend">Social component
+                                            (C2)</span>
+                                        <input type="number" class="form-control" id="c2"
+                                            aria-describedby="inputGroupPrepend" placeholder="1.5" step="0.1" min="0.0"
+                                            max="9.9">
+                                    </div>
+                                </form>
+                                <div class="col">
+                                    <svg id="c2Help" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
+                                        data-toggle="tooltip" title="Defines the weight of the global best over the
+                                personal bests" data-bs-placement="right">
+                                        <path
+                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="BottomButtons">
+            <div id="Save">
+                <button id="SaveButton" type="button" class="btn btn-outline-dark btn-lg" onclick="saveConf()">Save
+                    project description</button>
+                <button id="NewPButton" type="button" class="btn btn-outline-dark btn-lg" onclick="refresh()"
+                    style="display: none;">New project</button>
+            </div>
+            <div id="Execute">
+                <button id="RunNew" type="button" class="btn btn-outline-dark btn-lg" onclick="algoritmo()">Run
+                    optimization</button>
+                <button id="RunSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="algoritmoGuardado()"
+                    style="display: none;">Run optimization</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModalSaved" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="ModalText"></p>
+
+
+        </div>
+
+    </div>
+
+    <div id="myModalRun" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <p id="ModalRText"></p>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+<footer class="text-center text-lg-start text-dark footer">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgb(214, 213, 213);">
+        Decision Analysis and Statistics Group
+        <a class="text-dark" href="http://www.dasg.upm.es/">dasg.upm.es</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+
+</html>

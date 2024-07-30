@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script> 
+        $(function(){
+          $("#header").load("Utils/nav.html");
+        });
+    </script>
+    <script src="https://d3js.org/d3.v4.js" defer></script>
+    <script src="graphApp.js" defer></script>
+    <style type="text/css">
+
+        
+
+    .parent {
+        position: relative;
+        top: 15px;
+        justify-content:space-around;
+        display:flex;
+    }
+
+    .child {
+        display: inline-block;
+        box-shadow: 20px 20px 50px grey;
+    }
+
+    html{
+            font-family: Helvetica;
+        }
+        
+        
+        .title {
+             font-family: Verdana;
+            font-size: 15px;	
+                
+        }
+        
+        .barXAxis {
+            font-family: verdana;
+            font-size: 11px;
+            fill: black;
+        }  
+        
+        .barYAxis {
+            font-family: verdana;
+            font-size: 11px;
+            fill: black;
+        }
+                         
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+    <select name="Soluciones" id="Soluciones" onChange="selectChange(this)"></select>
+    <div class='parent'>
+        <div id="lineChart" class='child'></div>
+        <div id="barChart" class='child'></div>
+        <div id="pieChartPersonas" class='child'></div>
+        <div id="pieChartVuelos" class='child'></div>
+    </div>
+    
+</body>
+</html>

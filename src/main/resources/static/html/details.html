@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="../js/details.js" defer></script>
+    <style>
+        html {
+            font-family: Helvetica;
+        }
+
+        body {
+            background-color: #eeeded;
+            /*opacity: 1;
+            background-image:  radial-gradient(#b2b2b2 2px, transparent 2px), radial-gradient(#b2b2b2 2px, #eeeded 2px);
+            background-size: 120px 120px;
+            background-position: 0 0,80px 80px;
+            padding-bottom: 100px;*/
+        }
+
+        .card {
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 2%;
+        }
+
+        #New {
+            padding: 1rem 1rem;
+            display: inline-block;
+        }
+
+        #Load {
+            padding: 1rem 1rem;
+            float: right;
+        }
+
+        #LogIn {
+            padding: 1rem 1rem;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(214, 213, 213);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                    class="bi bi-globe-americas" viewBox="0 0 16 16">
+                    <path
+                        d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484q-.121.12-.242.234c-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z" />
+                </svg>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/html/home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/html/description.html">New project</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/html/list.html">Load project</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <a href="#" onclick="logOut()" data-toggle="tooltip" title="Log out">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black"
+                            class="bi bi-door-open" viewBox="0 0 16 16">
+                            <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
+                            <path
+                                d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
+                        </svg>
+                    </a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="text-center" style="margin-top: 0%;">
+                <h5>Compromise solution information</h5><br>
+            </div>
+
+            <div style="display: flex;">
+
+                <div class="input-group" style="width: 30%; padding-right: 0.5rem;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Selected date</span>
+                    </div>
+                    <input id="Sdate" type="date" class="form-control">
+                </div>
+
+                <div class="input-group" style="width: 25%; padding-right: 0.5rem;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Selected airport</span>
+                    </div>
+                    <input id="airInput" type="text" class="form-control">
+                </div>
+
+                <div style="padding-right: 0.5rem;">
+                    <button class="btn btn-outline-dark" onclick="applyFilter()" type="button">Apply filter</button>
+                </div>
+                <div style="padding-right: 0.5rem;">
+                    <button class="btn btn-outline-dark" onclick="resetFilter()" type="button">Reset filter</button>
+                </div>
+                <div style="padding-right: 0.5rem;">
+                    <button type="button" class="btn btn-outline-dark" id="description" onclick="goDescription()">See
+                        project description</button>
+                </div>
+
+                <div>
+                    <a href="#" onclick="exportTableToExcel('connTable','connections')" data-toggle="tooltip" title="Download Excel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                            class="bi bi-download" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                            <path
+                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+
+            <div>
+                <div class="table-responsive">
+                    <table id="connTable" class="table table-bordered">
+
+                        <thead>
+                            <tr id="row1">
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row2">
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <div style="display: inline-block;">
+                    <p id="Leyend1" style="margin-bottom: 0%; color: rgb(122, 122, 122);">0 = Closed</p>
+                    <p id="Leyend2" style="color: rgb(122, 122, 122);">1 = Opened</p>
+                </div>
+                <div style="float: right; color: rgb(122, 122, 122);">
+                    <p id="tableCaption"></p>
+                </div>
+            </div>
+
+            
+            <div class="text-center" style="margin-bottom: -3%;">
+                <h5>Economic objectives</h5>
+            </div>
+
+            <div style="text-align: right; padding-right: 0.9rem;">
+                <a href="#" onclick="exportTableToExcel('EcObjTable','objectives')" data-toggle="tooltip" title="Download Excel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                        class="bi bi-download" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                    </svg>
+                </a>
+            </div>
+
+
+            <div style="padding-bottom: 1rem;">
+                <div class="table-responsive">
+                    <table id="EcObjTable" class="table table-bordered">
+                        <!--<caption></caption>-->
+
+                        <thead>
+                            <tr id="row3">
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row4">
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="text-center" style="margin-bottom: -3%;">
+                <h5>Social objectives</h5>
+            </div>
+            <div style="text-align: right; padding-right: 0.9rem;">
+                <a href="#" onclick="exportTableToExcel('SocObjTable','objectives')" data-toggle="tooltip" title="Download Excel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                        class="bi bi-download" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                    </svg>
+                </a>
+            </div>
+
+            <div style="padding-bottom: 1rem;">
+                <div class="table-responsive">
+                    <table id="SocObjTable" class="table table-bordered">
+                        <!--<caption></caption>-->
+
+                        <thead>
+                            <tr id="row5">
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row6">
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="text-center" style="margin-bottom: -3%;">
+                <h5>Percentage reduction ranges in catchment areas, airlines and airports</h5>
+            </div>
+
+            <div style="text-align: right; padding-right: 0.9rem;">
+                <a href="#" onclick="exportTableToExcel('RangesTable','ranges')" data-toggle="tooltip" title="Download Excel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                        class="bi bi-download" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                    </svg>
+                </a>
+            </div>
+
+            <div style="padding-bottom: 3rem;">
+                <div class="table-responsive">
+                    <table id="RangesTable" class="table table-bordered">
+                        <!--<caption></caption>-->
+
+                        <thead>
+                            <tr id="row7">
+                                <!--<th scope="col" class="text-center">
+                                    Influence areas
+                                </th>
+                                <th scope="col" class="text-center">
+                                    Airlines
+                                </th>
+                                <th scope="col" class="text-center">
+                                    Airports
+                                </th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row8">
+                                <!--<td scope="col" class="text-center">
+                                    (5.01, 47.81)%
+                                </td>
+                                <td scope="col" class="text-center">
+                                    (4.41, 48.02)%
+                                </td>
+                                <td scope="col" class="text-center">
+                                    (8.01, 68.11)%
+                                </td>-->
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-bottom: -3%;">
+                <h5>Fitness per itaration</h5>
+            </div>
+
+            <div style="text-align: right; padding-right: 0.9rem;">
+                <a href="#" onclick="exportTableToExcel('fitTable','fitness')" data-toggle="tooltip" title="Download Excel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                        class="bi bi-download" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                    </svg>
+                </a>
+            </div>
+
+            <div style="padding-bottom: 5rem;">
+                <div class="table-responsive">
+                    <table id="fitTable" class="table table-bordered">
+                        <!--<caption></caption>-->
+
+                        <thead>
+                            <tr id="row9">
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row10">
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <footer class="text-center text-lg-start text-dark footer">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgb(214, 213, 213);">
+            Decision Analysis and Statistics Group
+            <a class="text-dark" href="http://www.dasg.upm.es/">dasg.upm.es</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+</body>
+
+</html>
