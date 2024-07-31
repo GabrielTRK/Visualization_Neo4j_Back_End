@@ -23,6 +23,7 @@ import com.VisNeo4j.App.Modelo.Salida.Histogramas;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Rangos;
+import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
@@ -262,14 +263,14 @@ public class VisNeo4jService {
 		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
 	}
 	
-	public boolean guardarProyecto(String fecha_I, String fecha_F, int numIteraciones,
+	public Respuesta guardarProyecto(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
 			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws IOException {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
-				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
+				numIteraciones, m, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
 		File directoryPath = new File(Constantes.rutaFicherosProyectos);
@@ -285,7 +286,7 @@ public class VisNeo4jService {
 	    }
 	    
 		if(igual) {
-			return false;
+			return new Respuesta(false, Constantes.respuestaNombresIguales);
 		}else {
 			Utils.crearDirectorioProyecto(nombreProyecto);
 			
@@ -297,12 +298,12 @@ public class VisNeo4jService {
 			Utils.crearCSVParams(params, nombreProyecto);
 			Utils.crearCSVPref(preferencias, nombreProyecto);
 			Utils.crearCSVRestricciones(resEpi, resPolPref.getPol(), nombreProyecto);
-			return true;
+			return new Respuesta(true, Constantes.respuestaProjectSaved);
 		}
 		
 	}
 	
-	public boolean guardarYOptimizar(String fecha_I, String fecha_F, int numIteraciones,
+	public Respuesta guardarYOptimizar(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
 			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
@@ -310,29 +311,36 @@ public class VisNeo4jService {
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
-				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
+				numIteraciones, m, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
 		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
 		
-		if(this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref)) {
+		Respuesta resp = this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+		
+		if(resp.isOK_KO()) {
+			if(Utils.leerFicheroCola().size() > 0) {
+				return new Respuesta(false, Constantes.respuestaProjectRunning);
+			}else {
+				Utils.modificarFicheroCola(nombreProyecto);
+			}
 			BPSO bpso = new BPSO(problema, params, nombreProyecto);
 			Individuo ind = bpso.ejecutarBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
-			
+			Utils.modificarFicheroCola("");
 			this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
-			return true;
+			return new Respuesta(true, Constantes.respuestaProjectSavedRunning);
 		}else {
-			return false;
+			return resp;
 		}
 		
 	}
 	
-	public boolean guardarYOptimizarALT(String fecha_I, String fecha_F, int numIteraciones,
+	/*public boolean guardarYOptimizarALT(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
 			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
@@ -360,9 +368,9 @@ public class VisNeo4jService {
 			return false;
 		}
 		
-	}
+	}*/
 	
-	public boolean optimizar(String proyecto) throws IOException, CsvException, ParseException {
+	public Respuesta optimizar(String proyecto) throws IOException, CsvException, ParseException {
 		DMPreferences preferencias = this.cargarPreferenciasProyecto(proyecto);
 		
 		BPSOParams params = this.cargarParametrosProyecto(proyecto);
@@ -375,16 +383,21 @@ public class VisNeo4jService {
 		
 		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
+		if(Utils.leerFicheroCola().size() > 0) {
+			return new Respuesta(false, Constantes.respuestaProjectRunning);
+		}else {
+			Utils.modificarFicheroCola(proyecto);
+		}
 		BPSO bpso = new BPSO(problema, params, proyecto);
 		Individuo ind = bpso.ejecutarBPSO();
 		problema.devolverSolucionCompleta(ind);
 		System.out.println(ind);
-			
+		Utils.modificarFicheroCola("");
 		this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
-		return true;
+		return new Respuesta(true, Constantes.respuestaProjectSavedRunning);
 	}
 	
-	public boolean optimizarALT(String proyecto) throws IOException, CsvException, ParseException {
+	/*public boolean optimizarALT(String proyecto) throws IOException, CsvException, ParseException {
 		DMPreferences preferencias = this.cargarPreferenciasProyecto(proyecto);
 		
 		BPSOParams params = this.cargarParametrosProyecto(proyecto);
@@ -404,7 +417,7 @@ public class VisNeo4jService {
 			
 		this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
 		return true;
-	}
+	}*/
 	
 	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
 		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos, nombre);
@@ -417,11 +430,12 @@ public class VisNeo4jService {
 	}
 	
 	public List<Proyecto> obtenerListaProyectos() throws IOException, CsvException{
+		List<String> proyectoEjecutando = Utils.leerFicheroCola();
 		File directoryPath = new File(Constantes.rutaFicherosProyectos);
 		String contents[] = directoryPath.list();
 		List<Proyecto> proyectos = new ArrayList<>();
 		for(String nombre : contents) {
-			Proyecto proyecto = new Proyecto(nombre, 
+			Proyecto proyecto = new Proyecto(nombre, (proyectoEjecutando.size() > 0 && proyectoEjecutando.get(0).equals(nombre)),
 					Utils.leerCSVFechasSalida(nombre), 
 					Utils.leerCSVParamsSalida(nombre), 
 					Utils.leerCSVPrefSalida(nombre),

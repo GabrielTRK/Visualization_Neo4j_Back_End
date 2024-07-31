@@ -48,6 +48,7 @@ public class Constantes {
     public static final String nombreFicheroRestricciones = "restricciones";
     public static final String nombreFicheroFechasSoluciones = "fechasSoluciones";
     public static final String nombreFicheroUsuarios = "Usuarios";
+    public static final String nombreFicheroCola = "Queue";
     public static final String nombreDirectorioFicherosFitness = "Ficheros_Fitness";
     public static final String nombreDirectorioFicherosObjetivos = "Ficheros_Objetivos";
     public static final String nombreDirectorioFicherosRangos = "Ficheros_Rangos";
@@ -105,4 +106,9 @@ public class Constantes {
     
     public static final String nombreRestriccionEpidemiologica = "Restricción Epidemiológica";
     public static final String nombreRestriccionPolitica = "Restricción Política";
+    
+    public static final String respuestaNombresIguales = "The name of the project already exists.";
+    public static final String respuestaProjectRunning = "The project has been saved, but there is another project currently running an optimization. Please wait until its finished to run a new one. To check the saved projects go to the Load Project tab.";
+    public static final String respuestaProjectSaved = "Project saved.";
+    public static final String respuestaProjectSavedRunning = "Saving project and Running optimization...";
 }

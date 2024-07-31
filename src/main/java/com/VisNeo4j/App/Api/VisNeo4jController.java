@@ -25,6 +25,7 @@ import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.Persona;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Rangos;
+import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
@@ -63,7 +64,7 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/saveP")
-	public boolean guardarProyecto(@RequestParam("fecha_inicial") String fecha_I, 
+	public Respuesta guardarProyecto(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
 			
 			@RequestParam("iteraciones") int numIteraciones,
@@ -115,7 +116,7 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/optimize")
-	public boolean runOptimization(@RequestParam("fecha_inicial") String fecha_I, 
+	public Respuesta runOptimization(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
 			
 			@RequestParam("iteraciones") int numIteraciones,
@@ -136,7 +137,7 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/{proyecto}/optimize")
-	public boolean runOptimization(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
+	public Respuesta runOptimization(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
 		return visNeo4jService.optimizar(proyecto);
 	}
 	
@@ -269,7 +270,7 @@ class VisNeo4jController {
         System.out.println(name);
 	}
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@PostMapping("/optimizeALT")
 	public boolean runOptimizationALT(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
@@ -294,6 +295,12 @@ class VisNeo4jController {
 	@PostMapping("/{proyecto}/optimizeALT")
 	public boolean runOptimizationALT(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
 		return visNeo4jService.optimizarALT(proyecto);
+	}*/
+	
+	@CrossOrigin
+	@GetMapping("/getData/")
+	public List<String> hola() {
+		return List.of("hola");
 	}
 
 }

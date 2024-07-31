@@ -6,14 +6,16 @@ import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 public class Proyecto {
 	
 	private String nombre;
+	private boolean ejecutando;
 	private FechasProyecto fechas;
 	private BPSOParamsSalida params;
 	private OrdenObjSalida order;
 	private Restricciones res;
 	
-	public Proyecto(String nombre, FechasProyecto fechas, BPSOParamsSalida params, OrdenObjSalida order, Restricciones res) {
+	public Proyecto(String nombre, boolean ejecutando, FechasProyecto fechas, BPSOParamsSalida params, OrdenObjSalida order, Restricciones res) {
 		super();
 		this.nombre = nombre;
+		this.ejecutando = ejecutando;
 		this.fechas = fechas;
 		this.params = params;
 		this.order = order;
@@ -24,6 +26,13 @@ public class Proyecto {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	public boolean isEjecutando() {
+		return ejecutando;
+	}
+	public void setEjecutando(boolean ejecutando) {
+		this.ejecutando = ejecutando;
 	}
 	public FechasProyecto getFechas() {
 		return fechas;

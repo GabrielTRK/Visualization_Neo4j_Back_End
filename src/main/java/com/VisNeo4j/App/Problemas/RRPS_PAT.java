@@ -325,6 +325,13 @@ public class RRPS_PAT extends Problema {
 
 	@Override
 	public Individuo extra(Individuo ind) {
+		
+		List<Double> aux = ind.getVariables();
+
+		this.rellenarDirecciones(aux);
+
+		ind.setVariables(aux);
+		
 		Map<String, List<Double>> valoresAdicionales = ind.getExtra();
 
 		Map<String, List<Double>> pasajerosPorCompanyia = new HashMap<>();
@@ -351,6 +358,19 @@ public class RRPS_PAT extends Problema {
 							List.of(this.datos.getPasajeros().get(pos) * ind.getVariables().get(i),
 									this.datos.getPasajeros().get(pos) * 1.0));
 				}
+				/*
+				 if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
+					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+							List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
+									+ this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
+											+ this.datos.getPasajeros().get(pos)));
+				} else {
+					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+							List.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+									this.datos.getPasajeros().get(pos) * 1.0));
+				}
+				 */
 				if (ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
 					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
 							List.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)

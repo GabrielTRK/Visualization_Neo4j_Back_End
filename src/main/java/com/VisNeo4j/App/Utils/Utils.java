@@ -1269,6 +1269,63 @@ public class Utils {
 		return tooltips;
 	}
 	
+	public static List<String> leerFicheroCola() throws FileNotFoundException, IOException, CsvException{
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + Constantes.nombreFicheroCola + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for(int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for(int columna = 0; columna < r.get(fila).length; columna++) {
+					
+					filaI.add(r.get(fila)[columna]);
+			    }
+				fichero.add(filaI);
+			}
+		}
+		
+		if(fichero.size() == 0) {
+			return new ArrayList<>();
+		}else {
+			return fichero.get(0);
+		}
+		
+	}
+	
+	public static void modificarFicheroCola(String nombre) throws IOException, CsvException {
+		
+		List<String[]> lista = new ArrayList<>();
+		
+		if(!nombre.equals("")) {
+			String[] filaI = new String[1];
+			filaI[0] = nombre;
+			lista.add(filaI);
+		}
+		
+		
+		
+		
+		/*String[] filaI = new String[proyectosExistentes.size()];
+		for(int j = 0; j < proyectosExistentes.size(); j++) {
+			filaI[j] = proyectosExistentes.get(j);
+		}
+		lista.add(filaI);*/
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicheros + Constantes.nombreFicheroCola + Constantes.extensionFichero), ',', 
+	            CSVWriter.NO_QUOTE_CHARACTER, 
+	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+	            CSVWriter.DEFAULT_LINE_END)) {
+            writer.writeAll(lista);
+            
+            
+		}
+		
+	}
+	
+	
+	
+	
 	public static Map<String, String> leerCSVUsuarios() throws IOException, CsvException {
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
