@@ -76,7 +76,7 @@ class VisNeo4jController {
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("nombre") String nombreProyecto,
-			@RequestBody ResPolPref resPolPref) throws IOException {
+			@RequestBody ResPolPref resPolPref) throws IOException, ParseException {
 		
 		return visNeo4jService.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);

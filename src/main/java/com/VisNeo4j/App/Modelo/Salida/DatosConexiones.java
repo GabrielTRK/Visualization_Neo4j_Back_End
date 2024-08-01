@@ -14,7 +14,7 @@ public class DatosConexiones {
 	private List<Conexion> coordenadasConexiones;
 	private Map<String, String> fechas;
 
-	public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind, DatosRRPS_PAT datos, Map<String, String> fechas) {
+	/*public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind, DatosRRPS_PAT datos, Map<String, String> fechas) {
 		this.listaAeropuertos = listaAeropuertos;
 		this.coordenadasConexiones = new ArrayList<>();
 		this.fechas = fechas;
@@ -38,7 +38,7 @@ public class DatosConexiones {
 			coordenadasConexiones.add(con);
 		}
 		
-	}
+	}*/
 	
 	public DatosConexiones(List<Aeropuerto> listaAeropuertos, List<Double> ind, DatosRRPS_PATDiaI datos, Map<String, String> fechas) {
 		this.listaAeropuertos = listaAeropuertos;
@@ -57,6 +57,8 @@ public class DatosConexiones {
 						listaAeropuertos.get(i+1).getLatitud(),
 						abierto, listaAeropuertos.get(i).getIata(), 
 						listaAeropuertos.get(i+1).getIata(), 
+						datos.getConexionesNombres().get(i/2).get(0),
+						datos.getConexionesNombres().get(i/2).get(1),
 						datos.getRiesgosJuntos().get(i/2), 
 						datos.getPasajerosJuntos().get(i/2),
 						datos.getIngresosJuntos().get(i/2), 

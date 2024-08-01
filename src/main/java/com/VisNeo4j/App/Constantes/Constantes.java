@@ -84,6 +84,8 @@ public class Constantes {
     public static final String areaInfDBField = "areaInf";
     public static final String continentDBField = "continente";
     public static final String capitalDBField = "capital";
+    public static final String origenNombreDBField = "origenNombre";
+    public static final String destinoNombreDBField = "destinoNombre";
     
     public static final String nombreQDMPGenerica = "QDMPGenerico";
     public static final String nombreQDMPSR = "SR";
@@ -107,8 +109,12 @@ public class Constantes {
     public static final String nombreRestriccionEpidemiologica = "Restricción Epidemiológica";
     public static final String nombreRestriccionPolitica = "Restricción Política";
     
-    public static final String respuestaNombresIguales = "The name of the project already exists.";
-    public static final String respuestaProjectRunning = "The project has been saved, but there is another project currently running an optimization. Please wait until its finished to run a new one. To check the saved projects go to the Load Project tab.";
-    public static final String respuestaProjectSaved = "Project saved.";
-    public static final String respuestaProjectSavedRunning = "Saving project and Running optimization...";
+    public static final String KO_respuestaNombresIguales = "The name of the project already exists.";
+    public static final String KO_respuestaProjectRunning = "There is another project currently running an optimization. Please wait until its finished to run a new one. To check the saved projects go to the Load Project tab.";
+    public static final String KO_respuestaSavedProjectRunning = "The project has been saved, but there is another project currently running an optimization. Please wait until its finished to run a new one. To check the saved projects go to the Load Project tab.";
+    public static final String OK_respuestaProjectSaved = "Project saved.";
+    public static final String OK_respuestaRunning = "Running optimization...";
+    public static final String OK_respuestaProjectSavedRunning = "Saving project and Running optimization...";
+    public static final String KO_respuestaNoFlights = "Due to the lockdown, there were no flights programmed between April 1st of 2020 and August 31st of 2020. Please chose a time window that doesn't overlap with this one.";
+    public static final String KO_respuestaNoNombresIgualesYNoFlights = "The name of the project already exists. Aditionally, due to the lockdown, there were no flights programmed between April 1st of 2020 and August 31st of 2020. Please chose a time window that doesn't overlap with this one.";
 }

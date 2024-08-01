@@ -568,7 +568,8 @@ public class LecturaDeDatos {
 			List<Boolean> capital, List<Double> conectividades, 
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
-			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen) {
+			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen,
+			List<List<String>> conexionesNombres) {
 		try {
             Scanner scanner = new Scanner(new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero));
             //Comma as a delimiter
@@ -580,6 +581,7 @@ public class LecturaDeDatos {
                 
                 if(!conexiones.contains(List.of(split[7], split[8]))) {
                 	conexiones.add(List.of(split[7], split[8]));
+                	conexionesNombres.add(List.of(split[13], split[14]));
                 	vuelosEntrantesConexion.put(List.of(split[7], split[8]), 1);
                     continentes.add(split[11]);
                     capital.add(Boolean.parseBoolean(split[12]));

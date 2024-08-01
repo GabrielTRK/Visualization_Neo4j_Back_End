@@ -14,6 +14,7 @@ public class DatosRRPS_PAT {
 	
 	private List<DatosRRPS_PATDiaI> datosPorDia;
 	private List<List<String>> conexionesTotales;
+	private List<List<String>> conexionesNombresTotales;
 	private List<List<String>> conexionesTotalesSeparadas;
 	
 	private List<Double> riesgos;
@@ -38,6 +39,10 @@ public class DatosRRPS_PAT {
 		this.conexionesTotales = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			conexionesTotales.addAll(this.datosPorDia.get(i).getConexiones());
+		}
+		this.conexionesNombresTotales = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			conexionesNombresTotales.addAll(this.datosPorDia.get(i).getConexionesNombres());
 		}
 		this.conexionesTotalesSeparadas = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
@@ -136,6 +141,14 @@ public class DatosRRPS_PAT {
 
 	public void setConexionesTotales(List<List<String>> conexionesTotales) {
 		this.conexionesTotales = conexionesTotales;
+	}
+
+	public List<List<String>> getConexionesNombresTotales() {
+		return conexionesNombresTotales;
+	}
+
+	public void setConexionesNombresTotales(List<List<String>> conexionesNombresTotales) {
+		this.conexionesNombresTotales = conexionesNombresTotales;
 	}
 
 	public List<Double> getRiesgos() {

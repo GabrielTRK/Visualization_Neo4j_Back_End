@@ -696,10 +696,10 @@ public class Utils {
 				Double.valueOf(fichero.get(1).get(1)), 
 				Double.valueOf(fichero.get(2).get(1)), 
 				Double.valueOf(fichero.get(3).get(1)),
-				0,
-				Double.valueOf(fichero.get(4).get(1)), 
-				Double.valueOf(fichero.get(5).get(1)), 
-				Constantes.nombreCPMaxDistQuick, 
+				Integer.valueOf(fichero.get(4).get(1)),
+				0.0, 
+				0.0, 
+				Constantes.nombreCPGenerica, 
 				Constantes.nombreIWDyanamicDecreasing);
 		return params;
 	

@@ -123,6 +123,7 @@ public class VisNeo4jService {
 		List<Double> conectividades = new ArrayList<>();
 		List<Double> tasasAeropuertos = new ArrayList<>();
 		List<Integer> vuelosSalientesDeOrigen = new ArrayList<>();
+		List<List<String>> conexionesNombres = new ArrayList<>();
 		
 		File file = new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero);
 		
@@ -131,21 +132,21 @@ public class VisNeo4jService {
 					pasajeros, dineroMedioT, dineroMedioN, companyias, areasInf, continentes, 
 					capital, conectividades,  
 					vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, 
-					vuelosSalientes, vuelosSalientesDeOrigen);
+					vuelosSalientes, vuelosSalientesDeOrigen, conexionesNombres);
 		}
         else {
         	obtenerDatosRRPS_PAT_BBDD_DiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
         			dineroMedioT, dineroMedioN, companyias, areasInf, continentes,
         			capital, conectividades, 
         			vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, 
-        			vuelosSalientes, vuelosSalientesDeOrigen, 
+        			vuelosSalientes, vuelosSalientesDeOrigen, conexionesNombres,
         			dia_I, dia_F, mes_I, mes_F, año_I, año_F, ruta);
         }
 		
 		return new DatosRRPS_PATDiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
 				dineroMedioT, dineroMedioN, companyias, areasInf, continentes, capital, 
 				vuelosSalientes, vuelosEntrantesConexion, vuelosSalientesAEspanya,  
-				conectividades, tasasAeropuertos, vuelosSalientesDeOrigen);
+				conectividades, tasasAeropuertos, vuelosSalientesDeOrigen, conexionesNombres);
 	}
 	
 	public void obtenerDatosRRPS_PAT_BBDD_DiaI(List<Double> riesgos, List<List<String>> conexiones,
@@ -155,14 +156,14 @@ public class VisNeo4jService {
 			List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
 			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen, 
-			String dia_I, String dia_F, String mes_I, 
+			List<List<String>> conexionesNombres, String dia_I, String dia_F, String mes_I, 
 			String mes_F, String año_I, String año_F, String ruta) throws IOException {
 		
 		String fecha_I = "\"" + año_I + "-" + mes_I + "-" + dia_I + "\"";
 		String fecha_F = "\"" + año_F + "-" + mes_F + "-" + dia_F + "\"";
 		
 		List<String[]> datosFichero = new ArrayList<>();
-		String[] cabecera = new String[13];
+		String[] cabecera = new String[15];
 		
 		cabecera[0] = String.valueOf(Constantes.sirDBField);
 		cabecera[1] = String.valueOf(Constantes.pasajerosDBField);
@@ -176,7 +177,9 @@ public class VisNeo4jService {
 		cabecera[9] = String.valueOf(Constantes.VuelosDesdeOrigenDBField);
 		cabecera[10] = String.valueOf(Constantes.areaInfDBField);
 		cabecera[11] = String.valueOf(Constantes.continentDBField);
-		cabecera[11] = String.valueOf(Constantes.capitalDBField);
+		cabecera[12] = String.valueOf(Constantes.capitalDBField);
+		cabecera[13] = String.valueOf(Constantes.origenNombreDBField);
+		cabecera[14] = String.valueOf(Constantes.destinoNombreDBField);
 		
 		datosFichero.add(cabecera);
 		
@@ -193,7 +196,7 @@ public class VisNeo4jService {
 				+ " return count(*) as numVuelos "
 				+ " } "
 				
-				+ " return f.flightIfinal as sir,f.passengers as pasajeros,f.operator as companyia,a.connectivity as conectividad,f.incomeFromTurism as dineroT,f.incomeFromBusiness as dineroN,f.destinationAirportIncome as tasas,a.iata as origen,a2.iata as destino, numVuelos as VuelosDesdeOrigen, a2.regionName as areaInf, cont.continentId as continente, a.capital as capital"
+				+ " return f.flightIfinal as sir,f.passengers as pasajeros,f.operator as companyia,a.connectivity as conectividad,f.incomeFromTurism as dineroT,f.incomeFromBusiness as dineroN,f.destinationAirportIncome as tasas,a.iata as origen,a2.iata as destino, numVuelos as VuelosDesdeOrigen, a2.regionName as areaInf, cont.continentId as continente, a.capital as capital, a.airportName as origenNombre, a2.airportName as destinoNombre"
 			).list());
 			records.forEach(record -> {
 				var sir = record.get(Constantes.sirDBField).asDouble();
@@ -209,9 +212,12 @@ public class VisNeo4jService {
 				var areaInf = record.get(Constantes.areaInfDBField).asString();
 				var continente = record.get(Constantes.continentDBField).asString();
 				var isCapital = record.get(Constantes.capitalDBField).asBoolean();
+				var origenNombre = record.get(Constantes.origenNombreDBField).asString();
+				var destinoNombre = record.get(Constantes.destinoNombreDBField).asString();
 				
 				if(!conexiones.contains(List.of(origen, destino))) {
                 	conexiones.add(List.of(origen, destino));
+                	conexionesNombres.add(List.of(origenNombre, destinoNombre));
                 	vuelosEntrantesConexion.put(List.of(origen, destino), 1);
                     continentes.add(continente);
                     capital.add(isCapital);
@@ -241,7 +247,7 @@ public class VisNeo4jService {
                 companyias.add(companyia);
                 areasInf.add(areaInf);
                 
-                String[] filaIFichero = new String[13];
+                String[] filaIFichero = new String[15];
                 
                 filaIFichero[0] = String.valueOf(sir);
                 filaIFichero[1] = String.valueOf(Num_Pasajeros);
@@ -256,6 +262,8 @@ public class VisNeo4jService {
                 filaIFichero[10] = String.valueOf(areaInf);
                 filaIFichero[11] = String.valueOf(continente);
                 filaIFichero[12] = String.valueOf(isCapital);
+                filaIFichero[13] = String.valueOf(origenNombre);
+                filaIFichero[14] = String.valueOf(destinoNombre);
                 
                 datosFichero.add(filaIFichero);
 			});
@@ -265,7 +273,7 @@ public class VisNeo4jService {
 	
 	public Respuesta guardarProyecto(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
-			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws IOException {
+			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws IOException, ParseException {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
@@ -285,8 +293,38 @@ public class VisNeo4jService {
 	    	pos++;
 	    }
 	    
-		if(igual) {
-			return new Respuesta(false, Constantes.respuestaNombresIguales);
+	    Respuesta resp = new Respuesta(false, null);
+	    
+	    Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fecha_I);
+		Date fechaFinal = Constantes.formatoFechaRRPS_PAT.parse(fecha_F);
+		
+		Date fechaSDMin = Constantes.formatoFechaRRPS_PAT.parse("2020-04-01");
+		Date fechaSDMax = Constantes.formatoFechaRRPS_PAT.parse("2020-08-31");
+		
+		boolean fechasCorrectas;
+		
+		if(fechaInicio.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaInicio) >= 0 && fechaFinal.compareTo(fechaSDMax) > 0) {
+			fechasCorrectas = false;
+		}else if(fechaSDMin.compareTo(fechaInicio) > 0 && fechaFinal.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaFinal) >= 0) {
+			fechasCorrectas = false;
+		}else if(fechaInicio.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaFinal) >= 0) {
+			fechasCorrectas = false;
+		}else if(fechaSDMin.compareTo(fechaInicio) >= 0 && fechaFinal.compareTo(fechaSDMax) >= 0) {
+			fechasCorrectas = false;
+		}else {
+			fechasCorrectas = true;
+		}
+	    
+		if(igual || !fechasCorrectas) {
+			if(igual && fechasCorrectas) {
+				resp.setMensaje(Constantes.KO_respuestaNombresIguales);
+			}
+			if(!igual && !fechasCorrectas) {
+				resp.setMensaje(Constantes.KO_respuestaNoFlights);
+			}
+			if(igual && !fechasCorrectas) {
+				resp.setMensaje(Constantes.KO_respuestaNoNombresIgualesYNoFlights);
+			}
 		}else {
 			Utils.crearDirectorioProyecto(nombreProyecto);
 			
@@ -298,9 +336,11 @@ public class VisNeo4jService {
 			Utils.crearCSVParams(params, nombreProyecto);
 			Utils.crearCSVPref(preferencias, nombreProyecto);
 			Utils.crearCSVRestricciones(resEpi, resPolPref.getPol(), nombreProyecto);
-			return new Respuesta(true, Constantes.respuestaProjectSaved);
+			resp.setOK_KO(true);
+			resp.setMensaje(Constantes.OK_respuestaProjectSaved);
+			//return new Respuesta(true, Constantes.respuestaProjectSaved);
 		}
-		
+		return resp;
 	}
 	
 	public Respuesta guardarYOptimizar(String fecha_I, String fecha_F, int numIteraciones,
@@ -318,25 +358,33 @@ public class VisNeo4jService {
 		
 		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
 		
-		Respuesta resp = this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+		Respuesta resp = new Respuesta(false, null);
+		
+		if(problema.getNumVariables() > 0) {
+			resp = this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+					inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+		}else {
+			resp.setMensaje(Constantes.KO_respuestaNoFlights);
+		}
 		
 		if(resp.isOK_KO()) {
 			if(Utils.leerFicheroCola().size() > 0) {
-				return new Respuesta(false, Constantes.respuestaProjectRunning);
+				resp.setOK_KO(false);
+				resp.setMensaje(Constantes.KO_respuestaProjectRunning);
 			}else {
 				Utils.modificarFicheroCola(nombreProyecto);
+				BPSO bpso = new BPSO(problema, params, nombreProyecto);
+				Individuo ind = bpso.ejecutarBPSO();
+				problema.devolverSolucionCompleta(ind);
+				System.out.println(ind);
+				Utils.modificarFicheroCola("");
+				this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+				resp.setMensaje(Constantes.OK_respuestaProjectSavedRunning);
 			}
-			BPSO bpso = new BPSO(problema, params, nombreProyecto);
-			Individuo ind = bpso.ejecutarBPSO();
-			problema.devolverSolucionCompleta(ind);
-			System.out.println(ind);
-			Utils.modificarFicheroCola("");
-			this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
-			return new Respuesta(true, Constantes.respuestaProjectSavedRunning);
-		}else {
-			return resp;
+			
 		}
+		return resp;
+		
 		
 	}
 	
@@ -383,18 +431,24 @@ public class VisNeo4jService {
 		
 		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
+		Respuesta resp = new Respuesta(false, null);
+		
 		if(Utils.leerFicheroCola().size() > 0) {
-			return new Respuesta(false, Constantes.respuestaProjectRunning);
+			resp.setMensaje(Constantes.KO_respuestaProjectRunning);
 		}else {
 			Utils.modificarFicheroCola(proyecto);
+			BPSO bpso = new BPSO(problema, params, proyecto);
+			Individuo ind = bpso.ejecutarBPSO();
+			problema.devolverSolucionCompleta(ind);
+			System.out.println(ind);
+			Utils.modificarFicheroCola("");
+			this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
+			resp.setOK_KO(true);
+			resp.setMensaje(proyecto);
 		}
-		BPSO bpso = new BPSO(problema, params, proyecto);
-		Individuo ind = bpso.ejecutarBPSO();
-		problema.devolverSolucionCompleta(ind);
-		System.out.println(ind);
-		Utils.modificarFicheroCola("");
-		this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
-		return new Respuesta(true, Constantes.respuestaProjectSavedRunning);
+		
+		
+		return resp;
 	}
 	
 	/*public boolean optimizarALT(String proyecto) throws IOException, CsvException, ParseException {
