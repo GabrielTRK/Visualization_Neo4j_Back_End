@@ -277,6 +277,8 @@ public class VisNeo4jService {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
+		numIteraciones = Utils.getRandNumber(500, 2000);
+		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWDyanamicDecreasing);
@@ -331,6 +333,8 @@ public class VisNeo4jService {
 		
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
+		
+		numIteraciones = Utils.getRandNumber(500, 2000);
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 
