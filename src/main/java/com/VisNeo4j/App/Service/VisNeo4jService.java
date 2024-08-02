@@ -295,25 +295,7 @@ public class VisNeo4jService {
 	    
 	    Respuesta resp = new Respuesta(false, null);
 	    
-	    Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fecha_I);
-		Date fechaFinal = Constantes.formatoFechaRRPS_PAT.parse(fecha_F);
-		
-		Date fechaSDMin = Constantes.formatoFechaRRPS_PAT.parse("2020-04-01");
-		Date fechaSDMax = Constantes.formatoFechaRRPS_PAT.parse("2020-08-31");
-		
-		boolean fechasCorrectas;
-		
-		if(fechaInicio.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaInicio) >= 0 && fechaFinal.compareTo(fechaSDMax) > 0) {
-			fechasCorrectas = false;
-		}else if(fechaSDMin.compareTo(fechaInicio) > 0 && fechaFinal.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaFinal) >= 0) {
-			fechasCorrectas = false;
-		}else if(fechaInicio.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaFinal) >= 0) {
-			fechasCorrectas = false;
-		}else if(fechaSDMin.compareTo(fechaInicio) >= 0 && fechaFinal.compareTo(fechaSDMax) >= 0) {
-			fechasCorrectas = false;
-		}else {
-			fechasCorrectas = true;
-		}
+		boolean fechasCorrectas = this.comprobarFechas(fecha_I, fecha_F);
 	    
 		if(igual || !fechasCorrectas) {
 			if(igual && fechasCorrectas) {
@@ -573,7 +555,12 @@ public class VisNeo4jService {
 	}
 	
 	public TooltipTexts obtenerTooltips(String fecha_I, String fecha_F) throws ParseException, IOException {
-		return TraducirSalida.obtenerTooltips(Utils.obtenerTooltips(this.obtenerDatosRRPS_PAT(fecha_I, fecha_F)));
+		if(comprobarFechas(fecha_I, fecha_F)) {
+			return TraducirSalida.obtenerTooltips(Utils.obtenerTooltips(this.obtenerDatosRRPS_PAT(fecha_I, fecha_F)));
+		}else {
+			return TraducirSalida.obtenerTooltipsDefault();
+		}
+		
 	}
 	
 	public DMPreferences cargarPreferenciasProyecto(String nombre) throws IOException, CsvException {
@@ -633,6 +620,29 @@ public class VisNeo4jService {
 		}
 		
 		return false;
+	}
+	
+	private boolean comprobarFechas(String fecha_I, String fecha_F) throws ParseException {
+		Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fecha_I);
+		Date fechaFinal = Constantes.formatoFechaRRPS_PAT.parse(fecha_F);
+		
+		Date fechaSDMin = Constantes.formatoFechaRRPS_PAT.parse(Constantes.fechaSDMin);
+		Date fechaSDMax = Constantes.formatoFechaRRPS_PAT.parse(Constantes.fechaSDMax);
+		
+		boolean fechasCorrectas;
+		
+		if(fechaInicio.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaInicio) >= 0 && fechaFinal.compareTo(fechaSDMax) > 0) {
+			fechasCorrectas = false;
+		}else if(fechaSDMin.compareTo(fechaInicio) > 0 && fechaFinal.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaFinal) >= 0) {
+			fechasCorrectas = false;
+		}else if(fechaInicio.compareTo(fechaSDMin) >= 0 && fechaSDMax.compareTo(fechaFinal) >= 0) {
+			fechasCorrectas = false;
+		}else if(fechaSDMin.compareTo(fechaInicio) >= 0 && fechaFinal.compareTo(fechaSDMax) >= 0) {
+			fechasCorrectas = false;
+		}else {
+			fechasCorrectas = true;
+		}
+		return fechasCorrectas;
 	}
 
 	private Session sessionFor(String database) {

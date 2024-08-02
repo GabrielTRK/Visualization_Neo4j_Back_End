@@ -422,7 +422,7 @@ public class RRPS_PAT extends Problema {
 		
 		for (String aeropuerto : ingresosPorAerDest.keySet()) {
 			if (ingresosPorAerDest.get(aeropuerto).get(1) == 0.0) {
-				ingresoPerdidoAerDest.add(1.0 * 100); //TODO: Añadir datos restantes sobre aviones y tasas
+				ingresoPerdidoAerDest.add(1.0 * 100); //TODO: Añadir datos restantes sobre tasas (tarifa por ruido del avion)
 			} else {
 				ingresoPerdidoAerDest.add(100 * (1
 						- (ingresosPorAerDest.get(aeropuerto).get(0) / ingresosPorAerDest.get(aeropuerto).get(1))));
@@ -436,72 +436,6 @@ public class RRPS_PAT extends Problema {
 		valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, pasajerosPerdidosPorCompanyia);
 		valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, ingresoPerdidoAreasInf);
 		valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, ingresoPerdidoAerDest);
-		
-		if(pasajerosPerdidosPorCompanyia.get(0) != 0.0 && pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) != 1.0) {
-			//valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
-		}
-		else {
-			/*if(pasajerosPerdidosPorCompanyia.get(0) == 0.0 && pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) != 1.0) {
-				double valorMin = pasajerosPerdidosPorCompanyia.get(0);
-				int index = 1;
-				while (index < pasajerosPerdidosPorCompanyia.size() && valorMin == 0.0) {
-					valorMin = pasajerosPerdidosPorCompanyia.get(index);
-					index++;
-				}
-				if(valorMin == 1.0) {
-					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
-				}else {
-					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(valorMin * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
-				}
-			}else if(pasajerosPerdidosPorCompanyia.get(0) != 0.0 && pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) == 1.0) {
-				double valorMax = pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1);
-				int index = 2;
-				while (index <= pasajerosPerdidosPorCompanyia.size() && valorMax == 1.0) {
-					valorMax = pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-index);
-					index++;
-				}
-				if(valorMax == 0.0) {
-					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, pasajerosPerdidosPorCompanyia.get(pasajerosPerdidosPorCompanyia.size()-1) * 100));
-				}else {
-					valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(pasajerosPerdidosPorCompanyia.get(0) * 100, valorMax * 100));
-				}
-			}*/
-			
-			/*int indMin = 0;
-			int indMax = pasajerosPerdidosPorCompanyia.size()-1;
-			
-			double valorMin = pasajerosPerdidosPorCompanyia.get(indMin);
-			double valorMax = pasajerosPerdidosPorCompanyia.get(indMax);
-			
-			while(indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
-				if(valorMin == 0.0) {
-					valorMin = pasajerosPerdidosPorCompanyia.get(indMin);
-					indMin++;
-				}
-				if(valorMax == 1.0) {
-					valorMax = pasajerosPerdidosPorCompanyia.get(indMax);
-					indMax--;
-				}
-				
-			}
-			
-			valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(valorMin * 100, valorMax * 100));*/
-			
-		}
-		
-		/*if(ingresoPerdidoAreasInf.get(0) != 0.0 && ingresoPerdidoAreasInf.get(ingresoPerdidoAreasInf.size()-1) != 1.0) {
-			valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, List.of(ingresoPerdidoAreasInf.get(0) * 100, ingresoPerdidoAreasInf.get(ingresoPerdidoAreasInf.size()-1) * 100));
-		}
-		else {
-			
-		}
-		
-		if(ingresoPerdidoAerDest.get(0) != 0.0 && ingresoPerdidoAerDest.get(ingresoPerdidoAerDest.size()-1) != 1.0) {
-			valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, List.of(ingresoPerdidoAerDest.get(0) * 100, ingresoPerdidoAerDest.get(ingresoPerdidoAerDest.size()-1) * 100));
-		}
-		else {
-			
-		}*/
 
 		ind.setExtra(valoresAdicionales);
 		return ind;

@@ -1,0 +1,1211 @@
+sir,pasajeros,companyia,conectividad,dineroT,dineroN,tasas,origen,destino,VuelosDesdeOrigen,areaInf,continente,capital,origenNombre,destinoNombre
+0.0,16,GES,-1.0,18388.2827358041,2041.63274290412,349.936875,ACH,MAD,19,Madrid,EU,false,St Gallen Altenrhein Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,55,IBB,-1.0,63209.721904326594,7018.112553732911,151.150848,AGA,LPA,20,Gran Canaria Island,AF,false,Al Massira Airport,Gran Canaria Airport
+0.0,105,VLG,-1.0,120673.10545371441,13398.21487530829,511.9668587,ALG,BCN,47,Barcelona,AF,true,Houari Boumediene Airport,Barcelona International Airport
+0.0,125,DAH,-1.0,143658.45887346953,15950.255803938444,488.62006149,ALG,BCN,47,Barcelona,AF,true,Houari Boumediene Airport,Barcelona International Airport
+0.0,70,ANE,-1.0,80448.73696914293,8932.143250205527,321.02973,ALG,MAD,47,Madrid,AF,true,Houari Boumediene Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,DAH,-1.0,143658.45887346953,15950.255803938444,554.6302875,ALG,MAD,47,Madrid,AF,true,Houari Boumediene Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,DAH,-1.0,143658.45887346953,15950.255803938444,554.6302875,ALG,MAD,47,Madrid,AF,true,Houari Boumediene Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,AGP,614,Málaga,EU,true,Amsterdam Airport Schiphol,Málaga Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,AGP,614,Málaga,EU,true,Amsterdam Airport Schiphol,Málaga Airport
+0.0,145,RYR,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,AGP,614,Málaga,EU,true,Amsterdam Airport Schiphol,Málaga Airport
+0.0,122,VLG,58263.0,140210.65586050626,15567.449664643915,485.65424640000003,AMS,AGP,614,Málaga,EU,true,Amsterdam Airport Schiphol,Málaga Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,ALC,614,Alicante,EU,true,Amsterdam Airport Schiphol,Alicante International Airport
+0.0,122,VLG,58263.0,140210.65586050626,15567.449664643915,485.65424640000003,AMS,ALC,614,Alicante,EU,true,Amsterdam Airport Schiphol,Alicante International Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,488.62006149,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,488.62006149,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,488.62006149,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,488.62006149,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,488.62006149,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,488.62006149,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,122,VLG,58263.0,140210.65586050626,15567.449664643915,511.9668587,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,151,VLG,58263.0,173539.41831915118,19267.909011157633,575.010139,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,151,VLG,58263.0,173539.41831915118,19267.909011157633,575.010139,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,145,TVF,58263.0,166643.81229322465,18502.296732568586,488.62006149,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,151,FOO,58263.0,173539.41831915118,19267.909011157633,575.010139,AMS,BCN,614,Barcelona,EU,true,Amsterdam Airport Schiphol,Barcelona International Airport
+0.0,78,KLC,58263.0,89642.87833704498,9952.959621657588,253.60635709499996,AMS,BIO,614,Bilbao,EU,true,Amsterdam Airport Schiphol,Bilbao Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,388.88697393,AMS,IBZ,614,Ibiza,EU,true,Amsterdam Airport Schiphol,Ibiza Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,LPA,614,Gran Canaria Island,EU,true,Amsterdam Airport Schiphol,Gran Canaria Airport
+0.0,145,JAF,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,LPA,614,Gran Canaria Island,EU,true,Amsterdam Airport Schiphol,Gran Canaria Airport
+0.0,157,KLM,58263.0,180435.02434507772,20033.521289746677,621.35420625,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,554.6302875,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,554.6302875,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,157,KLM,58263.0,180435.02434507772,20033.521289746677,621.35420625,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,KLM,58263.0,166643.81229322465,18502.296732568586,554.6302875,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,311,AEA,58263.0,357422.24567719223,39684.23644019882,1792.935,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,237,AEA,58263.0,272376.4380240982,30241.68500426727,1958.0737499999998,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,58263.0,140210.65586050626,15567.449664643915,581.131125,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,58263.0,140210.65586050626,15567.449664643915,581.131125,AMS,MAD,614,Madrid,EU,true,Amsterdam Airport Schiphol,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,284.84894676,AMS,SPC,614,Sta Cruz de la Palma", La Palma Island,EU,true,Amsterdam Airport Schiphol,La Palma Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,388.88697393,AMS,SVQ,614,Sevilla,EU,true,Amsterdam Airport Schiphol,Sevilla Airport
+0.0,145,JAF,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,TFS,614,Tenerife Island,EU,true,Amsterdam Airport Schiphol,Tenerife South Airport
+0.0,145,TVF,58263.0,166643.81229322465,18502.296732568586,463.50736128,AMS,TFS,614,Tenerife Island,EU,true,Amsterdam Airport Schiphol,Tenerife South Airport
+0.0,145,TRA,58263.0,166643.81229322465,18502.296732568586,388.88697393,AMS,VLC,614,Valencia,EU,true,Amsterdam Airport Schiphol,Valencia Airport
+0.0,122,VLG,58263.0,140210.65586050626,15567.449664643915,407.4684159,AMS,VLC,614,Valencia,EU,true,Amsterdam Airport Schiphol,Valencia Airport
+0.0,78,KLC,58263.0,89642.87833704498,9952.959621657588,253.60635709499996,AMS,VLC,614,Valencia,EU,true,Amsterdam Airport Schiphol,Valencia Airport
+0.0,78,KLC,58263.0,89642.87833704498,9952.959621657588,253.60635709499996,AMS,VLC,614,Valencia,EU,true,Amsterdam Airport Schiphol,Valencia Airport
+0.0,78,JAF,-1.0,89642.87833704498,9952.959621657588,302.26883712,ANR,ALC,6,Alicante,EU,false,Antwerp International Airport (Deurne),Alicante International Airport
+0.0,145,IBK,3000.0,155444.95858177348,32256.834303572403,463.50736128,ARN,AGP,279,Málaga,EU,true,Stockholm-Arlanda Airport,Málaga Airport
+0.0,145,IBK,3000.0,155444.95858177348,32256.834303572403,463.50736128,ARN,AGP,279,Málaga,EU,true,Stockholm-Arlanda Airport,Málaga Airport
+0.0,145,IBK,3000.0,155444.95858177348,32256.834303572403,463.50736128,ARN,ALC,279,Alicante,EU,true,Stockholm-Arlanda Airport,Alicante International Airport
+0.0,145,NAX,3000.0,155444.95858177348,32256.834303572403,488.62006149,ARN,BCN,279,Barcelona,EU,true,Stockholm-Arlanda Airport,Barcelona International Airport
+0.0,135,VLG,3000.0,144724.61661061668,30032.22504125706,547.298807,ARN,BCN,279,Barcelona,EU,true,Stockholm-Arlanda Airport,Barcelona International Airport
+0.0,226,VKG,3000.0,242279.72854814347,50276.16932832666,1511.50848,ARN,LPA,279,Gran Canaria Island,EU,true,Stockholm-Arlanda Airport,Gran Canaria Airport
+0.0,145,IBK,3000.0,155444.95858177348,32256.834303572403,463.50736128,ARN,LPA,279,Gran Canaria Island,EU,true,Stockholm-Arlanda Airport,Gran Canaria Airport
+0.0,145,BLX,3000.0,155444.95858177348,32256.834303572403,463.50736128,ARN,LPA,279,Gran Canaria Island,EU,true,Stockholm-Arlanda Airport,Gran Canaria Airport
+0.0,122,IBE,3000.0,130788.17204811286,27140.233000247128,581.131125,ARN,MAD,279,Madrid,EU,true,Stockholm-Arlanda Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,IBK,3000.0,155444.95858177348,32256.834303572403,463.50736128,ARN,TFS,279,Tenerife Island,EU,true,Stockholm-Arlanda Airport,Tenerife South Airport
+0.0,145,RYR,3309.0,166643.81229322465,18502.296732568586,488.62006149,ATH,BCN,198,Barcelona,EU,true,Eleftherios Venizelos International Airport,Barcelona International Airport
+0.0,122,VLG,3309.0,140210.65586050626,15567.449664643915,511.9668587,ATH,BCN,198,Barcelona,EU,true,Eleftherios Venizelos International Airport,Barcelona International Airport
+0.0,122,AEE,3309.0,140210.65586050626,15567.449664643915,511.9668587,ATH,BCN,198,Barcelona,EU,true,Eleftherios Venizelos International Airport,Barcelona International Airport
+0.0,145,RYR,3309.0,166643.81229322465,18502.296732568586,554.6302875,ATH,MAD,198,Madrid,EU,true,Eleftherios Venizelos International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,AEE,3309.0,173539.41831915118,19267.909011157633,652.69125,ATH,MAD,198,Madrid,EU,true,Eleftherios Venizelos International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,232,ETD,-1.0,266630.09966915945,29603.674772109738,1725.030417,AUH,BCN,161,Barcelona,AS,true,Abu Dhabi International Airport,Barcelona International Airport
+0.0,232,ETD,-1.0,266630.09966915945,29603.674772109738,1958.0737499999998,AUH,MAD,161,Madrid,AS,true,Abu Dhabi International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,EZY,-1.0,115031.70388392791,17226.27626825351,519.170304,BFS,AGP,64,Málaga,EU,false,Belfast International Airport,Málaga Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,BFS,ALC,64,Alicante,EU,false,Belfast International Airport,Alicante International Airport
+0.0,145,EXS,-1.0,123552.57083829294,18502.296732568586,463.50736128,BFS,TFS,64,Tenerife Island,EU,false,Belfast International Airport,Tenerife South Airport
+0.0,145,NAX,205.0,155444.95858177348,32256.834303572403,388.88697393,BGO,ACE,101,Lanzarote Island,EU,false,Bergen Airport Flesland,Lanzarote Airport
+0.0,151,VKG,205.0,161877.16376446755,33591.59986096161,545.457408,BGO,LPA,101,Gran Canaria Island,EU,false,Bergen Airport Flesland,Gran Canaria Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,463.50736128,BGY,AGP,134,Málaga,EU,false,Milan Bergamo Airport,Málaga Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,488.62006149,BGY,BCN,134,Barcelona,EU,false,Milan Bergamo Airport,Barcelona International Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,488.62006149,BGY,BCN,134,Barcelona,EU,false,Milan Bergamo Airport,Barcelona International Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,488.62006149,BGY,BCN,134,Barcelona,EU,false,Milan Bergamo Airport,Barcelona International Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,488.62006149,BGY,BCN,134,Barcelona,EU,false,Milan Bergamo Airport,Barcelona International Airport
+0.0,145,MAY,302.0,94703.34986422848,15174.210653628576,554.6302875,BGY,MAD,134,Madrid,EU,false,Milan Bergamo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,554.6302875,BGY,MAD,134,Madrid,EU,false,Milan Bergamo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,554.6302875,BGY,MAD,134,Madrid,EU,false,Milan Bergamo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,284.84894676,BGY,SDR,134,Santander,EU,false,Milan Bergamo Airport,Santander Airport
+0.0,137,SWT,302.0,89478.33745792622,14337.01282446286,167.43628188,BGY,VIT,134,Alava,EU,false,Milan Bergamo Airport,Vitoria/Foronda Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,388.88697393,BGY,VLC,134,Valencia,EU,false,Milan Bergamo Airport,Valencia Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,388.88697393,BGY,VLC,134,Valencia,EU,false,Milan Bergamo Airport,Valencia Airport
+0.0,145,RYR,302.0,94703.34986422848,15174.210653628576,284.84894676,BGY,ZAZ,134,Zaragoza,EU,false,Milan Bergamo Airport,Zaragoza Air Base
+0.0,145,EXS,194.0,123552.57083829294,18502.296732568586,388.88697393,BHX,ACE,114,Lanzarote Island,EU,false,Birmingham International Airport,Lanzarote Airport
+0.0,145,RYR,194.0,123552.57083829294,18502.296732568586,463.50736128,BHX,AGP,114,Málaga,EU,false,Birmingham International Airport,Málaga Airport
+0.0,145,RYR,194.0,123552.57083829294,18502.296732568586,463.50736128,BHX,ALC,114,Alicante,EU,false,Birmingham International Airport,Alicante International Airport
+0.0,145,EXS,194.0,123552.57083829294,18502.296732568586,463.50736128,BHX,ALC,114,Alicante,EU,false,Birmingham International Airport,Alicante International Airport
+0.0,145,RYR,194.0,123552.57083829294,18502.296732568586,488.62006149,BHX,BCN,114,Barcelona,EU,false,Birmingham International Airport,Barcelona International Airport
+0.0,122,VLG,194.0,103954.57684325337,15567.449664643915,511.9668587,BHX,BCN,114,Barcelona,EU,false,Birmingham International Airport,Barcelona International Airport
+0.0,145,RYR,194.0,123552.57083829294,18502.296732568586,388.88697393,BHX,FUE,114,Fuerteventura Island,EU,false,Birmingham International Airport,Fuerteventura Airport
+0.0,145,RYR,194.0,123552.57083829294,18502.296732568586,463.50736128,BHX,LPA,114,Gran Canaria Island,EU,false,Birmingham International Airport,Gran Canaria Airport
+0.0,145,EXS,194.0,123552.57083829294,18502.296732568586,463.50736128,BHX,LPA,114,Gran Canaria Island,EU,false,Birmingham International Airport,Gran Canaria Airport
+0.0,145,RYR,194.0,123552.57083829294,18502.296732568586,554.6302875,BHX,MAD,114,Madrid,EU,false,Birmingham International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,194.0,103954.57684325337,15567.449664643915,581.131125,BHX,MAD,114,Madrid,EU,false,Birmingham International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,159,TOM,194.0,135481.78457440395,20288.725382609704,760.22304768,BHX,TFS,114,Tenerife Island,EU,false,Birmingham International Airport,Tenerife South Airport
+0.0,145,EXS,194.0,123552.57083829294,18502.296732568586,463.50736128,BHX,TFS,114,Tenerife Island,EU,false,Birmingham International Airport,Tenerife South Airport
+0.0,145,EXS,194.0,123552.57083829294,18502.296732568586,463.50736128,BHX,TFS,114,Tenerife Island,EU,false,Birmingham International Airport,Tenerife South Airport
+0.0,125,ENT,-1.0,143658.45887346953,15950.255803938444,463.50736128,BJL,AGP,13,Málaga,AF,true,Banjul International Airport,Málaga Airport
+0.0,145,AEA,-1.0,155444.95858177348,32256.834303572403,463.50736128,BLE,LPA,1,Gran Canaria Island,EU,false,Borlange Airport,Gran Canaria Airport
+0.0,145,IBK,22.0,155444.95858177348,32256.834303572403,463.50736128,BLL,AGP,53,Málaga,EU,false,Billund Airport,Málaga Airport
+0.0,145,RYR,22.0,155444.95858177348,32256.834303572403,463.50736128,BLL,ALC,53,Alicante,EU,false,Billund Airport,Alicante International Airport
+0.0,145,RYR,150.0,94703.34986422848,15174.210653628576,488.62006149,BLQ,BCN,98,Barcelona,EU,false,Bologna Guglielmo Marconi Airport,Barcelona International Airport
+0.0,145,RYR,150.0,94703.34986422848,15174.210653628576,488.62006149,BLQ,BCN,98,Barcelona,EU,false,Bologna Guglielmo Marconi Airport,Barcelona International Airport
+0.0,122,VLG,150.0,79681.43919610948,12767.266894777147,511.9668587,BLQ,BCN,98,Barcelona,EU,false,Bologna Guglielmo Marconi Airport,Barcelona International Airport
+0.0,122,VLG,150.0,79681.43919610948,12767.266894777147,511.9668587,BLQ,BCN,98,Barcelona,EU,false,Bologna Guglielmo Marconi Airport,Barcelona International Airport
+0.0,145,RYR,150.0,94703.34986422848,15174.210653628576,554.6302875,BLQ,MAD,98,Madrid,EU,false,Bologna Guglielmo Marconi Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,150.0,94703.34986422848,15174.210653628576,554.6302875,BLQ,MAD,98,Madrid,EU,false,Bologna Guglielmo Marconi Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,ANE,150.0,53556.37716459817,8581.277748948578,321.02973,BLQ,MAD,98,Madrid,EU,false,Bologna Guglielmo Marconi Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,ANE,150.0,53556.37716459817,8581.277748948578,321.02973,BLQ,MAD,98,Madrid,EU,false,Bologna Guglielmo Marconi Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,ANE,150.0,53556.37716459817,8581.277748948578,321.02973,BLQ,MAD,98,Madrid,EU,false,Bologna Guglielmo Marconi Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,150.0,94703.34986422848,15174.210653628576,284.84894676,BLQ,SDR,98,Santander,EU,false,Bologna Guglielmo Marconi Airport,Santander Airport
+0.0,145,RYR,150.0,94703.34986422848,15174.210653628576,388.88697393,BLQ,VLC,98,Valencia,EU,false,Bologna Guglielmo Marconi Airport,Valencia Airport
+0.0,145,RYR,150.0,94703.34986422848,15174.210653628576,388.88697393,BLQ,VLC,98,Valencia,EU,false,Bologna Guglielmo Marconi Airport,Valencia Airport
+4.490055203106372E-6,145,MAY,120.0,75227.08253996556,23948.255770834057,463.50736128,BOD,AGP,88,Málaga,EU,false,Bordeaux-Mérignac Airport,Málaga Airport
+3.7670265855452676E-6,122,EJU,120.0,63294.51082672964,20149.566924425897,511.9668587,BOD,BCN,88,Barcelona,EU,false,Bordeaux-Mérignac Airport,Barcelona International Airport
+4.1437292440997945E-6,135,VLG,120.0,70039.0078820369,22296.651924569636,547.298807,BOD,BCN,88,Barcelona,EU,false,Bordeaux-Mérignac Airport,Barcelona International Airport
+2.5113510570301785E-6,82,ANE,120.0,42542.212195014996,13543.151539368231,321.02973,BOD,MAD,88,Madrid,EU,false,Bordeaux-Mérignac Airport,Adolfo Suárez Madrid–Barajas Airport
+3.1186779426072397E-6,101,VOE,120.0,52399.55404507945,16681.19884727062,503.28,BOD,MAD,88,Madrid,EU,false,Bordeaux-Mérignac Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5150628569413223E-6,82,ANE,120.0,42542.212195014996,13543.151539368231,321.02973,BOD,MAD,88,Madrid,EU,false,Bordeaux-Mérignac Airport,Adolfo Suárez Madrid–Barajas Airport
+4.476811885355554E-6,145,RYR,120.0,75227.08253996556,23948.255770834057,388.88697393,BOD,VLC,88,Valencia,EU,false,Bordeaux-Mérignac Airport,Valencia Airport
+0.0,315,AVA,-1.0,362019.3163611432,40194.64462592488,1579.545924,BOG,BCN,364,Barcelona,SA,false,El Dorado International Airport,Barcelona International Airport
+0.0,315,AVA,-1.0,362019.3163611432,40194.64462592488,1792.935,BOG,MAD,364,Madrid,SA,false,El Dorado International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,346,IBE,-1.0,397646.61416176363,44150.3080653016,2893.8599999999997,BOG,MAD,364,Madrid,SA,false,El Dorado International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,315,AEA,-1.0,362019.3163611432,40194.64462592488,1792.935,BOG,MAD,364,Madrid,SA,false,El Dorado International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,315,AVA,-1.0,362019.3163611432,40194.64462592488,1792.935,BOG,MAD,364,Madrid,SA,false,El Dorado International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,315,AVA,-1.0,362019.3163611432,40194.64462592488,1792.935,BOG,MAD,364,Madrid,SA,false,El Dorado International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,346,IBE,-1.0,397646.61416176363,44150.3080653016,2893.8599999999997,BOG,MAD,364,Madrid,SA,false,El Dorado International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,TOM,-1.0,123552.57083829294,18502.296732568586,463.50736128,BOH,TFS,9,Tenerife Island,EU,false,Bournemouth Airport,Tenerife South Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,BOH,TFS,9,Tenerife Island,EU,false,Bournemouth Airport,Tenerife South Airport
+1.2670398398800256E-6,201,IBE,-1.0,231002.80186853898,25648.011332733015,1593.40159,BOS,BCN,536,Barcelona,NA,false,General Edward Lawrence Logan International Airport,Barcelona International Airport
+0.0,145,RYR,15.0,140594.304747023,18874.670000142294,463.50736128,BRE,ALC,35,Alicante,EU,false,Bremen Airport,Alicante International Airport
+0.0,82,ANE,15.0,79508.50337417852,10673.951310425302,225.094595544,BRE,VLC,35,Valencia,EU,false,Bremen Airport,Valencia Airport
+0.0,122,VLG,6.0,79681.43919610948,12767.266894777147,511.9668587,BRI,BCN,53,Barcelona,EU,false,Bari Karol Wojtyła Airport,Barcelona International Airport
+0.0,16,AOJ,6.0,10450.02481260452,1674.3956583314293,135.43913515,BRI,BCN,53,Barcelona,EU,false,Bari Karol Wojtyła Airport,Barcelona International Airport
+0.0,145,RYR,6.0,94703.34986422848,15174.210653628576,388.88697393,BRI,SVQ,53,Sevilla,EU,false,Bari Karol Wojtyła Airport,Sevilla Airport
+0.0,145,RYR,6.0,94703.34986422848,15174.210653628576,388.88697393,BRI,VLC,53,Valencia,EU,false,Bari Karol Wojtyła Airport,Valencia Airport
+0.0,7,NJE,-1.0,8044.873696914294,893.2143250205523,56.424565932,BRN,SDR,3,Santander,EU,true,Bern Belp Airport,Santander Airport
+0.0,145,RYR,301.0,123552.57083829294,18502.296732568586,388.88697393,BRS,ACE,78,Lanzarote Island,EU,false,Bristol Airport,Lanzarote Airport
+0.0,145,RYR,301.0,123552.57083829294,18502.296732568586,463.50736128,BRS,AGP,78,Málaga,EU,false,Bristol Airport,Málaga Airport
+0.0,162,EZY,301.0,138038.0446607135,20671.53152190421,637.462272,BRS,AGP,78,Málaga,EU,false,Bristol Airport,Málaga Airport
+0.0,145,RYR,301.0,123552.57083829294,18502.296732568586,463.50736128,BRS,ALC,78,Alicante,EU,false,Bristol Airport,Alicante International Airport
+0.0,135,EZY,301.0,115031.70388392791,17226.27626825351,519.170304,BRS,ALC,78,Alicante,EU,false,Bristol Airport,Alicante International Airport
+0.0,135,EZY,301.0,115031.70388392791,17226.27626825351,547.298807,BRS,BCN,78,Barcelona,EU,false,Bristol Airport,Barcelona International Airport
+0.0,162,EZY,301.0,138038.0446607135,20671.53152190421,671.9998009999999,BRS,BCN,78,Barcelona,EU,false,Bristol Airport,Barcelona International Airport
+0.0,135,EZY,301.0,115031.70388392791,17226.27626825351,621.2362499999999,BRS,MAD,78,Madrid,EU,false,Bristol Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,301.0,123552.57083829294,18502.296732568586,388.88697393,BRS,SVQ,78,Sevilla,EU,false,Bristol Airport,Sevilla Airport
+0.0,145,TOM,301.0,123552.57083829294,18502.296732568586,463.50736128,BRS,TFS,78,Tenerife Island,EU,false,Bristol Airport,Tenerife South Airport
+0.0,122,EZY,301.0,103954.57684325337,15567.449664643915,485.65424640000003,BRS,TFS,78,Tenerife Island,EU,false,Bristol Airport,Tenerife South Airport
+0.0,145,RYR,301.0,123552.57083829294,18502.296732568586,388.88697393,BRS,VLC,78,Valencia,EU,false,Bristol Airport,Valencia Airport
+0.0,122,BEL,6325.0,140210.65586050626,15567.449664643915,485.65424640000003,BRU,AGP,293,Málaga,EU,true,Brussels Airport,Málaga Airport
+0.0,145,RYR,6325.0,166643.81229322465,18502.296732568586,463.50736128,BRU,AGP,293,Málaga,EU,true,Brussels Airport,Málaga Airport
+0.0,125,JAF,6325.0,143658.45887346953,15950.255803938444,435.84018431999993,BRU,AGP,293,Málaga,EU,true,Brussels Airport,Málaga Airport
+0.0,122,VLG,6325.0,140210.65586050626,15567.449664643915,485.65424640000003,BRU,ALC,293,Alicante,EU,true,Brussels Airport,Alicante International Airport
+0.0,78,JAF,6325.0,89642.87833704498,9952.959621657588,302.26883712,BRU,ALC,293,Alicante,EU,true,Brussels Airport,Alicante International Airport
+0.0,145,JAF,6325.0,166643.81229322465,18502.296732568586,463.50736128,BRU,ALC,293,Alicante,EU,true,Brussels Airport,Alicante International Airport
+0.0,145,RYR,6325.0,166643.81229322465,18502.296732568586,488.62006149,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,145,RYR,6325.0,166643.81229322465,18502.296732568586,488.62006149,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,145,RYR,6325.0,166643.81229322465,18502.296732568586,488.62006149,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,122,VLG,6325.0,140210.65586050626,15567.449664643915,511.9668587,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,122,VLG,6325.0,140210.65586050626,15567.449664643915,511.9668587,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,122,VLG,6325.0,140210.65586050626,15567.449664643915,511.9668587,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,122,BEL,6325.0,140210.65586050626,15567.449664643915,511.9668587,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,122,BEL,6325.0,140210.65586050626,15567.449664643915,511.9668587,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,159,RGN,6325.0,182733.55968705323,20288.725382609704,801.4117214400001,BRU,BCN,293,Barcelona,EU,true,Brussels Airport,Barcelona International Airport
+0.0,101,BEL,6325.0,116076.03476976338,12887.80668958226,352.881984,BRU,BIO,293,Bilbao,EU,true,Brussels Airport,Bilbao Airport
+0.0,145,RYR,6325.0,166643.81229322465,18502.296732568586,554.6302875,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,6325.0,166643.81229322465,18502.296732568586,554.6302875,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,159,BCS,6325.0,182733.55968705323,20288.725382609704,909.6786,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,BEL,6325.0,140210.65586050626,15567.449664643915,581.131125,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,BEL,6325.0,140210.65586050626,15567.449664643915,581.131125,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,BEL,6325.0,140210.65586050626,15567.449664643915,581.131125,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,6325.0,155151.13558334712,17226.27626825351,621.2362499999999,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,6325.0,116076.03476976338,12887.80668958226,503.28,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,IBE,6325.0,173539.41831915118,19267.909011157633,652.69125,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,6325.0,94239.949020996,10463.367807383618,411.19548749999996,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,6325.0,94239.949020996,10463.367807383618,411.19548749999996,BRU,MAD,293,Madrid,EU,true,Brussels Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,JAF,6325.0,166643.81229322465,18502.296732568586,463.50736128,BRU,TFS,293,Tenerife Island,EU,true,Brussels Airport,Tenerife South Airport
+0.0,145,JAF,6325.0,166643.81229322465,18502.296732568586,463.50736128,BRU,TFS,293,Tenerife Island,EU,true,Brussels Airport,Tenerife South Airport
+0.0,122,BEL,6325.0,140210.65586050626,15567.449664643915,485.65424640000003,BRU,TFS,293,Tenerife Island,EU,true,Brussels Airport,Tenerife South Airport
+0.0,217,BCS,6325.0,249391.08460434308,27689.644075637138,457.6378478,BRU,VIT,293,Alava,EU,true,Brussels Airport,Vitoria/Foronda Airport
+0.0,145,RYR,6325.0,166643.81229322465,18502.296732568586,388.88697393,BRU,VLC,293,Valencia,EU,true,Brussels Airport,Valencia Airport
+0.0,122,VLG,6325.0,140210.65586050626,15567.449664643915,407.4684159,BRU,VLC,293,Valencia,EU,true,Brussels Airport,Valencia Airport
+3.778170214389396E-6,122,EJU,321.0,63294.51082672964,20149.566924425897,511.9668587,BSL,BCN,94,Barcelona,EU,false,EuroAirport Basel-Mulhouse-Freiburg Airport,Barcelona International Airport
+3.778170214389396E-6,122,EJU,321.0,63294.51082672964,20149.566924425897,511.9668587,BSL,BCN,94,Barcelona,EU,false,EuroAirport Basel-Mulhouse-Freiburg Airport,Barcelona International Airport
+4.556861761094186E-6,145,TUI,321.0,75227.08253996556,23948.255770834057,388.88697393,BSL,FUE,94,Fuerteventura Island,EU,false,EuroAirport Basel-Mulhouse-Freiburg Airport,Fuerteventura Airport
+2.5262312055633837E-6,82,ANE,321.0,42542.212195014996,13543.151539368231,321.02973,BSL,MAD,94,Madrid,EU,false,EuroAirport Basel-Mulhouse-Freiburg Airport,Adolfo Suárez Madrid–Barajas Airport
+3.789346808345076E-6,122,EZS,321.0,63294.51082672964,20149.566924425897,581.131125,BSL,MAD,94,Madrid,EU,false,EuroAirport Basel-Mulhouse-Freiburg Airport,Adolfo Suárez Madrid–Barajas Airport
+3.1232873772285673E-6,101,EZS,321.0,52399.55404507945,16681.19884727062,420.593664,BSL,PMI,94,Palma De Mallorca,EU,false,EuroAirport Basel-Mulhouse-Freiburg Airport,Palma De Mallorca Airport
+0.0,145,RYR,223.0,166643.81229322465,18502.296732568586,488.62006149,BUD,BCN,165,Barcelona,EU,true,Budapest Liszt Ferenc International Airport,Barcelona International Airport
+0.0,122,VLG,223.0,140210.65586050626,15567.449664643915,511.9668587,BUD,BCN,165,Barcelona,EU,true,Budapest Liszt Ferenc International Airport,Barcelona International Airport
+0.0,162,WZZ,223.0,186181.36270001653,20671.53152190421,671.9998009999999,BUD,BCN,165,Barcelona,EU,true,Budapest Liszt Ferenc International Airport,Barcelona International Airport
+0.0,145,RYR,223.0,166643.81229322465,18502.296732568586,554.6302875,BUD,MAD,165,Madrid,EU,true,Budapest Liszt Ferenc International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,162,WZZ,223.0,186181.36270001653,20671.53152190421,762.7837499999999,BUD,MAD,165,Madrid,EU,true,Budapest Liszt Ferenc International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,223.0,116076.03476976338,12887.80668958226,503.28,BUD,MAD,165,Madrid,EU,true,Budapest Liszt Ferenc International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,223.0,166643.81229322465,18502.296732568586,284.84894676,BUD,SDR,165,Santander,EU,true,Budapest Liszt Ferenc International Airport,Santander Airport
+0.0,122,WZZ,223.0,140210.65586050626,15567.449664643915,485.65424640000003,BUD,TFS,165,Tenerife Island,EU,true,Budapest Liszt Ferenc International Airport,Tenerife South Airport
+0.0,145,RYR,223.0,166643.81229322465,18502.296732568586,388.88697393,BUD,VLC,165,Valencia,EU,true,Budapest Liszt Ferenc International Airport,Valencia Airport
+4.483428654408749E-6,145,RYR,-1.0,75227.08253996556,23948.255770834057,488.62006149,BVA,BCN,37,Barcelona,EU,false,Paris Beauvais Tillé Airport,Barcelona International Airport
+4.490055203106372E-6,145,RYR,-1.0,75227.08253996556,23948.255770834057,554.6302875,BVA,MAD,37,Madrid,EU,false,Paris Beauvais Tillé Airport,Adolfo Suárez Madrid–Barajas Airport
+4.503337697273863E-6,145,RYR,-1.0,75227.08253996556,23948.255770834057,388.88697393,BVA,SVQ,37,Sevilla,EU,false,Paris Beauvais Tillé Airport,Sevilla Airport
+4.490055203106372E-6,145,RYR,-1.0,75227.08253996556,23948.255770834057,388.88697393,BVA,VLC,37,Valencia,EU,false,Paris Beauvais Tillé Airport,Valencia Airport
+0.0,145,RYR,8.0,94703.34986422848,15174.210653628576,388.88697393,CAG,SVQ,35,Sevilla,EU,false,Cagliari Elmas Airport,Sevilla Airport
+0.0,125,MSR,-1.0,143658.45887346953,15950.255803938444,488.62006149,CAI,BCN,171,Barcelona,AF,true,Cairo International Airport,Barcelona International Airport
+0.0,125,MSR,-1.0,143658.45887346953,15950.255803938444,554.6302875,CAI,MAD,171,Madrid,AF,true,Cairo International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,9,AHO,-1.0,10343.409038889806,1148.4184178835678,176.934375,CAI,MAD,171,Madrid,AF,true,Cairo International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,107,FEG,-1.0,122971.64079568992,13653.418968171305,521.5238999999999,CAI,MAD,171,Madrid,AF,true,Cairo International Airport,Adolfo Suárez Madrid–Barajas Airport
+4.503337697273863E-6,145,AEA,47556.0,75227.08253996556,23948.255770834057,463.50736128,CDG,AGP,611,Málaga,EU,true,Charles de Gaulle International Airport,Málaga Airport
+4.509993671716655E-6,145,AEA,47556.0,75227.08253996556,23948.255770834057,463.50736128,CDG,AGP,611,Málaga,EU,true,Charles de Gaulle International Airport,Málaga Airport
+4.509993671716655E-6,145,AEA,47556.0,75227.08253996556,23948.255770834057,463.50736128,CDG,AGP,611,Málaga,EU,true,Charles de Gaulle International Airport,Málaga Airport
+3.778170214389396E-6,122,AFR,47556.0,63294.51082672964,20149.566924425897,511.9668587,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+3.1232873772285673E-6,101,AFR,47556.0,52399.55404507945,16681.19884727062,443.381312,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+3.778170214389396E-6,122,AFR,47556.0,63294.51082672964,20149.566924425897,511.9668587,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+3.1232873772285673E-6,101,AFR,47556.0,52399.55404507945,16681.19884727062,443.381312,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+4.659743264413588E-6,151,AFR,47556.0,78339.92733472274,24939.21807859271,575.010139,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+3.1232873772285673E-6,101,AFR,47556.0,52399.55404507945,16681.19884727062,443.381312,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+3.778170214389396E-6,122,EJU,47556.0,63294.51082672964,20149.566924425897,511.9668587,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+3.778170214389396E-6,122,EJU,47556.0,63294.51082672964,20149.566924425897,511.9668587,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+4.911621278706212E-6,159,FDX,47556.0,82490.38706106566,26260.50115560426,801.4117214400001,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+4.659743264413588E-6,151,VLG,47556.0,78339.92733472274,24939.21807859271,575.010139,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+4.659743264413588E-6,151,VLG,47556.0,78339.92733472274,24939.21807859271,575.010139,CDG,BCN,611,Barcelona,EU,true,Charles de Gaulle International Airport,Barcelona International Airport
+2.6950947529311012E-6,87,AFR,47556.0,45136.24952397933,14368.953462500434,325.313079,CDG,BIO,611,Bilbao,EU,true,Charles de Gaulle International Airport,Bilbao Airport
+2.6950947529311012E-6,87,AFR,47556.0,45136.24952397933,14368.953462500434,325.313079,CDG,BIO,611,Bilbao,EU,true,Charles de Gaulle International Airport,Bilbao Airport
+4.729074574289861E-6,151,VLG,47556.0,78339.92733472274,24939.21807859271,545.457408,CDG,LPA,611,Gran Canaria Island,EU,true,Charles de Gaulle International Airport,Gran Canaria Airport
+4.666630407722916E-6,151,AFR,47556.0,78339.92733472274,24939.21807859271,652.69125,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+2.6990781277100098E-6,87,AFR,47556.0,45136.24952397933,14368.953462500434,463.96124999999995,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.1279036246359004E-6,101,AFR,47556.0,52399.55404507945,16681.19884727062,503.28,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,AFR,47556.0,63294.51082672964,20149.566924425897,581.131125,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.1279036246359004E-6,101,AFR,47556.0,52399.55404507945,16681.19884727062,503.28,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,AFR,47556.0,63294.51082672964,20149.566924425897,581.131125,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,EJU,47556.0,63294.51082672964,20149.566924425897,581.131125,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+5.77653169388404E-6,187,FDX,47556.0,97016.99610326592,30884.991925144604,1469.5775999999998,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+4.162129823104221E-6,135,VLG,47556.0,70039.0078820369,22296.651924569636,621.2362499999999,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,IBS,47556.0,63294.51082672964,20149.566924425897,581.131125,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,IBS,47556.0,63294.51082672964,20149.566924425897,581.131125,CDG,MAD,611,Madrid,EU,true,Charles de Gaulle International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,VLG,47556.0,63294.51082672964,20149.566924425897,485.65424640000003,CDG,PMI,611,Palma De Mallorca,EU,true,Charles de Gaulle International Airport,Palma De Mallorca Airport
+3.783754384640202E-6,122,VLG,47556.0,63294.51082672964,20149.566924425897,407.4684159,CDG,SCQ,611,Santiago de Compostela,EU,true,Charles de Gaulle International Airport,Santiago de Compostela Airport
+3.794947497702695E-6,122,VLG,47556.0,63294.51082672964,20149.566924425897,407.4684159,CDG,SVQ,611,Sevilla,EU,true,Charles de Gaulle International Airport,Sevilla Airport
+3.794947497702695E-6,122,VLG,47556.0,63294.51082672964,20149.566924425897,407.4684159,CDG,SVQ,611,Sevilla,EU,true,Charles de Gaulle International Airport,Sevilla Airport
+4.490055203106372E-6,145,AEA,47556.0,75227.08253996556,23948.255770834057,388.88697393,CDG,VLC,611,Valencia,EU,true,Charles de Gaulle International Airport,Valencia Airport
+4.490055203106372E-6,145,AEA,47556.0,75227.08253996556,23948.255770834057,388.88697393,CDG,VLC,611,Valencia,EU,true,Charles de Gaulle International Airport,Valencia Airport
+0.0,7,VCG,-1.0,5964.606868055521,893.2143250205523,31.26313827,CEG,VLC,5,Valencia,EU,false,Hawarden Airport,Valencia Airport
+5.273837219763373E-7,17,BIB,0.0,8819.72691847872,2807.7265386495105,43.28502416,CFE,VIT,12,Alava,EU,false,Clermont-Ferrand Auvergne Airport,Vitoria/Foronda Airport
+0.0,145,RYR,592.0,140594.304747023,18874.670000142294,463.50736128,CGN,ALC,175,Alicante,EU,false,Cologne Bonn Airport,Alicante International Airport
+0.0,145,MAY,592.0,140594.304747023,18874.670000142294,488.62006149,CGN,BCN,175,Barcelona,EU,false,Cologne Bonn Airport,Barcelona International Airport
+0.0,145,RYR,592.0,140594.304747023,18874.670000142294,488.62006149,CGN,BCN,175,Barcelona,EU,false,Cologne Bonn Airport,Barcelona International Airport
+0.0,187,UPS,592.0,181318.17232891932,24341.815793286954,1294.67343104,CGN,BCN,175,Barcelona,EU,false,Cologne Bonn Airport,Barcelona International Airport
+0.0,101,EWG,592.0,97931.20537551257,13147.1839311336,443.381312,CGN,BCN,175,Barcelona,EU,false,Cologne Bonn Airport,Barcelona International Airport
+0.0,16,AYY,592.0,15513.854316912882,2082.722206912253,128.4782208,CGN,LPA,175,Gran Canaria Island,EU,false,Cologne Bonn Airport,Gran Canaria Airport
+0.0,145,MAY,592.0,140594.304747023,18874.670000142294,554.6302875,CGN,MAD,175,Madrid,EU,false,Cologne Bonn Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,187,UPS,592.0,181318.17232891932,24341.815793286954,1469.5775999999998,CGN,MAD,175,Madrid,EU,false,Cologne Bonn Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,137,FPO,592.0,132837.37758856657,17833.308896686165,494.000775,CGN,MAD,175,Madrid,EU,false,Cologne Bonn Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,273,PUE,592.0,264705.13928232604,35536.44765544032,2162.53125,CGN,MAD,175,Madrid,EU,false,Cologne Bonn Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,592.0,140594.304747023,18874.670000142294,463.50736128,CGN,PMI,175,Palma De Mallorca,EU,false,Cologne Bonn Airport,Palma De Mallorca Airport
+0.0,145,RYR,592.0,140594.304747023,18874.670000142294,463.50736128,CGN,PMI,175,Palma De Mallorca,EU,false,Cologne Bonn Airport,Palma De Mallorca Airport
+0.0,145,TUI,592.0,140594.304747023,18874.670000142294,463.50736128,CGN,PMI,175,Palma De Mallorca,EU,false,Cologne Bonn Airport,Palma De Mallorca Airport
+0.0,145,CXI,592.0,140594.304747023,18874.670000142294,463.50736128,CGN,TFS,175,Tenerife Island,EU,false,Cologne Bonn Airport,Tenerife South Airport
+0.0,137,CGF,592.0,132837.37758856657,17833.308896686165,167.43628188,CGN,VIT,175,Alava,EU,false,Cologne Bonn Airport,Vitoria/Foronda Airport
+0.0,137,SWT,592.0,132837.37758856657,17833.308896686165,167.43628188,CGN,VIT,175,Alava,EU,false,Cologne Bonn Airport,Vitoria/Foronda Airport
+0.0,145,MAY,37.0,94703.34986422848,15174.210653628576,554.6302875,CIA,MAD,54,Madrid,EU,true,Ciampino–G. B. Pastine International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,37.0,94703.34986422848,15174.210653628576,554.6302875,CIA,MAD,54,Madrid,EU,true,Ciampino–G. B. Pastine International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,37.0,94703.34986422848,15174.210653628576,554.6302875,CIA,MAD,54,Madrid,EU,true,Ciampino–G. B. Pastine International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,37.0,94703.34986422848,15174.210653628576,463.50736128,CIA,PMI,54,Palma De Mallorca,EU,true,Ciampino–G. B. Pastine International Airport,Palma De Mallorca Airport
+0.0,145,MAY,37.0,94703.34986422848,15174.210653628576,284.84894676,CIA,SDR,54,Santander,EU,true,Ciampino–G. B. Pastine International Airport,Santander Airport
+0.0,145,MAY,37.0,94703.34986422848,15174.210653628576,388.88697393,CIA,SVQ,54,Sevilla,EU,true,Ciampino–G. B. Pastine International Airport,Sevilla Airport
+0.0,145,RYR,37.0,94703.34986422848,15174.210653628576,388.88697393,CIA,VLC,54,Valencia,EU,true,Ciampino–G. B. Pastine International Airport,Valencia Airport
+0.0,122,WZZ,5.0,140210.65586050626,15567.449664643915,485.65424640000003,CLJ,AGP,31,Málaga,EU,false,Cluj-Napoca International Airport,Málaga Airport
+0.0,122,WZZ,5.0,140210.65586050626,15567.449664643915,511.9668587,CLJ,BCN,31,Barcelona,EU,false,Cluj-Napoca International Airport,Barcelona International Airport
+0.0,122,WZZ,5.0,140210.65586050626,15567.449664643915,581.131125,CLJ,MAD,31,Madrid,EU,false,Cluj-Napoca International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,315,AVA,-1.0,362019.3163611432,40194.64462592488,1792.935,CLO,MAD,63,Madrid,SA,false,Alfonso Bonilla Aragon International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,55,RAM,-1.0,63209.721904326594,7018.112553732911,151.150848,CMN,AGP,105,Málaga,AF,false,Mohammed V International Airport,Málaga Airport
+0.0,125,RAM,-1.0,143658.45887346953,15950.255803938444,488.62006149,CMN,BCN,105,Barcelona,AF,false,Mohammed V International Airport,Barcelona International Airport
+0.0,55,RAM,-1.0,63209.721904326594,7018.112553732911,151.150848,CMN,LPA,105,Gran Canaria Island,AF,false,Mohammed V International Airport,Gran Canaria Airport
+0.0,70,ANE,-1.0,80448.73696914293,8932.143250205527,321.02973,CMN,MAD,105,Madrid,AF,false,Mohammed V International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,70,ANE,-1.0,80448.73696914293,8932.143250205527,321.02973,CMN,MAD,105,Madrid,AF,false,Mohammed V International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,RAM,-1.0,143658.45887346953,15950.255803938444,554.6302875,CMN,MAD,105,Madrid,AF,false,Mohammed V International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,RAM,-1.0,143658.45887346953,15950.255803938444,554.6302875,CMN,MAD,105,Madrid,AF,false,Mohammed V International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,67,RAM,-1.0,77000.93395617967,8549.337110911003,253.60635709499996,CMN,VLC,105,Valencia,AF,false,Mohammed V International Airport,Valencia Airport
+0.0,145,NSW,6081.0,155444.95858177348,32256.834303572403,388.88697393,CPH,ACE,344,Lanzarote Island,EU,true,Copenhagen Kastrup Airport,Lanzarote Airport
+0.0,151,VKG,6081.0,161877.16376446755,33591.59986096161,457.643823,CPH,ACE,344,Lanzarote Island,EU,true,Copenhagen Kastrup Airport,Lanzarote Airport
+0.0,145,RYR,6081.0,155444.95858177348,32256.834303572403,463.50736128,CPH,AGP,344,Málaga,EU,true,Copenhagen Kastrup Airport,Málaga Airport
+0.0,151,DTR,6081.0,161877.16376446755,33591.59986096161,545.457408,CPH,AGP,344,Málaga,EU,true,Copenhagen Kastrup Airport,Málaga Airport
+0.0,145,IBK,6081.0,155444.95858177348,32256.834303572403,463.50736128,CPH,AGP,344,Málaga,EU,true,Copenhagen Kastrup Airport,Málaga Airport
+0.0,145,RYR,6081.0,155444.95858177348,32256.834303572403,463.50736128,CPH,ALC,344,Alicante,EU,true,Copenhagen Kastrup Airport,Alicante International Airport
+0.0,145,IBK,6081.0,155444.95858177348,32256.834303572403,463.50736128,CPH,ALC,344,Alicante,EU,true,Copenhagen Kastrup Airport,Alicante International Airport
+0.0,151,VLG,6081.0,161877.16376446755,33591.59986096161,575.010139,CPH,BCN,344,Barcelona,EU,true,Copenhagen Kastrup Airport,Barcelona International Airport
+0.0,145,IBK,6081.0,155444.95858177348,32256.834303572403,488.62006149,CPH,BCN,344,Barcelona,EU,true,Copenhagen Kastrup Airport,Barcelona International Airport
+0.0,145,IBK,6081.0,155444.95858177348,32256.834303572403,488.62006149,CPH,BCN,344,Barcelona,EU,true,Copenhagen Kastrup Airport,Barcelona International Airport
+0.0,145,NSW,6081.0,155444.95858177348,32256.834303572403,463.50736128,CPH,LPA,344,Gran Canaria Island,EU,true,Copenhagen Kastrup Airport,Gran Canaria Airport
+0.0,151,VKG,6081.0,161877.16376446755,33591.59986096161,545.457408,CPH,LPA,344,Gran Canaria Island,EU,true,Copenhagen Kastrup Airport,Gran Canaria Airport
+0.0,145,RYR,6081.0,155444.95858177348,32256.834303572403,554.6302875,CPH,MAD,344,Madrid,EU,true,Copenhagen Kastrup Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,6081.0,155444.95858177348,32256.834303572403,554.6302875,CPH,MAD,344,Madrid,EU,true,Copenhagen Kastrup Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,6081.0,130788.17204811286,27140.233000247128,581.131125,CPH,MAD,344,Madrid,EU,true,Copenhagen Kastrup Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,NSW,6081.0,155444.95858177348,32256.834303572403,463.50736128,CPH,TFS,344,Tenerife Island,EU,true,Copenhagen Kastrup Airport,Tenerife South Airport
+0.0,145,RYR,73.0,166643.81229322465,18502.296732568586,463.50736128,CRL,AGP,65,Málaga,EU,true,Brussels South Charleroi Airport,Málaga Airport
+0.0,145,RYR,73.0,166643.81229322465,18502.296732568586,463.50736128,CRL,ALC,65,Alicante,EU,true,Brussels South Charleroi Airport,Alicante International Airport
+0.0,122,MYX,73.0,140210.65586050626,15567.449664643915,485.65424640000003,CRL,ALC,65,Alicante,EU,true,Brussels South Charleroi Airport,Alicante International Airport
+0.0,145,RYR,73.0,166643.81229322465,18502.296732568586,488.62006149,CRL,BCN,65,Barcelona,EU,true,Brussels South Charleroi Airport,Barcelona International Airport
+0.0,145,RYR,73.0,166643.81229322465,18502.296732568586,554.6302875,CRL,MAD,65,Madrid,EU,true,Brussels South Charleroi Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,73.0,166643.81229322465,18502.296732568586,284.84894676,CRL,SDR,65,Santander,EU,true,Brussels South Charleroi Airport,Santander Airport
+0.0,145,RYR,73.0,166643.81229322465,18502.296732568586,388.88697393,CRL,SVQ,65,Sevilla,EU,true,Brussels South Charleroi Airport,Sevilla Airport
+0.0,145,RYR,73.0,166643.81229322465,18502.296732568586,463.50736128,CRL,TFS,65,Tenerife Island,EU,true,Brussels South Charleroi Airport,Tenerife South Airport
+0.0,122,MYX,73.0,140210.65586050626,15567.449664643915,485.65424640000003,CRL,TFS,65,Tenerife Island,EU,true,Brussels South Charleroi Airport,Tenerife South Airport
+0.0,122,VLG,27.0,79681.43919610948,12767.266894777147,511.9668587,CTA,BCN,73,Barcelona,EU,false,Catania-Fontanarossa Airport,Barcelona International Airport
+0.0,145,TOM,-1.0,123552.57083829294,18502.296732568586,463.50736128,CWL,TFS,18,Tenerife Island,EU,false,Cardiff International Airport,Tenerife South Airport
+0.0,122,WZZ,-1.0,140210.65586050626,15567.449664643915,511.9668587,DEB,BCN,5,Barcelona,EU,false,Debrecen International Airport,Barcelona International Airport
+1.5008587432986266E-6,235,AAL,-1.0,270077.9026821227,29986.480911404265,1958.0737499999998,DFW,MAD,999,Madrid,NA,false,Dallas Fort Worth International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,SBI,4116.0,140210.65586050626,15567.449664643915,485.65424640000003,DME,ALC,228,Alicante,EU,true,Domodedovo International Airport,Alicante International Airport
+0.0,122,SBI,4116.0,140210.65586050626,15567.449664643915,485.65424640000003,DME,ALC,228,Alicante,AS,true,Domodedovo International Airport,Alicante International Airport
+0.0,151,SBI,4116.0,173539.41831915118,19267.909011157633,575.010139,DME,BCN,228,Barcelona,EU,true,Domodedovo International Airport,Barcelona International Airport
+0.0,151,SBI,4116.0,173539.41831915118,19267.909011157633,575.010139,DME,BCN,228,Barcelona,AS,true,Domodedovo International Airport,Barcelona International Airport
+0.0,135,SBI,4116.0,155151.13558334712,17226.27626825351,519.170304,DME,TFS,228,Tenerife Island,EU,true,Domodedovo International Airport,Tenerife South Airport
+0.0,135,SBI,4116.0,155151.13558334712,17226.27626825351,519.170304,DME,TFS,228,Tenerife Island,AS,true,Domodedovo International Airport,Tenerife South Airport
+0.0,419,RUN,-1.0,481543.1541438699,53465.257454801635,1602.91646788,DMM,ZAZ,108,Zaragoza,AS,false,King Fahd International Airport,Zaragoza Air Base
+0.0,260,QTR,-1.0,298809.5944568166,33176.53207219195,1856.659244,DOH,BCN,326,Barcelona,AS,true,Hamad International Airport,Barcelona International Airport
+0.0,260,QTR,-1.0,298809.5944568166,33176.53207219195,1856.659244,DOH,BCN,326,Barcelona,AS,true,Hamad International Airport,Barcelona International Airport
+0.0,304,QTR,-1.0,349377.3719802779,38791.02211517829,1579.545924,DOH,BCN,326,Barcelona,AS,true,Hamad International Airport,Barcelona International Airport
+0.0,260,QTR,-1.0,298809.5944568166,33176.53207219195,2107.4849999999997,DOH,MAD,326,Madrid,AS,true,Hamad International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,260,QTR,-1.0,298809.5944568166,33176.53207219195,2107.4849999999997,DOH,MAD,326,Madrid,AS,true,Hamad International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,260,QTR,-1.0,298809.5944568166,33176.53207219195,2107.4849999999997,DOH,MAD,326,Madrid,AS,true,Hamad International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,320,QTR,-1.0,367765.654716082,40832.65485808241,1403.4454700000001,DOH,ZAZ,326,Zaragoza,AS,true,Hamad International Airport,Zaragoza Air Base
+0.0,145,TOM,2.0,123552.57083829294,18502.296732568586,463.50736128,DSA,TFS,5,Tenerife Island,EU,false,Robin Hood Doncaster Sheffield Airport,Tenerife South Airport
+0.0,1,IBB,-1.0,1149.2676709877562,127.6020464315075,407.450112,DSS,LPA,34,Gran Canaria Island,AF,true,Blaise Diagne International Airport,Gran Canaria Airport
+0.0,14,LVW,-1.0,16089.747393828588,1786.4286500411047,37.26196992,DSS,LPA,34,Gran Canaria Island,AF,true,Blaise Diagne International Airport,Gran Canaria Airport
+0.0,130,IBE,-1.0,149404.7972284083,16588.266036095974,652.69125,DSS,MAD,34,Madrid,AF,true,Blaise Diagne International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,-1.0,140594.304747023,18874.670000142294,463.50736128,DTM,PMI,25,Palma De Mallorca,EU,false,Dortmund Airport,Palma De Mallorca Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,388.88697393,DUB,ACE,296,Lanzarote Island,EU,true,Dublin Airport,Lanzarote Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,463.50736128,DUB,AGP,296,Málaga,EU,true,Dublin Airport,Málaga Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,463.50736128,DUB,AGP,296,Málaga,EU,true,Dublin Airport,Málaga Airport
+0.0,151,EIN,4365.0,173539.41831915118,19267.909011157633,545.457408,DUB,AGP,296,Málaga,EU,true,Dublin Airport,Málaga Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,463.50736128,DUB,ALC,296,Alicante,EU,true,Dublin Airport,Alicante International Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,488.62006149,DUB,BCN,296,Barcelona,EU,true,Dublin Airport,Barcelona International Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,488.62006149,DUB,BCN,296,Barcelona,EU,true,Dublin Airport,Barcelona International Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,488.62006149,DUB,BCN,296,Barcelona,EU,true,Dublin Airport,Barcelona International Airport
+0.0,135,VLG,4365.0,155151.13558334712,17226.27626825351,547.298807,DUB,BCN,296,Barcelona,EU,true,Dublin Airport,Barcelona International Airport
+0.0,122,EIN,4365.0,140210.65586050626,15567.449664643915,511.9668587,DUB,BCN,296,Barcelona,EU,true,Dublin Airport,Barcelona International Airport
+0.0,122,EIN,4365.0,140210.65586050626,15567.449664643915,511.9668587,DUB,BCN,296,Barcelona,EU,true,Dublin Airport,Barcelona International Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,554.6302875,DUB,MAD,296,Madrid,EU,true,Dublin Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,554.6302875,DUB,MAD,296,Madrid,EU,true,Dublin Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,554.6302875,DUB,MAD,296,Madrid,EU,true,Dublin Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,EIN,4365.0,140210.65586050626,15567.449664643915,581.131125,DUB,MAD,296,Madrid,EU,true,Dublin Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,388.88697393,DUB,SVQ,296,Sevilla,EU,true,Dublin Airport,Sevilla Airport
+0.0,145,TOM,4365.0,166643.81229322465,18502.296732568586,463.50736128,DUB,TFS,296,Tenerife Island,EU,true,Dublin Airport,Tenerife South Airport
+0.0,145,RYR,4365.0,166643.81229322465,18502.296732568586,463.50736128,DUB,TFS,296,Tenerife Island,EU,true,Dublin Airport,Tenerife South Airport
+0.0,122,LDM,3254.0,118293.13916646072,15880.75682770593,407.4684159,DUS,ACE,269,Lanzarote Island,EU,false,Düsseldorf Airport,Lanzarote Airport
+0.0,236,CFG,3254.0,228829.35117446503,30720.152551955733,681.5033315999999,DUS,ACE,269,Lanzarote Island,EU,false,Düsseldorf Airport,Lanzarote Airport
+0.0,122,LDM,3254.0,118293.13916646072,15880.75682770593,485.65424640000003,DUS,AGP,269,Málaga,EU,false,Düsseldorf Airport,Málaga Airport
+0.0,122,LDM,3254.0,118293.13916646072,15880.75682770593,485.65424640000003,DUS,ALC,269,Alicante,EU,false,Düsseldorf Airport,Alicante International Airport
+0.0,122,VLG,3254.0,118293.13916646072,15880.75682770593,511.9668587,DUS,BCN,269,Barcelona,EU,false,Düsseldorf Airport,Barcelona International Airport
+0.0,122,EWG,3254.0,118293.13916646072,15880.75682770593,511.9668587,DUS,BCN,269,Barcelona,EU,false,Düsseldorf Airport,Barcelona International Airport
+0.0,122,EWG,3254.0,118293.13916646072,15880.75682770593,511.9668587,DUS,BCN,269,Barcelona,EU,false,Düsseldorf Airport,Barcelona International Airport
+0.0,122,EWG,3254.0,118293.13916646072,15880.75682770593,407.4684159,DUS,BIO,269,Bilbao,EU,false,Düsseldorf Airport,Bilbao Airport
+0.0,145,TUI,3254.0,140594.304747023,18874.670000142294,388.88697393,DUS,FUE,269,Fuerteventura Island,EU,false,Düsseldorf Airport,Fuerteventura Airport
+0.0,151,EWG,3254.0,146412.00011586532,19655.69082773439,545.457408,DUS,LPA,269,Gran Canaria Island,EU,false,Düsseldorf Airport,Gran Canaria Airport
+0.0,122,LDM,3254.0,118293.13916646072,15880.75682770593,485.65424640000003,DUS,LPA,269,Gran Canaria Island,EU,false,Düsseldorf Airport,Gran Canaria Airport
+0.0,151,TCN,3254.0,146412.00011586532,19655.69082773439,545.457408,DUS,LPA,269,Gran Canaria Island,EU,false,Düsseldorf Airport,Gran Canaria Airport
+0.0,151,IBE,3254.0,146412.00011586532,19655.69082773439,652.69125,DUS,MAD,269,Madrid,EU,false,Düsseldorf Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,3254.0,130898.14579895245,17572.968620822132,621.2362499999999,DUS,MAD,269,Madrid,EU,false,Düsseldorf Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,3254.0,79508.50337417852,10673.951310425302,411.19548749999996,DUS,MAD,269,Madrid,EU,false,Düsseldorf Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,3254.0,79508.50337417852,10673.951310425302,411.19548749999996,DUS,MAD,269,Madrid,EU,false,Düsseldorf Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,EWG,3254.0,118293.13916646072,15880.75682770593,485.65424640000003,DUS,PMI,269,Palma De Mallorca,EU,false,Düsseldorf Airport,Palma De Mallorca Airport
+0.0,101,EWE,3254.0,97931.20537551257,13147.1839311336,420.593664,DUS,PMI,269,Palma De Mallorca,EU,false,Düsseldorf Airport,Palma De Mallorca Airport
+0.0,122,LDM,3254.0,118293.13916646072,15880.75682770593,485.65424640000003,DUS,PMI,269,Palma De Mallorca,EU,false,Düsseldorf Airport,Palma De Mallorca Airport
+0.0,122,LDM,3254.0,118293.13916646072,15880.75682770593,485.65424640000003,DUS,PMI,269,Palma De Mallorca,EU,false,Düsseldorf Airport,Palma De Mallorca Airport
+0.0,122,CFG,3254.0,118293.13916646072,15880.75682770593,298.4593388,DUS,SPC,269,Sta Cruz de la Palma", La Palma Island,EU,false,Düsseldorf Airport,La Palma Airport
+0.0,151,EWG,3254.0,146412.00011586532,19655.69082773439,545.457408,DUS,TFS,269,Tenerife Island,EU,false,Düsseldorf Airport,Tenerife South Airport
+0.0,122,LDM,3254.0,118293.13916646072,15880.75682770593,485.65424640000003,DUS,TFS,269,Tenerife Island,EU,false,Düsseldorf Airport,Tenerife South Airport
+0.0,122,EWG,3254.0,118293.13916646072,15880.75682770593,407.4684159,DUS,VLC,269,Valencia,EU,false,Düsseldorf Airport,Valencia Airport
+0.0,320,UAE,-1.0,367765.654716082,40832.65485808241,1403.4454700000001,DWC,ZAZ,25,Zaragoza,AS,false,Al Maktoum International Airport,Zaragoza Air Base
+0.0,320,UAE,-1.0,367765.654716082,40832.65485808241,2407.4219675,DXB,BCN,498,Barcelona,AS,false,Dubai International Airport,Barcelona International Airport
+0.0,515,UAE,-1.0,591872.8505586945,65715.05391222637,3879.58648,DXB,BCN,498,Barcelona,AS,false,Dubai International Airport,Barcelona International Airport
+0.0,515,UAE,-1.0,591872.8505586945,65715.05391222637,4403.7,DXB,MAD,498,Madrid,AS,false,Dubai International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,515,UAE,-1.0,591872.8505586945,65715.05391222637,4403.7,DXB,MAD,498,Madrid,AS,false,Dubai International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,151.0,123552.57083829294,18502.296732568586,463.50736128,EDI,AGP,170,Málaga,EU,false,Edinburgh Airport,Málaga Airport
+0.0,145,RYR,151.0,123552.57083829294,18502.296732568586,463.50736128,EDI,ALC,170,Alicante,EU,false,Edinburgh Airport,Alicante International Airport
+0.0,145,EXS,151.0,123552.57083829294,18502.296732568586,463.50736128,EDI,ALC,170,Alicante,EU,false,Edinburgh Airport,Alicante International Airport
+0.0,145,RYR,151.0,123552.57083829294,18502.296732568586,488.62006149,EDI,BCN,170,Barcelona,EU,false,Edinburgh Airport,Barcelona International Airport
+0.0,145,EXS,151.0,123552.57083829294,18502.296732568586,463.50736128,EDI,LPA,170,Gran Canaria Island,EU,false,Edinburgh Airport,Gran Canaria Airport
+0.0,101,EZY,151.0,86060.7562390868,12887.80668958226,503.28,EDI,MAD,170,Madrid,EU,false,Edinburgh Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,TOM,151.0,123552.57083829294,18502.296732568586,463.50736128,EDI,TFS,170,Tenerife Island,EU,false,Edinburgh Airport,Tenerife South Airport
+0.0,145,RYR,151.0,123552.57083829294,18502.296732568586,463.50736128,EDI,TFS,170,Tenerife Island,EU,false,Edinburgh Airport,Tenerife South Airport
+0.0,135,EZY,151.0,115031.70388392791,17226.27626825351,519.170304,EDI,TFS,170,Tenerife Island,EU,false,Edinburgh Airport,Tenerife South Airport
+0.0,145,EXS,151.0,123552.57083829294,18502.296732568586,463.50736128,EDI,TFS,170,Tenerife Island,EU,false,Edinburgh Airport,Tenerife South Airport
+0.0,125,TRA,86.0,143658.45887346953,15950.255803938444,435.84018431999993,EIN,AGP,46,Málaga,EU,false,Eindhoven Airport,Málaga Airport
+0.0,145,RYR,86.0,166643.81229322465,18502.296732568586,463.50736128,EIN,AGP,46,Málaga,EU,false,Eindhoven Airport,Málaga Airport
+0.0,145,TRA,86.0,166643.81229322465,18502.296732568586,463.50736128,EIN,ALC,46,Alicante,EU,false,Eindhoven Airport,Alicante International Airport
+0.0,145,RYR,86.0,166643.81229322465,18502.296732568586,463.50736128,EIN,ALC,46,Alicante,EU,false,Eindhoven Airport,Alicante International Airport
+0.0,145,TRA,86.0,166643.81229322465,18502.296732568586,488.62006149,EIN,BCN,46,Barcelona,EU,false,Eindhoven Airport,Barcelona International Airport
+0.0,145,RYR,86.0,166643.81229322465,18502.296732568586,388.88697393,EIN,SVQ,46,Sevilla,EU,false,Eindhoven Airport,Sevilla Airport
+0.0,145,RYR,86.0,166643.81229322465,18502.296732568586,388.88697393,EIN,VLC,46,Valencia,EU,false,Eindhoven Airport,Valencia Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,AGP,72,Málaga,EU,false,East Midlands Airport,Málaga Airport
+0.0,145,RYR,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,AGP,72,Málaga,EU,false,East Midlands Airport,Málaga Airport
+0.0,145,RYR,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,ALC,72,Alicante,EU,false,East Midlands Airport,Alicante International Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,ALC,72,Alicante,EU,false,East Midlands Airport,Alicante International Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,LPA,72,Gran Canaria Island,EU,false,East Midlands Airport,Gran Canaria Airport
+0.0,137,ABR,43.0,116735.87727480092,17481.480361116523,494.000775,EMA,MAD,72,Madrid,EU,false,East Midlands Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,159,DHK,43.0,135481.78457440395,20288.725382609704,909.6786,EMA,MAD,72,Madrid,EU,false,East Midlands Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,TOM,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,TFS,72,Tenerife Island,EU,false,East Midlands Airport,Tenerife South Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,TFS,72,Tenerife Island,EU,false,East Midlands Airport,Tenerife South Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,463.50736128,EMA,TFS,72,Tenerife Island,EU,false,East Midlands Airport,Tenerife South Airport
+0.0,55,IBB,-1.0,63209.721904326594,7018.112553732911,151.150848,EUN,LPA,7,Gran Canaria Island,AF,false,Hassan I Airport,Gran Canaria Airport
+0.0,125,RAM,-1.0,143658.45887346953,15950.255803938444,463.50736128,EUN,LPA,7,Gran Canaria Island,AF,false,Hassan I Airport,Gran Canaria Airport
+1.1764411775401883E-6,186,UAL,-1.0,213763.78680372267,23733.980636260396,1294.67343104,EWR,BCN,608,Barcelona,NA,false,Newark Liberty International Airport,Barcelona International Airport
+1.1729712903553475E-6,186,UAL,-1.0,213763.78680372267,23733.980636260396,1469.5775999999998,EWR,MAD,608,Madrid,NA,false,Newark Liberty International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,TOM,-1.0,123552.57083829294,18502.296732568586,463.50736128,EXT,TFS,16,Tenerife Island,EU,false,Exeter International Airport,Tenerife South Airport
+0.0,204,IBE,-1.0,234450.60488150228,26030.81747202752,1593.40159,EZE,BCN,95,Barcelona,SA,true,Ministro Pistarini International Airport,Barcelona International Airport
+0.0,204,ARG,-1.0,234450.60488150228,26030.81747202752,1808.6625,EZE,MAD,95,Madrid,SA,true,Ministro Pistarini International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,240,AEA,-1.0,275824.2410370615,30624.491143561798,1958.0737499999998,EZE,MAD,95,Madrid,SA,true,Ministro Pistarini International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,268,IBE,-1.0,308003.73582471866,34197.34844364401,2107.4849999999997,EZE,MAD,95,Madrid,SA,true,Ministro Pistarini International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,204,ARG,-1.0,234450.60488150228,26030.81747202752,1808.6625,EZE,MAD,95,Madrid,SA,true,Ministro Pistarini International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,346,IBE,-1.0,397646.61416176363,44150.3080653016,2893.8599999999997,EZE,MAD,95,Madrid,SA,true,Ministro Pistarini International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,16,VIP,-1.0,13633.387126984047,2041.63274290412,166.71149999999997,FAB,MAD,37,Madrid,EU,false,Farnborough Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,8,NJE,-1.0,6816.693563492024,1020.81637145206,57.233597184,FAB,PMI,37,Palma De Mallorca,EU,false,Farnborough Airport,Palma De Mallorca Airport
+0.0,145,RYR,14854.0,94703.34986422848,15174.210653628576,463.50736128,FCO,AGP,342,Málaga,EU,true,Leonardo da Vinci–Fiumicino Airport,Málaga Airport
+0.0,122,AZA,14854.0,79681.43919610948,12767.266894777147,485.65424640000003,FCO,AGP,342,Málaga,EU,true,Leonardo da Vinci–Fiumicino Airport,Málaga Airport
+0.0,135,VLG,14854.0,88172.08435635065,14127.713367171431,519.170304,FCO,AGP,342,Málaga,EU,true,Leonardo da Vinci–Fiumicino Airport,Málaga Airport
+0.0,145,RYR,14854.0,94703.34986422848,15174.210653628576,463.50736128,FCO,ALC,342,Alicante,EU,true,Leonardo da Vinci–Fiumicino Airport,Alicante International Airport
+0.0,122,VLG,14854.0,79681.43919610948,12767.266894777147,485.65424640000003,FCO,ALC,342,Alicante,EU,true,Leonardo da Vinci–Fiumicino Airport,Alicante International Airport
+0.0,145,MAY,14854.0,94703.34986422848,15174.210653628576,488.62006149,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,145,RYR,14854.0,94703.34986422848,15174.210653628576,488.62006149,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,145,RYR,14854.0,94703.34986422848,15174.210653628576,488.62006149,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,145,RYR,14854.0,94703.34986422848,15174.210653628576,488.62006149,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,122,AZA,14854.0,79681.43919610948,12767.266894777147,511.9668587,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,122,AZA,14854.0,79681.43919610948,12767.266894777147,511.9668587,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,151,VLG,14854.0,98622.10916895517,15802.109025502863,575.010139,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,122,VLG,14854.0,79681.43919610948,12767.266894777147,511.9668587,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,135,VLG,14854.0,88172.08435635065,14127.713367171431,547.298807,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,122,VLG,14854.0,79681.43919610948,12767.266894777147,511.9668587,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,122,VLG,14854.0,79681.43919610948,12767.266894777147,511.9668587,FCO,BCN,342,Barcelona,EU,true,Leonardo da Vinci–Fiumicino Airport,Barcelona International Airport
+0.0,122,AZA,14854.0,79681.43919610948,12767.266894777147,581.131125,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,AZA,14854.0,98622.10916895517,15802.109025502863,652.69125,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,AZA,14854.0,79681.43919610948,12767.266894777147,581.131125,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,326,ETH,14854.0,212919.25555681714,34115.81153850285,2732.653125,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,14854.0,94703.34986422848,15174.210653628576,554.6302875,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,14854.0,94703.34986422848,15174.210653628576,554.6302875,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,14854.0,79681.43919610948,12767.266894777147,581.131125,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,IBE,14854.0,98622.10916895517,15802.109025502863,652.69125,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,14854.0,79681.43919610948,12767.266894777147,581.131125,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,14854.0,88172.08435635065,14127.713367171431,621.2362499999999,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,OVA,14854.0,94703.34986422848,15174.210653628576,554.6302875,FCO,MAD,342,Madrid,EU,true,Leonardo da Vinci–Fiumicino Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,VLG,14854.0,88172.08435635065,14127.713367171431,435.58869899999996,FCO,SVQ,342,Sevilla,EU,true,Leonardo da Vinci–Fiumicino Airport,Sevilla Airport
+0.0,122,AZA,14854.0,79681.43919610948,12767.266894777147,407.4684159,FCO,VLC,342,Valencia,EU,true,Leonardo da Vinci–Fiumicino Airport,Valencia Airport
+0.0,122,VLG,14854.0,79681.43919610948,12767.266894777147,407.4684159,FCO,VLC,342,Valencia,EU,true,Leonardo da Vinci–Fiumicino Airport,Valencia Airport
+0.0,105,MAC,-1.0,120673.10545371441,13398.21487530829,511.9668587,FEZ,BCN,13,Barcelona,AF,false,Saïss Airport,Barcelona International Airport
+0.0,145,MAY,-1.0,140594.304747023,18874.670000142294,463.50736128,FKB,PMI,12,Palma De Mallorca,EU,false,Karlsruhe Baden-Baden Airport,Palma De Mallorca Airport
+0.0,101,VLG,25.0,65965.78162956605,10569.622593217147,443.381312,FLR,BCN,43,Barcelona,EU,false,Peretola Airport,Barcelona International Airport
+0.0,101,VLG,25.0,65965.78162956605,10569.622593217147,443.381312,FLR,BCN,43,Barcelona,EU,false,Peretola Airport,Barcelona International Airport
+0.0,101,VLG,25.0,65965.78162956605,10569.622593217147,503.28,FLR,MAD,43,Madrid,EU,false,Peretola Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,25.0,65965.78162956605,10569.622593217147,503.28,FLR,MAD,43,Madrid,EU,false,Peretola Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,4.0,140594.304747023,18874.670000142294,463.50736128,FMM,AGP,18,Málaga,EU,false,Memmingen Allgau Airport,Málaga Airport
+0.0,13,NJE,4.0,12605.006632491717,1692.2117931162052,144.81882,FMM,MAD,18,Madrid,EU,false,Memmingen Allgau Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,EWE,2.0,97931.20537551257,13147.1839311336,420.593664,FMO,PMI,15,Palma De Mallorca,EU,false,Münster Osnabrück Airport,Palma De Mallorca Airport
+0.0,145,CAI,2.0,140594.304747023,18874.670000142294,463.50736128,FMO,TFS,15,Tenerife Island,EU,false,Münster Osnabrück Airport,Tenerife South Airport
+0.0,236,CFG,78773.0,228829.35117446503,30720.152551955733,681.5033315999999,FRA,ACE,601,Lanzarote Island,EU,false,Frankfurt am Main Airport,Lanzarote Airport
+0.0,162,DLH,78773.0,157077.77495874293,21087.56234498656,637.462272,FRA,AGP,601,Málaga,EU,false,Frankfurt am Main Airport,Málaga Airport
+0.0,145,RYR,78773.0,140594.304747023,18874.670000142294,463.50736128,FRA,AGP,601,Málaga,EU,false,Frankfurt am Main Airport,Málaga Airport
+0.0,122,DLH,78773.0,118293.13916646072,15880.75682770593,511.9668587,FRA,BCN,601,Barcelona,EU,false,Frankfurt am Main Airport,Barcelona International Airport
+0.0,135,DLH,78773.0,130898.14579895245,17572.968620822132,547.298807,FRA,BCN,601,Barcelona,EU,false,Frankfurt am Main Airport,Barcelona International Airport
+0.0,151,DLH,78773.0,146412.00011586532,19655.69082773439,575.010139,FRA,BCN,601,Barcelona,EU,false,Frankfurt am Main Airport,Barcelona International Airport
+0.0,101,DLH,78773.0,97931.20537551257,13147.1839311336,443.381312,FRA,BCN,601,Barcelona,EU,false,Frankfurt am Main Airport,Barcelona International Airport
+0.0,151,DLH,78773.0,146412.00011586532,19655.69082773439,575.010139,FRA,BCN,601,Barcelona,EU,false,Frankfurt am Main Airport,Barcelona International Airport
+0.0,122,DLH,78773.0,118293.13916646072,15880.75682770593,511.9668587,FRA,BCN,601,Barcelona,EU,false,Frankfurt am Main Airport,Barcelona International Airport
+0.0,122,DLH,78773.0,118293.13916646072,15880.75682770593,407.4684159,FRA,BIO,601,Bilbao,EU,false,Frankfurt am Main Airport,Bilbao Airport
+0.0,122,DLH,78773.0,118293.13916646072,15880.75682770593,407.4684159,FRA,BIO,601,Bilbao,EU,false,Frankfurt am Main Airport,Bilbao Airport
+0.0,145,TUI,78773.0,140594.304747023,18874.670000142294,388.88697393,FRA,FUE,601,Fuerteventura Island,EU,false,Frankfurt am Main Airport,Fuerteventura Airport
+0.0,145,RYR,78773.0,140594.304747023,18874.670000142294,463.50736128,FRA,LPA,601,Gran Canaria Island,EU,false,Frankfurt am Main Airport,Gran Canaria Airport
+0.0,151,CFG,78773.0,146412.00011586532,19655.69082773439,545.457408,FRA,LPA,601,Gran Canaria Island,EU,false,Frankfurt am Main Airport,Gran Canaria Airport
+0.0,151,DLH,78773.0,146412.00011586532,19655.69082773439,652.69125,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,DLH,78773.0,146412.00011586532,19655.69082773439,652.69125,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,DLH,78773.0,146412.00011586532,19655.69082773439,652.69125,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,DLH,78773.0,146412.00011586532,19655.69082773439,652.69125,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,ANE,78773.0,79508.50337417852,10673.951310425302,321.02973,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,ANE,78773.0,79508.50337417852,10673.951310425302,321.02973,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,217,BCS,78773.0,210406.64917313095,28246.919931247445,1350.2058749999999,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,78773.0,140594.304747023,18874.670000142294,554.6302875,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,237,LAN,78773.0,229798.96706927207,30850.322689887744,1958.0737499999998,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,OVA,78773.0,140594.304747023,18874.670000142294,554.6302875,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,202,PLM,78773.0,195862.41075102513,26294.3678622672,1808.6625,FRA,MAD,601,Madrid,EU,false,Frankfurt am Main Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,DLH,78773.0,118293.13916646072,15880.75682770593,485.65424640000003,FRA,PMI,601,Palma De Mallorca,EU,false,Frankfurt am Main Airport,Palma De Mallorca Airport
+0.0,145,RYR,78773.0,140594.304747023,18874.670000142294,463.50736128,FRA,PMI,601,Palma De Mallorca,EU,false,Frankfurt am Main Airport,Palma De Mallorca Airport
+0.0,101,DLH,78773.0,97931.20537551257,13147.1839311336,170.581376,FRA,PNA,601,Pamplona,EU,false,Frankfurt am Main Airport,Pamplona Airport
+0.0,236,CFG,78773.0,228829.35117446503,30720.152551955733,812.2715135999999,FRA,TFS,601,Tenerife Island,EU,false,Frankfurt am Main Airport,Tenerife South Airport
+0.0,145,RYR,78773.0,140594.304747023,18874.670000142294,388.88697393,FRA,VLC,601,Valencia,EU,false,Frankfurt am Main Airport,Valencia Airport
+0.0,145,SXD,78773.0,140594.304747023,18874.670000142294,388.88697393,FRA,VLC,601,Valencia,EU,false,Frankfurt am Main Airport,Valencia Airport
+0.0,204,IBE,-1.0,234450.60488150228,26030.81747202752,1808.6625,GIG,MAD,120,Madrid,SA,false,Rio Galeão – Tom Jobim International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,EXS,66.0,123552.57083829294,18502.296732568586,388.88697393,GLA,ACE,95,Lanzarote Island,EU,false,Glasgow International Airport,Lanzarote Airport
+0.0,101,EZY,66.0,86060.7562390868,12887.80668958226,420.593664,GLA,AGP,95,Málaga,EU,false,Glasgow International Airport,Málaga Airport
+0.0,135,EZY,66.0,115031.70388392791,17226.27626825351,519.170304,GLA,ALC,95,Alicante,EU,false,Glasgow International Airport,Alicante International Airport
+0.0,145,TOM,66.0,123552.57083829294,18502.296732568586,463.50736128,GLA,TFS,95,Tenerife Island,EU,false,Glasgow International Airport,Tenerife South Airport
+0.0,145,EXS,66.0,123552.57083829294,18502.296732568586,463.50736128,GLA,TFS,95,Tenerife Island,EU,false,Glasgow International Airport,Tenerife South Airport
+0.0,145,EXS,66.0,123552.57083829294,18502.296732568586,463.50736128,GLA,TFS,95,Tenerife Island,EU,false,Glasgow International Airport,Tenerife South Airport
+0.0,145,IBK,115.0,155444.95858177348,32256.834303572403,488.62006149,GOT,BCN,86,Barcelona,EU,false,Gothenburg-Landvetter Airport,Barcelona International Airport
+0.0,151,VKG,115.0,161877.16376446755,33591.59986096161,545.457408,GOT,LPA,86,Gran Canaria Island,EU,false,Gothenburg-Landvetter Airport,Gran Canaria Airport
+0.0,145,JAF,-1.0,166643.81229322465,18502.296732568586,463.50736128,GRQ,LPA,5,Gran Canaria Island,EU,false,Eelde Airport,Gran Canaria Airport
+0.0,189,TAM,-1.0,217211.5898166859,24116.786775554923,1294.67343104,GRU,BCN,366,Barcelona,SA,false,Guarulhos - Governador André Franco Montoro International Airport,Barcelona International Airport
+0.0,240,AEA,-1.0,275824.2410370615,30624.491143561798,1958.0737499999998,GRU,MAD,366,Madrid,SA,false,Guarulhos - Governador André Franco Montoro International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,346,IBE,-1.0,397646.61416176363,44150.3080653016,2893.8599999999997,GRU,MAD,366,Madrid,SA,false,Guarulhos - Governador André Franco Montoro International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,268,TAM,-1.0,308003.73582471866,34197.34844364401,2107.4849999999997,GRU,MAD,366,Madrid,SA,false,Guarulhos - Governador André Franco Montoro International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,131,SWR,1207.0,150554.0648993961,16715.86808252748,459.36714240000003,GVA,AGP,237,Málaga,EU,false,Geneva Cointrin International Airport,Málaga Airport
+0.0,122,EJU,1207.0,140210.65586050626,15567.449664643915,511.9668587,GVA,BCN,237,Barcelona,EU,false,Geneva Cointrin International Airport,Barcelona International Airport
+0.0,122,EJU,1207.0,140210.65586050626,15567.449664643915,511.9668587,GVA,BCN,237,Barcelona,EU,false,Geneva Cointrin International Airport,Barcelona International Airport
+0.0,135,VLG,1207.0,155151.13558334712,17226.27626825351,547.298807,GVA,BCN,237,Barcelona,EU,false,Geneva Cointrin International Airport,Barcelona International Airport
+0.0,122,EZS,1207.0,140210.65586050626,15567.449664643915,511.9668587,GVA,BCN,237,Barcelona,EU,false,Geneva Cointrin International Airport,Barcelona International Airport
+0.0,122,EZS,1207.0,140210.65586050626,15567.449664643915,511.9668587,GVA,BCN,237,Barcelona,EU,false,Geneva Cointrin International Airport,Barcelona International Airport
+0.0,131,SWR,1207.0,150554.0648993961,16715.86808252748,484.2555267,GVA,BCN,237,Barcelona,EU,false,Geneva Cointrin International Airport,Barcelona International Airport
+0.0,4,GAC,1207.0,4597.070683951025,510.40818572603,21.619535301,GVA,GRO,237,Girona,EU,false,Geneva Cointrin International Airport,Girona Airport
+0.0,122,EZS,1207.0,140210.65586050626,15567.449664643915,581.131125,GVA,MAD,237,Madrid,EU,false,Geneva Cointrin International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,131,SWR,1207.0,150554.0648993961,16715.86808252748,549.6761250000001,GVA,MAD,237,Madrid,EU,false,Geneva Cointrin International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,IBE,1207.0,173539.41831915118,19267.909011157633,652.69125,GVA,MAD,237,Madrid,EU,false,Geneva Cointrin International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,IBE,1207.0,173539.41831915118,19267.909011157633,652.69125,GVA,MAD,237,Madrid,EU,false,Geneva Cointrin International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,1207.0,116076.03476976338,12887.80668958226,503.28,GVA,MAD,237,Madrid,EU,false,Geneva Cointrin International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,8,NJE,1207.0,9194.14136790205,1020.81637145206,57.233597184,GVA,PMI,237,Palma De Mallorca,EU,false,Geneva Cointrin International Airport,Palma De Mallorca Airport
+0.0,122,EZS,1207.0,140210.65586050626,15567.449664643915,407.4684159,GVA,SCQ,237,Santiago de Compostela,EU,false,Geneva Cointrin International Airport,Santiago de Compostela Airport
+0.0,131,SWR,1207.0,150554.0648993961,16715.86808252748,385.41329190000005,GVA,VLC,237,Valencia,EU,false,Geneva Cointrin International Airport,Valencia Airport
+0.0,7,PAV,1207.0,8044.873696914294,893.2143250205523,31.26313827,GVA,VLC,237,Valencia,EU,false,Geneva Cointrin International Airport,Valencia Airport
+0.0,204,AEA,-1.0,234450.60488150228,26030.81747202752,1808.6625,GYE,MAD,46,Madrid,SA,false,José Joaquín de Olmedo International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,277,PUE,-1.0,318347.14486360847,35345.766861527576,2162.53125,GYE,MAD,46,Madrid,SA,false,José Joaquín de Olmedo International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,TCN,91.0,118293.13916646072,15880.75682770593,407.4684159,HAJ,ACE,67,Lanzarote Island,EU,false,Hannover Airport,Lanzarote Airport
+0.0,101,VLG,91.0,97931.20537551257,13147.1839311336,443.381312,HAJ,BCN,67,Barcelona,EU,false,Hannover Airport,Barcelona International Airport
+0.0,145,TUI,91.0,140594.304747023,18874.670000142294,388.88697393,HAJ,FUE,67,Fuerteventura Island,EU,false,Hannover Airport,Fuerteventura Airport
+0.0,145,TUI,91.0,140594.304747023,18874.670000142294,463.50736128,HAJ,LPA,67,Gran Canaria Island,EU,false,Hannover Airport,Gran Canaria Airport
+0.0,145,RYR,91.0,140594.304747023,18874.670000142294,463.50736128,HAJ,PMI,67,Palma De Mallorca,EU,false,Hannover Airport,Palma De Mallorca Airport
+0.0,236,CFG,563.0,228829.35117446503,30720.152551955733,681.5033315999999,HAM,ACE,181,Lanzarote Island,EU,false,Hamburg Airport,Lanzarote Airport
+0.0,122,VLG,563.0,118293.13916646072,15880.75682770593,511.9668587,HAM,BCN,181,Barcelona,EU,false,Hamburg Airport,Barcelona International Airport
+0.0,122,EWG,563.0,118293.13916646072,15880.75682770593,511.9668587,HAM,BCN,181,Barcelona,EU,false,Hamburg Airport,Barcelona International Airport
+0.0,236,CFG,563.0,228829.35117446503,30720.152551955733,812.2715135999999,HAM,LPA,181,Gran Canaria Island,EU,false,Hamburg Airport,Gran Canaria Airport
+0.0,145,RYR,563.0,140594.304747023,18874.670000142294,463.50736128,HAM,PMI,181,Palma De Mallorca,EU,false,Hamburg Airport,Palma De Mallorca Airport
+0.0,145,TUI,563.0,140594.304747023,18874.670000142294,463.50736128,HAM,PMI,181,Palma De Mallorca,EU,false,Hamburg Airport,Palma De Mallorca Airport
+0.0,236,CFG,563.0,228829.35117446503,30720.152551955733,812.2715135999999,HAM,TFS,181,Tenerife Island,EU,false,Hamburg Airport,Tenerife South Airport
+0.0,309,AEA,-1.0,355123.71033521666,39429.03234733582,1792.935,HAV,MAD,24,Madrid,NA,true,José Martí International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,201,IBE,-1.0,231002.80186853898,25648.011332733015,1808.6625,HAV,MAD,24,Madrid,NA,true,José Martí International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,225,EVE,-1.0,258585.22597224519,28710.46044708918,1808.6625,HAV,MAD,24,Madrid,NA,true,José Martí International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,FIN,12393.0,108275.45390868359,22468.55354938492,420.593664,HEL,AGP,254,Málaga,EU,true,Helsinki Vantaa Airport,Málaga Airport
+0.0,145,IBK,12393.0,155444.95858177348,32256.834303572403,463.50736128,HEL,AGP,254,Málaga,EU,true,Helsinki Vantaa Airport,Málaga Airport
+0.0,145,IBK,12393.0,155444.95858177348,32256.834303572403,463.50736128,HEL,ALC,254,Alicante,EU,true,Helsinki Vantaa Airport,Alicante International Airport
+0.0,151,FIN,12393.0,161877.16376446755,33591.59986096161,575.010139,HEL,BCN,254,Barcelona,EU,true,Helsinki Vantaa Airport,Barcelona International Airport
+0.0,145,IBK,12393.0,155444.95858177348,32256.834303572403,488.62006149,HEL,BCN,254,Barcelona,EU,true,Helsinki Vantaa Airport,Barcelona International Airport
+0.0,151,FIN,12393.0,161877.16376446755,33591.59986096161,545.457408,HEL,LPA,254,Gran Canaria Island,EU,true,Helsinki Vantaa Airport,Gran Canaria Airport
+0.0,151,VKG,12393.0,161877.16376446755,33591.59986096161,545.457408,HEL,LPA,254,Gran Canaria Island,EU,true,Helsinki Vantaa Airport,Gran Canaria Airport
+0.0,145,IBK,12393.0,155444.95858177348,32256.834303572403,463.50736128,HEL,LPA,254,Gran Canaria Island,EU,true,Helsinki Vantaa Airport,Gran Canaria Airport
+0.0,151,IBE,12393.0,161877.16376446755,33591.59986096161,652.69125,HEL,MAD,254,Madrid,EU,true,Helsinki Vantaa Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,FIN,12393.0,161877.16376446755,33591.59986096161,545.457408,HEL,TFS,254,Tenerife Island,EU,true,Helsinki Vantaa Airport,Tenerife South Airport
+0.0,145,IBK,12393.0,155444.95858177348,32256.834303572403,463.50736128,HEL,TFS,254,Tenerife Island,EU,true,Helsinki Vantaa Airport,Tenerife South Airport
+9.760500250478113E-6,232,KAL,-1.0,266630.09966915945,29603.674772109738,1725.030417,ICN,BCN,539,Barcelona,AS,true,Incheon International Airport,Barcelona International Airport
+0.0,315,AEA,-1.0,362019.3163611432,40194.64462592488,1792.935,IGR,MAD,11,Madrid,SA,false,Cataratas Del Iguazú International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,13,VJT,2.0,14940.479722840832,1658.826603609597,144.81882,INN,MAD,36,Madrid,EU,false,Innsbruck Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,202,THY,-1.0,232152.06953952677,25775.61337916452,1808.6625,ISL,MAD,25,Madrid,EU,false,Istanbul Atatürk Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,202,THY,-1.0,232152.06953952677,25775.61337916452,1808.6625,ISL,MAD,25,Madrid,AS,false,Istanbul Atatürk Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,545.457408,IST,AGP,493,Málaga,EU,false,Istanbul Airport,Málaga Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,545.457408,IST,AGP,493,Málaga,AS,false,Istanbul Airport,Málaga Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,545.457408,IST,AGP,493,Málaga,EU,false,Istanbul Airport,Málaga Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,545.457408,IST,AGP,493,Málaga,AS,false,Istanbul Airport,Málaga Airport
+0.0,226,THY,41539.0,259734.4936432329,28838.0624935207,1593.40159,IST,BCN,493,Barcelona,EU,false,Istanbul Airport,Barcelona International Airport
+0.0,226,THY,41539.0,259734.4936432329,28838.0624935207,1593.40159,IST,BCN,493,Barcelona,AS,false,Istanbul Airport,Barcelona International Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,575.010139,IST,BCN,493,Barcelona,EU,false,Istanbul Airport,Barcelona International Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,575.010139,IST,BCN,493,Barcelona,AS,false,Istanbul Airport,Barcelona International Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,575.010139,IST,BCN,493,Barcelona,EU,false,Istanbul Airport,Barcelona International Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,575.010139,IST,BCN,493,Barcelona,AS,false,Istanbul Airport,Barcelona International Airport
+0.0,145,THY,41539.0,166643.81229322465,18502.296732568586,388.88697393,IST,BIO,493,Bilbao,EU,false,Istanbul Airport,Bilbao Airport
+0.0,145,THY,41539.0,166643.81229322465,18502.296732568586,388.88697393,IST,BIO,493,Bilbao,AS,false,Istanbul Airport,Bilbao Airport
+0.0,202,THY,41539.0,232152.06953952677,25775.61337916452,1808.6625,IST,MAD,493,Madrid,EU,false,Istanbul Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,202,THY,41539.0,232152.06953952677,25775.61337916452,1808.6625,IST,MAD,493,Madrid,AS,false,Istanbul Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,226,THY,41539.0,259734.4936432329,28838.0624935207,1808.6625,IST,MAD,493,Madrid,EU,false,Istanbul Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,226,THY,41539.0,259734.4936432329,28838.0624935207,1808.6625,IST,MAD,493,Madrid,AS,false,Istanbul Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,652.69125,IST,MAD,493,Madrid,EU,false,Istanbul Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,THY,41539.0,173539.41831915118,19267.909011157633,652.69125,IST,MAD,493,Madrid,AS,false,Istanbul Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,THY,41539.0,166643.81229322465,18502.296732568586,388.88697393,IST,VLC,493,Valencia,EU,false,Istanbul Airport,Valencia Airport
+0.0,145,THY,41539.0,166643.81229322465,18502.296732568586,388.88697393,IST,VLC,493,Valencia,AS,false,Istanbul Airport,Valencia Airport
+0.0,232,SVA,-1.0,266630.09966915945,29603.674772109738,1958.0737499999998,JED,MAD,275,Madrid,AS,false,King Abdulaziz International Airport,Adolfo Suárez Madrid–Barajas Airport
+2.0488581490923106E-6,325,AAL,-1.0,373511.99307102076,41470.66509023995,1712.62959593,JFK,BCN,563,Barcelona,NA,false,John F Kennedy International Airport,Barcelona International Airport
+1.423031468028961E-6,225,DAL,-1.0,258585.22597224519,28710.46044708918,1593.40159,JFK,BCN,563,Barcelona,NA,false,John F Kennedy International Airport,Barcelona International Airport
+1.489816338369671E-6,235,NSW,-1.0,270077.9026821227,29986.480911404265,1725.030417,JFK,BCN,563,Barcelona,NA,false,John F Kennedy International Airport,Barcelona International Airport
+1.4167403129700738E-6,225,IBE,-1.0,258585.22597224519,28710.46044708918,1808.6625,JFK,MAD,563,Madrid,NA,false,John F Kennedy International Airport,Adolfo Suárez Madrid–Barajas Airport
+1.664697246137502E-6,264,IBE,-1.0,303406.66514076764,33686.94025791798,2107.4849999999997,JFK,MAD,563,Madrid,NA,false,John F Kennedy International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1085.0,166643.81229322465,18502.296732568586,488.62006149,KBP,BCN,116,Barcelona,EU,false,Boryspil International Airport,Barcelona International Airport
+0.0,145,AUI,1085.0,166643.81229322465,18502.296732568586,488.62006149,KBP,BCN,116,Barcelona,EU,false,Boryspil International Airport,Barcelona International Airport
+0.0,145,RYR,1085.0,166643.81229322465,18502.296732568586,554.6302875,KBP,MAD,116,Madrid,EU,false,Boryspil International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AUI,1085.0,166643.81229322465,18502.296732568586,554.6302875,KBP,MAD,116,Madrid,EU,false,Boryspil International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,159,ICE,2818.0,170453.43734139297,35371.2872708139,760.22304768,KEF,LPA,68,Gran Canaria Island,EU,false,Keflavik International Airport,Gran Canaria Airport
+0.0,145,IBK,2818.0,155444.95858177348,32256.834303572403,463.50736128,KEF,TFS,68,Tenerife Island,EU,false,Keflavik International Airport,Tenerife South Airport
+0.0,17,NJE,-1.0,19537.550406791855,2169.2347893356277,65.58835807999999,KJK,XRY,5,Jerez de la Forntera,EU,false,Wevelgem Airport,Jerez Airport
+0.0,145,RYR,14.0,166643.81229322465,18502.296732568586,463.50736128,KRK,ALC,94,Alicante,EU,false,Kraków John Paul II International Airport,Alicante International Airport
+0.0,145,ENT,-1.0,166643.81229322465,18502.296732568586,463.50736128,KTW,AGP,37,Málaga,EU,false,Katowice International Airport,Málaga Airport
+0.0,122,WZZ,0.0,140210.65586050626,15567.449664643915,511.9668587,KUT,BCN,8,Barcelona,AS,false,Kopitnari Airport,Barcelona International Airport
+0.0,122,WZZ,0.0,140210.65586050626,15567.449664643915,511.9668587,KUT,BCN,8,Barcelona,EU,false,Kopitnari Airport,Barcelona International Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,LBA,AGP,30,Málaga,EU,false,Leeds Bradford Airport,Málaga Airport
+0.0,145,EXS,-1.0,123552.57083829294,18502.296732568586,463.50736128,LBA,AGP,30,Málaga,EU,false,Leeds Bradford Airport,Málaga Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,LBA,ALC,30,Alicante,EU,false,Leeds Bradford Airport,Alicante International Airport
+0.0,145,EXS,-1.0,123552.57083829294,18502.296732568586,463.50736128,LBA,ALC,30,Alicante,EU,false,Leeds Bradford Airport,Alicante International Airport
+0.0,145,EXS,-1.0,123552.57083829294,18502.296732568586,463.50736128,LBA,TFS,30,Tenerife Island,EU,false,Leeds Bradford Airport,Tenerife South Airport
+3.536723687788737E-7,11,LMJ,-1.0,5706.882123721524,1816.7642308908603,205.68344524799997,LBG,AGP,40,Málaga,EU,true,Paris-Le Bourget Airport,Málaga Airport
+1.5202225859719062E-7,5,PEA,-1.0,2594.0373289643294,825.8019231322091,52.252190975999994,LBG,AGP,40,Málaga,EU,true,Paris-Le Bourget Airport,Málaga Airport
+4.7856822715599E-7,16,AAB,-1.0,8300.919452685854,2642.5661540230685,182.572316472,LBG,GRO,40,Girona,EU,true,Paris-Le Bourget Airport,Girona Airport
+4.792755553877587E-7,16,GES,-1.0,8300.919452685854,2642.5661540230685,323.48322,LBG,MAD,40,Madrid,EU,true,Paris-Le Bourget Airport,Adolfo Suárez Madrid–Barajas Airport
+1.5135017538560806E-7,5,LNX,-1.0,2594.0373289643294,825.8019231322091,62.52467624999999,LBG,MAD,40,Madrid,EU,true,Paris-Le Bourget Airport,Adolfo Suárez Madrid–Barajas Airport
+1.0104924822253533E-7,3,AZE,-1.0,1556.4223973785977,495.4811538793251,26.19045975,LBG,MAH,40,Menorca Island,EU,true,Paris-Le Bourget Airport,Menorca Airport
+0.0,78,CFE,449.0,66462.76224404723,9952.959621657588,253.60635709499996,LCY,IBZ,128,Ibiza,EU,true,London City Airport,Ibiza Airport
+0.0,78,CFE,449.0,66462.76224404723,9952.959621657588,302.26883712,LCY,PMI,128,Palma De Mallorca,EU,true,London City Airport,Palma De Mallorca Airport
+0.0,8,JFA,449.0,6816.693563492024,1020.81637145206,45.7643823,LCY,VLC,128,Valencia,EU,true,London City Airport,Valencia Airport
+0.0,151,TCN,-1.0,146412.00011586532,19655.69082773439,457.643823,LEJ,ACE,92,Lanzarote Island,EU,false,Leipzig/Halle Airport,Lanzarote Airport
+0.0,217,BCS,-1.0,210406.64917313095,28246.919931247445,1189.5089260999998,LEJ,BCN,92,Barcelona,EU,false,Leipzig/Halle Airport,Barcelona International Airport
+0.0,159,BCS,-1.0,154168.92727432176,20697.05193119053,909.6786,LEJ,MAD,92,Madrid,EU,false,Leipzig/Halle Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,TCN,-1.0,146412.00011586532,19655.69082773439,545.457408,LEJ,TFS,92,Tenerife Island,EU,false,Leipzig/Halle Airport,Tenerife South Airport
+0.0,217,BCS,-1.0,210406.64917313095,28246.919931247445,457.6378478,LEJ,VIT,92,Alava,EU,false,Leipzig/Halle Airport,Vitoria/Foronda Airport
+0.0,159,DHK,-1.0,154168.92727432176,20697.05193119053,308.32583712,LEJ,VIT,92,Alava,EU,false,Leipzig/Halle Airport,Vitoria/Foronda Airport
+0.0,159,BCS,-1.0,154168.92727432176,20697.05193119053,308.32583712,LEJ,VIT,92,Alava,EU,false,Leipzig/Halle Airport,Vitoria/Foronda Airport
+0.0,137,TAY,0.0,157449.67092532263,17481.480361116523,435.20646905999996,LGG,BCN,52,Barcelona,EU,false,Liège Airport,Barcelona International Airport
+0.0,326,ETH,0.0,374661.26074200857,41598.26713667143,1403.4454700000001,LGG,ZAZ,52,Zaragoza,EU,false,Liège Airport,Zaragoza Air Base
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,407.4684159,LGW,ACE,328,Lanzarote Island,EU,true,London Gatwick Airport,Lanzarote Airport
+0.0,135,EZY,1492.0,115031.70388392791,17226.27626825351,435.58869899999996,LGW,ACE,328,Lanzarote Island,EU,true,London Gatwick Airport,Lanzarote Airport
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,485.65424640000003,LGW,AGP,328,Málaga,EU,true,London Gatwick Airport,Málaga Airport
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,485.65424640000003,LGW,AGP,328,Málaga,EU,true,London Gatwick Airport,Málaga Airport
+0.0,162,EZY,1492.0,138038.0446607135,20671.53152190421,637.462272,LGW,AGP,328,Málaga,EU,true,London Gatwick Airport,Málaga Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,420.593664,LGW,AGP,328,Málaga,EU,true,London Gatwick Airport,Málaga Airport
+0.0,145,IBK,1492.0,123552.57083829294,18502.296732568586,463.50736128,LGW,AGP,328,Málaga,EU,true,London Gatwick Airport,Málaga Airport
+0.0,145,IBK,1492.0,123552.57083829294,18502.296732568586,463.50736128,LGW,AGP,328,Málaga,EU,true,London Gatwick Airport,Málaga Airport
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,485.65424640000003,LGW,ALC,328,Alicante,EU,true,London Gatwick Airport,Alicante International Airport
+0.0,145,RYR,1492.0,123552.57083829294,18502.296732568586,463.50736128,LGW,ALC,328,Alicante,EU,true,London Gatwick Airport,Alicante International Airport
+0.0,135,EZY,1492.0,115031.70388392791,17226.27626825351,519.170304,LGW,ALC,328,Alicante,EU,true,London Gatwick Airport,Alicante International Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,420.593664,LGW,ALC,328,Alicante,EU,true,London Gatwick Airport,Alicante International Airport
+0.0,122,VLG,1492.0,103954.57684325337,15567.449664643915,485.65424640000003,LGW,ALC,328,Alicante,EU,true,London Gatwick Airport,Alicante International Airport
+0.0,135,VLG,1492.0,115031.70388392791,17226.27626825351,547.298807,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,122,EJU,1492.0,103954.57684325337,15567.449664643915,511.9668587,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,443.381312,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,122,EZY,1492.0,103954.57684325337,15567.449664643915,511.9668587,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,122,VLG,1492.0,103954.57684325337,15567.449664643915,511.9668587,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,151,VLG,1492.0,128665.09101091196,19267.909011157633,575.010139,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,122,VLG,1492.0,103954.57684325337,15567.449664643915,511.9668587,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,122,VLG,1492.0,103954.57684325337,15567.449664643915,511.9668587,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,135,VLG,1492.0,115031.70388392791,17226.27626825351,547.298807,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,145,IBK,1492.0,123552.57083829294,18502.296732568586,488.62006149,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,145,IBK,1492.0,123552.57083829294,18502.296732568586,488.62006149,LGW,BCN,328,Barcelona,EU,true,London Gatwick Airport,Barcelona International Airport
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,407.4684159,LGW,BIO,328,Bilbao,EU,true,London Gatwick Airport,Bilbao Airport
+0.0,122,VLG,1492.0,103954.57684325337,15567.449664643915,407.4684159,LGW,BIO,328,Bilbao,EU,true,London Gatwick Airport,Bilbao Airport
+0.0,122,EZY,1492.0,103954.57684325337,15567.449664643915,407.4684159,LGW,FUE,328,Fuerteventura Island,EU,true,London Gatwick Airport,Fuerteventura Airport
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,485.65424640000003,LGW,LPA,328,Gran Canaria Island,EU,true,London Gatwick Airport,Gran Canaria Airport
+0.0,145,TOM,1492.0,123552.57083829294,18502.296732568586,463.50736128,LGW,LPA,328,Gran Canaria Island,EU,true,London Gatwick Airport,Gran Canaria Airport
+0.0,135,EZY,1492.0,115031.70388392791,17226.27626825351,519.170304,LGW,LPA,328,Gran Canaria Island,EU,true,London Gatwick Airport,Gran Canaria Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,503.28,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,503.28,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,503.28,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,503.28,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,1492.0,123552.57083829294,18502.296732568586,554.6302875,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,1492.0,123552.57083829294,18502.296732568586,554.6302875,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,1492.0,103954.57684325337,15567.449664643915,581.131125,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,IBK,1492.0,123552.57083829294,18502.296732568586,554.6302875,LGW,MAD,328,Madrid,EU,true,London Gatwick Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,VLG,1492.0,103954.57684325337,15567.449664643915,298.4593388,LGW,OVD,328,Ranón,EU,true,London Gatwick Airport,Asturias Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,420.593664,LGW,PMI,328,Palma De Mallorca,EU,true,London Gatwick Airport,Palma De Mallorca Airport
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,407.4684159,LGW,SVQ,328,Sevilla,EU,true,London Gatwick Airport,Sevilla Airport
+0.0,135,EZY,1492.0,115031.70388392791,17226.27626825351,435.58869899999996,LGW,SVQ,328,Sevilla,EU,true,London Gatwick Airport,Sevilla Airport
+0.0,122,BAW,1492.0,103954.57684325337,15567.449664643915,485.65424640000003,LGW,TFS,328,Tenerife Island,EU,true,London Gatwick Airport,Tenerife South Airport
+0.0,145,TOM,1492.0,123552.57083829294,18502.296732568586,463.50736128,LGW,TFS,328,Tenerife Island,EU,true,London Gatwick Airport,Tenerife South Airport
+0.0,159,TOM,1492.0,135481.78457440395,20288.725382609704,760.22304768,LGW,TFS,328,Tenerife Island,EU,true,London Gatwick Airport,Tenerife South Airport
+0.0,162,EZY,1492.0,138038.0446607135,20671.53152190421,637.462272,LGW,TFS,328,Tenerife Island,EU,true,London Gatwick Airport,Tenerife South Airport
+0.0,135,EZY,1492.0,115031.70388392791,17226.27626825351,519.170304,LGW,TFS,328,Tenerife Island,EU,true,London Gatwick Airport,Tenerife South Airport
+0.0,101,EZY,1492.0,86060.7562390868,12887.80668958226,352.881984,LGW,VLC,328,Valencia,EU,true,London Gatwick Airport,Valencia Airport
+0.0,122,EZY,1492.0,103954.57684325337,15567.449664643915,407.4684159,LGW,VLC,328,Valencia,EU,true,London Gatwick Airport,Valencia Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,485.65424640000003,LHR,AGP,626,Málaga,EU,true,London Heathrow Airport,Málaga Airport
+0.0,162,BAW,33904.0,138038.0446607135,20671.53152190421,637.462272,LHR,AGP,626,Málaga,EU,true,London Heathrow Airport,Málaga Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,511.9668587,LHR,BCN,626,Barcelona,EU,true,London Heathrow Airport,Barcelona International Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,511.9668587,LHR,BCN,626,Barcelona,EU,true,London Heathrow Airport,Barcelona International Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,511.9668587,LHR,BCN,626,Barcelona,EU,true,London Heathrow Airport,Barcelona International Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,511.9668587,LHR,BCN,626,Barcelona,EU,true,London Heathrow Airport,Barcelona International Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,511.9668587,LHR,BCN,626,Barcelona,EU,true,London Heathrow Airport,Barcelona International Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,511.9668587,LHR,BCN,626,Barcelona,EU,true,London Heathrow Airport,Barcelona International Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,511.9668587,LHR,BCN,626,Barcelona,EU,true,London Heathrow Airport,Barcelona International Airport
+0.0,122,VLG,33904.0,103954.57684325337,15567.449664643915,298.4593388,LHR,LCG,626,Culleredo,EU,true,London Heathrow Airport,A Coruña Airport
+0.0,122,BAW,33904.0,103954.57684325337,15567.449664643915,581.131125,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,BAW,33904.0,86060.7562390868,12887.80668958226,503.28,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,BAW,33904.0,86060.7562390868,12887.80668958226,503.28,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,323,BAW,33904.0,275224.0026259904,41215.46099737694,2764.1081249999997,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,BAW,33904.0,86060.7562390868,12887.80668958226,503.28,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,BAW,33904.0,115031.70388392791,17226.27626825351,621.2362499999999,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,342,IBE,33904.0,291413.6498392841,43639.89987957555,2893.8599999999997,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,33904.0,115031.70388392791,17226.27626825351,621.2362499999999,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,33904.0,86060.7562390868,12887.80668958226,503.28,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,33904.0,103954.57684325337,15567.449664643915,581.131125,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,33904.0,86060.7562390868,12887.80668958226,503.28,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,IBE,33904.0,128665.09101091196,19267.909011157633,652.69125,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,IBE,33904.0,128665.09101091196,19267.909011157633,652.69125,LHR,MAD,626,Madrid,EU,true,London Heathrow Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,BAW,33904.0,115031.70388392791,17226.27626825351,435.58869899999996,LHR,VLC,626,Valencia,EU,true,London Heathrow Airport,Valencia Airport
+4.543421398909082E-6,145,TVS,5.0,75227.08253996556,23948.255770834057,388.88697393,LIL,ACE,31,Lanzarote Island,EU,false,Lille-Lesquin Airport,Lanzarote Airport
+0.0,151,IBE,596.0,98622.10916895517,15802.109025502863,652.69125,LIN,MAD,150,Madrid,EU,false,Milano Linate Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,596.0,79681.43919610948,12767.266894777147,581.131125,LIN,MAD,150,Madrid,EU,false,Milano Linate Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,596.0,88172.08435635065,14127.713367171431,621.2362499999999,LIN,MAD,150,Madrid,EU,false,Milano Linate Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,72,CYL,596.0,47025.11165672034,7534.780462491433,301.4175375,LIN,MAD,150,Madrid,EU,false,Milano Linate Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,72,CYL,596.0,47025.11165672034,7534.780462491433,301.4175375,LIN,MAD,150,Madrid,EU,false,Milano Linate Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,8,GES,596.0,5225.01240630226,837.1978291657147,68.48539874999999,LIN,MAD,150,Madrid,EU,false,Milano Linate Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,5,AOJ,596.0,3265.6327539389126,523.2486432285718,52.252190975999994,LIN,PMI,150,Palma De Mallorca,EU,false,Milano Linate Airport,Palma De Mallorca Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,151.150848,LIS,AGP,269,Málaga,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Málaga Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,151.150848,LIS,AGP,269,Málaga,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Málaga Airport
+0.0,145,RYR,6494.0,166643.81229322465,18502.296732568586,463.50736128,LIS,AGP,269,Málaga,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Málaga Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,151.150848,LIS,ALC,269,Alicante,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Alicante International Airport
+0.0,151,VLG,6494.0,173539.41831915118,19267.909011157633,575.010139,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,122,VLG,6494.0,140210.65586050626,15567.449664643915,511.9668587,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,135,VLG,6494.0,155151.13558334712,17226.27626825351,547.298807,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,151,VLG,6494.0,173539.41831915118,19267.909011157633,575.010139,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,135,TAP,6494.0,155151.13558334712,17226.27626825351,547.298807,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,101,TAP,6494.0,116076.03476976338,12887.80668958226,443.381312,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,122,TAP,6494.0,140210.65586050626,15567.449664643915,511.9668587,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,122,TAP,6494.0,140210.65586050626,15567.449664643915,511.9668587,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,101,TAP,6494.0,116076.03476976338,12887.80668958226,443.381312,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,122,TAP,6494.0,140210.65586050626,15567.449664643915,511.9668587,LIS,BCN,269,Barcelona,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Barcelona International Airport
+0.0,135,VLG,6494.0,155151.13558334712,17226.27626825351,435.58869899999996,LIS,BIO,269,Bilbao,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Bilbao Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,BIO,269,Bilbao,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Bilbao Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,BIO,269,Bilbao,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Bilbao Airport
+0.0,122,TAP,6494.0,140210.65586050626,15567.449664643915,485.65424640000003,LIS,LPA,269,Gran Canaria Island,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Gran Canaria Airport
+0.0,101,EJU,6494.0,116076.03476976338,12887.80668958226,503.28,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,101,EJU,6494.0,116076.03476976338,12887.80668958226,503.28,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,122,EJU,6494.0,140210.65586050626,15567.449664643915,581.131125,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,135,TAP,6494.0,155151.13558334712,17226.27626825351,621.2362499999999,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,122,TAP,6494.0,140210.65586050626,15567.449664643915,581.131125,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,135,TAP,6494.0,155151.13558334712,17226.27626825351,621.2362499999999,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,162,TAP,6494.0,186181.36270001653,20671.53152190421,762.7837499999999,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,135,TAP,6494.0,155151.13558334712,17226.27626825351,621.2362499999999,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,122,TAP,6494.0,140210.65586050626,15567.449664643915,581.131125,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,6494.0,116076.03476976338,12887.80668958226,503.28,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,6494.0,116076.03476976338,12887.80668958226,503.28,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,6494.0,116076.03476976338,12887.80668958226,503.28,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,151,IBE,6494.0,173539.41831915118,19267.909011157633,652.69125,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,6494.0,94239.949020996,10463.367807383618,411.19548749999996,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,6494.0,94239.949020996,10463.367807383618,411.19548749999996,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,6494.0,94239.949020996,10463.367807383618,411.19548749999996,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,6494.0,94239.949020996,10463.367807383618,411.19548749999996,LIS,MAD,269,Madrid,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,6494.0,166643.81229322465,18502.296732568586,388.88697393,LIS,SVQ,269,Sevilla,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Sevilla Airport
+0.0,78,PGA,6494.0,89642.87833704498,9952.959621657588,253.60635709499996,LIS,SVQ,269,Sevilla,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Sevilla Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,SVQ,269,Sevilla,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Sevilla Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,SVQ,269,Sevilla,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Sevilla Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,SVQ,269,Sevilla,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Sevilla Airport
+0.0,101,TAP,6494.0,116076.03476976338,12887.80668958226,420.593664,LIS,TFS,269,Tenerife Island,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Tenerife South Airport
+0.0,159,BCS,6494.0,182733.55968705323,20288.725382609704,308.32583712,LIS,VIT,269,Alava,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Vitoria/Foronda Airport
+0.0,122,VLG,6494.0,140210.65586050626,15567.449664643915,407.4684159,LIS,VLC,269,Valencia,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Valencia Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,VLC,269,Valencia,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Valencia Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,VLC,269,Valencia,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Valencia Airport
+0.0,64,WHT,6494.0,73553.1309432164,8166.53097161648,126.816963,LIS,VLC,269,Valencia,EU,true,Humberto Delgado Airport (Lisbon Portela Airport),Valencia Airport
+0.0,151,VKG,-1.0,161877.16376446755,33591.59986096161,545.457408,LLA,LPA,19,Gran Canaria Island,EU,false,Luleå Airport,Gran Canaria Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,LPL,AGP,54,Málaga,EU,false,Liverpool John Lennon Airport,Málaga Airport
+0.0,135,EZY,-1.0,115031.70388392791,17226.27626825351,519.170304,LPL,AGP,54,Málaga,EU,false,Liverpool John Lennon Airport,Málaga Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,LPL,ALC,54,Alicante,EU,false,Liverpool John Lennon Airport,Alicante International Airport
+0.0,122,EZY,-1.0,103954.57684325337,15567.449664643915,485.65424640000003,LPL,ALC,54,Alicante,EU,false,Liverpool John Lennon Airport,Alicante International Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,488.62006149,LPL,BCN,54,Barcelona,EU,false,Liverpool John Lennon Airport,Barcelona International Airport
+0.0,101,EZY,-1.0,86060.7562390868,12887.80668958226,443.381312,LPL,BCN,54,Barcelona,EU,false,Liverpool John Lennon Airport,Barcelona International Airport
+0.0,122,EZY,-1.0,103954.57684325337,15567.449664643915,581.131125,LPL,MAD,54,Madrid,EU,false,Liverpool John Lennon Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,173.0,123552.57083829294,18502.296732568586,463.50736128,LTN,AGP,164,Málaga,EU,true,London Luton Airport,Málaga Airport
+0.0,122,EZY,173.0,103954.57684325337,15567.449664643915,485.65424640000003,LTN,AGP,164,Málaga,EU,true,London Luton Airport,Málaga Airport
+0.0,135,EZY,173.0,115031.70388392791,17226.27626825351,519.170304,LTN,ALC,164,Alicante,EU,true,London Luton Airport,Alicante International Airport
+0.0,145,RYR,173.0,123552.57083829294,18502.296732568586,488.62006149,LTN,BCN,164,Barcelona,EU,true,London Luton Airport,Barcelona International Airport
+0.0,101,EZY,173.0,86060.7562390868,12887.80668958226,443.381312,LTN,BCN,164,Barcelona,EU,true,London Luton Airport,Barcelona International Airport
+0.0,122,EZY,173.0,103954.57684325337,15567.449664643915,511.9668587,LTN,BCN,164,Barcelona,EU,true,London Luton Airport,Barcelona International Airport
+0.0,101,EZY,173.0,86060.7562390868,12887.80668958226,443.381312,LTN,BCN,164,Barcelona,EU,true,London Luton Airport,Barcelona International Airport
+0.0,122,EZY,173.0,103954.57684325337,15567.449664643915,581.131125,LTN,MAD,164,Madrid,EU,true,London Luton Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,15,TGM,173.0,12781.300431547545,1914.0306964726124,259.103596752,LTN,SCQ,164,Santiago de Compostela,EU,true,London Luton Airport,Santiago de Compostela Airport
+0.0,101,EZY,173.0,86060.7562390868,12887.80668958226,352.881984,LTN,SVQ,164,Sevilla,EU,true,London Luton Airport,Sevilla Airport
+0.0,7,DUK,82.0,8044.873696914294,893.2143250205523,50.89219863,LUX,ACE,101,Lanzarote Island,EU,true,Luxembourg-Findel International Airport,Lanzarote Airport
+0.0,145,RYR,82.0,166643.81229322465,18502.296732568586,488.62006149,LUX,BCN,101,Barcelona,EU,true,Luxembourg-Findel International Airport,Barcelona International Airport
+0.0,60,LGL,82.0,68956.06025926537,7656.122785890449,200.893301334,LUX,BCN,101,Barcelona,EU,true,Luxembourg-Findel International Airport,Barcelona International Airport
+0.0,145,RYR,82.0,166643.81229322465,18502.296732568586,554.6302875,LUX,MAD,101,Madrid,EU,true,Luxembourg-Findel International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,LGL,82.0,143658.45887346953,15950.255803938444,521.5238999999999,LUX,MAD,101,Madrid,EU,true,Luxembourg-Findel International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.828725897957092E-6,122,EJU,489.0,63294.51082672964,20149.566924425897,407.4684159,LYS,ACE,150,Lanzarote Island,EU,false,Lyon Saint-Exupéry Airport,Lanzarote Airport
+3.7725942854119837E-6,122,EJU,489.0,63294.51082672964,20149.566924425897,511.9668587,LYS,BCN,150,Barcelona,EU,false,Lyon Saint-Exupéry Airport,Barcelona International Airport
+3.7725942854119837E-6,122,EJU,489.0,63294.51082672964,20149.566924425897,511.9668587,LYS,BCN,150,Barcelona,EU,false,Lyon Saint-Exupéry Airport,Barcelona International Airport
+3.7670265855452676E-6,122,VLG,489.0,63294.51082672964,20149.566924425897,511.9668587,LYS,BCN,150,Barcelona,EU,false,Lyon Saint-Exupéry Airport,Barcelona International Airport
+3.1232873772285673E-6,101,EJU,489.0,52399.55404507945,16681.19884727062,503.28,LYS,MAD,150,Madrid,EU,false,Lyon Saint-Exupéry Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5225029230934677E-6,82,ANE,489.0,42542.212195014996,13543.151539368231,321.02973,LYS,MAD,150,Madrid,EU,false,Lyon Saint-Exupéry Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5187801429262637E-6,82,ANE,489.0,42542.212195014996,13543.151539368231,321.02973,LYS,MAD,150,Madrid,EU,false,Lyon Saint-Exupéry Airport,Adolfo Suárez Madrid–Barajas Airport
+3.778170214389396E-6,122,IBS,489.0,63294.51082672964,20149.566924425897,581.131125,LYS,MAD,150,Madrid,EU,false,Lyon Saint-Exupéry Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,388.88697393,MAN,ACE,230,Lanzarote Island,EU,false,Manchester Airport,Lanzarote Airport
+0.0,145,EXS,1370.0,123552.57083829294,18502.296732568586,388.88697393,MAN,ACE,230,Lanzarote Island,EU,false,Manchester Airport,Lanzarote Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,AGP,230,Málaga,EU,false,Manchester Airport,Málaga Airport
+0.0,135,EZY,1370.0,115031.70388392791,17226.27626825351,519.170304,MAN,AGP,230,Málaga,EU,false,Manchester Airport,Málaga Airport
+0.0,145,EXS,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,AGP,230,Málaga,EU,false,Manchester Airport,Málaga Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,ALC,230,Alicante,EU,false,Manchester Airport,Alicante International Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,ALC,230,Alicante,EU,false,Manchester Airport,Alicante International Airport
+0.0,122,EZY,1370.0,103954.57684325337,15567.449664643915,485.65424640000003,MAN,ALC,230,Alicante,EU,false,Manchester Airport,Alicante International Airport
+0.0,145,EXS,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,ALC,230,Alicante,EU,false,Manchester Airport,Alicante International Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,488.62006149,MAN,BCN,230,Barcelona,EU,false,Manchester Airport,Barcelona International Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,488.62006149,MAN,BCN,230,Barcelona,EU,false,Manchester Airport,Barcelona International Airport
+0.0,101,EZY,1370.0,86060.7562390868,12887.80668958226,443.381312,MAN,BCN,230,Barcelona,EU,false,Manchester Airport,Barcelona International Airport
+0.0,135,VLG,1370.0,115031.70388392791,17226.27626825351,547.298807,MAN,BCN,230,Barcelona,EU,false,Manchester Airport,Barcelona International Airport
+0.0,122,EZY,1370.0,103954.57684325337,15567.449664643915,407.4684159,MAN,BIO,230,Bilbao,EU,false,Manchester Airport,Bilbao Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,388.88697393,MAN,FUE,230,Fuerteventura Island,EU,false,Manchester Airport,Fuerteventura Airport
+0.0,145,EXS,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,LPA,230,Gran Canaria Island,EU,false,Manchester Airport,Gran Canaria Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,554.6302875,MAN,MAD,230,Madrid,EU,false,Manchester Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,554.6302875,MAN,MAD,230,Madrid,EU,false,Manchester Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,388.88697393,MAN,SVQ,230,Sevilla,EU,false,Manchester Airport,Sevilla Airport
+0.0,145,TOM,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,135,EZY,1370.0,115031.70388392791,17226.27626825351,519.170304,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,122,EZY,1370.0,103954.57684325337,15567.449664643915,485.65424640000003,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,145,EXS,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,145,EXS,1370.0,123552.57083829294,18502.296732568586,463.50736128,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,202,TOW,1370.0,172121.5124781736,25775.61337916452,1511.50848,MAN,TFS,230,Tenerife Island,EU,false,Manchester Airport,Tenerife South Airport
+0.0,145,RYR,1370.0,123552.57083829294,18502.296732568586,388.88697393,MAN,VLC,230,Valencia,EU,false,Manchester Airport,Valencia Airport
+0.0,315,AEA,-1.0,362019.3163611432,40194.64462592488,1792.935,MDE,MAD,110,Madrid,SA,false,Jose Maria Córdova International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,235,AMX,-1.0,270077.9026821227,29986.480911404265,1725.030417,MEX,BCN,570,Barcelona,NA,true,Licenciado Benito Juarez International Airport,Barcelona International Airport
+0.0,325,UAE,-1.0,373511.99307102076,41470.66509023995,2407.4219675,MEX,BCN,570,Barcelona,NA,true,Licenciado Benito Juarez International Airport,Barcelona International Airport
+0.0,340,IBE,-1.0,390751.00813583715,43384.695786712546,2893.8599999999997,MEX,MAD,570,Madrid,NA,true,Licenciado Benito Juarez International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,235,AMX,-1.0,270077.9026821227,29986.480911404265,1958.0737499999998,MEX,MAD,570,Madrid,NA,true,Licenciado Benito Juarez International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,235,AMX,-1.0,270077.9026821227,29986.480911404265,1958.0737499999998,MEX,MAD,570,Madrid,NA,true,Licenciado Benito Juarez International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,340,IBE,-1.0,390751.00813583715,43384.695786712546,2893.8599999999997,MEX,MAD,570,Madrid,NA,true,Licenciado Benito Juarez International Airport,Adolfo Suárez Madrid–Barajas Airport
+2.0640441292315648E-6,325,AAL,-1.0,373511.99307102076,41470.66509023995,1712.62959593,MIA,BCN,554,Barcelona,NA,false,Miami International Airport,Barcelona International Airport
+2.0824159543716817E-6,325,AAL,-1.0,373511.99307102076,41470.66509023995,1712.62959593,MIA,BCN,554,Barcelona,NA,false,Miami International Airport,Barcelona International Airport
+2.0670948055303093E-6,325,AAL,-1.0,373511.99307102076,41470.66509023995,1943.9976374999999,MIA,MAD,554,Madrid,NA,false,Miami International Airport,Adolfo Suárez Madrid–Barajas Airport
+1.963100552333802E-6,309,AEA,-1.0,355123.71033521666,39429.03234733582,1792.935,MIA,MAD,554,Madrid,NA,false,Miami International Airport,Adolfo Suárez Madrid–Barajas Airport
+1.4314631528297386E-6,225,IBE,-1.0,258585.22597224519,28710.46044708918,1808.6625,MIA,MAD,554,Madrid,NA,false,Miami International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,26,FRF,-1.0,29880.959445681663,3317.653207219194,71.1277749,MIR,VLC,5,Valencia,AF,false,Monastir Habib Bourguiba International Airport,Valencia Airport
+0.0,145,RYR,79.0,166643.81229322465,18502.296732568586,488.62006149,MLA,BCN,59,Barcelona,EU,true,Malta International Airport,Barcelona International Airport
+0.0,135,VLG,79.0,155151.13558334712,17226.27626825351,547.298807,MLA,BCN,59,Barcelona,EU,true,Malta International Airport,Barcelona International Airport
+4.496691545902822E-6,145,RYR,190.0,75227.08253996556,23948.255770834057,463.50736128,MRS,AGP,128,Málaga,EU,false,Marseille Provence Airport,Málaga Airport
+3.7614671026445E-6,122,VLG,190.0,63294.51082672964,20149.566924425897,511.9668587,MRS,BCN,128,Barcelona,EU,false,Marseille Provence Airport,Barcelona International Airport
+4.483428654408749E-6,145,RYR,190.0,75227.08253996556,23948.255770834057,554.6302875,MRS,MAD,128,Madrid,EU,false,Marseille Provence Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5187801429262637E-6,82,ANE,190.0,42542.212195014996,13543.151539368231,321.02973,MRS,MAD,128,Madrid,EU,false,Marseille Provence Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5187801429262637E-6,82,ANE,190.0,42542.212195014996,13543.151539368231,321.02973,MRS,MAD,128,Madrid,EU,false,Marseille Provence Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5187801429262637E-6,82,ANE,190.0,42542.212195014996,13543.151539368231,321.02973,MRS,MAD,128,Madrid,EU,false,Marseille Provence Airport,Adolfo Suárez Madrid–Barajas Airport
+1.5090377141647933E-7,5,PEA,190.0,2594.0373289643294,825.8019231322091,43.840072731,MRS,VLC,128,Valencia,EU,false,Marseille Provence Airport,Valencia Airport
+4.219069775810699E-6,137,TAY,190.0,71076.62281362263,22626.97269382252,253.71063144000001,MRS,ZAZ,128,Zaragoza,EU,false,Marseille Provence Airport,Zaragoza Air Base
+0.0,145,RYR,-1.0,166643.81229322465,18502.296732568586,463.50736128,MST,ALC,7,Alicante,EU,false,Maastricht Aachen Airport,Alicante International Airport
+0.0,145,CND,-1.0,166643.81229322465,18502.296732568586,463.50736128,MST,LPA,7,Gran Canaria Island,EU,false,Maastricht Aachen Airport,Gran Canaria Airport
+0.0,122,CFG,36058.0,118293.13916646072,15880.75682770593,407.4684159,MUC,ACE,525,Lanzarote Island,EU,false,Munich Airport,Lanzarote Airport
+0.0,151,DLH,36058.0,146412.00011586532,19655.69082773439,575.010139,MUC,BCN,525,Barcelona,EU,false,Munich Airport,Barcelona International Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,511.9668587,MUC,BCN,525,Barcelona,EU,false,Munich Airport,Barcelona International Airport
+0.0,151,DLH,36058.0,146412.00011586532,19655.69082773439,575.010139,MUC,BCN,525,Barcelona,EU,false,Munich Airport,Barcelona International Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,511.9668587,MUC,BCN,525,Barcelona,EU,false,Munich Airport,Barcelona International Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,511.9668587,MUC,BCN,525,Barcelona,EU,false,Munich Airport,Barcelona International Airport
+0.0,122,VLG,36058.0,118293.13916646072,15880.75682770593,511.9668587,MUC,BCN,525,Barcelona,EU,false,Munich Airport,Barcelona International Airport
+0.0,135,VLG,36058.0,130898.14579895245,17572.968620822132,547.298807,MUC,BCN,525,Barcelona,EU,false,Munich Airport,Barcelona International Airport
+0.0,101,CLH,36058.0,97931.20537551257,13147.1839311336,352.881984,MUC,BIO,525,Bilbao,EU,false,Munich Airport,Bilbao Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,407.4684159,MUC,BIO,525,Bilbao,EU,false,Munich Airport,Bilbao Airport
+0.0,101,DLH,36058.0,97931.20537551257,13147.1839311336,352.881984,MUC,BIO,525,Bilbao,EU,false,Munich Airport,Bilbao Airport
+0.0,82,DLA,36058.0,79508.50337417852,10673.951310425302,288.31560849,MUC,BIO,525,Bilbao,EU,false,Munich Airport,Bilbao Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,581.131125,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,581.131125,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,581.131125,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,36058.0,97931.20537551257,13147.1839311336,503.28,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,36058.0,118293.13916646072,15880.75682770593,581.131125,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,36058.0,118293.13916646072,15880.75682770593,581.131125,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,36058.0,79508.50337417852,10673.951310425302,411.19548749999996,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,OVA,36058.0,140594.304747023,18874.670000142294,554.6302875,MUC,MAD,525,Madrid,EU,false,Munich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,LDM,36058.0,140594.304747023,18874.670000142294,463.50736128,MUC,PMI,525,Palma De Mallorca,EU,false,Munich Airport,Palma De Mallorca Airport
+0.0,122,GWI,36058.0,118293.13916646072,15880.75682770593,485.65424640000003,MUC,PMI,525,Palma De Mallorca,EU,false,Munich Airport,Palma De Mallorca Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,407.4684159,MUC,SVQ,525,Sevilla,EU,false,Munich Airport,Sevilla Airport
+0.0,122,CFG,36058.0,118293.13916646072,15880.75682770593,485.65424640000003,MUC,TFS,525,Tenerife Island,EU,false,Munich Airport,Tenerife South Airport
+0.0,122,DLH,36058.0,118293.13916646072,15880.75682770593,407.4684159,MUC,VLC,525,Valencia,EU,false,Munich Airport,Valencia Airport
+0.0,204,IBE,-1.0,234450.60488150228,26030.81747202752,1808.6625,MVD,MAD,17,Madrid,SA,true,Carrasco International /General C L Berisso Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,EJU,1267.0,65965.78162956605,10569.622593217147,420.593664,MXP,AGP,267,Málaga,EU,false,Malpensa International Airport,Málaga Airport
+0.0,145,RYR,1267.0,94703.34986422848,15174.210653628576,463.50736128,MXP,ALC,267,Alicante,EU,false,Malpensa International Airport,Alicante International Airport
+0.0,122,EJU,1267.0,79681.43919610948,12767.266894777147,511.9668587,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,122,EJU,1267.0,79681.43919610948,12767.266894777147,511.9668587,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,122,VLG,1267.0,79681.43919610948,12767.266894777147,511.9668587,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,122,VLG,1267.0,79681.43919610948,12767.266894777147,511.9668587,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,122,VLG,1267.0,79681.43919610948,12767.266894777147,511.9668587,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,135,VLG,1267.0,88172.08435635065,14127.713367171431,547.298807,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,135,VLG,1267.0,88172.08435635065,14127.713367171431,547.298807,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,122,VLG,1267.0,79681.43919610948,12767.266894777147,511.9668587,MXP,BCN,267,Barcelona,EU,false,Malpensa International Airport,Barcelona International Airport
+0.0,122,EJU,1267.0,79681.43919610948,12767.266894777147,407.4684159,MXP,FUE,267,Fuerteventura Island,EU,false,Malpensa International Airport,Fuerteventura Airport
+0.0,145,MAY,1267.0,94703.34986422848,15174.210653628576,554.6302875,MXP,MAD,267,Madrid,EU,false,Malpensa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,EJU,1267.0,79681.43919610948,12767.266894777147,581.131125,MXP,MAD,267,Madrid,EU,false,Malpensa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,1267.0,94703.34986422848,15174.210653628576,554.6302875,MXP,MAD,267,Madrid,EU,false,Malpensa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,1267.0,94703.34986422848,15174.210653628576,554.6302875,MXP,MAD,267,Madrid,EU,false,Malpensa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AEA,1267.0,94703.34986422848,15174.210653628576,554.6302875,MXP,MAD,267,Madrid,EU,false,Malpensa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,137,ABR,1267.0,89478.33745792622,14337.01282446286,494.000775,MXP,MAD,267,Madrid,EU,false,Malpensa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,1267.0,79681.43919610948,12767.266894777147,581.131125,MXP,MAD,267,Madrid,EU,false,Malpensa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,MAY,1267.0,94703.34986422848,15174.210653628576,388.88697393,MXP,VLC,267,Valencia,EU,false,Malpensa International Airport,Valencia Airport
+0.0,145,RYR,90.0,94703.34986422848,15174.210653628576,488.62006149,NAP,BCN,89,Barcelona,EU,false,Naples International Airport,Barcelona International Airport
+0.0,101,EJU,90.0,65965.78162956605,10569.622593217147,443.381312,NAP,BCN,89,Barcelona,EU,false,Naples International Airport,Barcelona International Airport
+0.0,122,VLG,90.0,79681.43919610948,12767.266894777147,511.9668587,NAP,BCN,89,Barcelona,EU,false,Naples International Airport,Barcelona International Airport
+0.0,122,EJU,90.0,79681.43919610948,12767.266894777147,298.4593388,NAP,GRX,89,Granada,EU,false,Naples International Airport,Federico Garcia Lorca Airport
+0.0,145,RYR,90.0,94703.34986422848,15174.210653628576,554.6302875,NAP,MAD,89,Madrid,EU,false,Naples International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,90.0,79681.43919610948,12767.266894777147,581.131125,NAP,MAD,89,Madrid,EU,false,Naples International Airport,Adolfo Suárez Madrid–Barajas Airport
+1.5135017538560806E-7,5,NJE,168.0,2594.0373289643294,825.8019231322091,52.252190975999994,NCE,ALC,140,Alicante,EU,false,Nice-Côte d'Azur Airport,Alicante International Airport
+3.7670265855452676E-6,122,EJU,168.0,63294.51082672964,20149.566924425897,511.9668587,NCE,BCN,140,Barcelona,EU,false,Nice-Côte d'Azur Airport,Barcelona International Airport
+3.7670265855452676E-6,122,VLG,168.0,63294.51082672964,20149.566924425897,511.9668587,NCE,BCN,140,Barcelona,EU,false,Nice-Côte d'Azur Airport,Barcelona International Airport
+3.7670265855452676E-6,122,VLG,168.0,63294.51082672964,20149.566924425897,511.9668587,NCE,BCN,140,Barcelona,EU,false,Nice-Côte d'Azur Airport,Barcelona International Airport
+2.5187801429262637E-6,82,ANE,168.0,42542.212195014996,13543.151539368231,321.02973,NCE,MAD,140,Madrid,EU,false,Nice-Côte d'Azur Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5225029230934677E-6,82,ANE,168.0,42542.212195014996,13543.151539368231,321.02973,NCE,MAD,140,Madrid,EU,false,Nice-Côte d'Azur Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,IBS,168.0,63294.51082672964,20149.566924425897,581.131125,NCE,MAD,140,Madrid,EU,false,Nice-Côte d'Azur Airport,Adolfo Suárez Madrid–Barajas Airport
+1.5090377141647933E-7,5,NJE,168.0,2594.0373289643294,825.8019231322091,52.252190975999994,NCE,PMI,140,Palma De Mallorca,EU,false,Nice-Côte d'Azur Airport,Palma De Mallorca Airport
+3.840052045865889E-6,122,EJU,168.0,63294.51082672964,20149.566924425897,485.65424640000003,NCE,TFS,140,Tenerife Island,EU,false,Nice-Côte d'Azur Airport,Tenerife South Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,388.88697393,NCL,ACE,45,Lanzarote Island,EU,false,Newcastle Airport,Lanzarote Airport
+0.0,145,RYR,43.0,123552.57083829294,18502.296732568586,463.50736128,NCL,AGP,45,Málaga,EU,false,Newcastle Airport,Málaga Airport
+0.0,101,EZY,43.0,86060.7562390868,12887.80668958226,420.593664,NCL,ALC,45,Alicante,EU,false,Newcastle Airport,Alicante International Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,463.50736128,NCL,ALC,45,Alicante,EU,false,Newcastle Airport,Alicante International Airport
+0.0,122,EZY,43.0,103954.57684325337,15567.449664643915,511.9668587,NCL,BCN,45,Barcelona,EU,false,Newcastle Airport,Barcelona International Airport
+0.0,145,TOM,43.0,123552.57083829294,18502.296732568586,463.50736128,NCL,TFS,45,Tenerife Island,EU,false,Newcastle Airport,Tenerife South Airport
+0.0,145,EXS,43.0,123552.57083829294,18502.296732568586,463.50736128,NCL,TFS,45,Tenerife Island,EU,false,Newcastle Airport,Tenerife South Airport
+0.0,105,MAC,-1.0,120673.10545371441,13398.21487530829,485.65424640000003,NDR,PMI,6,Palma De Mallorca,AF,false,Nador International Airport,Palma De Mallorca Airport
+0.0,53,MAI,-1.0,60911.18656235108,6762.908460869896,251.89617407999998,NKC,LPA,7,Gran Canaria Island,AF,true,Nouakchott–Oumtounsy International Airport,Gran Canaria Airport
+0.0,187,TOM,-1.0,200470.39486063202,41600.19320529682,1228.13349888,NRK,LPA,2,Gran Canaria Island,EU,false,Norrköping Airport,Gran Canaria Airport
+0.0,145,RYR,-1.0,140594.304747023,18874.670000142294,388.88697393,NRN,FUE,7,Fuerteventura Island,EU,false,Weeze Airport,Fuerteventura Airport
+3.384869955519452E-6,197,IBE,-1.0,226405.73118458796,25137.603147006987,1808.6625,NRT,MAD,358,Madrid,AS,false,Narita International Airport,Adolfo Suárez Madrid–Barajas Airport
+3.1186779426072397E-6,101,VLG,78.0,52399.55404507945,16681.19884727062,443.381312,NTE,BCN,74,Barcelona,EU,false,Nantes Atlantique Airport,Barcelona International Airport
+3.7670265855452676E-6,122,EJU,78.0,63294.51082672964,20149.566924425897,407.4684159,NTE,BIO,74,Bilbao,EU,false,Nantes Atlantique Airport,Bilbao Airport
+3.789346808345076E-6,122,EJU,78.0,63294.51082672964,20149.566924425897,298.4593388,NTE,GRX,74,Granada,EU,false,Nantes Atlantique Airport,Federico Garcia Lorca Airport
+3.1232873772285673E-6,101,VOE,78.0,52399.55404507945,16681.19884727062,503.28,NTE,MAD,74,Madrid,EU,false,Nantes Atlantique Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5187801429262637E-6,82,ANE,78.0,42542.212195014996,13543.151539368231,321.02973,NTE,MAD,74,Madrid,EU,false,Nantes Atlantique Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5150628569413223E-6,82,ANE,78.0,42542.212195014996,13543.151539368231,321.02973,NTE,MAD,74,Madrid,EU,false,Nantes Atlantique Airport,Adolfo Suárez Madrid–Barajas Airport
+3.778170214389396E-6,122,IBS,78.0,63294.51082672964,20149.566924425897,581.131125,NTE,MAD,74,Madrid,EU,false,Nantes Atlantique Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,VLG,47.0,118293.13916646072,15880.75682770593,511.9668587,NUE,BCN,49,Barcelona,EU,false,Nuremberg Airport,Barcelona International Airport
+0.0,145,CAI,47.0,140594.304747023,18874.670000142294,388.88697393,NUE,FUE,49,Fuerteventura Island,EU,false,Nuremberg Airport,Fuerteventura Airport
+0.0,145,TUI,47.0,140594.304747023,18874.670000142294,388.88697393,NUE,FUE,49,Fuerteventura Island,EU,false,Nuremberg Airport,Fuerteventura Airport
+0.0,145,RYR,-1.0,155444.95858177348,32256.834303572403,463.50736128,NYO,AGP,24,Málaga,EU,false,Stockholm Skavsta Airport,Málaga Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,488.62006149,OPO,BCN,122,Barcelona,EU,false,Francisco de Sá Carneiro Airport,Barcelona International Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,488.62006149,OPO,BCN,122,Barcelona,EU,false,Francisco de Sá Carneiro Airport,Barcelona International Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,488.62006149,OPO,BCN,122,Barcelona,EU,false,Francisco de Sá Carneiro Airport,Barcelona International Airport
+0.0,122,VLG,241.0,140210.65586050626,15567.449664643915,511.9668587,OPO,BCN,122,Barcelona,EU,false,Francisco de Sá Carneiro Airport,Barcelona International Airport
+0.0,122,VLG,241.0,140210.65586050626,15567.449664643915,511.9668587,OPO,BCN,122,Barcelona,EU,false,Francisco de Sá Carneiro Airport,Barcelona International Airport
+0.0,135,VLG,241.0,155151.13558334712,17226.27626825351,547.298807,OPO,BCN,122,Barcelona,EU,false,Francisco de Sá Carneiro Airport,Barcelona International Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,554.6302875,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,554.6302875,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,554.6302875,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,241.0,140210.65586050626,15567.449664643915,581.131125,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,241.0,116076.03476976338,12887.80668958226,503.28,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,241.0,116076.03476976338,12887.80668958226,503.28,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,241.0,116076.03476976338,12887.80668958226,503.28,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,241.0,94239.949020996,10463.367807383618,411.19548749999996,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,241.0,94239.949020996,10463.367807383618,411.19548749999996,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,241.0,94239.949020996,10463.367807383618,411.19548749999996,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,241.0,94239.949020996,10463.367807383618,411.19548749999996,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,64,WHT,241.0,73553.1309432164,8166.53097161648,180.86624999999998,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,64,WHT,241.0,73553.1309432164,8166.53097161648,180.86624999999998,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,64,WHT,241.0,73553.1309432164,8166.53097161648,180.86624999999998,OPO,MAD,122,Madrid,EU,false,Francisco de Sá Carneiro Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,388.88697393,OPO,SVQ,122,Sevilla,EU,false,Francisco de Sá Carneiro Airport,Sevilla Airport
+0.0,145,RYR,241.0,166643.81229322465,18502.296732568586,388.88697393,OPO,VLC,122,Valencia,EU,false,Francisco de Sá Carneiro Airport,Valencia Airport
+0.0,15,EXU,241.0,17239.015064816344,1914.0306964726124,87.16185004799999,OPO,VLC,122,Valencia,EU,false,Francisco de Sá Carneiro Airport,Valencia Airport
+1.4272410839802174E-6,225,IBE,-1.0,258585.22597224519,28710.46044708918,1808.6625,ORD,MAD,1191,Madrid,NA,false,Chicago O'Hare International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,9.0,166643.81229322465,18502.296732568586,463.50736128,ORK,AGP,25,Málaga,EU,false,Cork Airport,Málaga Airport
+0.0,145,RYR,9.0,166643.81229322465,18502.296732568586,463.50736128,ORK,TFS,25,Tenerife Island,EU,false,Cork Airport,Tenerife South Airport
+0.0,105,VLG,-1.0,120673.10545371441,13398.21487530829,485.65424640000003,ORN,ALC,11,Alicante,AF,false,Es Senia Airport,Alicante International Airport
+0.0,125,DAH,-1.0,143658.45887346953,15950.255803938444,463.50736128,ORN,ALC,11,Alicante,AF,false,Es Senia Airport,Alicante International Airport
+3.911072485764047E-6,125,JAF,1289.0,64850.93322410823,20645.04807830523,365.67395591999997,ORY,ACE,270,Lanzarote Island,EU,true,Paris-Orly Airport,Lanzarote Airport
+3.794947497702695E-6,122,VLG,1289.0,63294.51082672964,20149.566924425897,485.65424640000003,ORY,AGP,270,Málaga,EU,true,Paris-Orly Airport,Málaga Airport
+3.783754384640202E-6,122,VLG,1289.0,63294.51082672964,20149.566924425897,485.65424640000003,ORY,ALC,270,Alicante,EU,true,Paris-Orly Airport,Alicante International Airport
+3.783754384640202E-6,122,VLG,1289.0,63294.51082672964,20149.566924425897,485.65424640000003,ORY,ALC,270,Alicante,EU,true,Paris-Orly Airport,Alicante International Airport
+4.659743264413588E-6,151,VLG,1289.0,78339.92733472274,24939.21807859271,575.010139,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+4.659743264413588E-6,151,VLG,1289.0,78339.92733472274,24939.21807859271,575.010139,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+3.7725942854119837E-6,122,VLG,1289.0,63294.51082672964,20149.566924425897,511.9668587,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+3.7725942854119837E-6,122,VLG,1289.0,63294.51082672964,20149.566924425897,511.9668587,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+4.155987235828335E-6,135,VLG,1289.0,70039.0078820369,22296.651924569636,547.298807,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+4.659743264413588E-6,151,VLG,1289.0,78339.92733472274,24939.21807859271,575.010139,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+3.778170214389396E-6,122,VLG,1289.0,63294.51082672964,20149.566924425897,511.9668587,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+4.659743264413588E-6,151,VLG,1289.0,78339.92733472274,24939.21807859271,575.010139,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+4.476811885355554E-6,145,TVF,1289.0,75227.08253996556,23948.255770834057,488.62006149,ORY,BCN,270,Barcelona,EU,true,Paris-Orly Airport,Barcelona International Airport
+4.490055203106372E-6,145,TVF,1289.0,75227.08253996556,23948.255770834057,554.6302875,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+4.490055203106372E-6,145,AEA,1289.0,75227.08253996556,23948.255770834057,554.6302875,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+4.490055203106372E-6,145,AEA,1289.0,75227.08253996556,23948.255770834057,554.6302875,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+4.490055203106372E-6,145,AEA,1289.0,75227.08253996556,23948.255770834057,554.6302875,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+4.490055203106372E-6,145,AEA,1289.0,75227.08253996556,23948.255770834057,554.6302875,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+3.783754384640202E-6,122,IBE,1289.0,63294.51082672964,20149.566924425897,581.131125,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+4.67352773029226E-6,151,IBE,1289.0,78339.92733472274,24939.21807859271,652.69125,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+4.666630407722916E-6,151,IBE,1289.0,78339.92733472274,24939.21807859271,652.69125,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+6.2305822200408655E-6,202,IBE,1289.0,104799.1080901589,33362.39769454124,1808.6625,ORY,MAD,270,Madrid,EU,true,Paris-Orly Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5225029230934677E-6,82,OVA,1289.0,42542.212195014996,13543.151539368231,343.63816704,ORY,PMI,270,Palma De Mallorca,EU,true,Paris-Orly Airport,Palma De Mallorca Airport
+4.503337697273863E-6,145,TVF,1289.0,75227.08253996556,23948.255770834057,388.88697393,ORY,SVQ,270,Sevilla,EU,true,Paris-Orly Airport,Sevilla Airport
+4.666630407722916E-6,151,VLG,1289.0,78339.92733472274,24939.21807859271,457.643823,ORY,VLC,270,Valencia,EU,true,Paris-Orly Airport,Valencia Airport
+3.783754384640202E-6,122,VLG,1289.0,63294.51082672964,20149.566924425897,407.4684159,ORY,VLC,270,Valencia,EU,true,Paris-Orly Airport,Valencia Airport
+0.0,145,NSW,4003.0,155444.95858177348,32256.834303572403,388.88697393,OSL,ACE,324,Lanzarote Island,EU,true,Oslo Gardermoen Airport,Lanzarote Airport
+0.0,145,IBK,4003.0,155444.95858177348,32256.834303572403,463.50736128,OSL,AGP,324,Málaga,EU,true,Oslo Gardermoen Airport,Málaga Airport
+0.0,145,IBK,4003.0,155444.95858177348,32256.834303572403,463.50736128,OSL,ALC,324,Alicante,EU,true,Oslo Gardermoen Airport,Alicante International Airport
+0.0,145,IBK,4003.0,155444.95858177348,32256.834303572403,463.50736128,OSL,ALC,324,Alicante,EU,true,Oslo Gardermoen Airport,Alicante International Airport
+0.0,145,NSW,4003.0,155444.95858177348,32256.834303572403,488.62006149,OSL,BCN,324,Barcelona,EU,true,Oslo Gardermoen Airport,Barcelona International Airport
+0.0,145,NSW,4003.0,155444.95858177348,32256.834303572403,463.50736128,OSL,LPA,324,Gran Canaria Island,EU,true,Oslo Gardermoen Airport,Gran Canaria Airport
+0.0,145,NAX,4003.0,155444.95858177348,32256.834303572403,554.6302875,OSL,MAD,324,Madrid,EU,true,Oslo Gardermoen Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,4003.0,108275.45390868359,22468.55354938492,503.28,OSL,MAD,324,Madrid,EU,true,Oslo Gardermoen Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,NAX,4003.0,155444.95858177348,32256.834303572403,463.50736128,OSL,TFS,324,Tenerife Island,EU,true,Oslo Gardermoen Airport,Tenerife South Airport
+0.0,78,JAF,1.0,89642.87833704498,9952.959621657588,302.26883712,OST,AGP,6,Málaga,EU,false,Ostend-Bruges International Airport,Málaga Airport
+0.0,78,JAF,1.0,89642.87833704498,9952.959621657588,302.26883712,OST,ALC,6,Alicante,EU,false,Ostend-Bruges International Airport,Alicante International Airport
+0.0,122,WZZ,347.0,140210.65586050626,15567.449664643915,485.65424640000003,OTP,AGP,152,Málaga,EU,true,Henri Coandă International Airport,Málaga Airport
+0.0,122,WZZ,347.0,140210.65586050626,15567.449664643915,485.65424640000003,OTP,ALC,152,Alicante,EU,true,Henri Coandă International Airport,Alicante International Airport
+0.0,151,WZZ,347.0,173539.41831915118,19267.909011157633,575.010139,OTP,BCN,152,Barcelona,EU,true,Henri Coandă International Airport,Barcelona International Airport
+0.0,125,ROT,347.0,143658.45887346953,15950.255803938444,459.45388455999995,OTP,BCN,152,Barcelona,EU,true,Henri Coandă International Airport,Barcelona International Airport
+0.0,145,RYR,347.0,166643.81229322465,18502.296732568586,554.6302875,OTP,MAD,152,Madrid,EU,true,Henri Coandă International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,WZZ,347.0,173539.41831915118,19267.909011157633,652.69125,OTP,MAD,152,Madrid,EU,true,Henri Coandă International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,ROT,347.0,166643.81229322465,18502.296732568586,554.6302875,OTP,MAD,152,Madrid,EU,true,Henri Coandă International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,WZZ,347.0,140210.65586050626,15567.449664643915,485.65424640000003,OTP,TFS,152,Tenerife Island,EU,true,Henri Coandă International Airport,Tenerife South Airport
+0.0,16,GMA,-1.0,13633.387126984047,2041.63274290412,135.43913515,OXF,BCN,9,Barcelona,EU,false,Oxford (Kidlington) Airport,Barcelona International Airport
+0.0,125,TUI,-1.0,121201.98685088189,16271.267241501984,365.67395591999997,PAD,FUE,7,Fuerteventura Island,EU,false,Paderborn Lippstadt Airport,Fuerteventura Airport
+3.5302514715783103E-4,197,CCA,-1.0,226405.73118458796,25137.603147006987,1593.40159,PEK,BCN,446,Barcelona,AS,true,Beijing Capital International Airport,Barcelona International Airport
+4.1448296629866774E-4,232,CCA,-1.0,266630.09966915945,29603.674772109738,1958.0737499999998,PEK,MAD,446,Madrid,AS,true,Beijing Capital International Airport,Adolfo Suárez Madrid–Barajas Airport
+1.2670398398800256E-6,201,AAL,-1.0,231002.80186853898,25648.011332733015,1808.6625,PHL,MAD,484,Madrid,NA,false,Philadelphia International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,PIK,ALC,6,Alicante,EU,false,Glasgow Prestwick Airport,Alicante International Airport
+0.0,101,VLG,14.0,65965.78162956605,10569.622593217147,443.381312,PMO,BCN,49,Barcelona,EU,false,Falcone–Borsellino Airport,Barcelona International Airport
+0.0,145,RYR,1676.0,166643.81229322465,18502.296732568586,463.50736128,PRG,AGP,173,Málaga,EU,true,Václav Havel Airport Prague,Málaga Airport
+0.0,145,RYR,1676.0,166643.81229322465,18502.296732568586,488.62006149,PRG,BCN,173,Barcelona,EU,true,Václav Havel Airport Prague,Barcelona International Airport
+0.0,122,VLG,1676.0,140210.65586050626,15567.449664643915,511.9668587,PRG,BCN,173,Barcelona,EU,true,Václav Havel Airport Prague,Barcelona International Airport
+0.0,145,RYR,1676.0,166643.81229322465,18502.296732568586,554.6302875,PRG,MAD,173,Madrid,EU,true,Václav Havel Airport Prague,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,1676.0,140210.65586050626,15567.449664643915,581.131125,PRG,MAD,173,Madrid,EU,true,Václav Havel Airport Prague,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,AXE,1676.0,166643.81229322465,18502.296732568586,554.6302875,PRG,MAD,173,Madrid,EU,true,Václav Havel Airport Prague,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,TVS,1676.0,166643.81229322465,18502.296732568586,463.50736128,PRG,TFS,173,Tenerife Island,EU,true,Václav Havel Airport Prague,Tenerife South Airport
+0.0,30,ABP,1676.0,34478.03012963269,3828.0613929452247,110.22048218999998,PRG,VLC,173,Valencia,EU,true,Václav Havel Airport Prague,Valencia Airport
+0.0,8,NJE,-1.0,5225.01240630226,837.1978291657147,60.334497596999995,PSA,BCN,40,Barcelona,EU,false,Pisa International Airport,Barcelona International Airport
+0.0,145,RYR,-1.0,94703.34986422848,15174.210653628576,388.88697393,PSA,FUE,40,Fuerteventura Island,EU,false,Pisa International Airport,Fuerteventura Airport
+0.0,145,RYR,-1.0,94703.34986422848,15174.210653628576,388.88697393,PSA,GRO,40,Girona,EU,false,Pisa International Airport,Girona Airport
+0.0,145,RYR,-1.0,94703.34986422848,15174.210653628576,554.6302875,PSA,MAD,40,Madrid,EU,false,Pisa International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,201,IBE,-1.0,231002.80186853898,25648.011332733015,1808.6625,PTY,MAD,179,Madrid,NA,false,Tocumen International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,463.50736128,RAK,AGP,61,Málaga,AF,false,Menara Airport,Málaga Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,488.62006149,RAK,BCN,61,Barcelona,AF,false,Menara Airport,Barcelona International Airport
+0.0,105,VLG,-1.0,120673.10545371441,13398.21487530829,511.9668587,RAK,BCN,61,Barcelona,AF,false,Menara Airport,Barcelona International Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,554.6302875,RAK,MAD,61,Madrid,AF,false,Menara Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,554.6302875,RAK,MAD,61,Madrid,AF,false,Menara Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,AEA,-1.0,143658.45887346953,15950.255803938444,554.6302875,RAK,MAD,61,Madrid,AF,false,Menara Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,105,IBE,-1.0,120673.10545371441,13398.21487530829,581.131125,RAK,MAD,61,Madrid,AF,false,Menara Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,105,IBE,-1.0,120673.10545371441,13398.21487530829,581.131125,RAK,MAD,61,Madrid,AF,false,Menara Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,284.84894676,RAK,SDR,61,Santander,AF,false,Menara Airport,Santander Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,388.88697393,RBA,GRO,16,Girona,AF,true,Rabat-Salé Airport,Girona Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,554.6302875,RBA,MAD,16,Madrid,AF,true,Rabat-Salé Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,907.0,166643.81229322465,18502.296732568586,488.62006149,RIX,BCN,114,Barcelona,EU,true,Riga International Airport,Barcelona International Airport
+0.0,131,BTI,907.0,150554.0648993961,16715.86808252748,484.2555267,RIX,BCN,114,Barcelona,EU,true,Riga International Airport,Barcelona International Airport
+3.778170214389396E-6,122,VLG,1.0,63294.51082672964,20149.566924425897,511.9668587,RNS,BCN,18,Barcelona,EU,false,Rennes-Saint-Jacques Airport,Barcelona International Airport
+4.244068425346483E-6,137,TAY,1.0,71076.62281362263,22626.97269382252,346.37572242,RNS,SVQ,18,Sevilla,EU,false,Rennes-Saint-Jacques Airport,Sevilla Airport
+0.0,125,TRA,4.0,143658.45887346953,15950.255803938444,435.84018431999993,RTM,AGP,18,Málaga,EU,false,Rotterdam The Hague Airport,Málaga Airport
+0.0,125,TRA,4.0,143658.45887346953,15950.255803938444,435.84018431999993,RTM,ALC,18,Alicante,EU,false,Rotterdam The Hague Airport,Alicante International Airport
+0.0,125,TRA,4.0,143658.45887346953,15950.255803938444,435.84018431999993,RTM,LPA,18,Gran Canaria Island,EU,false,Rotterdam The Hague Airport,Gran Canaria Airport
+0.0,201,IBE,-1.0,231002.80186853898,25648.011332733015,1808.6625,SAL,MAD,60,Madrid,NA,false,Monseñor Óscar Arnulfo Romero International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,THY,3734.0,166643.81229322465,18502.296732568586,488.62006149,SAW,BCN,249,Barcelona,EU,false,Istanbul Sabiha Gökçen International Airport,Barcelona International Airport
+0.0,145,THY,3734.0,166643.81229322465,18502.296732568586,488.62006149,SAW,BCN,249,Barcelona,AS,false,Istanbul Sabiha Gökçen International Airport,Barcelona International Airport
+0.0,135,PGT,3734.0,155151.13558334712,17226.27626825351,547.298807,SAW,BCN,249,Barcelona,EU,false,Istanbul Sabiha Gökçen International Airport,Barcelona International Airport
+0.0,135,PGT,3734.0,155151.13558334712,17226.27626825351,547.298807,SAW,BCN,249,Barcelona,AS,false,Istanbul Sabiha Gökçen International Airport,Barcelona International Airport
+0.0,135,PGT,3734.0,155151.13558334712,17226.27626825351,621.2362499999999,SAW,MAD,249,Madrid,EU,false,Istanbul Sabiha Gökçen International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,PGT,3734.0,155151.13558334712,17226.27626825351,621.2362499999999,SAW,MAD,249,Madrid,AS,false,Istanbul Sabiha Gökçen International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,240,LAN,-1.0,275824.2410370615,30624.491143561798,1958.0737499999998,SCL,MAD,226,Madrid,SA,true,Comodoro Arturo Merino Benítez International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,268,IBE,-1.0,308003.73582471866,34197.34844364401,2107.4849999999997,SCL,MAD,226,Madrid,SA,true,Comodoro Arturo Merino Benítez International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,201,IBE,-1.0,231002.80186853898,25648.011332733015,1808.6625,SDQ,MAD,54,Madrid,NA,true,Las Américas International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,235,AEA,-1.0,270077.9026821227,29986.480911404265,1958.0737499999998,SDQ,MAD,54,Madrid,NA,true,Las Américas International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,EZY,-1.0,115031.70388392791,17226.27626825351,435.58869899999996,SEN,ACE,28,Lanzarote Island,EU,false,Southend Airport,Lanzarote Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,SEN,AGP,28,Málaga,EU,false,Southend Airport,Málaga Airport
+0.0,145,RYR,-1.0,123552.57083829294,18502.296732568586,463.50736128,SEN,ALC,28,Alicante,EU,false,Southend Airport,Alicante International Airport
+0.0,137,ABR,-1.0,116735.87727480092,17481.480361116523,494.000775,SEN,MAD,28,Madrid,EU,false,Southend Airport,Adolfo Suárez Madrid–Barajas Airport
+1.5209417302370361E-6,235,NLH,-1.0,270077.9026821227,29986.480911404265,1725.030417,SFO,BCN,587,Barcelona,NA,false,San Francisco International Airport,Barcelona International Airport
+1.2973374308758372E-6,201,IBE,-1.0,231002.80186853898,25648.011332733015,1593.40159,SFO,BCN,587,Barcelona,NA,false,San Francisco International Airport,Barcelona International Airport
+0.0,1,IBB,-1.0,1149.2676709877562,127.6020464315075,407.450112,SID,LPA,14,Gran Canaria Island,AF,false,Amílcar Cabral International Airport,Gran Canaria Airport
+0.0,264,IBE,-1.0,303406.66514076764,33686.94025791798,2107.4849999999997,SJO,MAD,73,Madrid,NA,false,Juan Santamaria International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,WZZ,0.0,140210.65586050626,15567.449664643915,511.9668587,SKP,BCN,23,Barcelona,EU,true,Skopje International Airport,Barcelona International Airport
+0.0,8,AHO,-1.0,9194.14136790205,1020.81637145206,57.233597184,SMV,AGP,12,Málaga,EU,false,Samedan Airport,Málaga Airport
+0.0,145,RYR,41.0,166643.81229322465,18502.296732568586,463.50736128,SNN,ALC,18,Alicante,EU,false,Shannon Airport,Alicante International Airport
+0.0,151,WZZ,44.0,173539.41831915118,19267.909011157633,575.010139,SOF,BCN,80,Barcelona,EU,true,Sofia Airport,Barcelona International Airport
+0.0,145,RYS,44.0,166643.81229322465,18502.296732568586,554.6302875,SOF,MAD,80,Madrid,EU,true,Sofia Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,204,AEA,-1.0,234450.60488150228,26030.81747202752,1808.6625,SSA,MAD,82,Madrid,SA,false,Deputado Luiz Eduardo Magalhães International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,388.88697393,STN,ACE,248,Lanzarote Island,EU,true,London Stansted Airport,Lanzarote Airport
+0.0,145,EXS,1617.0,123552.57083829294,18502.296732568586,388.88697393,STN,ACE,248,Lanzarote Island,EU,true,London Stansted Airport,Lanzarote Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,AGP,248,Málaga,EU,true,London Stansted Airport,Málaga Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,AGP,248,Málaga,EU,true,London Stansted Airport,Málaga Airport
+0.0,145,EXS,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,AGP,248,Málaga,EU,true,London Stansted Airport,Málaga Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,ALC,248,Alicante,EU,true,London Stansted Airport,Alicante International Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,ALC,248,Alicante,EU,true,London Stansted Airport,Alicante International Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,488.62006149,STN,BCN,248,Barcelona,EU,true,London Stansted Airport,Barcelona International Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,488.62006149,STN,BCN,248,Barcelona,EU,true,London Stansted Airport,Barcelona International Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,488.62006149,STN,BCN,248,Barcelona,EU,true,London Stansted Airport,Barcelona International Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,488.62006149,STN,BCN,248,Barcelona,EU,true,London Stansted Airport,Barcelona International Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,488.62006149,STN,BCN,248,Barcelona,EU,true,London Stansted Airport,Barcelona International Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,388.88697393,STN,FUE,248,Fuerteventura Island,EU,true,London Stansted Airport,Fuerteventura Airport
+0.0,145,EXS,1617.0,123552.57083829294,18502.296732568586,388.88697393,STN,FUE,248,Fuerteventura Island,EU,true,London Stansted Airport,Fuerteventura Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,LPA,248,Gran Canaria Island,EU,true,London Stansted Airport,Gran Canaria Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,554.6302875,STN,MAD,248,Madrid,EU,true,London Stansted Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,554.6302875,STN,MAD,248,Madrid,EU,true,London Stansted Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,554.6302875,STN,MAD,248,Madrid,EU,true,London Stansted Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,554.6302875,STN,MAD,248,Madrid,EU,true,London Stansted Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,554.6302875,STN,MAD,248,Madrid,EU,true,London Stansted Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,PMI,248,Palma De Mallorca,EU,true,London Stansted Airport,Palma De Mallorca Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,284.84894676,STN,SDR,248,Santander,EU,true,London Stansted Airport,Santander Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,388.88697393,STN,SVQ,248,Sevilla,EU,true,London Stansted Airport,Sevilla Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,388.88697393,STN,SVQ,248,Sevilla,EU,true,London Stansted Airport,Sevilla Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,TFS,248,Tenerife Island,EU,true,London Stansted Airport,Tenerife South Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,TFS,248,Tenerife Island,EU,true,London Stansted Airport,Tenerife South Airport
+0.0,145,EXS,1617.0,123552.57083829294,18502.296732568586,463.50736128,STN,TFS,248,Tenerife Island,EU,true,London Stansted Airport,Tenerife South Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,388.88697393,STN,VLC,248,Valencia,EU,true,London Stansted Airport,Valencia Airport
+0.0,145,RYR,1617.0,123552.57083829294,18502.296732568586,284.84894676,STN,XRY,248,Jerez de la Forntera,EU,true,London Stansted Airport,Jerez Airport
+0.0,122,CFG,908.0,118293.13916646072,15880.75682770593,407.4684159,STR,ACE,152,Lanzarote Island,EU,false,Stuttgart Airport,Lanzarote Airport
+0.0,151,VLG,908.0,146412.00011586532,19655.69082773439,575.010139,STR,BCN,152,Barcelona,EU,false,Stuttgart Airport,Barcelona International Airport
+0.0,122,EWG,908.0,118293.13916646072,15880.75682770593,511.9668587,STR,BCN,152,Barcelona,EU,false,Stuttgart Airport,Barcelona International Airport
+0.0,145,TUI,908.0,140594.304747023,18874.670000142294,463.50736128,STR,LPA,152,Gran Canaria Island,EU,false,Stuttgart Airport,Gran Canaria Airport
+0.0,122,LDM,908.0,118293.13916646072,15880.75682770593,485.65424640000003,STR,PMI,152,Palma De Mallorca,EU,false,Stuttgart Airport,Palma De Mallorca Airport
+0.0,122,CTB,908.0,118293.13916646072,15880.75682770593,485.65424640000003,STR,TFS,152,Tenerife Island,EU,false,Stuttgart Airport,Tenerife South Airport
+0.0,145,AFL,24879.0,166643.81229322465,18502.296732568586,463.50736128,SVO,AGP,452,Málaga,EU,true,Sheremetyevo International Airport,Málaga Airport
+0.0,145,AFL,24879.0,166643.81229322465,18502.296732568586,463.50736128,SVO,AGP,452,Málaga,AS,true,Sheremetyevo International Airport,Málaga Airport
+0.0,145,AFL,24879.0,166643.81229322465,18502.296732568586,463.50736128,SVO,AGP,452,Málaga,EU,true,Sheremetyevo International Airport,Málaga Airport
+0.0,145,AFL,24879.0,166643.81229322465,18502.296732568586,463.50736128,SVO,AGP,452,Málaga,AS,true,Sheremetyevo International Airport,Málaga Airport
+0.0,145,AFL,24879.0,166643.81229322465,18502.296732568586,463.50736128,SVO,ALC,452,Alicante,EU,true,Sheremetyevo International Airport,Alicante International Airport
+0.0,145,AFL,24879.0,166643.81229322465,18502.296732568586,463.50736128,SVO,ALC,452,Alicante,AS,true,Sheremetyevo International Airport,Alicante International Airport
+0.0,151,AFL,24879.0,173539.41831915118,19267.909011157633,575.010139,SVO,BCN,452,Barcelona,EU,true,Sheremetyevo International Airport,Barcelona International Airport
+0.0,151,AFL,24879.0,173539.41831915118,19267.909011157633,575.010139,SVO,BCN,452,Barcelona,AS,true,Sheremetyevo International Airport,Barcelona International Airport
+0.0,151,AFL,24879.0,173539.41831915118,19267.909011157633,575.010139,SVO,BCN,452,Barcelona,EU,true,Sheremetyevo International Airport,Barcelona International Airport
+0.0,151,AFL,24879.0,173539.41831915118,19267.909011157633,575.010139,SVO,BCN,452,Barcelona,AS,true,Sheremetyevo International Airport,Barcelona International Airport
+0.0,151,AFL,24879.0,173539.41831915118,19267.909011157633,652.69125,SVO,MAD,452,Madrid,EU,true,Sheremetyevo International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,AFL,24879.0,173539.41831915118,19267.909011157633,652.69125,SVO,MAD,452,Madrid,AS,true,Sheremetyevo International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,202,AFL,24879.0,232152.06953952677,25775.61337916452,1511.50848,SVO,TFS,452,Tenerife Island,EU,true,Sheremetyevo International Airport,Tenerife South Airport
+0.0,202,AFL,24879.0,232152.06953952677,25775.61337916452,1511.50848,SVO,TFS,452,Tenerife Island,AS,true,Sheremetyevo International Airport,Tenerife South Airport
+0.0,122,AFL,24879.0,140210.65586050626,15567.449664643915,407.4684159,SVO,VLC,452,Valencia,EU,true,Sheremetyevo International Airport,Valencia Airport
+0.0,122,AFL,24879.0,140210.65586050626,15567.449664643915,407.4684159,SVO,VLC,452,Valencia,AS,true,Sheremetyevo International Airport,Valencia Airport
+1.2649824992342316E-6,41,ANE,10.0,21271.106097507498,6771.575769684116,169.25149125,SXB,MAD,21,Madrid,EU,false,Strasbourg Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,57.0,140594.304747023,18874.670000142294,463.50736128,SXF,AGP,105,Málaga,EU,true,Berlin-Schönefeld Airport,Málaga Airport
+0.0,145,RYR,57.0,140594.304747023,18874.670000142294,463.50736128,SXF,ALC,105,Alicante,EU,true,Berlin-Schönefeld Airport,Alicante International Airport
+0.0,145,RYR,57.0,140594.304747023,18874.670000142294,488.62006149,SXF,BCN,105,Barcelona,EU,true,Berlin-Schönefeld Airport,Barcelona International Airport
+0.0,145,RYR,57.0,140594.304747023,18874.670000142294,488.62006149,SXF,BCN,105,Barcelona,EU,true,Berlin-Schönefeld Airport,Barcelona International Airport
+0.0,122,EJU,57.0,118293.13916646072,15880.75682770593,511.9668587,SXF,BCN,105,Barcelona,EU,true,Berlin-Schönefeld Airport,Barcelona International Airport
+0.0,122,EJU,57.0,118293.13916646072,15880.75682770593,511.9668587,SXF,BCN,105,Barcelona,EU,true,Berlin-Schönefeld Airport,Barcelona International Airport
+0.0,145,RYR,57.0,140594.304747023,18874.670000142294,554.6302875,SXF,MAD,105,Madrid,EU,true,Berlin-Schönefeld Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,EJU,57.0,97931.20537551257,13147.1839311336,420.593664,SXF,PMI,105,Palma De Mallorca,EU,true,Berlin-Schönefeld Airport,Palma De Mallorca Airport
+0.0,122,LDM,57.0,118293.13916646072,15880.75682770593,485.65424640000003,SXF,PMI,105,Palma De Mallorca,EU,true,Berlin-Schönefeld Airport,Palma De Mallorca Airport
+0.0,101,EJU,57.0,97931.20537551257,13147.1839311336,352.881984,SXF,SVQ,105,Sevilla,EU,true,Berlin-Schönefeld Airport,Sevilla Airport
+0.0,101,EWE,26.0,116076.03476976338,12887.80668958226,420.593664,SZG,TFS,34,Tenerife Island,EU,false,Salzburg Airport,Tenerife South Airport
+0.0,151,ART,6.0,173539.41831915118,19267.909011157633,545.457408,TLL,TFS,47,Tenerife Island,EU,true,Lennart Meri Tallinn Airport,Tenerife South Airport
+4.476811885355554E-6,145,MAY,62.0,75227.08253996556,23948.255770834057,463.50736128,TLS,ALC,125,Alicante,EU,false,Toulouse-Blagnac Airport,Alicante International Airport
+2.5113510570301785E-6,82,ANE,62.0,42542.212195014996,13543.151539368231,321.02973,TLS,MAD,125,Madrid,EU,false,Toulouse-Blagnac Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5150628569413223E-6,82,ANE,62.0,42542.212195014996,13543.151539368231,321.02973,TLS,MAD,125,Madrid,EU,false,Toulouse-Blagnac Airport,Adolfo Suárez Madrid–Barajas Airport
+3.7670265855452676E-6,122,IBS,62.0,63294.51082672964,20149.566924425897,581.131125,TLS,MAD,125,Madrid,EU,false,Toulouse-Blagnac Airport,Adolfo Suárez Madrid–Barajas Airport
+4.490055203106372E-6,145,MAY,62.0,75227.08253996556,23948.255770834057,388.88697393,TLS,SVQ,125,Sevilla,EU,false,Toulouse-Blagnac Airport,Sevilla Airport
+3.778170214389396E-6,122,EJU,62.0,63294.51082672964,20149.566924425897,407.4684159,TLS,SVQ,125,Sevilla,EU,false,Toulouse-Blagnac Airport,Sevilla Airport
+4.219069775810699E-6,137,TAY,62.0,71076.62281362263,22626.97269382252,346.37572242,TLS,VLC,125,Valencia,EU,false,Toulouse-Blagnac Airport,Valencia Airport
+0.0,120,VLG,190.0,137912.12051853075,15312.245571780899,511.9668587,TLV,BCN,142,Barcelona,AS,false,Ben Gurion International Airport,Barcelona International Airport
+0.0,154,ELY,190.0,176987.22133211448,19650.71515045215,547.402724495,TLV,BCN,142,Barcelona,AS,false,Ben Gurion International Airport,Barcelona International Airport
+0.0,142,BBG,190.0,163196.00928026138,18119.49059327407,488.62006149,TLV,BCN,142,Barcelona,AS,false,Ben Gurion International Airport,Barcelona International Airport
+0.0,142,IBK,190.0,163196.00928026138,18119.49059327407,488.62006149,TLV,BCN,142,Barcelona,AS,false,Ben Gurion International Airport,Barcelona International Airport
+0.0,232,AEA,190.0,266630.09966915945,29603.674772109738,1958.0737499999998,TLV,MAD,142,Madrid,AS,false,Ben Gurion International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,120,ISR,190.0,137912.12051853075,15312.245571780899,581.131125,TLV,MAD,142,Madrid,AS,false,Ben Gurion International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,197,IBE,190.0,226405.73118458796,25137.603147006987,1808.6625,TLV,MAD,142,Madrid,AS,false,Ben Gurion International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,142,ELY,190.0,163196.00928026138,18119.49059327407,554.6302875,TLV,MAD,142,Madrid,AS,false,Ben Gurion International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,105,VLG,-1.0,120673.10545371441,13398.21487530829,511.9668587,TNG,BCN,16,Barcelona,AF,false,Ibn Batouta Airport,Barcelona International Airport
+0.0,125,RYR,-1.0,143658.45887346953,15950.255803938444,554.6302875,TNG,MAD,16,Madrid,AF,false,Ibn Batouta Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,70,ANE,-1.0,80448.73696914293,8932.143250205527,321.02973,TNG,MAD,16,Madrid,AF,false,Ibn Batouta Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,187,BCS,-1.0,214913.05447471043,23861.582682691896,946.7161977,TNG,SVQ,16,Sevilla,AF,false,Ibn Batouta Airport,Sevilla Airport
+0.0,151,VKG,97.0,161877.16376446755,33591.59986096161,545.457408,TOS,LPA,51,Gran Canaria Island,EU,false,Tromsø Airport,Gran Canaria Airport
+0.0,226,VKG,16.0,242279.72854814347,50276.16932832666,1511.50848,TRD,LPA,68,Gran Canaria Island,EU,false,Trondheim Airport Værnes,Gran Canaria Airport
+0.0,145,RYR,18.0,94703.34986422848,15174.210653628576,488.62006149,TRN,BCN,47,Barcelona,EU,false,Turin Airport,Barcelona International Airport
+0.0,122,VLG,18.0,79681.43919610948,12767.266894777147,511.9668587,TRN,BCN,47,Barcelona,EU,false,Turin Airport,Barcelona International Airport
+0.0,82,ANE,18.0,53556.37716459817,8581.277748948578,321.02973,TRN,MAD,47,Madrid,EU,false,Turin Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,ANE,18.0,53556.37716459817,8581.277748948578,321.02973,TRN,MAD,47,Madrid,EU,false,Turin Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,18.0,94703.34986422848,15174.210653628576,388.88697393,TRN,VLC,47,Valencia,EU,false,Turin Airport,Valencia Airport
+0.0,122,WZZ,1.0,140210.65586050626,15567.449664643915,511.9668587,TSR,BCN,20,Barcelona,EU,false,Timişoara Traian Vuia Airport,Barcelona International Airport
+0.0,122,WZZ,1.0,140210.65586050626,15567.449664643915,581.131125,TSR,MAD,20,Madrid,EU,false,Timişoara Traian Vuia Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,WZZ,1.0,140210.65586050626,15567.449664643915,407.4684159,TSR,VLC,20,Valencia,EU,false,Timişoara Traian Vuia Airport,Valencia Airport
+0.0,105,TAR,-1.0,120673.10545371441,13398.21487530829,511.9668587,TUN,BCN,71,Barcelona,AF,true,Tunis Carthage International Airport,Barcelona International Airport
+0.0,125,AEA,-1.0,143658.45887346953,15950.255803938444,554.6302875,TUN,MAD,71,Madrid,AF,true,Tunis Carthage International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,105,TAR,-1.0,120673.10545371441,13398.21487530829,581.131125,TUN,MAD,71,Madrid,AF,true,Tunis Carthage International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,VLG,776.0,146412.00011586532,19655.69082773439,575.010139,TXL,BCN,238,Barcelona,EU,true,Berlin-Tegel Airport,Barcelona International Airport
+0.0,101,EJU,776.0,97931.20537551257,13147.1839311336,258.476288,TXL,GRX,238,Granada,EU,true,Berlin-Tegel Airport,Federico Garcia Lorca Airport
+0.0,122,EJU,776.0,118293.13916646072,15880.75682770593,581.131125,TXL,MAD,238,Madrid,EU,true,Berlin-Tegel Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,776.0,118293.13916646072,15880.75682770593,581.131125,TXL,MAD,238,Madrid,EU,true,Berlin-Tegel Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,776.0,118293.13916646072,15880.75682770593,581.131125,TXL,MAD,238,Madrid,EU,true,Berlin-Tegel Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBS,776.0,118293.13916646072,15880.75682770593,581.131125,TXL,MAD,238,Madrid,EU,true,Berlin-Tegel Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,776.0,140594.304747023,18874.670000142294,463.50736128,TXL,PMI,238,Palma De Mallorca,EU,true,Berlin-Tegel Airport,Palma De Mallorca Airport
+0.0,145,RYR,776.0,140594.304747023,18874.670000142294,463.50736128,TXL,PMI,238,Palma De Mallorca,EU,true,Berlin-Tegel Airport,Palma De Mallorca Airport
+0.0,101,EJU,776.0,97931.20537551257,13147.1839311336,420.593664,TXL,PMI,238,Palma De Mallorca,EU,true,Berlin-Tegel Airport,Palma De Mallorca Airport
+0.0,346,IBE,-1.0,397646.61416176363,44150.3080653016,2893.8599999999997,UIO,MAD,57,Madrid,SA,true,Mariscal Sucre International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,354.0,94703.34986422848,15174.210653628576,488.62006149,VCE,BCN,101,Barcelona,EU,false,Venice Marco Polo Airport,Barcelona International Airport
+0.0,145,RYR,354.0,94703.34986422848,15174.210653628576,488.62006149,VCE,BCN,101,Barcelona,EU,false,Venice Marco Polo Airport,Barcelona International Airport
+0.0,122,VLG,354.0,79681.43919610948,12767.266894777147,511.9668587,VCE,BCN,101,Barcelona,EU,false,Venice Marco Polo Airport,Barcelona International Airport
+0.0,122,VLG,354.0,79681.43919610948,12767.266894777147,511.9668587,VCE,BCN,101,Barcelona,EU,false,Venice Marco Polo Airport,Barcelona International Airport
+0.0,122,IBE,354.0,79681.43919610948,12767.266894777147,581.131125,VCE,MAD,101,Madrid,EU,false,Venice Marco Polo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,IBE,354.0,79681.43919610948,12767.266894777147,581.131125,VCE,MAD,101,Madrid,EU,false,Venice Marco Polo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,354.0,88172.08435635065,14127.713367171431,621.2362499999999,VCE,MAD,101,Madrid,EU,false,Venice Marco Polo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,354.0,53556.37716459817,8581.277748948578,411.19548749999996,VCE,MAD,101,Madrid,EU,false,Venice Marco Polo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,354.0,53556.37716459817,8581.277748948578,411.19548749999996,VCE,MAD,101,Madrid,EU,false,Venice Marco Polo Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,EJU,354.0,79681.43919610948,12767.266894777147,407.4684159,VCE,SVQ,101,Sevilla,EU,false,Venice Marco Polo Airport,Sevilla Airport
+0.0,122,LDM,15655.0,140210.65586050626,15567.449664643915,485.65424640000003,VIE,AGP,344,Málaga,EU,true,Vienna International Airport,Málaga Airport
+0.0,145,RYR,15655.0,166643.81229322465,18502.296732568586,488.62006149,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,122,VLG,15655.0,140210.65586050626,15567.449664643915,511.9668587,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,122,VLG,15655.0,140210.65586050626,15567.449664643915,511.9668587,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,122,EWE,15655.0,140210.65586050626,15567.449664643915,511.9668587,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,122,EWE,15655.0,140210.65586050626,15567.449664643915,511.9668587,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,122,LDM,15655.0,140210.65586050626,15567.449664643915,511.9668587,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,122,FOO,15655.0,140210.65586050626,15567.449664643915,511.9668587,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,122,FOO,15655.0,140210.65586050626,15567.449664643915,511.9668587,VIE,BCN,344,Barcelona,EU,true,Vienna International Airport,Barcelona International Airport
+0.0,82,ANE,15655.0,94239.949020996,10463.367807383618,321.02973,VIE,MAD,344,Madrid,EU,true,Vienna International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,151,WZZ,15655.0,173539.41831915118,19267.909011157633,652.69125,VIE,MAD,344,Madrid,EU,true,Vienna International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,381,KAL,15655.0,437870.9826463351,48616.37969040438,3477.7434375,VIE,MAD,344,Madrid,EU,true,Vienna International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,LDM,15655.0,140210.65586050626,15567.449664643915,581.131125,VIE,MAD,344,Madrid,EU,true,Vienna International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,15655.0,116076.03476976338,12887.80668958226,503.28,VIE,MAD,344,Madrid,EU,true,Vienna International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,15655.0,155151.13558334712,17226.27626825351,621.2362499999999,VIE,MAD,344,Madrid,EU,true,Vienna International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,LDM,15655.0,140210.65586050626,15567.449664643915,485.65424640000003,VIE,PMI,344,Palma De Mallorca,EU,true,Vienna International Airport,Palma De Mallorca Airport
+0.0,151,WZZ,15655.0,173539.41831915118,19267.909011157633,457.643823,VIE,VLC,344,Valencia,EU,true,Vienna International Airport,Valencia Airport
+0.0,122,LDM,15655.0,140210.65586050626,15567.449664643915,407.4684159,VIE,VLC,344,Valencia,EU,true,Vienna International Airport,Valencia Airport
+0.0,125,OIX,491.0,143658.45887346953,15950.255803938444,459.45388455999995,VKO,BCN,182,Barcelona,EU,true,Vnukovo International Airport,Barcelona International Airport
+0.0,125,OIX,491.0,143658.45887346953,15950.255803938444,459.45388455999995,VKO,BCN,182,Barcelona,AS,true,Vnukovo International Airport,Barcelona International Airport
+0.0,145,PBD,491.0,166643.81229322465,18502.296732568586,388.88697393,VKO,GRO,182,Girona,EU,true,Vnukovo International Airport,Girona Airport
+0.0,145,PBD,491.0,166643.81229322465,18502.296732568586,388.88697393,VKO,GRO,182,Girona,AS,true,Vnukovo International Airport,Girona Airport
+0.0,122,GJT,9.0,140210.65586050626,15567.449664643915,485.65424640000003,VNO,TFS,57,Tenerife Island,EU,true,Vilnius International Airport,Tenerife South Airport
+0.0,204,AEA,-1.0,234450.60488150228,26030.81747202752,1808.6625,VVI,MAD,31,Madrid,SA,false,Viru Viru International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,189,BOV,-1.0,217211.5898166859,24116.786775554923,1469.5775999999998,VVI,MAD,31,Madrid,SA,false,Viru Viru International Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,ENT,6329.0,166643.81229322465,18502.296732568586,463.50736128,WAW,AGP,250,Málaga,EU,true,Warsaw Chopin Airport,Málaga Airport
+0.0,151,WZZ,6329.0,173539.41831915118,19267.909011157633,575.010139,WAW,BCN,250,Barcelona,EU,true,Warsaw Chopin Airport,Barcelona International Airport
+0.0,82,LOT,6329.0,94239.949020996,10463.367807383618,362.25638756999996,WAW,BCN,250,Barcelona,EU,true,Warsaw Chopin Airport,Barcelona International Airport
+0.0,145,ENT,6329.0,166643.81229322465,18502.296732568586,463.50736128,WAW,LPA,250,Gran Canaria Island,EU,true,Warsaw Chopin Airport,Gran Canaria Airport
+0.0,145,BPA,6329.0,166643.81229322465,18502.296732568586,463.50736128,WAW,LPA,250,Gran Canaria Island,EU,true,Warsaw Chopin Airport,Gran Canaria Airport
+0.0,122,NVD,6329.0,140210.65586050626,15567.449664643915,581.131125,WAW,MAD,250,Madrid,EU,true,Warsaw Chopin Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,145,RYR,-1.0,166643.81229322465,18502.296732568586,488.62006149,WMI,BCN,27,Barcelona,EU,true,Modlin Airport,Barcelona International Airport
+0.0,145,RYR,-1.0,166643.81229322465,18502.296732568586,554.6302875,WMI,MAD,27,Madrid,EU,true,Modlin Airport,Adolfo Suárez Madrid–Barajas Airport
+2.5225029230934677E-6,82,ANE,-1.0,42542.212195014996,13543.151539368231,321.02973,XCR,MAD,2,Madrid,EU,false,Châlons-Vatry Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,8,FTY,18392.0,9194.14136790205,1020.81637145206,23.212393806,ZRH,ABC,341,Albacete,EU,false,Zürich Airport,Albacete-Los Llanos Airport
+0.0,151,SWR,18392.0,173539.41831915118,19267.909011157633,545.457408,ZRH,AGP,341,Málaga,EU,false,Zürich Airport,Málaga Airport
+0.0,122,VLG,18392.0,140210.65586050626,15567.449664643915,511.9668587,ZRH,BCN,341,Barcelona,EU,false,Zürich Airport,Barcelona International Airport
+0.0,122,VLG,18392.0,140210.65586050626,15567.449664643915,511.9668587,ZRH,BCN,341,Barcelona,EU,false,Zürich Airport,Barcelona International Airport
+0.0,151,SWR,18392.0,173539.41831915118,19267.909011157633,575.010139,ZRH,BCN,341,Barcelona,EU,false,Zürich Airport,Barcelona International Airport
+0.0,151,SWR,18392.0,173539.41831915118,19267.909011157633,575.010139,ZRH,BCN,341,Barcelona,EU,false,Zürich Airport,Barcelona International Airport
+0.0,151,SWR,18392.0,173539.41831915118,19267.909011157633,575.010139,ZRH,BCN,341,Barcelona,EU,false,Zürich Airport,Barcelona International Airport
+0.0,122,SWR,18392.0,140210.65586050626,15567.449664643915,407.4684159,ZRH,BIO,341,Bilbao,EU,false,Zürich Airport,Bilbao Airport
+0.0,122,EDW,18392.0,140210.65586050626,15567.449664643915,485.65424640000003,ZRH,LPA,341,Gran Canaria Island,EU,false,Zürich Airport,Gran Canaria Airport
+0.0,122,EDW,18392.0,140210.65586050626,15567.449664643915,485.65424640000003,ZRH,LPA,341,Gran Canaria Island,EU,false,Zürich Airport,Gran Canaria Airport
+0.0,131,SWR,18392.0,150554.0648993961,16715.86808252748,549.6761250000001,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,131,SWR,18392.0,150554.0648993961,16715.86808252748,549.6761250000001,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,101,IBE,18392.0,116076.03476976338,12887.80668958226,503.28,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,18392.0,155151.13558334712,17226.27626825351,621.2362499999999,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,135,IBE,18392.0,155151.13558334712,17226.27626825351,621.2362499999999,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,17,EXU,18392.0,19537.550406791855,2169.2347893356277,127.70729999999998,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,78,OAW,18392.0,89642.87833704498,9952.959621657588,361.69318124999995,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,18392.0,94239.949020996,10463.367807383618,411.19548749999996,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,82,OVA,18392.0,94239.949020996,10463.367807383618,411.19548749999996,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,15,TGM,18392.0,17239.015064816344,1914.0306964726124,369.53333999999995,ZRH,MAD,341,Madrid,EU,false,Zürich Airport,Adolfo Suárez Madrid–Barajas Airport
+0.0,122,EDW,18392.0,140210.65586050626,15567.449664643915,485.65424640000003,ZRH,PMI,341,Palma De Mallorca,EU,false,Zürich Airport,Palma De Mallorca Airport
+0.0,122,SWR,18392.0,140210.65586050626,15567.449664643915,485.65424640000003,ZRH,PMI,341,Palma De Mallorca,EU,false,Zürich Airport,Palma De Mallorca Airport
+0.0,122,EDW,18392.0,140210.65586050626,15567.449664643915,485.65424640000003,ZRH,TFS,341,Tenerife Island,EU,false,Zürich Airport,Tenerife South Airport
+0.0,131,SWR,18392.0,150554.0648993961,16715.86808252748,385.41329190000005,ZRH,VLC,341,Valencia,EU,false,Zürich Airport,Valencia Airport
+0.0,131,SWR,18392.0,150554.0648993961,16715.86808252748,385.41329190000005,ZRH,VLC,341,Valencia,EU,false,Zürich Airport,Valencia Airport

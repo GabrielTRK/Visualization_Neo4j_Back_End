@@ -129,7 +129,6 @@ class VisNeo4jController {
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
-		//TODO: Devolver id de solucion
 		
 		return visNeo4jService.guardarYOptimizar(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
@@ -285,7 +284,7 @@ class VisNeo4jController {
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
-		//TODO: Devolver id de solucion
+		
 		
 		return visNeo4jService.guardarYOptimizarALT(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);

@@ -18,6 +18,8 @@ public class Constantes {
 	public static final String extensionFichero = ".csv";
     public static final DateFormat formatoFecha = new SimpleDateFormat("yyyyMMddHHmmss");
     public static final SimpleDateFormat formatoFechaRRPS_PAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String fechaSDMin = "2020-04-01";
+    public static final String fechaSDMax = "2020-08-31";
     public static final String nombreProblemaDefecto = "problema";
     public static final String nombreDTLZ1 = "dtlz1";
     public static final String nombreDTLZ2 = "dtlz2";
@@ -108,6 +110,14 @@ public class Constantes {
     
     public static final String nombreRestriccionEpidemiologica = "Restricción Epidemiológica";
     public static final String nombreRestriccionPolitica = "Restricción Política";
+    
+    public static final String defaultTooltipTextZ1 = "The losses in the catchment areas if all connections are cancelled would be over 40 million euros per day.";
+    public static final String defaultTooltipTextZ2 = "Depending on the popularity of the destination, their income may vary from €100,000 up to €9,000,000 per day.";
+    public static final String defaultTooltipTextZ3 = "Depending on the activity of each airline, they operate for range of 200 to more than 15,000 passengers per day.";
+    public static final String defaultTooltipTextZ4 = "Each flight may produce from €400 to €3,500 due to airport taxes depending on the airport fee and the weight of the aircraft.";
+    public static final String defaultTooltipTextZ5 = "The least busy airports may gain around €3,000 per day from taxes, while the bussiest ones may gain up to €100,000.";
+    public static final String defaultTooltipTextZ6 = "Most commercial flights carry between 80 to 300 passengers.";
+    public static final String defaultTooltipTextZ7 = "The measurment of Hub Connectivity proposed by ACI Europe may vary from below 30 up to 70,000 depending on the activity of the airport.";
     
     public static final String KO_respuestaNombresIguales = "The name of the project already exists.";
     public static final String KO_respuestaProjectRunning = "There is another project currently running an optimization. Please wait until its finished to run a new one. To check the saved projects go to the Load Project tab.";

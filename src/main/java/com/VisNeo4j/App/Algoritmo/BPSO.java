@@ -73,7 +73,7 @@ public class BPSO {
 			//System.out.println(this.v0);
 			//System.out.println(this.v1);
 			//System.out.println();
-			//System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
+			System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
 		}
 		//System.out.println(this.poblacionPartículas);
@@ -131,7 +131,7 @@ public class BPSO {
 	
 	public void calcularVelocidades() throws FileNotFoundException, IOException, CsvException {
 		for(int i = 0; i < this.params.getNumIndividuos(); i++) {
-			System.out.println(this.poblacionPartículas.getPoblacion().get(i) + " " + this.poblacionPbest.getPoblacion().get(i)); 
+			//System.out.println(this.poblacionPartículas.getPoblacion().get(i) + " " + this.poblacionPbest.getPoblacion().get(i)); 
 			double vc;
 			for(int j = 0; j < this.problema.getNumVariables(); j++) {
 				double d1_1, d0_1, d1_2, d0_2;
@@ -158,11 +158,11 @@ public class BPSO {
 				if(this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
 					vc = 1/(1+ Math.pow(Math.E, -v1));
 					//vc = Math.abs(Math.tanh(v1));
-					System.out.print(v1 + " ");
+					//System.out.print(v1 + " ");
 				}else {
 					vc = 1/(1+ Math.pow(Math.E, -v0));
 					//vc = Math.abs(Math.tanh(v0));
-					System.out.print(v0 + " ");
+					//System.out.print(v0 + " ");
 				}
 				if(Utils.getRandNumber(0.0, 1.0) < vc) {
 					if(this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
@@ -172,7 +172,7 @@ public class BPSO {
 					}
 				}
 			}
-			System.out.println();
+			//System.out.println();
 			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
 		}
 	}

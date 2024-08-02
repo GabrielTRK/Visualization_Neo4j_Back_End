@@ -100,6 +100,13 @@ public class TraducirSalida {
 				tooltips.get(Constantes.idObjetivo6), tooltips.get(Constantes.idObjetivo7));
 	}
 	
+	public static TooltipTexts obtenerTooltipsDefault() {
+		return new TooltipTexts(Constantes.defaultTooltipTextZ1, 
+				Constantes.defaultTooltipTextZ2, Constantes.defaultTooltipTextZ3, 
+				Constantes.defaultTooltipTextZ4, Constantes.defaultTooltipTextZ5, 
+				Constantes.defaultTooltipTextZ6, Constantes.defaultTooltipTextZ7);
+	}
+	
 	public static List<Persona> obtenerPersonasAfectadas(List<List<String>> per){
 		List<Persona> listPer = new ArrayList<>();
 		for(int i = 0; i < per.size(); i++) {
