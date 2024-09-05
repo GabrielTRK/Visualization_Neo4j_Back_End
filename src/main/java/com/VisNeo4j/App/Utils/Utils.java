@@ -1135,7 +1135,7 @@ public class Utils {
 	    File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" + String.valueOf(id) + Constantes.extensionFichero);
 	    file.delete();
 		
-		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\");
 	      
 	    String contents[] = directoryPath.list();
 		
@@ -1158,7 +1158,7 @@ public class Utils {
 	    File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" + String.valueOf(id) + Constantes.extensionFichero);
 	    file.delete();
 		
-		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\");
 	      
 	    String contents[] = directoryPath.list();
 		
@@ -1180,7 +1180,7 @@ public class Utils {
 	    File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + String.valueOf(id) + Constantes.extensionFichero);
 	    file.delete();
 		
-		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\");
 	      
 	    String contents[] = directoryPath.list();
 		

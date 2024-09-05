@@ -460,6 +460,9 @@ public class VisNeo4jService {
 		Utils.borrarCSVObjetivoI(proyecto, id);
 		Utils.borrarCSVFitnessI(proyecto, id);
 		Utils.borrarCSVRangosI(proyecto, id);
+		
+		resp.setOK_KO(true);
+		resp.setMensaje(Constantes.OK_respuestaSolutionDeleted);
 		return resp;
 	}
 	

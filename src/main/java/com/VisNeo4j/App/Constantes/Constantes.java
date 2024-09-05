@@ -135,5 +135,7 @@ public class Constantes {
     public static final String OK_respuestaProjectDeleted = "Project deleted.";
     public static final String KO_respuestaProjectDeletedRunning = "The project is currently running. In order to delete it you must first cancel its optimization.";
     
+    public static final String OK_respuestaSolutionDeleted = "Solution deleted.";
+    
     public static boolean continueOpt = true;
 }
