@@ -8,37 +8,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.VisNeo4j.App.Algoritmo.BPSO;
-import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
-import com.VisNeo4j.App.Algoritmo.Parametros.CondicionParada.CP;
-import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
+
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Lectura.LecturaDeDatos;
-import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Entrada.ResPolPref;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
-import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
 import com.VisNeo4j.App.Modelo.Salida.Histogramas;
 import com.VisNeo4j.App.Modelo.Salida.Objetivo;
-import com.VisNeo4j.App.Modelo.Salida.Persona;
 import com.VisNeo4j.App.Modelo.Salida.Proyecto;
 import com.VisNeo4j.App.Modelo.Salida.Rangos;
 import com.VisNeo4j.App.Modelo.Salida.Respuesta;
-import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
-import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
-import com.VisNeo4j.App.Modelo.Salida.Vuelos;
-import com.VisNeo4j.App.Problemas.Problema;
-import com.VisNeo4j.App.Problemas.RRPS_PAT;
-import com.VisNeo4j.App.Problemas.SubVuelos;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
-import com.VisNeo4j.App.QDMP.DMPreferences;
-import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.VisNeo4j.App.Service.VisNeo4jService;
-import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.BufferedReader;
@@ -47,11 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 class VisNeo4jController {
@@ -80,6 +60,12 @@ class VisNeo4jController {
 		
 		return visNeo4jService.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+	}
+	
+	@CrossOrigin
+	@PostMapping("/{proyecto}/delete")
+	public Respuesta borrarProyecto(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.borrarProyecto(proyecto);
 	}
 	
 	@CrossOrigin
@@ -141,6 +127,12 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
+	@PostMapping("/{proyecto}/{id}/delete")
+	public Respuesta borrarSolucionJProyectoI(@PathVariable String proyecto, @PathVariable int id) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.borrarSolucion(proyecto, id);
+	}
+	
+	/*@CrossOrigin
 	@PostMapping("/testEva")
 	public DatosRRPS_PAT testEvaluacion(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
@@ -154,9 +146,9 @@ class VisNeo4jController {
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		problema.inicializarValores(ind);
 		//problema.inicializarValores(ind);
-		/*problema.inicializarValores(ind);
 		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);*/
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
 		
 		problema.evaluate(ind);
 		ind = problema.devolverSolucionCompleta(ind);
@@ -164,7 +156,7 @@ class VisNeo4jController {
 		System.out.println();
 		
 		return datos;
-	}
+	}*/
 	
 	@CrossOrigin
 	@GetMapping("/data")
@@ -248,10 +240,17 @@ class VisNeo4jController {
 	}*/
 	
 	@CrossOrigin
+	@GetMapping("/cancelOpt")
+	public Respuesta updateBool(){
+        Constantes.continueOpt = false;
+        return new Respuesta(true, Constantes.OK_respuestaOptimizationCancelled);
+	}
+	
+	@CrossOrigin
 	@GetMapping("/test")
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
 		// Enter data using BufferReader
-        BufferedReader reader = new BufferedReader(
+        /*BufferedReader reader = new BufferedReader(
             new InputStreamReader(System.in));
         String name = "";
         while(!name.equals("1")) {
@@ -266,7 +265,11 @@ class VisNeo4jController {
         
 
         // Printing the read line
-        System.out.println(name);
+        System.out.println(name);*/
+		
+		String a = "aaaa";
+		System.out.println(a.replace("aa", "b"));
+		System.out.println(a);
 	}
 	
 	/*@CrossOrigin
@@ -298,8 +301,8 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@GetMapping("/getData/")
-	public List<String> hola() {
-		return List.of("hola");
+	public int hola() {
+		return 1234;
 	}
 
 }

@@ -69,11 +69,11 @@ public class BPSO {
 			//System.out.println(r2);
 			//System.out.println(poblacionPartículas);
 			//System.out.println(poblacionPbest);
-			//System.out.println(Gbest);
+			System.out.println(this.params.getIteracionActual() + ": " + Gbest);
 			//System.out.println(this.v0);
 			//System.out.println(this.v1);
 			//System.out.println();
-			System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
+			//System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
 		}
 		//System.out.println(this.poblacionPartículas);

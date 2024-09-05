@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
@@ -24,6 +25,8 @@ public class RRPS_PAT extends Problema {
 	private DMPreferences preferencias;
 	private List<String> resPol;
 	private List<Integer> direccionesAMantener;
+	private List<Integer> objetivosRestriccion = Stream.of(2, 3, 5).collect(Collectors.toList());
+	private List<Integer> orderRes = new ArrayList<>();
 
 	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, List<String> resPol, DMPreferences preferencias) {
 		super(0, 1);
@@ -37,6 +40,13 @@ public class RRPS_PAT extends Problema {
 		this.resSup = maxRiesgo;
 		this.preferencias = preferencias;
 		super.setNombre(Constantes.nombreProblemaRRPS_PAT);
+
+		for (int obj : this.preferencias.getOrder().getOrder()) {
+
+			if (this.objetivosRestriccion.contains(obj)) {
+				this.orderRes.add(obj);
+			}
+		}
 	}
 
 	private void calcularDireccionesAMantener() {
@@ -63,6 +73,7 @@ public class RRPS_PAT extends Problema {
 		restricciones.add(0, objetivos.get(0));
 		ind.setRestricciones(restricciones);
 		this.comprobarRestricciones(ind);
+		this.comprobarOrden(ind, objetivos);
 		ind.setObjetivosNorm(objetivos.subList(1, objetivos.size()));
 		Double sumaPesos = 0.0;
 
@@ -70,7 +81,7 @@ public class RRPS_PAT extends Problema {
 			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
 		}
 
-		ind.setObjetivos(List.of(sumaPesos));
+		ind.setObjetivos(Stream.of(sumaPesos).collect(Collectors.toList()));
 
 		this.quitarDirecciones(aux);
 
@@ -128,36 +139,41 @@ public class RRPS_PAT extends Problema {
 
 				if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
 					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
-									+ this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+							Stream.of(
+									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
+											+ this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
 									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
-											+ this.datos.getPasajeros().get(pos)));
+											+ this.datos.getPasajeros().get(pos))
+									.collect(Collectors.toList()));
 				} else {
 					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
-									this.datos.getPasajeros().get(pos) * 1.0));
+							Stream.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+									this.datos.getPasajeros().get(pos) * 1.0).collect(Collectors.toList()));
 				}
 				if (ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
-					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
-							List.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
-									+ this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
-									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
-											+ this.datos.getIngresos().get(pos)));
+					ingresosPorAreaInf
+							.put(this.datos.getAresInfTotales().get(pos),
+									Stream.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
+											+ this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
+											ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
+													+ this.datos.getIngresos().get(pos))
+											.collect(Collectors.toList()));
 				} else {
 					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
-							List.of(this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
-									this.datos.getIngresos().get(pos)));
+							Stream.of(this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
+									this.datos.getIngresos().get(pos)).collect(Collectors.toList()));
 				}
 				if (ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
-					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), List.of(
+					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), Stream.of(
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
 									+ this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
-									+ this.datos.getTasas().get(pos)));
+									+ this.datos.getTasas().get(pos))
+							.collect(Collectors.toList()));
 				} else {
 					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1),
-							List.of(this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
-									this.datos.getTasas().get(pos)));
+							Stream.of(this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
+									this.datos.getTasas().get(pos)).collect(Collectors.toList()));
 				}
 
 				pos++;
@@ -325,13 +341,13 @@ public class RRPS_PAT extends Problema {
 
 	@Override
 	public Individuo extra(Individuo ind) {
-		
+
 		List<Double> aux = ind.getVariables();
 
 		this.rellenarDirecciones(aux);
 
 		ind.setVariables(aux);
-		
+
 		Map<String, List<Double>> valoresAdicionales = ind.getExtra();
 
 		Map<String, List<Double>> pasajerosPorCompanyia = new HashMap<>();
@@ -345,53 +361,56 @@ public class RRPS_PAT extends Problema {
 							.equals(this.datos.getConexionesTotales().get(i).get(0))
 					&& this.datos.getConexionesTotalesSeparadas().get(pos).get(1)
 							.equals(this.datos.getConexionesTotales().get(i).get(1))) {
-				
 
 				if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
 					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
-									+ this.datos.getPasajeros().get(pos) * ind.getVariables().get(i),
+							Stream.of(
+									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
+											+ this.datos.getPasajeros().get(pos) * ind.getVariables().get(i),
 									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
-											+ this.datos.getPasajeros().get(pos)));
+											+ this.datos.getPasajeros().get(pos))
+									.collect(Collectors.toList()));
 				} else {
 					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(this.datos.getPasajeros().get(pos) * ind.getVariables().get(i),
-									this.datos.getPasajeros().get(pos) * 1.0));
+							Stream.of(this.datos.getPasajeros().get(pos) * ind.getVariables().get(i),
+									this.datos.getPasajeros().get(pos) * 1.0).collect(Collectors.toList()));
 				}
 				/*
-				 if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
-					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
-									+ this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
-									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
-											+ this.datos.getPasajeros().get(pos)));
-				} else {
-					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
-									this.datos.getPasajeros().get(pos) * 1.0));
-				}
+				 * if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) !=
+				 * null) { pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+				 * Stream.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos
+				 * )).get(0) + this.datos.getPasajeros().get(pos) *
+				 * solucion.getVariables().get(i),
+				 * pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
+				 * + this.datos.getPasajeros().get(pos))); } else {
+				 * pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
+				 * Stream.of(this.datos.getPasajeros().get(pos) *
+				 * solucion.getVariables().get(i), this.datos.getPasajeros().get(pos) * 1.0)); }
 				 */
 				if (ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
 					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
-							List.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
-									+ this.datos.getIngresos().get(pos) * ind.getVariables().get(i),
+							Stream.of(
+									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
+											+ this.datos.getIngresos().get(pos) * ind.getVariables().get(i),
 									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
-											+ this.datos.getIngresos().get(pos)));
+											+ this.datos.getIngresos().get(pos))
+									.collect(Collectors.toList()));
 				} else {
 					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
-							List.of(this.datos.getIngresos().get(pos) * ind.getVariables().get(i),
-									this.datos.getIngresos().get(pos)));
+							Stream.of(this.datos.getIngresos().get(pos) * ind.getVariables().get(i),
+									this.datos.getIngresos().get(pos)).collect(Collectors.toList()));
 				}
 				if (ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
-					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), List.of(
+					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), Stream.of(
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
 									+ this.datos.getTasas().get(pos) * ind.getVariables().get(i),
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
-									+ this.datos.getTasas().get(pos)));
+									+ this.datos.getTasas().get(pos))
+							.collect(Collectors.toList()));
 				} else {
 					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1),
-							List.of(this.datos.getTasas().get(pos) * ind.getVariables().get(i),
-									this.datos.getTasas().get(pos)));
+							Stream.of(this.datos.getTasas().get(pos) * ind.getVariables().get(i),
+									this.datos.getTasas().get(pos)).collect(Collectors.toList()));
 				}
 
 				pos++;
@@ -401,7 +420,7 @@ public class RRPS_PAT extends Problema {
 		List<Double> pasajerosPerdidosPorCompanyia = new ArrayList<>();
 		List<Double> ingresoPerdidoAreasInf = new ArrayList<>();
 		List<Double> ingresoPerdidoAerDest = new ArrayList<>();
-		
+
 		for (String companyia : pasajerosPorCompanyia.keySet()) {
 			if (pasajerosPorCompanyia.get(companyia).get(1) == 0.0) {
 				pasajerosPerdidosPorCompanyia.add(0.0);
@@ -410,19 +429,20 @@ public class RRPS_PAT extends Problema {
 						- (pasajerosPorCompanyia.get(companyia).get(0) / pasajerosPorCompanyia.get(companyia).get(1))));
 			}
 		}
-		
+
 		for (String areaInf : ingresosPorAreaInf.keySet()) {
 			if (ingresosPorAreaInf.get(areaInf).get(1) == 0.0) {
 				ingresoPerdidoAreasInf.add(0.0);
 			} else {
-				ingresoPerdidoAreasInf.add(100 * (1
-						- (ingresosPorAreaInf.get(areaInf).get(0) / ingresosPorAreaInf.get(areaInf).get(1))));
+				ingresoPerdidoAreasInf.add(
+						100 * (1 - (ingresosPorAreaInf.get(areaInf).get(0) / ingresosPorAreaInf.get(areaInf).get(1))));
 			}
 		}
-		
+
 		for (String aeropuerto : ingresosPorAerDest.keySet()) {
 			if (ingresosPorAerDest.get(aeropuerto).get(1) == 0.0) {
-				ingresoPerdidoAerDest.add(1.0 * 100); //TODO: Añadir datos restantes sobre tasas (tarifa por ruido del avion)
+				ingresoPerdidoAerDest.add(1.0 * 100); // TODO: Añadir datos restantes sobre tasas (tarifa por ruido del
+														// avion)
 			} else {
 				ingresoPerdidoAerDest.add(100 * (1
 						- (ingresosPorAerDest.get(aeropuerto).get(0) / ingresosPorAerDest.get(aeropuerto).get(1))));
@@ -432,7 +452,7 @@ public class RRPS_PAT extends Problema {
 		Collections.sort(pasajerosPerdidosPorCompanyia);
 		Collections.sort(ingresoPerdidoAreasInf);
 		Collections.sort(ingresoPerdidoAerDest);
-		
+
 		valoresAdicionales.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, pasajerosPerdidosPorCompanyia);
 		valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, ingresoPerdidoAreasInf);
 		valoresAdicionales.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, ingresoPerdidoAerDest);
@@ -476,6 +496,7 @@ public class RRPS_PAT extends Problema {
 
 	@Override
 	public Individuo comprobarRestricciones(Individuo ind) {
+		// TODO: Comprobar que el valor de los objetivos coincida con las preferencias
 		if (ind.getRestricciones().get(0) > this.resSup) {
 			ind.setFactible(false);
 			ind.setConstraintViolation(Math.abs(this.resSup - ind.getRestricciones().get(0)));
@@ -485,6 +506,39 @@ public class RRPS_PAT extends Problema {
 		} else {
 			ind.setFactible(true);
 			ind.setConstraintViolation(0.0);
+		}
+
+		return ind;
+	}
+	
+	private Individuo comprobarOrden(Individuo ind, List<Double> objetivos) {
+		if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
+				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
+			
+		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
+				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
+			ind.setFactible(false);
+			ind.setConstraintViolation(
+					ind.getConstraintViolation() + 
+					(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
+			
+		} else if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
+				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
+			ind.setFactible(false);
+			ind.setConstraintViolation(
+					ind.getConstraintViolation() + 
+					(objetivos.get(this.orderRes.get(1)) - objetivos.get(this.orderRes.get(2))));
+			
+		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
+				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
+			ind.setFactible(false);
+			ind.setConstraintViolation(
+					ind.getConstraintViolation() + 
+					(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
+			ind.setConstraintViolation(
+					ind.getConstraintViolation() + 
+					(objetivos.get(this.orderRes.get(1)) - objetivos.get(2)));
+			
 		}
 		return ind;
 	}

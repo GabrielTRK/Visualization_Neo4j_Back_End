@@ -38,6 +38,53 @@
             height: 100%;
             margin-left: 2%;
         }
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 200px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 35%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            font-size: 28px;
+            font-weight: bold;
+            margin-left: 98.5%;
+            margin-top: -3%;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -54,20 +101,20 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/html/home.html">Home</a>
+            <a class="nav-link" aria-current="page" href="home.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/html/description.html">New project</a>
+            <a class="nav-link" href="description.html">New project</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/html/list.html">Load project</a>
+            <a class="nav-link" href="list.html">Load project</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="about.html">About</a>
         </li>
         </ul>
         <form class="d-flex" role="search">
-            <a href="#" onclick="logOut()" data-toggle="tooltip" title="Log out">
+            <a href="#" onclick="logOut()" data-toggle="tooltip" title="Exit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-door-open" viewBox="0 0 16 16">
                     <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
                     <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
@@ -84,14 +131,26 @@
         <div class="card-body">
             <div style="display: flex;">
                 <h2 id="ListTitle"></h2>
-                <button id="RunSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="goToDetails()" style="margin-left: 6%;">Check project details</button>
-                <button id="RunSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="" style="margin-left: 6%;">Run optimization</button>
+                <button id="RunSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="goToDescription()" style="margin-left: 5%;">Check project description</button>
+                <button id="RunSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="algoritmoGuardado()" style="margin-left: 6%;">Run optimization</button>
             </div><br>
             <div class="list-group" id="MainList">
                 
                 
             </div>
         </div>
+    </div>
+
+    <div id="myModalSaved" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="ModalText"></p>
+
+
+        </div>
+
     </div>
 
     <footer class="text-center text-lg-start text-dark">

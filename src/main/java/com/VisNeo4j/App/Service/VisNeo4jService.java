@@ -29,8 +29,6 @@ import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
-import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
-import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
@@ -159,7 +157,7 @@ public class VisNeo4jService {
 			List<List<String>> conexionesNombres, String dia_I, String dia_F, String mes_I, 
 			String mes_F, String año_I, String año_F, String ruta) throws IOException {
 		
-		String fecha_I = "\"" + año_I + "-" + mes_I + "-" + dia_I + "\"";
+		/*String fecha_I = "\"" + año_I + "-" + mes_I + "-" + dia_I + "\"";
 		String fecha_F = "\"" + año_F + "-" + mes_F + "-" + dia_F + "\"";
 		
 		List<String[]> datosFichero = new ArrayList<>();
@@ -268,7 +266,7 @@ public class VisNeo4jService {
                 datosFichero.add(filaIFichero);
 			});
 		}
-		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
+		Utils.crearFicheroConDatosDiaI(datosFichero, ruta);*/
 	}
 	
 	public Respuesta guardarProyecto(String fecha_I, String fecha_F, int numIteraciones,
@@ -277,14 +275,16 @@ public class VisNeo4jService {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
-		numIteraciones = Utils.getRandNumber(500, 2000);
+		if(numIteraciones == 0) {
+			numIteraciones = Utils.getRandNumber(500, 2000);
+		}
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWDyanamicDecreasing);
 		
 		File directoryPath = new File(Constantes.rutaFicherosProyectos);
-	      //List of all files and directories
+	      
 	    String contents[] = directoryPath.list();
 	    int pos = 0;
 	    boolean igual = false;
@@ -315,15 +315,30 @@ public class VisNeo4jService {
 			Utils.crearDirectorioFitness(nombreProyecto);
 			Utils.crearDirectorioObjetivos(nombreProyecto);
 			Utils.crearDirectorioRangos(nombreProyecto);
-			//Guardar preferencias y parametros
+			
 			Utils.crearCSVFechas(fecha_I, fecha_F, nombreProyecto);
 			Utils.crearCSVParams(params, nombreProyecto);
 			Utils.crearCSVPref(preferencias, nombreProyecto);
-			Utils.crearCSVRestricciones(resEpi, resPolPref.getPol(), nombreProyecto);
+			Utils.crearCSVRestricciones(resEpi / 100, resPolPref.getPol(), nombreProyecto);
 			resp.setOK_KO(true);
 			resp.setMensaje(Constantes.OK_respuestaProjectSaved);
-			//return new Respuesta(true, Constantes.respuestaProjectSaved);
+			
 		}
+		return resp;
+	}
+	
+	public Respuesta borrarProyecto(String nombre) throws FileNotFoundException, IOException, CsvException{
+		Respuesta resp = new Respuesta(false, null);
+		
+		//Comprobar si se está ejecutando
+		if(Utils.leerFicheroCola().contains(nombre)) {
+			resp.setMensaje(Constantes.KO_respuestaProjectDeletedRunning);
+		}else {
+			//Borrar
+			resp.setOK_KO(Utils.borrarDirectorioProyecto(new File(Constantes.rutaFicherosProyectos + nombre)));
+			resp.setMensaje(Constantes.OK_respuestaProjectDeleted);
+		}
+		
 		return resp;
 	}
 	
@@ -342,13 +357,13 @@ public class VisNeo4jService {
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
+		Problema problema = new RRPS_PAT(datos, resEpi / 100, resPolPref.getPol(), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
 		if(problema.getNumVariables() > 0) {
 			resp = this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-					inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+					inertiaW, c1, c2, m, p, resEpi / 100, nombreProyecto, resPolPref);
 		}else {
 			resp.setMensaje(Constantes.KO_respuestaNoFlights);
 		}
@@ -369,6 +384,7 @@ public class VisNeo4jService {
 			}
 			
 		}
+		Constantes.continueOpt = true;
 		return resp;
 		
 		
@@ -433,7 +449,17 @@ public class VisNeo4jService {
 			resp.setMensaje(proyecto);
 		}
 		
+		Constantes.continueOpt = true;
+		return resp;
+	}
+	
+	public Respuesta borrarSolucion(String proyecto, int id) throws IOException, CsvException {
+		Respuesta resp = new Respuesta(false, null);
 		
+		Utils.borrarSolucionCSVproblemaRRPS_PAT(proyecto, id);
+		Utils.borrarCSVObjetivoI(proyecto, id);
+		Utils.borrarCSVFitnessI(proyecto, id);
+		Utils.borrarCSVRangosI(proyecto, id);
 		return resp;
 	}
 	
@@ -491,17 +517,15 @@ public class VisNeo4jService {
 		
 		List<Solucion> soluciones = new ArrayList<>();
 		for(String id : contents) {
-			//Obtener fitness
 			List<Double> fit = Utils.leerCSVConFitnessPorIteracionSalida(id.replace(Constantes.extensionFichero, ""), nombre);
 			
-			//Obtener obj y res
 			List<Double> obj = Utils.leerCSVObjetivosSalida(id.replace(Constantes.extensionFichero, ""), nombre);
 			
 			Solucion sol = new Solucion(Integer.valueOf(id.replace(Constantes.extensionFichero, "")), (int)Math.round(fit.get(0))+1, fit.get(1), obj, this.cargarPreferenciasProyecto(nombre).getOrder());
 			soluciones.add(sol);
 		}
 		
-		return soluciones;
+		return TraducirSalida.ordenarSoluciones(soluciones);
 	}
 	
 	public DatosConexiones cargarProyectoISolucionJDiaK(String proyecto, int id, int dia) throws FileNotFoundException, IOException, CsvException, ParseException {

@@ -221,17 +221,17 @@
                         <a class="nav-link" onclick="goHome()" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="/html/description.html">New project</a>
+                        <a class="nav-link disabled" href="description.html">New project</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" onclick="goLoad()" href="#">Load project</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="about.html">About</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <a href="#" onclick="logOut()" data-toggle="tooltip" title="Log out">
+                    <a href="#" onclick="logOut()" data-toggle="tooltip" title="Exit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black"
                             class="bi bi-door-open" viewBox="0 0 16 16">
                             <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
@@ -249,7 +249,7 @@
 
             <div class="input-group mb-3">
                 <h2 class="TitleChild" style="margin-right: 20%;">Project description</h2>
-                <form action="" class="was-validated" style="width: 40%;">
+                <form action="" class="was-validated" style="width: 40%; z-index: 0;">
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">Project name</span>
                         <input type="text" class="form-control" id="projectName" aria-describedby="inputGroupPrepend"
@@ -282,12 +282,12 @@
                     <div class="accordion-body">
                         <div class="row">
                             <div class="input-group col">
-                                <form action="" class="was-validated" style="width: 70%; margin-left: 15%;">
+                                <form action="" class="was-validated" style="width: 70%; margin-left: 15%; z-index: 0;">
                                     <div class="input-group has-validation">
                                         <span class="input-group-text" id="inputGroupPrepend">Start date</span>
                                         <input id="start" type="date" class="form-control" aria-label="Default"
                                             aria-describedby="inputGroup-sizing-default" required min="2020-01-01"
-                                            max="2021-01-01" onchange="startDateOnChange()">
+                                            max="2020-10-31" onchange="startDateOnChange()">
                                         <div class="invalid-feedback">
                                             Invalid date
                                         </div>
@@ -297,12 +297,12 @@
                             </div>
 
                             <div class="input-group col">
-                                <form action="" class="was-validated" style="width: 70%;">
+                                <form action="" class="was-validated" style="width: 70%; z-index: 0;">
                                     <div class="input-group has-validation">
                                         <span class="input-group-text" id="inputGroupPrepend">End date</span>
                                         <input id="end" type="date" class="form-control" aria-label="Default"
                                             aria-describedby="inputGroup-sizing-default" required min="2020-01-01"
-                                            max="2021-01-01" onchange="endDateOnChange()">
+                                            max="2020-10-31" onchange="endDateOnChange()">
                                         <div class="invalid-feedback">
                                             Invalid date
                                         </div>
@@ -389,23 +389,20 @@
                                     </div>
                                     <div id="div2a" ondrop="drop(event)" ondragover="allowDrop(event)">
                                         <img src="../Utils/Objective2.png" draggable="true" ondragstart="drag(event)"
-                                            id="2" width="149" height="49" data-toggle="tooltip"
-                                            title="Depending on the popularity of the destination, their income may vary from €100,000 up to €9,000,000 per day">
+                                            id="2" width="149" height="49">
                                     </div>
                                     <div id="div3a" ondrop="drop(event)" ondragover="allowDrop(event)">
                                         <img src="../Utils/Objective3.png" draggable="true" ondragstart="drag(event)"
-                                            id="3" width="149" height="49" data-toggle="tooltip"
-                                            title="Depending on the activity of each airline, they operate for range of 200 to more than 15,000 passengers per day">
+                                            id="3" width="149" height="49">
                                     </div>
                                     <div id="div4a" ondrop="drop(event)" ondragover="allowDrop(event)">
                                         <img src="../Utils/Objective4.png" draggable="true" ondragstart="drag(event)"
                                             id="4" width="149" height="49" data-toggle="tooltip"
-                                            title="Each flight may produce from €400 to €3,500 due to airport taxes depending on the airport fee and the weight of the aircraft">
+                                            title="Each flight may produce from €400 to €3,500 due to airport taxes depending on the airport fee and the weight of the aircraft.">
                                     </div>
                                     <div id="div5a" ondrop="drop(event)" ondragover="allowDrop(event)">
                                         <img src="../Utils/Objective5.png" draggable="true" ondragstart="drag(event)"
-                                            id="5" width="149" height="49" data-toggle="tooltip"
-                                            title="The least busy airports may gain around €3,000 per day from taxes, while the bussiest ones may gain up to €100,000">
+                                            id="5" width="149" height="49">
                                     </div>
                                 </div><br><br><br><br><br><br>
                                 <p style="display: flex; justify-content: center;"><b>Social objectives</b></p>
@@ -413,12 +410,12 @@
                                     <div id="div6a" ondrop="drop(event)" ondragover="allowDrop(event)">
                                         <img src="../Utils/Objective6.png" draggable="true" ondragstart="drag(event)"
                                             id="6" width="149" height="49" data-toggle="tooltip"
-                                            title="Most commercial flights carry between 80 to 300 passengers">
+                                            title="Most commercial flights carry between 80 to 300 passengers.">
                                     </div>
                                     <div id="div7a" ondrop="drop(event)" ondragover="allowDrop(event)">
                                         <img src="../Utils/Objective7.png" draggable="true" ondragstart="drag(event)"
                                             id="7" width="149" height="49" data-toggle="tooltip"
-                                            title="The measurment of Hub Connectivity proposed by ACI Europe may vary from below 30 up to 70,000 depending on the activity of the airport">
+                                            title="The measurment of Hub Connectivity proposed by ACI Europe may vary from below 30 up to 70,000 depending on the activity of the airport.">
                                     </div>
                                 </div>
 
@@ -640,6 +637,7 @@
 
         <!-- Modal content -->
         <div class="modal-content">
+            <span class="close">&times;</span>
             <p id="ModalRText"></p>
 
 

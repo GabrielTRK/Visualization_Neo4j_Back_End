@@ -1,6 +1,6 @@
-if(!sessionStorage.getItem("logged")){
+/*if(!sessionStorage.getItem("logged")){
     window.location.href = "login.html"
-}
+}*/
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
@@ -11,7 +11,7 @@ sessionStorage.removeItem("load")
 switchsIDs = ['EU', 'NA', 'SA', 'AS', 'AF']
 switchsNames = ['Europe', 'North America', 'South America', 'Asia', 'Africa']
 
-url = 'http://localhost:8080/loadP'
+url = 'https://138.4.92.155:8081/loadP'
 
 fetch(url).then(res => {
     return res.json()
@@ -19,8 +19,14 @@ fetch(url).then(res => {
     .then(dataBack => {
         main = document.getElementById("MainList")
         //Si databack.length == 0 poner mensaje de empty list
+        if(dataBack.length == 0){
+            noProjects = document.createElement("p")
+            noProjects.innerHTML = 'No projects'
+            noProjects.classList.add('text-center')
+            main.appendChild(noProjects)
+        }
         for (i = 0; i < dataBack.length; i++) {
-            console.log(dataBack[i])
+            
             projectI = document.createElement("button")
             projectI.setAttribute("type", "button");
             projectI.classList.add(dataBack[i].nombre)
@@ -134,6 +140,16 @@ function addInputs(divInputs, dataBack) {
     divInput3.setAttribute('disabled', 'true')
     divInput3.style.width = '15%'
 
+
+    if(dataBack.ejecutando){
+        divInput4 = document.createElement("div")
+        divInput4.innerHTML = '<svg data-toggle="tooltip" title="This project is currently running an optimization." data-bs-placement="bottom" class="'+ dataBack.nombre +' xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-file-play-fill" viewBox="0 0 16 16"><path class="'+ dataBack.nombre +'" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M6 5.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V5.884z"/></svg>'
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+          });
+    }
+    
+
     divTagInput1.appendChild(divTagInput1Span)
     divInputs.appendChild(divTagInput1)
     divInputs.appendChild(divInput1)
@@ -145,6 +161,9 @@ function addInputs(divInputs, dataBack) {
     divTagInput3.appendChild(divTagInput3Span)
     divInputs.appendChild(divTagInput3)
     divInputs.appendChild(divInput3)
+    if(dataBack.ejecutando){
+        divInputs.appendChild(divInput4)
+    }
 }
 
 function addEpi(divEpi, dataBack) {
@@ -228,7 +247,7 @@ function addPrefImgs(divDecMain, dataBack) {
 
 function optionSelected(event){
     //Redirigir a lista de soluciones guardando el nombre del proyecto en sessionStorage
-    console.log(event.target.classList[0])
+    
     sessionStorage.setItem("projectName",event.target.classList[0]);
     window.location.href = "SList.html"
 }

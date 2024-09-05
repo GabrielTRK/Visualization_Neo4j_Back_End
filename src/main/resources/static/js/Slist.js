@@ -1,16 +1,16 @@
-if (!sessionStorage.getItem("logged")) {
+/*if (!sessionStorage.getItem("logged")) {
     window.location.href = "login.html"
-}
+}*/
 
 if (sessionStorage.getItem("projectName")) {
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();   
-      });
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
     projectName = sessionStorage.getItem("projectName")
 
     document.getElementById('ListTitle').innerHTML = 'Solutions list from project ' + projectName
 
-    url = 'http://localhost:8080/' + projectName + '/loadS'
+    url = 'https://138.4.92.155:8081/' + projectName + '/loadS'
 
     fetch(url).then(res => {
         return res.json()
@@ -18,8 +18,14 @@ if (sessionStorage.getItem("projectName")) {
         .then(dataBack => {
             main = document.getElementById("MainList")
             //Si databack.length == 0 poner mensaje de empty list
+            if(dataBack.length == 0){
+                noSolutions = document.createElement("p")
+                noSolutions.innerHTML = 'No solutions'
+                noSolutions.classList.add('text-center')
+                main.appendChild(noSolutions)
+            }
             for (i = 0; i < dataBack.length; i++) {
-                console.log(dataBack[i])
+
                 solutionI = document.createElement("button")
                 solutionI.setAttribute("type", "button");
                 solutionI.classList.add("Solution-" + dataBack[i].id)
@@ -177,14 +183,70 @@ function addRisk(divInputIR, databack) {
 
 function optionSelected(event) {
     //Redirigir a lista de soluciones guardando el nombre del proyecto en sessionStorage
-    console.log(event.target.classList[0].split("-")[1])
+
     sessionStorage.setItem("solutionID", event.target.classList[0].split("-")[1]);
     window.location.href = "map.html"
 }
 
-function goToDetails() {
+function goToDescription() {
     sessionStorage.setItem("load", 'load')
     window.location.href = "description.html"
+}
+
+function algoritmoGuardado() {
+    // Get the modal
+    var modal = document.getElementById("myModalSaved");
+    //var modalR = document.getElementById("myModalRun");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        //modalR.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            //modalR.style.display = "none";
+        }
+    }
+
+
+    modal.style.display = "block";
+    document.getElementById('ModalText').innerHTML = "Running optimization..."
+
+    url = 'https://138.4.92.155:8081/' + projectName + '/optimize'
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url, options)
+        .then(response => response.json())
+        .then(response => {
+            if (response.ok_KO) {
+                //modalR.style.display = "none";
+
+                //Guardar id de solucion y proyecto en local storage
+
+                //Redirigir a mapa
+
+
+
+            }
+            else {
+                //Mostrar modal con error
+                console.log(response)
+                //modalR.style.display = "none";
+                modal.style.display = "block";
+                document.getElementById('ModalText').innerHTML = response.mensaje
+            }
+        });
+
+
 }
 
 function logOut() {

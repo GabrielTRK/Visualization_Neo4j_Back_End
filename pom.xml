@@ -16,7 +16,7 @@
 	<description>Demo web project for Spring Data using Spring Boot and Neo4j</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 		<testcontainers.version>1.17.0</testcontainers.version>
 		<neo4j.version>4.4.5</neo4j.version>
 	</properties>
@@ -100,6 +100,7 @@
 	</dependencies>
 
 	<build>
+	<finalName>RRPS_PAT</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

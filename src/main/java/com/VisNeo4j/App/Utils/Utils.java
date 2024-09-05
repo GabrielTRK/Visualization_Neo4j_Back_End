@@ -15,8 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.tomcat.util.bcel.Const;
+import org.springframework.util.FileSystemUtils;
 
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
@@ -29,8 +32,6 @@ import com.VisNeo4j.App.Modelo.Salida.OrdenObjSalida;
 import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Problemas.Problema;
-import com.VisNeo4j.App.Problemas.Datos.DatosProblema;
-import com.VisNeo4j.App.Problemas.Datos.DatosProblemaDias;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
@@ -221,7 +222,6 @@ public class Utils {
 	
 	public static String crearCSVConObjetivos(List<Individuo> frente, String nombreProblema) throws IOException {
 		Date date = new Date();
-		//String fileName = "problemaSubVuelosFrente" + Constantes.extensionFichero;
 		String fileName = nombreProblema + Constantes.formatoFecha.format(date) + Constantes.extensionFichero;
 		if(frente.size() == 0) {
 			return fileName;
@@ -283,7 +283,7 @@ public class Utils {
 	}
 	
 	public static List<String> leerCSVconexion(String proyecto, int numFila) throws FileNotFoundException, IOException, CsvException {
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreFicheroConexiones + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + proyecto + "//" + Constantes.nombreFicheroConexiones + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			List<String> conexiones = new ArrayList<>();
 			
@@ -297,7 +297,7 @@ public class Utils {
 	}
 	
 	public static List<String> leerCSVproblema(String proyecto, int numFila) throws FileNotFoundException, IOException, CsvException {
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + proyecto + "//" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			List<String> solucion = new ArrayList<>();
 			if(r.size() > 0) {
@@ -379,7 +379,7 @@ public class Utils {
 	}
 	
 	public static List<String> leerCSVnumDiasYCon(String proyecto, int numFila) throws FileNotFoundException, IOException, CsvException {
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + proyecto + "//" + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			List<String> solucion = new ArrayList<>();
 			if(r.size() > 0) {
@@ -395,7 +395,7 @@ public class Utils {
 	public static List<List<String>> leerCSVnombre(String nombreFichero, String nombreProyecto) throws FileNotFoundException, IOException, CsvException {
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + nombreFichero + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombreProyecto + "//" + nombreFichero + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -414,7 +414,7 @@ public class Utils {
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + 
-				"\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" +
+				"//" + proyecto + "//" + Constantes.nombreDirectorioFicherosFitness + "//" +
 				id + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
@@ -434,7 +434,7 @@ public class Utils {
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + 
-				"\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" +
+				"//" + proyecto + "//" + Constantes.nombreDirectorioFicherosObjetivos + "//" +
 				id + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
@@ -456,7 +456,7 @@ public class Utils {
 			return -1;
 		}
 		else {
-			File file = new File(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroConexiones + Constantes.extensionFichero);
+			File file = new File(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroConexiones + Constantes.extensionFichero);
 			List<List<String>> listaPrevia;
 			if(file.exists()) {
 				listaPrevia = leerCSVnombre(Constantes.nombreFicheroConexiones, nombre);
@@ -490,7 +490,7 @@ public class Utils {
 					}
 					lista.add(fila);
 				}
-				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroConexiones + Constantes.extensionFichero), ',', 
+				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroConexiones + Constantes.extensionFichero), ',', 
 	    	            CSVWriter.NO_QUOTE_CHARACTER, 
 	    	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
 	    	            CSVWriter.DEFAULT_LINE_END)) {
@@ -508,7 +508,7 @@ public class Utils {
 			return -1;
 		}
 		else {
-			File file = new File(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero);
+			File file = new File(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero);
 			List<List<String>> listaPrevia;
 			if(file.exists()) {
 				listaPrevia = leerCSVnombre(Constantes.nombreFicheroNumConDia, nombre);
@@ -537,7 +537,7 @@ public class Utils {
 					}
 					lista.add(fila);
 				}
-				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero), ',', 
+				try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroNumConDia + Constantes.extensionFichero), ',', 
 	    	            CSVWriter.NO_QUOTE_CHARACTER, 
 	    	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
 	    	            CSVWriter.DEFAULT_LINE_END)) {
@@ -558,7 +558,7 @@ public class Utils {
 		}
 		int filaNumDiasYCon = modificarCSVNumConYDias(numConDia, nombre);
 		
-		File file = new File(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero);
+		File file = new File(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero);
 		List<List<String>> solucionesExistentes;
 		if(file.exists()) {
 			solucionesExistentes = leerCSVnombre(Constantes.nombreProblemaRRPS_PAT, nombre);
@@ -583,7 +583,39 @@ public class Utils {
 			}
 			lista.add(filaI);
 		}
-		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero), ',', 
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero), ',', 
+	            CSVWriter.NO_QUOTE_CHARACTER, 
+	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+	            CSVWriter.DEFAULT_LINE_END)) {
+            writer.writeAll(lista);
+            
+            
+		}
+		return String.valueOf(solucionesExistentes.size()-1);
+	}
+	
+	public static String borrarSolucionCSVproblemaRRPS_PAT(String nombre, int id) throws IOException, CsvException {
+		
+		File file = new File(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero);
+		List<List<String>> solucionesExistentes;
+		if(file.exists()) {
+			solucionesExistentes = leerCSVnombre(Constantes.nombreProblemaRRPS_PAT, nombre);
+		}else {
+			solucionesExistentes = new ArrayList<>();
+		}
+		
+		solucionesExistentes.remove(id);
+		
+		List<String[]> lista = new ArrayList<>();
+		
+		for(int i = 0; i < solucionesExistentes.size(); i++) {
+			String[] filaI = new String[solucionesExistentes.get(i).size()];
+			for(int j = 0; j < solucionesExistentes.get(i).size(); j++) {
+				filaI[j] = solucionesExistentes.get(i).get(j);
+			}
+			lista.add(filaI);
+		}
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreProblemaRRPS_PAT + Constantes.extensionFichero), ',', 
 	            CSVWriter.NO_QUOTE_CHARACTER, 
 	            CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
 	            CSVWriter.DEFAULT_LINE_END)) {
@@ -647,7 +679,7 @@ public class Utils {
 				lista.add(paramI);
 			}
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroParametros + Constantes.extensionFichero), ',', 
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroParametros + Constantes.extensionFichero), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                     CSVWriter.DEFAULT_LINE_END)) {
@@ -660,7 +692,7 @@ public class Utils {
 	public static BPSOParamsSalida leerCSVParamsSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroParametros + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroParametros + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -680,7 +712,7 @@ public class Utils {
 	public static BPSOParams leerCSVParams(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroParametros + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroParametros + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -713,7 +745,7 @@ public class Utils {
 				objI[0] = String.valueOf(preferencias.getOrder().getOrder().get(i));
 				lista.add(objI);
 			}
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero), ',', 
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                     CSVWriter.DEFAULT_LINE_END)) {
@@ -725,7 +757,7 @@ public class Utils {
 	public static OrdenObjSalida leerCSVPrefSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -748,7 +780,7 @@ public class Utils {
 	public static ObjectivesOrder leerCSVPref(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroPreferencias + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -781,7 +813,7 @@ public class Utils {
 		paramI[1] = String.valueOf(fecha_F);
 		lista.add(paramI);
 		
-		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero), ',', 
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero), ',', 
                 CSVWriter.NO_QUOTE_CHARACTER, 
                 CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                 CSVWriter.DEFAULT_LINE_END)) {
@@ -793,7 +825,7 @@ public class Utils {
 	public static FechasProyecto leerCSVFechasSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -813,7 +845,7 @@ public class Utils {
 	public static Map<String, String> leerCSVFechas(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroFechasSoluciones + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -846,7 +878,7 @@ public class Utils {
 		}
 		lista.add(paramI);
 		
-		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero), ',', 
+		try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero), ',', 
                 CSVWriter.NO_QUOTE_CHARACTER, 
                 CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                 CSVWriter.DEFAULT_LINE_END)) {
@@ -858,7 +890,7 @@ public class Utils {
 	public static Restricciones leerCSVRestriccionesSalida(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -874,7 +906,7 @@ public class Utils {
 		if(fichero.get(1).size() > 1){
 			res = new Restricciones(fichero.get(1).subList(1, fichero.get(1).size()), Double.valueOf(fichero.get(0).get(1)));
 		}else {
-			res = new Restricciones(List.of(), Double.valueOf(fichero.get(0).get(1)));
+			res = new Restricciones(new ArrayList<>(), Double.valueOf(fichero.get(0).get(1)));
 		}
 		
 		return res;
@@ -883,7 +915,7 @@ public class Utils {
 	public static Map<String, List<String>> leerCSVRestricciones(String nombre) throws IOException, CsvException{
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -911,13 +943,12 @@ public class Utils {
 		}else {
 			List<String[]> lista = new ArrayList<>();
 			String[] iter_Fit;
-			DecimalFormat df = new DecimalFormat("0.00");
 			
 			for(int i = 0; i < res.size(); i++) {
 				iter_Fit = new String[2];
 				
 				iter_Fit[0] = Constantes.nombresRestricciones.get(i);
-				iter_Fit[1] = String.valueOf(df.format(res.get(i)));
+				iter_Fit[1] = String.valueOf(res.get(i));
 				
 				lista.add(iter_Fit);
 			}
@@ -926,12 +957,12 @@ public class Utils {
 				iter_Fit = new String[2];
 				
 				iter_Fit[0] = Constantes.nombreObjetivos.get(i);
-				iter_Fit[1] = String.valueOf(df.format(obj.get(i)));
+				iter_Fit[1] = String.valueOf(obj.get(i));
 				
 				lista.add(iter_Fit);
 			}
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" + fileName), ',', 
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombreProyecto + "//" + Constantes.nombreDirectorioFicherosObjetivos + "//" + fileName), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                     CSVWriter.DEFAULT_LINE_END)) {
@@ -944,8 +975,9 @@ public class Utils {
 	
 	public static List<Double> leerCSVObjetivosSalida(String id, String nombreProyecto) throws IOException, CsvException {
 		List<List<String>> fichero = new ArrayList<>();
+		DecimalFormat df = new DecimalFormat("0.00");
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" + id + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombreProyecto + "//" + Constantes.nombreDirectorioFicherosObjetivos + "//" + id + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -961,7 +993,9 @@ public class Utils {
 		List<Double> obj = new ArrayList<>();
 		
 		for(int i = 0; i < fichero.size(); i++) {
-			obj.add(Double.valueOf(fichero.get(i).get(1)));
+			String format = df.format(Double.valueOf(fichero.get(i).get(1)));
+			format = format.replace(",", ".");
+			obj.add(Double.valueOf(format));
 		}
 		
 		return obj;
@@ -984,7 +1018,7 @@ public class Utils {
 				lista.add(iter_Fit);
 			}
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" + fileName), ',', 
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombreProyecto + "//" + Constantes.nombreDirectorioFicherosFitness + "//" + fileName), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                     CSVWriter.DEFAULT_LINE_END)) {
@@ -998,7 +1032,7 @@ public class Utils {
 	public static List<Double> leerCSVConFitnessPorIteracionSalida(String id, String nombreProyecto) throws IOException, CsvException {
 		List<List<String>> fichero = new ArrayList<>();
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" + id + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombreProyecto + "//" + Constantes.nombreDirectorioFicherosFitness + "//" + id + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for(int fila = 0; fila < numFilas; fila++) {
@@ -1054,7 +1088,7 @@ public class Utils {
 			}
 			lista.add(valores);
 			
-			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + fileName), ',', 
+			try (CSVWriter writer = new CSVWriter(new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombreProyecto + "//" + Constantes.nombreDirectorioFicherosRangos + "//" + fileName), ',', 
                     CSVWriter.NO_QUOTE_CHARACTER, 
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
                     CSVWriter.DEFAULT_LINE_END)) {
@@ -1067,7 +1101,7 @@ public class Utils {
 	public static Map<String, List<Double>> leerCSVHistogramas(String nombreProyecto, String id) throws FileNotFoundException, IOException, CsvException{
 		Map<String, List<Double>> valores = new HashMap<>();
 		
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "\\" + nombreProyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + id + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombreProyecto + "//" + Constantes.nombreDirectorioFicherosRangos + "//" + id + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			
 			List<Double> filaI = new ArrayList<>();
@@ -1096,6 +1130,73 @@ public class Utils {
 		return valores;
 	}
 	
+	public static void borrarCSVObjetivoI(String proyecto, int id) {
+		//Borrar el fichero indicado
+	    File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" + String.valueOf(id) + Constantes.extensionFichero);
+	    file.delete();
+		
+		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+	      
+	    String contents[] = directoryPath.list();
+		
+		//Renombrar los ficheros con id superior al indicado
+	    
+	    for(int i = 0; i < contents.length; i++) {
+	    	if(Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) > id) {
+	    		int newId = Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) -1;
+	    		File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" + String.valueOf(newId) + Constantes.extensionFichero);
+	    		File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos + "\\" + contents[i]);
+	    		
+	    		fileI.renameTo(newFile);
+	    	}
+	    }
+		
+	}
+	
+	public static void borrarCSVFitnessI(String proyecto, int id) {
+		//Borrar el fichero indicado
+	    File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" + String.valueOf(id) + Constantes.extensionFichero);
+	    file.delete();
+		
+		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+	      
+	    String contents[] = directoryPath.list();
+		
+		//Renombrar los ficheros con id superior al indicado
+	    
+	    for(int i = 0; i < contents.length; i++) {
+	    	if(Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) > id) {
+	    		int newId = Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) -1;
+	    		File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" + String.valueOf(newId) + Constantes.extensionFichero);
+	    		File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosFitness + "\\" + contents[i]);
+	    		
+	    		fileI.renameTo(newFile);
+	    	}
+	    }
+	}
+	
+	public static void borrarCSVRangosI(String proyecto, int id) {
+		//Borrar el fichero indicado
+	    File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + String.valueOf(id) + Constantes.extensionFichero);
+	    file.delete();
+		
+		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+	      
+	    String contents[] = directoryPath.list();
+		
+		//Renombrar los ficheros con id superior al indicado
+	    
+	    for(int i = 0; i < contents.length; i++) {
+	    	if(Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) > id) {
+	    		int newId = Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) -1;
+	    		File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + String.valueOf(newId) + Constantes.extensionFichero);
+	    		File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosRangos + "\\" + contents[i]);
+	    		
+	    		fileI.renameTo(newFile);
+	    	}
+	    }
+	}
+	
 	public static Map<String, List<String>> obtenerRangos(String id, String nombreProyecto) throws FileNotFoundException, IOException, CsvException{
 		Map<String, List<Double>> valores = leerCSVHistogramas(id, nombreProyecto);
 		Map<String, List<String>> valoresSalida = new HashMap<>();
@@ -1117,7 +1218,7 @@ public class Utils {
 				indMax--;
 			}
 		}
-		valoresSalida.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, List.of(df.format(valorMin), df.format(valorMax)));
+		valoresSalida.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, Stream.of(df.format(valorMin), df.format(valorMax)).collect(Collectors.toList()));
 		
 		
 		indMin = 0;
@@ -1136,7 +1237,7 @@ public class Utils {
 				indMax--;
 			}
 		}
-		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, List.of(df.format(valorMin), df.format(valorMax)));
+		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, Stream.of(df.format(valorMin), df.format(valorMax)).collect(Collectors.toList()));
 		
 		
 		indMin = 0;
@@ -1155,7 +1256,7 @@ public class Utils {
 				indMax--;
 			}
 		}
-		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, List.of(df.format(valorMin), df.format(valorMax)));
+		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, Stream.of(df.format(valorMin), df.format(valorMax)).collect(Collectors.toList()));
 		
 		
 		return valoresSalida;
@@ -1197,35 +1298,35 @@ public class Utils {
 
 				/*if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
 					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
+							Stream.of(pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
 									+ this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
 									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
 											+ this.datos.getPasajeros().get(pos)));
 				} else {
 					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							List.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+							Stream.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
 									this.datos.getPasajeros().get(pos) * 1.0));
 				}
 				if (ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
 					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
-							List.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
+							Stream.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
 									+ this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
 									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
 											+ this.datos.getIngresos().get(pos)));
 				} else {
 					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
-							List.of(this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
+							Stream.of(this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
 									this.datos.getIngresos().get(pos)));
 				}
 				if (ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
-					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), List.of(
+					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), Stream.of(
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
 									+ this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
 									+ this.datos.getTasas().get(pos)));
 				} else {
 					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1),
-							List.of(this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
+							Stream.of(this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
 									this.datos.getTasas().get(pos)));
 				}*/
 
@@ -1392,22 +1493,26 @@ public class Utils {
 	}
 	
 	public static void crearDirectorioProyecto(String nombre) throws IOException {
-		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre);
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "//" + nombre);
 		Files.createDirectories(path);
 	}
 	
+	public static boolean borrarDirectorioProyecto(File proyecto){
+		return FileSystemUtils.deleteRecursively(proyecto);
+	}
+	
 	public static void crearDirectorioFitness(String nombre) throws IOException {
-		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosFitness);
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioFicherosFitness);
 		Files.createDirectories(path);
 	}
 	
 	public static void crearDirectorioObjetivos(String nombre) throws IOException {
-		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosObjetivos);
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioFicherosObjetivos);
 		Files.createDirectories(path);
 	}
 	
 	public static void crearDirectorioRangos(String nombre) throws IOException {
-		Path path = Paths.get(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosRangos);
+		Path path = Paths.get(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioFicherosRangos);
 		Files.createDirectories(path);
 	}
 	

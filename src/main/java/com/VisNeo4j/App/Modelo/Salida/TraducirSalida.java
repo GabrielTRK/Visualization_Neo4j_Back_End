@@ -1,6 +1,8 @@
 package com.VisNeo4j.App.Modelo.Salida;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,13 +68,14 @@ public class TraducirSalida {
 	
 	public static List<Objetivo> obtenerObjetivos(List<List<String>> obj, ObjectivesOrder order){
 		List<Objetivo> listObj = new ArrayList<>();
+		DecimalFormat df = new DecimalFormat("0.00");
 		listObj.add(new Objetivo(obj.get(0).get(0), Double.valueOf(obj.get(0).get(1))));
 		/*for(int i = 0; i < obj.size(); i++) {
 			Objetivo objI = new Objetivo(obj.get(i).get(0), Double.valueOf(obj.get(i).get(1)));
 			listObj.add(objI);
 		}*/
 		for(int i = 0; i < order.getOrder().size(); i++) {
-			listObj.add(new Objetivo(obj.get(order.getOrder().get(i)).get(0), Double.valueOf(obj.get(order.getOrder().get(i)).get(1))));
+			listObj.add(new Objetivo(obj.get(order.getOrder().get(i)).get(0), Double.valueOf(df.format(Double.valueOf(obj.get(order.getOrder().get(i)).get(1))))));
 		}
 		return listObj;
 	}
@@ -123,6 +126,19 @@ public class TraducirSalida {
 			listVue.add(perI);
 		}
 		return listVue;
+	}
+	
+	public static List<Solucion> ordenarSoluciones(List<Solucion> soluciones){
+		List<Solucion> solucionesSalida = new ArrayList<>();
+		int numS = soluciones.size();
+		for(int i = 0; i < numS; i++) {
+			for(int j = 0; j < numS; j++) {
+				if(soluciones.get(j).getId() == i) {
+					solucionesSalida.add(soluciones.get(j));
+				}
+			}
+		}
+		return solucionesSalida; 
 	}
 	
 }

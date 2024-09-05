@@ -22,12 +22,17 @@ public class CP {
 	}
 
 	public boolean condicionParadaConseguida(Poblacion particulas, Individuo GBest) {
-		switch (this.method) {
+		if(!Constantes.continueOpt) {
+			Constantes.continueOpt = true;
+			return true;
+		}else {
+			switch (this.method) {
 			case Constantes.nombreCPMaxDistQuick:
 				return this.maxDistQuick(particulas, GBest);
 
 			default:
 				return this.maxIter();
+			}
 		}
 	}
 	

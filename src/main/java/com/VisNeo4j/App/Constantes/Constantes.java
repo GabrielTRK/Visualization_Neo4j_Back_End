@@ -2,7 +2,10 @@ package com.VisNeo4j.App.Constantes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Constantes {
 	public static final String rutaFicheros = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\";
@@ -55,9 +58,9 @@ public class Constantes {
     public static final String nombreDirectorioFicherosObjetivos = "Ficheros_Objetivos";
     public static final String nombreDirectorioFicherosRangos = "Ficheros_Rangos";
     
-    public static final List<String> nombresRestricciones = List.of("Epi");
-    public static final List<String> nombreObjetivos = List.of("1","2","3","4","5","6","7");
-    public static final List<Integer> idObjetivos = List.of(1,2,3,4,5,6,7);
+    public static final List<String> nombresRestricciones = Stream.of("Epi").collect(Collectors.toList());;
+    public static final List<String> nombreObjetivos = Stream.of("1","2","3","4","5","6","7").collect(Collectors.toList());;
+    public static final List<Integer> idObjetivos = Stream.of(1,2,3,4,5,6,7).collect(Collectors.toList());;
     public static final int idObjetivo1 = 1;
     public static final int idObjetivo2 = 2;
     public static final int idObjetivo3 = 3;
@@ -65,9 +68,9 @@ public class Constantes {
     public static final int idObjetivo5 = 5;
     public static final int idObjetivo6 = 6;
     public static final int idObjetivo7 = 7;
-    public static final List<String> idContinentes = List.of("AF","AS","EU","NA","OC","SA");
-    public static final List<String> nombresPersonas = List.of("Personas afectadas", "Personas restantes");
-    public static final List<String> estadosVuelos = List.of("Vuelos cancelados", "Vuelos restantes");
+    public static final List<String> idContinentes = Stream.of("AF","AS","EU","NA","OC","SA").collect(Collectors.toList());;
+    public static final List<String> nombresPersonas = Stream.of("Personas afectadas", "Personas restantes").collect(Collectors.toList());;
+    public static final List<String> estadosVuelos = Stream.of("Vuelos cancelados", "Vuelos restantes").collect(Collectors.toList());;
     public static final String nombreCampoVuelosCancelados = "VuelosCancelados";
     public static final String nombreCampoPasajerosPerdidosPorCompañía = "PasajerosPerdidosPorCompañía";
     public static final String nombreCampoIngresoPerdidoPorAreaInf = "IngresoPerdidoPorAreaInf";
@@ -127,4 +130,10 @@ public class Constantes {
     public static final String OK_respuestaProjectSavedRunning = "Saving project and Running optimization...";
     public static final String KO_respuestaNoFlights = "Due to the lockdown, there were no flights programmed between April 1st of 2020 and August 31st of 2020. Please chose a time window that doesn't overlap with this one.";
     public static final String KO_respuestaNoNombresIgualesYNoFlights = "The name of the project already exists. Aditionally, due to the lockdown, there were no flights programmed between April 1st of 2020 and August 31st of 2020. Please chose a time window that doesn't overlap with this one.";
+    
+    public static final String OK_respuestaOptimizationCancelled = "Optimization cancelled.";
+    public static final String OK_respuestaProjectDeleted = "Project deleted.";
+    public static final String KO_respuestaProjectDeletedRunning = "The project is currently running. In order to delete it you must first cancel its optimization.";
+    
+    public static boolean continueOpt = true;
 }

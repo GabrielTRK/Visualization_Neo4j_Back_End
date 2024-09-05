@@ -1,6 +1,6 @@
-if (!sessionStorage.getItem("logged")) {
+/*if (!sessionStorage.getItem("logged")) {
     window.location.href = "login.html"
-}
+}*/
 
 
 $(document).ready(function () {
@@ -13,7 +13,7 @@ if (sessionStorage.getItem("load")) {
     projectName = sessionStorage.getItem("projectName")
 
     //Load project, desactivar inputs, y cambiar botones
-    url = 'http://localhost:8080/loadP'
+    url = 'https://138.4.92.155:8081/loadP'
 
     fetch(url).then(res => {
         return res.json()
@@ -36,18 +36,20 @@ if (sessionStorage.getItem("load")) {
 
 // Get the modal
 var modal = document.getElementById("myModalSaved");
-var modalR = document.getElementById("myModalRun");
+//var modalR = document.getElementById("myModalRun");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
 span.onclick = function () {
     modal.style.display = "none";
+    //modalR.style.display = "none";
 }
 
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
+        //modalR.style.display = "none";
     }
 }
 
@@ -59,7 +61,14 @@ endDateValid = false
 function algoritmo() {
     err = false
 
-    projectName = document.getElementById("projectName").value;
+    //projectName = document.getElementById("projectName").value;
+
+    projectNameTrimmed = ''
+
+    for(i = 0; i < document.getElementById("projectName").value.split(' ').length; i++){
+        projectNameTrimmed += document.getElementById("projectName").value.split(' ')[i]
+    }
+    projectName = projectNameTrimmed
 
     if (projectName == '') {
         err = true
@@ -144,8 +153,8 @@ function algoritmo() {
         modal.style.display = "block";
         document.getElementById('ModalText').innerHTML = "Invalid data"
     } else {
-        modalR.style.display = "block";
-        document.getElementById('ModalRText').innerHTML = "Saving project and Running optimization..."
+        modal.style.display = "block";
+        document.getElementById('ModalText').innerHTML = "Saving project and Running optimization..."
 
         p_fecha_I = 'fecha_inicial='
         p_fecha_F = 'fecha_final='
@@ -161,7 +170,9 @@ function algoritmo() {
 
         p_nombre = 'nombre='
 
-        url = 'http://localhost:8080/optimize' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(0) + '&' + p_num_P + numP +
+        numIter = 0
+
+        url = 'https://138.4.92.155:8081/optimize' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(numIter) + '&' + p_num_P + numP +
             p_iW + iW + p_c1 + c1 + p_c2 + c2 + p_m + String(0.0) + '&' + p_p + String(0.0) + '&' + p_res_epi + epiRes + p_nombre + projectName
 
         const params = {
@@ -176,8 +187,9 @@ function algoritmo() {
         fetch(url, options)
             .then(response => response.json())
             .then(response => {
-                if (response) {
-                    modalR.style.display = "none";
+                if (response.ok_KO) {
+                    //modalR.style.display = "none";
+                    console.log(response)
 
                     //Guardar id de solucion y proyecto en local storage
 
@@ -188,19 +200,19 @@ function algoritmo() {
                 }
                 else {
                     //Mostrar modal con error
-                    modalR.style.display = "none";
+                    //modalR.style.display = "none";
                     modal.style.display = "block";
-                    document.getElementById('ModalText').innerHTML = "The name of the project already exists"
+                    document.getElementById('ModalText').innerHTML = response.mensaje
                 }
             });
     }
 }
 
 function algoritmoGuardado() {
-    modalR.style.display = "block";
-    document.getElementById('ModalRText').innerHTML = "Saving project and Running optimization..."
+    modal.style.display = "block";
+    document.getElementById('ModalText').innerHTML = "Running optimization..."
 
-    url = 'http://localhost:8080/' + projectName + '/optimize'
+    url = 'https://138.4.92.155:8081/' + projectName + '/optimize'
 
     const options = {
         method: 'POST',
@@ -210,8 +222,8 @@ function algoritmoGuardado() {
     fetch(url, options)
         .then(response => response.json())
         .then(response => {
-            if (response) {
-                modalR.style.display = "none";
+            if (response.ok_KO) {
+                //modalR.style.display = "none";
 
                 //Guardar id de solucion y proyecto en local storage
 
@@ -222,7 +234,10 @@ function algoritmoGuardado() {
             }
             else {
                 //Mostrar modal con error
-                modalR.style.display = "none";
+                console.log(response)
+                //modalR.style.display = "none";
+                modal.style.display = "block";
+                document.getElementById('ModalText').innerHTML = response.mensaje
             }
         });
 
@@ -233,7 +248,16 @@ function saveConf() {
     //Comprobar datos y enviar error en caso de no validez
     err = false
 
-    projectName = document.getElementById("projectName").value;
+    //projectName = document.getElementById("projectName").value;
+    
+    projectNameTrimmed = ''
+
+    for(i = 0; i < document.getElementById("projectName").value.split(' ').length; i++){
+        projectNameTrimmed += document.getElementById("projectName").value.split(' ')[i]
+    }
+    projectName = projectNameTrimmed
+
+    console.log(projectName)
 
     if (projectName == '') {
         err = true
@@ -331,7 +355,9 @@ function saveConf() {
 
         p_nombre = 'nombre='
 
-        url = 'http://localhost:8080/saveP' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(0) + '&' + p_num_P + numP +
+        numIter = 0
+
+        url = 'https://138.4.92.155:8081/saveP' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(numIter) + '&' + p_num_P + numP +
             p_iW + iW + p_c1 + c1 + p_c2 + c2 + p_m + String(0.0) + '&' + p_p + String(0.0) + '&' + p_res_epi + epiRes + p_nombre + projectName
 
         const params = {
@@ -346,16 +372,16 @@ function saveConf() {
         fetch(url, options)
             .then(response => response.json())
             .then(response => {
-                if (response) {
+                if (response.ok_KO) {
                     modal.style.display = "block";
-                    document.getElementById('ModalText').innerHTML = "Project saved"
+                    document.getElementById('ModalText').innerHTML = "Project saved."
 
                     deactivateFormChangeButtons()
                 }
                 else {
                     //Mostrar modal con error
                     modal.style.display = "block";
-                    document.getElementById('ModalText').innerHTML = "The name of the project already exists"
+                    document.getElementById('ModalText').innerHTML = response.mensaje
                 }
             });
     }
@@ -485,7 +511,7 @@ function checkDatesSendRequest() {
         p_fecha_F = 'fecha_final='
 
 
-        url = 'http://localhost:8080/tooltips' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F
+        url = 'https://138.4.92.155:8081/tooltips' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F
 
         fetch(url).then(res => {
             return res.json()
@@ -495,17 +521,17 @@ function checkDatesSendRequest() {
                 document.getElementById('1').setAttribute('data-bs-original-title', dataBack.z1)
                 document.getElementById('1').setAttribute('aria-label', dataBack.z1)
 
-                document.getElementById('2').setAttribute('data-bs-original-title', dataBack.z2)
-                document.getElementById('2').setAttribute('aria-label', dataBack.z2)
+                /*document.getElementById('2').setAttribute('data-bs-original-title', dataBack.z2)
+                document.getElementById('2').setAttribute('aria-label', dataBack.z2)*/
 
-                document.getElementById('3').setAttribute('data-bs-original-title', dataBack.z3)
-                document.getElementById('3').setAttribute('aria-label', dataBack.z3)
+                /*document.getElementById('3').setAttribute('data-bs-original-title', dataBack.z3)
+                document.getElementById('3').setAttribute('aria-label', dataBack.z3)*/
 
                 document.getElementById('4').setAttribute('data-bs-original-title', dataBack.z4)
                 document.getElementById('4').setAttribute('aria-label', dataBack.z4)
 
-                document.getElementById('5').setAttribute('data-bs-original-title', dataBack.z5)
-                document.getElementById('5').setAttribute('aria-label', dataBack.z5)
+                /*document.getElementById('5').setAttribute('data-bs-original-title', dataBack.z5)
+                document.getElementById('5').setAttribute('aria-label', dataBack.z5)*/
 
 
                 document.getElementById('6').setAttribute('data-bs-original-title', dataBack.z6)
@@ -618,12 +644,12 @@ function emptyForm() {
 
 function goHome() {
     emptyForm()
-    window.location.href = "/html/home.html"
+    window.location.href = "home.html"
 }
 
 function goLoad() {
     emptyForm()
-    window.location.href = "/html/list.html"
+    window.location.href = "list.html"
 }
 
 function logOut() {
