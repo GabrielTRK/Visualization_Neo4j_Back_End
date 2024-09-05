@@ -57,6 +57,11 @@ public class Constantes {
     public static final String nombreDirectorioFicherosFitness = "Ficheros_Fitness";
     public static final String nombreDirectorioFicherosObjetivos = "Ficheros_Objetivos";
     public static final String nombreDirectorioFicherosRangos = "Ficheros_Rangos";
+    public static final String nombreDirectorioTemp = "temp";
+    public static final String nombreFicheroPoblacionTemp = "poblacion";
+    public static final String nombreFicheroPbestsTemp = "pbests";
+    public static final String nombreFicherov0Temp = "v0";
+    public static final String nombreFicherov1Temp = "v1";
     
     public static final List<String> nombresRestricciones = Stream.of("Epi").collect(Collectors.toList());;
     public static final List<String> nombreObjetivos = Stream.of("1","2","3","4","5","6","7").collect(Collectors.toList());;

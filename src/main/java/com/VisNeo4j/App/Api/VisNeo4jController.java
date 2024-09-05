@@ -240,10 +240,9 @@ class VisNeo4jController {
 	}*/
 	
 	@CrossOrigin
-	@GetMapping("/cancelOpt")
-	public Respuesta updateBool(){
-        Constantes.continueOpt = false;
-        return new Respuesta(true, Constantes.OK_respuestaOptimizationCancelled);
+	@GetMapping("/pauseOpt")
+	public Respuesta pauseOpt(){
+        return this.visNeo4jService.pausarOpt();
 	}
 	
 	@CrossOrigin

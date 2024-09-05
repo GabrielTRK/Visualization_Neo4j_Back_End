@@ -496,7 +496,6 @@ public class RRPS_PAT extends Problema {
 
 	@Override
 	public Individuo comprobarRestricciones(Individuo ind) {
-		// TODO: Comprobar que el valor de los objetivos coincida con las preferencias
 		if (ind.getRestricciones().get(0) > this.resSup) {
 			ind.setFactible(false);
 			ind.setConstraintViolation(Math.abs(this.resSup - ind.getRestricciones().get(0)));

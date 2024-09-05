@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
+import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
 import com.VisNeo4j.App.Problemas.Problema;
@@ -26,6 +27,7 @@ public class BPSO {
 	private double r1;
 	private double r2;
 	private List<Double> fitnessHist = new ArrayList<>();
+	private String proyecto;
 	
 	public BPSO (Problema problema, BPSOParams params, String proyecto) throws FileNotFoundException, IOException, CsvException {
 		this.params = params;
@@ -34,6 +36,7 @@ public class BPSO {
 		this.r2 = Utils.getRandNumber(0.0, 1.0);
 		this.v0 = new ArrayList<>();
 		this.v1 = new ArrayList<>();
+		this.proyecto = proyecto;
 		this.poblacionPartículas = new Poblacion(this.params.getNumIndividuos(), this.problema);
 		//Inicializar población o partículas y calcular fitness
 		this.poblacionPartículas.generarPoblacionInicial(problema, false, 29, proyecto);
@@ -76,6 +79,7 @@ public class BPSO {
 			//System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
 		}
+		
 		//System.out.println(this.poblacionPartículas);
 		//System.out.println(this.poblacionPbest);
 		
@@ -274,6 +278,94 @@ public class BPSO {
 			this.v0.add(v0_i);
 			this.v1.add(v1_i);
 		}
+	}
+
+	public BPSOParams getParams() {
+		return params;
+	}
+
+	public void setParams(BPSOParams params) {
+		this.params = params;
+	}
+
+	public Problema getProblema() {
+		return problema;
+	}
+
+	public void setProblema(Problema problema) {
+		this.problema = problema;
+	}
+
+	public Poblacion getPoblacionPartículas() {
+		return poblacionPartículas;
+	}
+
+	public void setPoblacionPartículas(Poblacion poblacionPartículas) {
+		this.poblacionPartículas = poblacionPartículas;
+	}
+
+	public Poblacion getPoblacionPbest() {
+		return poblacionPbest;
+	}
+
+	public void setPoblacionPbest(Poblacion poblacionPbest) {
+		this.poblacionPbest = poblacionPbest;
+	}
+
+	public Individuo getGbest() {
+		return Gbest;
+	}
+
+	public void setGbest(Individuo gbest) {
+		Gbest = gbest;
+	}
+
+	public List<List<Double>> getV0() {
+		return v0;
+	}
+
+	public void setV0(List<List<Double>> v0) {
+		this.v0 = v0;
+	}
+
+	public List<List<Double>> getV1() {
+		return v1;
+	}
+
+	public void setV1(List<List<Double>> v1) {
+		this.v1 = v1;
+	}
+
+	public double getR1() {
+		return r1;
+	}
+
+	public void setR1(double r1) {
+		this.r1 = r1;
+	}
+
+	public double getR2() {
+		return r2;
+	}
+
+	public void setR2(double r2) {
+		this.r2 = r2;
+	}
+
+	public List<Double> getFitnessHist() {
+		return fitnessHist;
+	}
+
+	public void setFitnessHist(List<Double> fitnessHist) {
+		this.fitnessHist = fitnessHist;
+	}
+
+	public String getProyecto() {
+		return proyecto;
+	}
+
+	public void setProyecto(String proyecto) {
+		this.proyecto = proyecto;
 	}
 
 }

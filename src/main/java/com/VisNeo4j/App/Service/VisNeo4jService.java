@@ -311,7 +311,7 @@ public class VisNeo4jService {
 			}
 		}else {
 			Utils.crearDirectorioProyecto(nombreProyecto);
-			
+			Utils.crearDirectorioTemp(nombreProyecto);
 			Utils.crearDirectorioFitness(nombreProyecto);
 			Utils.crearDirectorioObjetivos(nombreProyecto);
 			Utils.crearDirectorioRangos(nombreProyecto);
@@ -379,7 +379,24 @@ public class VisNeo4jService {
 				problema.devolverSolucionCompleta(ind);
 				System.out.println(ind);
 				Utils.modificarFicheroCola("");
-				this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+				String fila = this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+				//TODO: Comprobar si se pausó, en cuyo caso guardar progreso
+				
+				if(!Constantes.continueOpt) {
+					Utils.crearDirectorioTempSolucion(nombreProyecto, fila);
+					
+					//Crear fichero poblacion
+					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, bpso.getPoblacionPartículas());
+					//Crear fichero poblacion Pbests
+					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, bpso.getPoblacionPartículas());
+					//Crear fichero velocidades
+					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, bpso.getV0());
+					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, bpso.getV1());
+					//Crear fichero parámetros
+				}
+				
+				
+				
 				resp.setMensaje(Constantes.OK_respuestaProjectSavedRunning);
 			}
 			
@@ -444,7 +461,19 @@ public class VisNeo4jService {
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
 			Utils.modificarFicheroCola("");
-			this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
+			String fila = this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
+			
+			if(!Constantes.continueOpt) {
+				Utils.crearDirectorioTempSolucion(proyecto, fila);
+				
+				//Crear fichero poblacion
+				
+				//Crear fichero poblacion Pbests
+				//Crear fichero velocidades
+				//Crear fichero parámetros
+				//Crear fichero 
+			}
+			
 			resp.setOK_KO(true);
 			resp.setMensaje(proyecto);
 		}
@@ -460,6 +489,7 @@ public class VisNeo4jService {
 		Utils.borrarCSVObjetivoI(proyecto, id);
 		Utils.borrarCSVFitnessI(proyecto, id);
 		Utils.borrarCSVRangosI(proyecto, id);
+		Utils.borrarDirectorioTempSolucionI(new File(Constantes.rutaFicherosProyectos + proyecto + "\\" + Constantes.nombreDirectorioTemp + "\\" + String.valueOf(id)));
 		
 		resp.setOK_KO(true);
 		resp.setMensaje(Constantes.OK_respuestaSolutionDeleted);
@@ -488,14 +518,14 @@ public class VisNeo4jService {
 		return true;
 	}*/
 	
-	public void guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
+	public String guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
 		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos, nombre);
 		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila, nombre);
 		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila, nombre);
 		Utils.crearCSVHistogramas(ind.getExtra().get(Constantes.nombreCampoPasajerosPerdidosPorCompañía), 
 				ind.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAreaInf), 
 				ind.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAerDest), fila, nombre);
-		
+		return fila;
 	}
 	
 	public List<Proyecto> obtenerListaProyectos() throws IOException, CsvException{
@@ -651,6 +681,16 @@ public class VisNeo4jService {
 		}
 		
 		return false;
+	}
+	
+	public Respuesta pausarOpt() {
+		Constantes.continueOpt = false;
+		
+		//Al pausar se debe guardar el progreso 
+		//(poblaciones, velocidades, c1, c2, w, iterciones, fitness, objetivos, rangos, bits)
+		
+		
+        return new Respuesta(true, Constantes.OK_respuestaOptimizationCancelled);
 	}
 	
 	private boolean comprobarFechas(String fecha_I, String fecha_F) throws ParseException {
