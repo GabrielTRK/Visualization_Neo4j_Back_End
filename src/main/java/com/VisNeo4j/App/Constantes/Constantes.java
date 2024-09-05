@@ -62,6 +62,7 @@ public class Constantes {
     public static final String nombreFicheroPbestsTemp = "pbests";
     public static final String nombreFicherov0Temp = "v0";
     public static final String nombreFicherov1Temp = "v1";
+    public static final String nombreFicheroParamsTemp = "parametros";
     
     public static final List<String> nombresRestricciones = Stream.of("Epi").collect(Collectors.toList());;
     public static final List<String> nombreObjetivos = Stream.of("1","2","3","4","5","6","7").collect(Collectors.toList());;
@@ -111,6 +112,8 @@ public class Constantes {
     public static final String nombreParamCPNumIter = "numIteraciones";
     public static final String nombreParamCPM = "m";
     public static final String nombreParamCPP = "p";
+    
+    public static final String nombreParamCPIterActualTemp = "iteracionActual";
     
     public static final String nombreFechaInicial = "Fecha_Inicial";
     public static final String nombreFechaFinal = "Fecha_Final";

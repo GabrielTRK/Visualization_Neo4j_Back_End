@@ -682,6 +682,56 @@ public class Utils {
 
 		}
 	}
+	
+	public static void crearFicheroParamsTemp(String nombre, String id, BPSOParams params) throws IOException {
+		List<String[]> lista = new ArrayList<>();
+		String[] paramI = new String[2];
+		paramI[0] = Constantes.nombreParamNumIndividuos;
+		paramI[1] = String.valueOf(params.getNumIndividuos());
+		lista.add(paramI);
+
+		paramI = new String[2];
+		paramI[0] = Constantes.nombreParamInertiaW;
+		paramI[1] = String.valueOf(params.getInertiaW().getInertiaW());
+		lista.add(paramI);
+
+		paramI = new String[2];
+		paramI[0] = Constantes.nombreParamC1;
+		paramI[1] = String.valueOf(params.getC1());
+		lista.add(paramI);
+
+		paramI = new String[2];
+		paramI[0] = Constantes.nombreParamC2;
+		paramI[1] = String.valueOf(params.getC2());
+		lista.add(paramI);
+
+		paramI = new String[2];
+		if (params.getCondicionParada().getMethod().equals(Constantes.nombreCPGenerica)) {
+			paramI[0] = Constantes.nombreParamCPNumIter;
+			paramI[1] = String.valueOf(params.getMax_Num_Iteraciones());
+			lista.add(paramI);
+			
+			paramI = new String[2];
+			paramI[0] = Constantes.nombreParamCPIterActualTemp;
+			paramI[1] = String.valueOf(params.getIteracionActual());
+			lista.add(paramI);
+		} else if (params.getCondicionParada().getMethod().equals(Constantes.nombreCPMaxDistQuick)) {
+			paramI[0] = Constantes.nombreParamCPM;
+			paramI[1] = String.valueOf(params.getCondicionParada().getM());
+			lista.add(paramI);
+			paramI = new String[2];
+			paramI[0] = Constantes.nombreParamCPP;
+			paramI[1] = String.valueOf(params.getCondicionParada().getP());
+			lista.add(paramI);
+		}
+
+		try (CSVWriter writer = new CSVWriter(
+				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
+						+ Constantes.nombreDirectorioTemp + "//" + id + "//" + Constantes.nombreFicheroParamsTemp + Constantes.extensionFichero),
+				',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
+			writer.writeAll(lista);
+		}
+	}
 
 	public static String borrarSolucionCSVproblemaRRPS_PAT(String nombre, int id) throws IOException, CsvException {
 
@@ -1321,8 +1371,28 @@ public class Utils {
 		}
 	}
 
-	public static void borrarDirectorioTempSolucionI(File solucion) {
+	public static void borrarDirectorioTempSolucionI(File solucion, String proyecto, int id) {
 		FileSystemUtils.deleteRecursively(solucion);
+		
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
+				+ Constantes.nombreDirectorioTemp + "\\");
+
+		String contents[] = directoryPath.list();
+
+		// Renombrar los ficheros con id superior al indicado
+
+		for (int i = 0; i < contents.length; i++) {
+			if (Integer.valueOf(contents[i]) > id) {
+				int newId = Integer.valueOf(contents[i]) - 1;
+				File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
+						+ Constantes.nombreDirectorioTemp + "\\" + String.valueOf(newId));
+				
+				File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
+						+ Constantes.nombreDirectorioTemp + "\\" + contents[i]);
+
+				fileI.renameTo(newFile);
+			}
+		}
 	}
 
 	public static Map<String, List<String>> obtenerRangos(String id, String nombreProyecto)

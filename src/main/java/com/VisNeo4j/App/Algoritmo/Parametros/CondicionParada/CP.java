@@ -23,7 +23,6 @@ public class CP {
 
 	public boolean condicionParadaConseguida(Poblacion particulas, Individuo GBest) {
 		if(!Constantes.continueOpt) {
-			Constantes.continueOpt = true;
 			return true;
 		}else {
 			switch (this.method) {

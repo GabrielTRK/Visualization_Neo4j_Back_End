@@ -246,6 +246,12 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
+	@PostMapping("/{proyecto}/{id}/continue")
+	public Respuesta continueOptimization(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.optimizar(proyecto);
+	}
+	
+	@CrossOrigin
 	@GetMapping("/test")
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
 		// Enter data using BufferReader

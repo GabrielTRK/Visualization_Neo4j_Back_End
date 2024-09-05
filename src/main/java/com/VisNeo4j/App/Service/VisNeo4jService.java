@@ -383,6 +383,7 @@ public class VisNeo4jService {
 				//TODO: Comprobar si se pausó, en cuyo caso guardar progreso
 				
 				if(!Constantes.continueOpt) {
+					System.out.println("aaaaaaaaa");
 					Utils.crearDirectorioTempSolucion(nombreProyecto, fila);
 					
 					//Crear fichero poblacion
@@ -393,6 +394,8 @@ public class VisNeo4jService {
 					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, bpso.getV0());
 					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, bpso.getV1());
 					//Crear fichero parámetros
+					Utils.crearFicheroParamsTemp(nombreProyecto, fila, params);
+					
 				}
 				
 				
@@ -467,11 +470,15 @@ public class VisNeo4jService {
 				Utils.crearDirectorioTempSolucion(proyecto, fila);
 				
 				//Crear fichero poblacion
-				
+				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
 				//Crear fichero poblacion Pbests
+				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
 				//Crear fichero velocidades
+				Utils.crearFicheroV0SolucionITemp(proyecto, fila, bpso.getV0());
+				Utils.crearFicheroV1SolucionITemp(proyecto, fila, bpso.getV1());
 				//Crear fichero parámetros
-				//Crear fichero 
+				Utils.crearFicheroParamsTemp(proyecto, fila, params);
+				
 			}
 			
 			resp.setOK_KO(true);
@@ -489,7 +496,7 @@ public class VisNeo4jService {
 		Utils.borrarCSVObjetivoI(proyecto, id);
 		Utils.borrarCSVFitnessI(proyecto, id);
 		Utils.borrarCSVRangosI(proyecto, id);
-		Utils.borrarDirectorioTempSolucionI(new File(Constantes.rutaFicherosProyectos + proyecto + "\\" + Constantes.nombreDirectorioTemp + "\\" + String.valueOf(id)));
+		Utils.borrarDirectorioTempSolucionI(new File(Constantes.rutaFicherosProyectos + proyecto + "\\" + Constantes.nombreDirectorioTemp + "\\" + String.valueOf(id)), proyecto, id);
 		
 		resp.setOK_KO(true);
 		resp.setMensaje(Constantes.OK_respuestaSolutionDeleted);
@@ -685,10 +692,6 @@ public class VisNeo4jService {
 	
 	public Respuesta pausarOpt() {
 		Constantes.continueOpt = false;
-		
-		//Al pausar se debe guardar el progreso 
-		//(poblaciones, velocidades, c1, c2, w, iterciones, fitness, objetivos, rangos, bits)
-		
 		
         return new Respuesta(true, Constantes.OK_respuestaOptimizationCancelled);
 	}
