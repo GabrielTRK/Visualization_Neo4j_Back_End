@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.VisNeo4j.App.Algoritmo.BPSO;
+import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
@@ -374,7 +375,7 @@ public class VisNeo4jService {
 				resp.setMensaje(Constantes.KO_respuestaProjectRunning);
 			}else {
 				Utils.modificarFicheroCola(nombreProyecto);
-				BPSO bpso = new BPSO(problema, params, nombreProyecto);
+				BPSO bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
 				Individuo ind = bpso.ejecutarBPSO();
 				problema.devolverSolucionCompleta(ind);
 				System.out.println(ind);
@@ -459,7 +460,56 @@ public class VisNeo4jService {
 			resp.setMensaje(Constantes.KO_respuestaProjectRunning);
 		}else {
 			Utils.modificarFicheroCola(proyecto);
-			BPSO bpso = new BPSO(problema, params, proyecto);
+			BPSO bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(false, 0));
+			Individuo ind = bpso.ejecutarBPSO();
+			problema.devolverSolucionCompleta(ind);
+			System.out.println(ind);
+			Utils.modificarFicheroCola("");
+			String fila = this.guardarNuevaSolucionRRPS_PAT(ind, datos, proyecto);
+			
+			if(!Constantes.continueOpt) {
+				Utils.crearDirectorioTempSolucion(proyecto, fila);
+				
+				//Crear fichero poblacion
+				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
+				//Crear fichero poblacion Pbests
+				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
+				//Crear fichero velocidades
+				Utils.crearFicheroV0SolucionITemp(proyecto, fila, bpso.getV0());
+				Utils.crearFicheroV1SolucionITemp(proyecto, fila, bpso.getV1());
+				//Crear fichero parámetros
+				Utils.crearFicheroParamsTemp(proyecto, fila, params);
+				
+			}
+			
+			resp.setOK_KO(true);
+			resp.setMensaje(proyecto);
+		}
+		
+		Constantes.continueOpt = true;
+		return resp;
+	}
+	
+	public Respuesta continuarOpt(String proyecto, int id) throws IOException, CsvException, ParseException {
+		DMPreferences preferencias = this.cargarPreferenciasProyecto(proyecto);
+		
+		BPSOParams params = this.cargarParametrosProyecto(proyecto, id);
+		
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		
+		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
+		
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		
+		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		
+		Respuesta resp = new Respuesta(false, null);
+		
+		if(Utils.leerFicheroCola().size() > 0) {
+			resp.setMensaje(Constantes.KO_respuestaProjectRunning);
+		}else {
+			Utils.modificarFicheroCola(proyecto);
+			BPSO bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(true, id));
 			Individuo ind = bpso.ejecutarBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
@@ -640,6 +690,11 @@ public class VisNeo4jService {
 	
 	public BPSOParams cargarParametrosProyecto(String nombre) throws IOException, CsvException {
 		BPSOParams params = Utils.leerCSVParams(nombre);
+		return params;
+	}
+	
+	public BPSOParams cargarParametrosProyecto(String nombre, int id) throws IOException, CsvException {
+		BPSOParams params = Utils.leerCSVParamsTemp(nombre, id);
 		return params;
 	}
 	

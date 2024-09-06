@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
@@ -29,7 +30,7 @@ public class BPSO {
 	private List<Double> fitnessHist = new ArrayList<>();
 	private String proyecto;
 	
-	public BPSO (Problema problema, BPSOParams params, String proyecto) throws FileNotFoundException, IOException, CsvException {
+	public BPSO (Problema problema, BPSOParams params, String proyecto, BPSOOpciones opciones) throws FileNotFoundException, IOException, CsvException {
 		this.params = params;
 		this.problema = problema;
 		this.r1 = Utils.getRandNumber(0.0, 1.0);
@@ -39,16 +40,34 @@ public class BPSO {
 		this.proyecto = proyecto;
 		this.poblacionPartículas = new Poblacion(this.params.getNumIndividuos(), this.problema);
 		//Inicializar población o partículas y calcular fitness
-		this.poblacionPartículas.generarPoblacionInicial(problema, false, 29, proyecto);
-		//Calcular Pbest
-		this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
-		this.calcularPbests();
-		//Calcular Gbest
-		this.compararFitness();
+		if(opciones.isContinuarOpt()) {
+			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
+			//Llamar a utils para recuperar valores
+			Utils.leerCSVPoblacionTemp(problema, proyecto, opciones.getId(), this.poblacionPartículas);
+			Utils.leerCSVPbestsTemp(problema, proyecto, opciones.getId(), this.poblacionPbest);
+			//Calcular objetivos
+			this.poblacionPartículas.calcularObjetivos(problema);
+			this.poblacionPbest.calcularObjetivos(problema);
+			
+			this.compararFitness();
+			
+			Utils.leerCSVV0Temp(proyecto, opciones.getId(), this.v0);
+			Utils.leerCSVV1Temp(proyecto, opciones.getId(), this.v1);
+			
+			this.fitnessHist = Utils.leerCSVHistFitnessTemp(proyecto, String.valueOf(opciones.getId()));
+		}else {
+			this.poblacionPartículas.generarPoblacionInicial(problema, false, 29, proyecto);
+			//Calcular Pbest
+			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
+			this.calcularPbests();
+			//Calcular Gbest
+			this.compararFitness();
+			
+			this.rellenarVelocidadesIniciales();
+			
+			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
+		}
 		
-		this.rellenarVelocidadesIniciales();
-		
-		this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
 		System.out.println(this.params.getIteracionActual() + ": " + this.Gbest + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 	}
 	

@@ -438,6 +438,23 @@ public class Utils {
 		}
 		return fichero;
 	}
+	
+	public static List<Double> leerCSVHistFitnessTemp(String proyecto, String id)
+			throws FileNotFoundException, IOException, CsvException {
+		List<Double> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+				+ Constantes.nombreDirectorioFicherosFitness + "//" + id + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for (int fila = 0; fila < numFilas; fila++) {
+				
+				
+				fichero.add(Double.valueOf(r.get(fila)[1]));
+			}
+		}
+		return fichero;
+	}
 
 	public static List<List<String>> leerCSVObjetivos(String proyecto, String id)
 			throws FileNotFoundException, IOException, CsvException {
@@ -603,9 +620,10 @@ public class Utils {
 		return String.valueOf(solucionesExistentes.size() - 1);
 	}
 
-	public static void crearFicheroPoblacionSolucionITemp(String nombre, String id, Poblacion poblacion) throws IOException {
+	public static void crearFicheroPoblacionSolucionITemp(String nombre, String id, Poblacion poblacion)
+			throws IOException {
 		List<String[]> lista = new ArrayList<>();
-		
+
 		for (int i = 0; i < poblacion.getPoblacion().size(); i++) {
 			String[] filaI = new String[poblacion.getPoblacion().get(i).getVariables().size()];
 			for (int j = 0; j < poblacion.getPoblacion().get(i).getVariables().size(); j++) {
@@ -615,17 +633,18 @@ public class Utils {
 		}
 
 		try (CSVWriter writer = new CSVWriter(
-				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
-						+ Constantes.nombreDirectorioTemp + "//" + id + "//" + Constantes.nombreFicheroPoblacionTemp + Constantes.extensionFichero),
+				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp
+						+ "//" + id + "//" + Constantes.nombreFicheroPoblacionTemp + Constantes.extensionFichero),
 				',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
 			writer.writeAll(lista);
 
 		}
 	}
-	
-	public static void crearFicheroPbestsSolucionITemp(String nombre, String id, Poblacion poblacion) throws IOException {
+
+	public static void crearFicheroPbestsSolucionITemp(String nombre, String id, Poblacion poblacion)
+			throws IOException {
 		List<String[]> lista = new ArrayList<>();
-		
+
 		for (int i = 0; i < poblacion.getPoblacion().size(); i++) {
 			String[] filaI = new String[poblacion.getPoblacion().get(i).getVariables().size()];
 			for (int j = 0; j < poblacion.getPoblacion().get(i).getVariables().size(); j++) {
@@ -635,17 +654,17 @@ public class Utils {
 		}
 
 		try (CSVWriter writer = new CSVWriter(
-				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
-						+ Constantes.nombreDirectorioTemp + "//" + id + "//" + Constantes.nombreFicheroPbestsTemp + Constantes.extensionFichero),
+				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp
+						+ "//" + id + "//" + Constantes.nombreFicheroPbestsTemp + Constantes.extensionFichero),
 				',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
 			writer.writeAll(lista);
 
 		}
 	}
-	
+
 	public static void crearFicheroV0SolucionITemp(String nombre, String id, List<List<Double>> v0) throws IOException {
 		List<String[]> lista = new ArrayList<>();
-		
+
 		for (int i = 0; i < v0.size(); i++) {
 			String[] filaI = new String[v0.get(i).size()];
 			for (int j = 0; j < v0.get(i).size(); j++) {
@@ -655,17 +674,17 @@ public class Utils {
 		}
 
 		try (CSVWriter writer = new CSVWriter(
-				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
-						+ Constantes.nombreDirectorioTemp + "//" + id + "//" + Constantes.nombreFicherov0Temp + Constantes.extensionFichero),
+				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp
+						+ "//" + id + "//" + Constantes.nombreFicherov0Temp + Constantes.extensionFichero),
 				',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
 			writer.writeAll(lista);
 
 		}
 	}
-	
+
 	public static void crearFicheroV1SolucionITemp(String nombre, String id, List<List<Double>> v1) throws IOException {
 		List<String[]> lista = new ArrayList<>();
-		
+
 		for (int i = 0; i < v1.size(); i++) {
 			String[] filaI = new String[v1.get(i).size()];
 			for (int j = 0; j < v1.get(i).size(); j++) {
@@ -675,14 +694,14 @@ public class Utils {
 		}
 
 		try (CSVWriter writer = new CSVWriter(
-				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
-						+ Constantes.nombreDirectorioTemp + "//" + id + "//" + Constantes.nombreFicherov1Temp + Constantes.extensionFichero),
+				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp
+						+ "//" + id + "//" + Constantes.nombreFicherov1Temp + Constantes.extensionFichero),
 				',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
 			writer.writeAll(lista);
 
 		}
 	}
-	
+
 	public static void crearFicheroParamsTemp(String nombre, String id, BPSOParams params) throws IOException {
 		List<String[]> lista = new ArrayList<>();
 		String[] paramI = new String[2];
@@ -710,7 +729,7 @@ public class Utils {
 			paramI[0] = Constantes.nombreParamCPNumIter;
 			paramI[1] = String.valueOf(params.getMax_Num_Iteraciones());
 			lista.add(paramI);
-			
+
 			paramI = new String[2];
 			paramI[0] = Constantes.nombreParamCPIterActualTemp;
 			paramI[1] = String.valueOf(params.getIteracionActual());
@@ -726,8 +745,8 @@ public class Utils {
 		}
 
 		try (CSVWriter writer = new CSVWriter(
-				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
-						+ Constantes.nombreDirectorioTemp + "//" + id + "//" + Constantes.nombreFicheroParamsTemp + Constantes.extensionFichero),
+				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp
+						+ "//" + id + "//" + Constantes.nombreFicheroParamsTemp + Constantes.extensionFichero),
 				',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
 			writer.writeAll(lista);
 		}
@@ -872,6 +891,123 @@ public class Utils {
 				Constantes.nombreCPGenerica, Constantes.nombreIWDyanamicDecreasing);
 		return params;
 
+	}
+
+	public static BPSOParams leerCSVParamsTemp(String nombre, int id) throws IOException, CsvException {
+		List<List<String>> fichero = new ArrayList<>();
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
+				+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(id) + "//"
+				+ Constantes.nombreFicheroParamsTemp + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for (int fila = 0; fila < numFilas; fila++) {
+				List<String> filaI = new ArrayList<>();
+				for (int columna = 0; columna < r.get(fila).length; columna++) {
+
+					filaI.add(r.get(fila)[columna]);
+				}
+				fichero.add(filaI);
+			}
+		}
+		BPSOParams params = new BPSOParams(Integer.valueOf(fichero.get(0).get(1)),
+				Double.valueOf(fichero.get(1).get(1)), Double.valueOf(fichero.get(2).get(1)),
+				Double.valueOf(fichero.get(3).get(1)), Integer.valueOf(fichero.get(4).get(1)), 0.0, 0.0,
+				Constantes.nombreCPGenerica, Constantes.nombreIWDyanamicDecreasing);
+
+		params.getCondicionParada().setNumIteracionesActual(Integer.valueOf(fichero.get(5).get(1)));
+		return params;
+
+	}
+
+	public static Poblacion leerCSVPoblacionTemp(Problema problema, String nombre, int id, Poblacion poblacion)
+			throws FileNotFoundException, IOException, CsvException {
+
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
+				+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(id) + "//"
+				+ Constantes.nombreFicheroPoblacionTemp + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for (int fila = 0; fila < numFilas; fila++) {
+				List<Double> filaI = new ArrayList<>();
+
+				for (int columna = 0; columna < r.get(fila).length; columna++) {
+
+					filaI.add(Double.valueOf(r.get(fila)[columna]));
+				}
+
+				poblacion.setIIndividuo(fila, filaI);
+			}
+		}
+		return poblacion;
+	}
+
+	public static Poblacion leerCSVPbestsTemp(Problema problema, String nombre, int id, Poblacion pbests)
+			throws FileNotFoundException, IOException, CsvException {
+
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
+				+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(id) + "//"
+				+ Constantes.nombreFicheroPbestsTemp + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for (int fila = 0; fila < numFilas; fila++) {
+				List<Double> filaI = new ArrayList<>();
+
+				for (int columna = 0; columna < r.get(fila).length; columna++) {
+
+					filaI.add(Double.valueOf(r.get(fila)[columna]));
+				}
+
+				pbests.setIIndividuo(fila, filaI);
+			}
+		}
+		return pbests;
+	}
+	
+	public static void leerCSVV0Temp(String nombre, int id, List<List<Double>> v0)
+			throws FileNotFoundException, IOException, CsvException {
+
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
+				+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(id) + "//"
+				+ Constantes.nombreFicherov0Temp + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for (int fila = 0; fila < numFilas; fila++) {
+				List<Double> filaI = new ArrayList<>();
+
+				for (int columna = 0; columna < r.get(fila).length; columna++) {
+
+					filaI.add(Double.valueOf(r.get(fila)[columna]));
+				}
+
+				v0.add(filaI);
+			}
+		}
+	}
+	
+	public static void leerCSVV1Temp(String nombre, int id, List<List<Double>> v1)
+			throws FileNotFoundException, IOException, CsvException {
+
+		int numFilas;
+		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
+				+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(id) + "//"
+				+ Constantes.nombreFicherov0Temp + Constantes.extensionFichero))) {
+			List<String[]> r = reader.readAll();
+			numFilas = r.size();
+			for (int fila = 0; fila < numFilas; fila++) {
+				List<Double> filaI = new ArrayList<>();
+
+				for (int columna = 0; columna < r.get(fila).length; columna++) {
+
+					filaI.add(Double.valueOf(r.get(fila)[columna]));
+				}
+
+				v1.add(filaI);
+			}
+		}
 	}
 
 	public static void crearCSVPref(DMPreferences preferencias, String nombre) throws IOException {
@@ -1373,9 +1509,9 @@ public class Utils {
 
 	public static void borrarDirectorioTempSolucionI(File solucion, String proyecto, int id) {
 		FileSystemUtils.deleteRecursively(solucion);
-		
-		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-				+ Constantes.nombreDirectorioTemp + "\\");
+
+		File directoryPath = new File(
+				Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioTemp + "\\");
 
 		String contents[] = directoryPath.list();
 
@@ -1386,7 +1522,7 @@ public class Utils {
 				int newId = Integer.valueOf(contents[i]) - 1;
 				File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
 						+ Constantes.nombreDirectorioTemp + "\\" + String.valueOf(newId));
-				
+
 				File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
 						+ Constantes.nombreDirectorioTemp + "\\" + contents[i]);
 
