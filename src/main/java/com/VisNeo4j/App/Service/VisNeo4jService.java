@@ -381,10 +381,8 @@ public class VisNeo4jService {
 				System.out.println(ind);
 				Utils.modificarFicheroCola("");
 				String fila = this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
-				//TODO: Comprobar si se pausó, en cuyo caso guardar progreso
 				
 				if(!Constantes.continueOpt) {
-					System.out.println("aaaaaaaaa");
 					Utils.crearDirectorioTempSolucion(nombreProyecto, fila);
 					
 					//Crear fichero poblacion
@@ -612,6 +610,17 @@ public class VisNeo4jService {
 			List<Double> obj = Utils.leerCSVObjetivosSalida(id.replace(Constantes.extensionFichero, ""), nombre);
 			
 			Solucion sol = new Solucion(Integer.valueOf(id.replace(Constantes.extensionFichero, "")), (int)Math.round(fit.get(0))+1, fit.get(1), obj, this.cargarPreferenciasProyecto(nombre).getOrder());
+			
+			//Revisar si es una solucion es temporal
+			File directoryPath2 = new File(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioTemp);
+			String contentsSol[] = directoryPath2.list();
+			
+			for(String temp : contentsSol) {
+				if(temp.equals(id)) {
+					sol.setTemporal(true);
+				}
+			}
+			
 			soluciones.add(sol);
 		}
 		

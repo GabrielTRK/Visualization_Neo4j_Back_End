@@ -12,6 +12,7 @@ public class Solucion {
 	private int iter;
 	private double fitness;
 	private List<Objetivo> obj;
+	private boolean temporal;
 	
 	public Solucion(int id, int iter, double fitness, List<Double> obj, ObjectivesOrder order) {
 		super();
@@ -23,6 +24,7 @@ public class Solucion {
 		for(int i = 0; i < order.getOrder().size(); i++) {
 			this.obj.add(new Objetivo(Constantes.nombreObjetivos.get(order.getOrder().get(i)-1), obj.get(order.getOrder().get(i))));
 		}
+		this.temporal = false;
 	}
 	public int getId() {
 		return id;
@@ -47,6 +49,12 @@ public class Solucion {
 	}
 	public void setObj(List<Objetivo> obj) {
 		this.obj = obj;
+	}
+	public boolean isTemporal() {
+		return temporal;
+	}
+	public void setTemporal(boolean temporal) {
+		this.temporal = temporal;
 	}
 	
 	
