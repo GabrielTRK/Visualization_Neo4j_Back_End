@@ -252,6 +252,19 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
+	@GetMapping("/snapshot/{proyecto}/{dia}")
+	public DatosConexiones getOptSnapshot(@PathVariable String proyecto, @PathVariable int dia) throws IOException, CsvException, ParseException{
+        return this.visNeo4jService.obtenerSnapshot(proyecto, dia);
+	}
+	
+	@CrossOrigin
+	@GetMapping("/snapshot/{proyecto}/{dia}/{con}")
+	public DatosConexiones getOptSnapshotFiltro(@PathVariable String proyecto, @PathVariable int dia, 
+			@PathVariable String con) throws IOException, CsvException, ParseException{
+        return this.visNeo4jService.obtenerSnapshotFiltroK(proyecto, dia, con);
+	}
+	
+	@CrossOrigin
 	@GetMapping("/test")
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
 		// Enter data using BufferReader

@@ -355,6 +355,17 @@ public class Utils {
 		return TraducirSalida.añadirCoordenadas(variablesDouble,
 				conexiones.subList(offsetBits * 2, (offsetBits * 2) + Integer.valueOf(numConDia.get(dia)) * 2));
 	}
+	
+	public static List<Aeropuerto> obtenerSolucionDiaI(int dia, List<Double> variablesDouble, DatosRRPS_PAT datos)
+			throws FileNotFoundException, IOException, CsvException {
+		int offsetBits = 0;
+		for (int i = 0; i < dia; i++) {
+			offsetBits += Integer.valueOf(datos.getDatosPorDia().get(i).getConexiones().size());
+		}
+		variablesDouble = variablesDouble.subList(offsetBits, offsetBits + Integer.valueOf(datos.getDatosPorDia().get(dia).getConexiones().size()));
+
+		return TraducirSalida.añadirCoordenadas(datos.getDatosPorDia().get(dia).getConexiones());
+	}
 
 	public static List<Double> obtenerBitsSolDiaI(String proyecto, int sol, int dia)
 			throws FileNotFoundException, IOException, CsvException {
@@ -371,6 +382,17 @@ public class Utils {
 		for (int i = 0; i < variablesString.size(); i++) {
 			variablesDouble.add(Double.valueOf(variablesString.get(i)));
 		}
+
+		return variablesDouble;
+	}
+	
+	public static List<Double> obtenerBitsSolDiaI(int dia, List<Double> variablesDouble, DatosRRPS_PAT datos)
+			throws FileNotFoundException, IOException, CsvException {
+		int offsetBits = 0;
+		for (int i = 0; i < dia; i++) {
+			offsetBits += Integer.valueOf(datos.getDatosPorDia().get(i).getConexiones().size());
+		}
+		variablesDouble = variablesDouble.subList(offsetBits, offsetBits + Integer.valueOf(datos.getDatosPorDia().get(dia).getConexiones().size()));
 
 		return variablesDouble;
 	}
@@ -1181,11 +1203,13 @@ public class Utils {
 			}
 		}
 		Restricciones res;
+		Double epi = Double.valueOf(fichero.get(0).get(1));
 		if (fichero.get(1).size() > 1) {
+			
 			res = new Restricciones(fichero.get(1).subList(1, fichero.get(1).size()),
-					Double.valueOf(fichero.get(0).get(1)));
+					epi);
 		} else {
-			res = new Restricciones(new ArrayList<>(), Double.valueOf(fichero.get(0).get(1)));
+			res = new Restricciones(new ArrayList<>(), epi);
 		}
 
 		return res;
@@ -1427,12 +1451,12 @@ public class Utils {
 	public static void borrarCSVObjetivoI(String proyecto, int id) {
 		// Borrar el fichero indicado
 		File file = new File(
-				Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioFicherosObjetivos
-						+ "\\" + String.valueOf(id) + Constantes.extensionFichero);
+				Constantes.rutaFicherosProyectos + "//" + proyecto + "//" + Constantes.nombreDirectorioFicherosObjetivos
+						+ "//" + String.valueOf(id) + Constantes.extensionFichero);
 		file.delete();
 
-		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-				+ Constantes.nombreDirectorioFicherosObjetivos + "\\");
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+				+ Constantes.nombreDirectorioFicherosObjetivos + "//");
 
 		String contents[] = directoryPath.list();
 
@@ -1441,11 +1465,11 @@ public class Utils {
 		for (int i = 0; i < contents.length; i++) {
 			if (Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) > id) {
 				int newId = Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) - 1;
-				File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioFicherosObjetivos + "\\" + String.valueOf(newId)
+				File newFile = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioFicherosObjetivos + "//" + String.valueOf(newId)
 						+ Constantes.extensionFichero);
-				File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioFicherosObjetivos + "\\" + contents[i]);
+				File fileI = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioFicherosObjetivos + "//" + contents[i]);
 
 				fileI.renameTo(newFile);
 			}
@@ -1455,12 +1479,12 @@ public class Utils {
 
 	public static void borrarCSVFitnessI(String proyecto, int id) {
 		// Borrar el fichero indicado
-		File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-				+ Constantes.nombreDirectorioFicherosFitness + "\\" + String.valueOf(id) + Constantes.extensionFichero);
+		File file = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+				+ Constantes.nombreDirectorioFicherosFitness + "//" + String.valueOf(id) + Constantes.extensionFichero);
 		file.delete();
 
-		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-				+ Constantes.nombreDirectorioFicherosFitness + "\\");
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+				+ Constantes.nombreDirectorioFicherosFitness + "//");
 
 		String contents[] = directoryPath.list();
 
@@ -1469,11 +1493,11 @@ public class Utils {
 		for (int i = 0; i < contents.length; i++) {
 			if (Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) > id) {
 				int newId = Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) - 1;
-				File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioFicherosFitness + "\\" + String.valueOf(newId)
+				File newFile = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioFicherosFitness + "//" + String.valueOf(newId)
 						+ Constantes.extensionFichero);
-				File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioFicherosFitness + "\\" + contents[i]);
+				File fileI = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioFicherosFitness + "//" + contents[i]);
 
 				fileI.renameTo(newFile);
 			}
@@ -1482,12 +1506,12 @@ public class Utils {
 
 	public static void borrarCSVRangosI(String proyecto, int id) {
 		// Borrar el fichero indicado
-		File file = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-				+ Constantes.nombreDirectorioFicherosRangos + "\\" + String.valueOf(id) + Constantes.extensionFichero);
+		File file = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+				+ Constantes.nombreDirectorioFicherosRangos + "//" + String.valueOf(id) + Constantes.extensionFichero);
 		file.delete();
 
-		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-				+ Constantes.nombreDirectorioFicherosRangos + "\\");
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+				+ Constantes.nombreDirectorioFicherosRangos + "//");
 
 		String contents[] = directoryPath.list();
 
@@ -1496,11 +1520,11 @@ public class Utils {
 		for (int i = 0; i < contents.length; i++) {
 			if (Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) > id) {
 				int newId = Integer.valueOf(contents[i].replace(Constantes.extensionFichero, "")) - 1;
-				File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioFicherosRangos + "\\" + String.valueOf(newId)
+				File newFile = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioFicherosRangos + "//" + String.valueOf(newId)
 						+ Constantes.extensionFichero);
-				File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioFicherosRangos + "\\" + contents[i]);
+				File fileI = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioFicherosRangos + "//" + contents[i]);
 
 				fileI.renameTo(newFile);
 			}
@@ -1511,7 +1535,7 @@ public class Utils {
 		FileSystemUtils.deleteRecursively(solucion);
 
 		File directoryPath = new File(
-				Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\" + Constantes.nombreDirectorioTemp + "\\");
+				Constantes.rutaFicherosProyectos + "//" + proyecto + "//" + Constantes.nombreDirectorioTemp + "//");
 
 		String contents[] = directoryPath.list();
 
@@ -1520,11 +1544,11 @@ public class Utils {
 		for (int i = 0; i < contents.length; i++) {
 			if (Integer.valueOf(contents[i]) > id) {
 				int newId = Integer.valueOf(contents[i]) - 1;
-				File newFile = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioTemp + "\\" + String.valueOf(newId));
+				File newFile = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(newId));
 
-				File fileI = new File(Constantes.rutaFicherosProyectos + "\\" + proyecto + "\\"
-						+ Constantes.nombreDirectorioTemp + "\\" + contents[i]);
+				File fileI = new File(Constantes.rutaFicherosProyectos + "//" + proyecto + "//"
+						+ Constantes.nombreDirectorioTemp + "//" + contents[i]);
 
 				fileI.renameTo(newFile);
 			}

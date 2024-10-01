@@ -57,6 +57,8 @@ public class VisNeo4jService {
 	private final Driver driver;
 
 	private final DatabaseSelectionProvider databaseSelectionProvider;
+	
+	private BPSO bpso;
 
 	VisNeo4jService(Driver driver,
 				 DatabaseSelectionProvider databaseSelectionProvider) {
@@ -320,7 +322,7 @@ public class VisNeo4jService {
 			Utils.crearCSVFechas(fecha_I, fecha_F, nombreProyecto);
 			Utils.crearCSVParams(params, nombreProyecto);
 			Utils.crearCSVPref(preferencias, nombreProyecto);
-			Utils.crearCSVRestricciones(resEpi / 100, resPolPref.getPol(), nombreProyecto);
+			Utils.crearCSVRestricciones(resEpi, resPolPref.getPol(), nombreProyecto);
 			resp.setOK_KO(true);
 			resp.setMensaje(Constantes.OK_respuestaProjectSaved);
 			
@@ -331,11 +333,9 @@ public class VisNeo4jService {
 	public Respuesta borrarProyecto(String nombre) throws FileNotFoundException, IOException, CsvException{
 		Respuesta resp = new Respuesta(false, null);
 		
-		//Comprobar si se está ejecutando
 		if(Utils.leerFicheroCola().contains(nombre)) {
 			resp.setMensaje(Constantes.KO_respuestaProjectDeletedRunning);
 		}else {
-			//Borrar
 			resp.setOK_KO(Utils.borrarDirectorioProyecto(new File(Constantes.rutaFicherosProyectos + nombre)));
 			resp.setMensaje(Constantes.OK_respuestaProjectDeleted);
 		}
@@ -364,7 +364,7 @@ public class VisNeo4jService {
 		
 		if(problema.getNumVariables() > 0) {
 			resp = this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-					inertiaW, c1, c2, m, p, resEpi / 100, nombreProyecto, resPolPref);
+					inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
 		}else {
 			resp.setMensaje(Constantes.KO_respuestaNoFlights);
 		}
@@ -375,8 +375,8 @@ public class VisNeo4jService {
 				resp.setMensaje(Constantes.KO_respuestaProjectRunning);
 			}else {
 				Utils.modificarFicheroCola(nombreProyecto);
-				BPSO bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
-				Individuo ind = bpso.ejecutarBPSO();
+				this.bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
+				Individuo ind = this.bpso.ejecutarBPSO();
 				problema.devolverSolucionCompleta(ind);
 				System.out.println(ind);
 				Utils.modificarFicheroCola("");
@@ -385,14 +385,13 @@ public class VisNeo4jService {
 				if(!Constantes.continueOpt) {
 					Utils.crearDirectorioTempSolucion(nombreProyecto, fila);
 					
-					//Crear fichero poblacion
-					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, bpso.getPoblacionPartículas());
-					//Crear fichero poblacion Pbests
-					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, bpso.getPoblacionPartículas());
-					//Crear fichero velocidades
-					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, bpso.getV0());
-					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, bpso.getV1());
-					//Crear fichero parámetros
+					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					
+					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					
+					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, this.bpso.getV0());
+					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, this.bpso.getV1());
+					
 					Utils.crearFicheroParamsTemp(nombreProyecto, fila, params);
 					
 				}
@@ -449,8 +448,8 @@ public class VisNeo4jService {
 		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		
-		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		Double restriccionEpi = Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0));
+		Problema problema = new RRPS_PAT(datos, restriccionEpi/100, res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
@@ -458,8 +457,8 @@ public class VisNeo4jService {
 			resp.setMensaje(Constantes.KO_respuestaProjectRunning);
 		}else {
 			Utils.modificarFicheroCola(proyecto);
-			BPSO bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(false, 0));
-			Individuo ind = bpso.ejecutarBPSO();
+			this.bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(false, 0));
+			Individuo ind = this.bpso.ejecutarBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
 			Utils.modificarFicheroCola("");
@@ -468,14 +467,14 @@ public class VisNeo4jService {
 			if(!Constantes.continueOpt) {
 				Utils.crearDirectorioTempSolucion(proyecto, fila);
 				
-				//Crear fichero poblacion
-				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
-				//Crear fichero poblacion Pbests
-				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
-				//Crear fichero velocidades
-				Utils.crearFicheroV0SolucionITemp(proyecto, fila, bpso.getV0());
-				Utils.crearFicheroV1SolucionITemp(proyecto, fila, bpso.getV1());
-				//Crear fichero parámetros
+				
+				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				
+				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				
+				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
+				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
+				
 				Utils.crearFicheroParamsTemp(proyecto, fila, params);
 				
 			}
@@ -498,8 +497,8 @@ public class VisNeo4jService {
 		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		
-		Problema problema = new RRPS_PAT(datos, Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0)), res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		Double restriccionEpi = Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0));
+		Problema problema = new RRPS_PAT(datos, restriccionEpi/100, res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
@@ -507,8 +506,8 @@ public class VisNeo4jService {
 			resp.setMensaje(Constantes.KO_respuestaProjectRunning);
 		}else {
 			Utils.modificarFicheroCola(proyecto);
-			BPSO bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(true, id));
-			Individuo ind = bpso.ejecutarBPSO();
+			this.bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(true, id));
+			Individuo ind = this.bpso.ejecutarBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
 			Utils.modificarFicheroCola("");
@@ -517,14 +516,14 @@ public class VisNeo4jService {
 			if(!Constantes.continueOpt) {
 				Utils.crearDirectorioTempSolucion(proyecto, fila);
 				
-				//Crear fichero poblacion
-				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
-				//Crear fichero poblacion Pbests
-				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, bpso.getPoblacionPartículas());
-				//Crear fichero velocidades
-				Utils.crearFicheroV0SolucionITemp(proyecto, fila, bpso.getV0());
-				Utils.crearFicheroV1SolucionITemp(proyecto, fila, bpso.getV1());
-				//Crear fichero parámetros
+				
+				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				
+				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				
+				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
+				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
+				
 				Utils.crearFicheroParamsTemp(proyecto, fila, params);
 				
 			}
@@ -544,7 +543,7 @@ public class VisNeo4jService {
 		Utils.borrarCSVObjetivoI(proyecto, id);
 		Utils.borrarCSVFitnessI(proyecto, id);
 		Utils.borrarCSVRangosI(proyecto, id);
-		Utils.borrarDirectorioTempSolucionI(new File(Constantes.rutaFicherosProyectos + proyecto + "\\" + Constantes.nombreDirectorioTemp + "\\" + String.valueOf(id)), proyecto, id);
+		Utils.borrarDirectorioTempSolucionI(new File(Constantes.rutaFicherosProyectos + proyecto + "//" + Constantes.nombreDirectorioTemp + "//" + String.valueOf(id)), proyecto, id);
 		
 		resp.setOK_KO(true);
 		resp.setMensaje(Constantes.OK_respuestaSolutionDeleted);
@@ -600,7 +599,7 @@ public class VisNeo4jService {
 	}
 	
 	public List<Solucion> obtenerListaSolucionesProyectoI(String nombre) throws IOException, CsvException{
-		File directoryPath = new File(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioFicherosObjetivos);
+		File directoryPath = new File(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioFicherosObjetivos);
 		String contents[] = directoryPath.list();
 		
 		List<Solucion> soluciones = new ArrayList<>();
@@ -611,12 +610,12 @@ public class VisNeo4jService {
 			
 			Solucion sol = new Solucion(Integer.valueOf(id.replace(Constantes.extensionFichero, "")), (int)Math.round(fit.get(0))+1, fit.get(1), obj, this.cargarPreferenciasProyecto(nombre).getOrder());
 			
-			//Revisar si es una solucion es temporal
-			File directoryPath2 = new File(Constantes.rutaFicherosProyectos + "\\" + nombre + "\\" + Constantes.nombreDirectorioTemp);
+			
+			File directoryPath2 = new File(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp);
 			String contentsSol[] = directoryPath2.list();
 			
 			for(String temp : contentsSol) {
-				if(temp.equals(id)) {
+				if(temp.equals(id.replace(Constantes.extensionFichero, ""))) {
 					sol.setTemporal(true);
 				}
 			}
@@ -758,6 +757,85 @@ public class VisNeo4jService {
 		Constantes.continueOpt = false;
 		
         return new Respuesta(true, Constantes.OK_respuestaOptimizationCancelled);
+	}
+	
+	public DatosConexiones obtenerSnapshot(String proyecto, int dia) throws IOException, CsvException, ParseException {
+		
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
+		fechas.put(Constantes.nombreFechaActual, this.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
+		
+		DatosConexiones datosConexiones;
+		
+		if(Utils.leerFicheroCola().contains(proyecto)) {
+			Individuo GBest = this.bpso.getGbest();
+			
+			GBest.initExtra();
+			
+			this.bpso.getProblema().extra(GBest);
+			
+			GBest = this.bpso.getProblema().devolverSolucionCompleta(GBest);
+			
+			
+			
+			
+			List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(dia, GBest.getVariables(), datos);
+			List<Double> bits = Utils.obtenerBitsSolDiaI(dia, GBest.getVariables(), datos);
+			
+			
+			
+			
+			
+			datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
+		}else {
+			int numSol = this.obtenerListaSolucionesProyectoI(proyecto).size();;
+			datosConexiones = this.cargarProyectoISolucionJDiaK(proyecto, numSol-1, dia);
+		}
+		
+		
+		
+		return datosConexiones;
+	}
+	
+	public DatosConexiones obtenerSnapshotFiltroK(String proyecto, int dia, 
+			String con) throws IOException, CsvException, ParseException {
+		
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
+		fechas.put(Constantes.nombreFechaActual, this.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
+		
+		DatosConexiones datosConexiones;
+		
+		if(Utils.leerFicheroCola().contains(proyecto)) {
+			Individuo GBest = this.bpso.getGbest();
+			
+			GBest.initExtra();
+			
+			this.bpso.getProblema().extra(GBest);
+			
+			GBest = this.bpso.getProblema().devolverSolucionCompleta(GBest);
+			
+			
+			
+			
+			List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(dia, GBest.getVariables(), datos);
+			List<Double> bits = Utils.obtenerBitsSolDiaI(dia, GBest.getVariables(), datos);
+			
+			
+			
+			
+			
+			datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
+		}else {
+			int numSol = this.obtenerListaSolucionesProyectoI(proyecto).size();;
+			datosConexiones = this.cargarProyectoISolucionJDiaK(proyecto, numSol-1, dia);
+		}
+		
+		datosConexiones.aplicarFiltro(con);
+		
+		return datosConexiones;
 	}
 	
 	private boolean comprobarFechas(String fecha_I, String fecha_F) throws ParseException {

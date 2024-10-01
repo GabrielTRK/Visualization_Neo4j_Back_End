@@ -1,7 +1,7 @@
 /*if (!sessionStorage.getItem("logged")) {
     window.location.href = "login.html"
 }*/
-
+datosGlobal = null
 if (sessionStorage.getItem("projectName")) {
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -9,6 +9,15 @@ if (sessionStorage.getItem("projectName")) {
     projectName = sessionStorage.getItem("projectName")
 
     document.getElementById('ListTitle').innerHTML = 'Solutions list from project ' + projectName
+
+    if (sessionStorage.getItem("ejecutando") == 1) {
+        console.log(sessionStorage.getItem("ejecutando"))
+
+        document.getElementById('StopSaved').style.display = 'block'
+        document.getElementById('RunSaved').style.display = 'none'
+
+        document.getElementById('DeleteSaved').style.display = 'none'
+    }
 
     url = 'https://138.4.92.155:8081/' + projectName + '/loadS'
 
@@ -18,12 +27,14 @@ if (sessionStorage.getItem("projectName")) {
         .then(dataBack => {
             main = document.getElementById("MainList")
             //Si databack.length == 0 poner mensaje de empty list
-            if(dataBack.length == 0){
+            if (dataBack.length == 0) {
                 noSolutions = document.createElement("p")
                 noSolutions.innerHTML = 'No solutions'
                 noSolutions.classList.add('text-center')
                 main.appendChild(noSolutions)
             }
+
+            datosGlobal = dataBack
             for (i = 0; i < dataBack.length; i++) {
 
                 solutionI = document.createElement("button")
@@ -121,6 +132,15 @@ function addIDInputs(divIDInputs, dataBack) {
     divInput2.setAttribute('disabled', 'true')
     divInput2.style.width = '10%'
 
+    divSVGIcon = document.createElement('div')
+    divSVGIcon.style.marginLeft = '5%'
+    if(dataBack.temporal){
+        divSVGIcon.innerHTML = '<svg data-toggle="tooltip" title="This is a solution obtained after an optimization was stopped." data-bs-placement="right" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="'+ "Solution-" + dataBack.id +' bi bi-exclamation circle-fill" viewBox="0 0 16 16"> <path class="'+ "Solution-" + dataBack.id +'" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/></svg>'
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+          });
+    }
+
     divIDInputs.appendChild(SolutionID)
     divTagInput1.appendChild(divTagInput1Span)
     divIDInputs.appendChild(divTagInput1)
@@ -129,6 +149,7 @@ function addIDInputs(divIDInputs, dataBack) {
     divTagInput2.appendChild(divTagInput2Span)
     divIDInputs.appendChild(divTagInput2)
     divIDInputs.appendChild(divInput2)
+    divIDInputs.appendChild(divSVGIcon)
 }
 
 function addIMGS(divIMGS, databack) {
@@ -182,10 +203,38 @@ function addRisk(divInputIR, databack) {
 }
 
 function optionSelected(event) {
-    //Redirigir a lista de soluciones guardando el nombre del proyecto en sessionStorage
+    // Get the modal
+    var modal = document.getElementById("myModalSaved");
+    //var modalR = document.getElementById("myModalRun");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        //modalR.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            //modalR.style.display = "none";
+        }
+    }
+
+    modal.style.display = "block";
+    document.getElementById('CheckDetails').style.display = 'block'
+    document.getElementById('DeleteSol').style.display = 'block'
 
     sessionStorage.setItem("solutionID", event.target.classList[0].split("-")[1]);
-    window.location.href = "map.html"
+
+    //Comprobar con un bucle si la solucion elegida es temporal o no
+    for (i = 0; i < datosGlobal.length; i++) {
+        if(datosGlobal[i].id == event.target.classList[0].split("-")[1] && datosGlobal[i].temporal){
+            document.getElementById('ContinueOpt').style.display = 'block'
+        }
+    }
+
 }
 
 function goToDescription() {
@@ -216,6 +265,8 @@ function algoritmoGuardado() {
 
     modal.style.display = "block";
     document.getElementById('ModalText').innerHTML = "Running optimization..."
+    document.getElementById('CheckDetails').style.display = 'none'
+    document.getElementById('DeleteSol').style.display = 'none'
 
     url = 'https://138.4.92.155:8081/' + projectName + '/optimize'
 
@@ -243,10 +294,200 @@ function algoritmoGuardado() {
                 //modalR.style.display = "none";
                 modal.style.display = "block";
                 document.getElementById('ModalText').innerHTML = response.mensaje
+                document.getElementById('CheckDetails').style.display = 'none'
+                document.getElementById('DeleteSol').style.display = 'none'
+                document.getElementById('ContinueOpt').style.display = 'none'
             }
         });
 
 
+}
+
+function stopOpt() {
+    // Get the modal
+    var modal = document.getElementById("myModalSaved");
+    //var modalR = document.getElementById("myModalRun");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        //modalR.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            //modalR.style.display = "none";
+        }
+    }
+
+    url = 'https://138.4.92.155:8081/pauseOpt'
+
+    fetch(url).then(res => {
+        return res.json()
+    })
+        .then(response => {
+            sessionStorage.setItem("ejecutando", 0);
+            modal.style.display = "block";
+            document.getElementById('ModalText').innerHTML = response.mensaje
+            document.getElementById('CheckDetails').style.display = 'none'
+            document.getElementById('ContinueOpt').style.display = 'none'
+            document.getElementById('DeleteSol').style.display = 'none'
+        }
+        )
+
+}
+
+function temporalSol() {
+    modal.style.display = "block";
+    document.getElementById('CheckDetails').style.display = 'block'
+    document.getElementById('ContinueOpt').style.display = 'block'
+}
+
+function deleteProject() {
+    // Get the modal
+    var modal = document.getElementById("myModalSaved");
+    //var modalR = document.getElementById("myModalRun");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        //modalR.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            //modalR.style.display = "none";
+        }
+    }
+
+
+
+    url = 'https://138.4.92.155:8081/' + projectName + '/delete'
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url, options)
+        .then(response => response.json())
+        .then(response => {
+
+            modal.style.display = "block";
+            document.getElementById('ModalText').innerHTML = response.mensaje
+            document.getElementById('CheckDetails').style.display = 'none'
+            document.getElementById('ContinueOpt').style.display = 'none'
+            document.getElementById('DeleteSol').style.display = 'none'
+        });
+}
+
+function details(){
+    window.location.href = "map.html"
+}
+
+function continueOpt(){
+    // Get the modal
+    var modal = document.getElementById("myModalSaved");
+    //var modalR = document.getElementById("myModalRun");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        //modalR.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            //modalR.style.display = "none";
+        }
+    }
+
+
+    modal.style.display = "block";
+    document.getElementById('ModalText').innerHTML = "Running optimization..."
+    document.getElementById('CheckDetails').style.display = 'none'
+    document.getElementById('DeleteSol').style.display = 'none'
+    document.getElementById('ContinueOpt').style.display = 'none'
+
+    url = 'https://138.4.92.155:8081/' + projectName + '/' + sessionStorage.getItem('solutionID') + '/continue'
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url, options)
+        .then(response => response.json())
+        .then(response => {
+            if (response.ok_KO) {
+                //modalR.style.display = "none";
+
+                //Guardar id de solucion y proyecto en local storage
+
+                //Redirigir a mapa
+
+
+
+            }
+            else {
+                //Mostrar modal con error
+                console.log(response)
+                //modalR.style.display = "none";
+                modal.style.display = "block";
+                document.getElementById('ModalText').innerHTML = response.mensaje
+                document.getElementById('CheckDetails').style.display = 'none'
+                document.getElementById('DeleteSol').style.display = 'none'
+                document.getElementById('ContinueOpt').style.display = 'none'
+            }
+        });
+}
+
+function deleteSol(){
+    // Get the modal
+    var modal = document.getElementById("myModalSaved");
+    //var modalR = document.getElementById("myModalRun");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        //modalR.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            //modalR.style.display = "none";
+        }
+    }
+
+
+    url = 'https://138.4.92.155:8081/' + projectName + '/' + sessionStorage.getItem('solutionID') + '/delete'
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url, options)
+        .then(response => response.json())
+        .then(response => {
+            modal.style.display = "block";
+                document.getElementById('ModalText').innerHTML = response.mensaje
+                document.getElementById('CheckDetails').style.display = 'none'
+                document.getElementById('DeleteSol').style.display = 'none'
+                document.getElementById('ContinueOpt').style.display = 'none'
+        });
 }
 
 function logOut() {

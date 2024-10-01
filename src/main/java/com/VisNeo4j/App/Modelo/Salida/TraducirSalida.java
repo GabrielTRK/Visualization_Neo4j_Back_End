@@ -57,6 +57,27 @@ public class TraducirSalida {
 		return listaAeropuertos;
 	}
 	
+	public static List<Aeropuerto> añadirCoordenadas(List<List<String>> conexiones){
+		List<Aeropuerto> listaAeropuertos = new ArrayList<>();
+		
+		Map<String, List<Double>> coordenadas = new HashMap<>(); 
+		LecturaDeDatos.leerCoordenadasAeropuertos(coordenadas);
+		
+		for(int i = 0; i < conexiones.size(); i++) {
+				Aeropuerto nuevo1 = new Aeropuerto(coordenadas.get(conexiones.get(i).get(0)).get(0), 
+						coordenadas.get(conexiones.get(i).get(0)).get(1), 
+						conexiones.get(i).get(0), true);
+				
+				Aeropuerto nuevo2 = new Aeropuerto(coordenadas.get(conexiones.get(i).get(1)).get(0), 
+						coordenadas.get(conexiones.get(i).get(1)).get(1), 
+						conexiones.get(i).get(1), false);
+				listaAeropuertos.add(nuevo1);
+				listaAeropuertos.add(nuevo2);
+		}
+		
+		return listaAeropuertos;
+	}
+	
 	public static List<FitnessI> obtenerHistoricoDeFitness(List<List<String>> hist){
 		List<FitnessI> histFit = new ArrayList<>();
 		for(int i = 0; i < hist.size(); i++) {
@@ -75,7 +96,9 @@ public class TraducirSalida {
 			listObj.add(objI);
 		}*/
 		for(int i = 0; i < order.getOrder().size(); i++) {
-			listObj.add(new Objetivo(obj.get(order.getOrder().get(i)).get(0), Double.valueOf(df.format(Double.valueOf(obj.get(order.getOrder().get(i)).get(1))))));
+			String format = df.format(Double.valueOf(obj.get(order.getOrder().get(i)).get(1)));
+			format = format.replace(",", ".");
+			listObj.add(new Objetivo(obj.get(order.getOrder().get(i)).get(0), Double.valueOf(format)));
 		}
 		return listObj;
 	}

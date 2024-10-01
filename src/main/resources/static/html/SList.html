@@ -131,8 +131,10 @@
         <div class="card-body">
             <div style="display: flex;">
                 <h2 id="ListTitle"></h2>
-                <button id="RunSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="goToDescription()" style="margin-left: 5%;">Check project description</button>
+                <button id="CheckSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="goToDescription()" style="margin-left: 5%;">Check project description</button>
                 <button id="RunSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="algoritmoGuardado()" style="margin-left: 6%;">Run optimization</button>
+                <button id="StopSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="stopOpt()" style="margin-left: 6%; display: none;">Stop optimization</button>
+                <button id="DeleteSaved" type="button" class="btn btn-outline-dark btn-lg" onclick="deleteProject()" style="margin-left: 6%;">Delete project</button>
             </div><br>
             <div class="list-group" id="MainList">
                 
@@ -148,7 +150,10 @@
             <span class="close">&times;</span>
             <p id="ModalText"></p>
 
-
+            <button id="CheckDetails" type="button" class="btn btn-outline-dark btn-lg" onclick="details()" style="margin-left: 0%; margin-bottom: 1%;">Check details</button>
+            <button id="ContinueOpt" type="button" class="btn btn-outline-dark btn-lg" onclick="continueOpt()" style="margin-left: 0%; margin-bottom: 1%; display: none;">Continue optimization</button>
+            <button id="DeleteSol" type="button" class="btn btn-outline-dark btn-lg" onclick="deleteSol()" style="margin-left: 0%;">Delete solution</button>
+             
         </div>
 
     </div>

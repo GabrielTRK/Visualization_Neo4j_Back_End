@@ -541,6 +541,12 @@ public class RRPS_PAT extends Problema {
 		}
 		return ind;
 	}
+	
+	
+
+	public DatosRRPS_PAT getDatos() {
+		return datos;
+	}
 
 	@Override
 	public void sumarNumInicializaciones() {

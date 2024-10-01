@@ -13,6 +13,8 @@ switchsNames = ['Europe', 'North America', 'South America', 'Asia', 'Africa']
 
 url = 'https://138.4.92.155:8081/loadP'
 
+datosGlobal = null
+
 fetch(url).then(res => {
     return res.json()
 })
@@ -25,8 +27,10 @@ fetch(url).then(res => {
             noProjects.classList.add('text-center')
             main.appendChild(noProjects)
         }
+
+        datosGlobal = dataBack
         for (i = 0; i < dataBack.length; i++) {
-            
+
             projectI = document.createElement("button")
             projectI.setAttribute("type", "button");
             projectI.classList.add(dataBack[i].nombre)
@@ -246,6 +250,16 @@ function addPrefImgs(divDecMain, dataBack) {
 }
 
 function optionSelected(event){
+
+    i = 0
+    sessionStorage.setItem("ejecutando", 0);
+
+    for (i = 0; i < datosGlobal.length; i++) {
+        if(event.target.classList[0] == datosGlobal[i].nombre && datosGlobal[i].ejecutando){
+            sessionStorage.setItem("ejecutando", 1);
+        }
+    }
+
     //Redirigir a lista de soluciones guardando el nombre del proyecto en sessionStorage
     
     sessionStorage.setItem("projectName",event.target.classList[0]);
