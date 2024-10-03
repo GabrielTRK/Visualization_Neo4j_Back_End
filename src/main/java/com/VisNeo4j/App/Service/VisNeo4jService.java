@@ -665,6 +665,12 @@ public class VisNeo4jService {
 		return Utils.obtenernumDiasSolucionI(proyecto, id);
 	}
 	
+	public int numDiasSolucionISnapshot(String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
+		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		return datos.getNumDias();
+	}
+	
 	public List<FitnessI> obtenerHistSolucionI(String proyecto, int id) throws FileNotFoundException, IOException, CsvException, ParseException {
 		return TraducirSalida.obtenerHistoricoDeFitness(Utils.leerCSVHistFitness(proyecto, String.valueOf(id)));
 	}
@@ -798,7 +804,21 @@ public class VisNeo4jService {
 					GBest.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAerDest)));
 		}else {
 			int numSol = this.obtenerListaSolucionesProyectoI(proyecto).size();
+			//TODO: Crear el Gbest con sus atributos
 			datosConexiones = this.cargarProyectoISolucionJDiaK(proyecto, numSol-1, dia);
+			List<Objetivo> obj = this.obtenerObjSolucionI(proyecto, numSol-1);
+			List<FitnessI> fit = this.obtenerHistSolucionI(proyecto, numSol-1);
+			Rangos rangos = this.obtenerRangosSolucionI(proyecto, numSol-1);
+			Map<String, List<String>> rangosSnapshot = new HashMap<>();
+			rangosSnapshot.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía, rangos.getListaPasajerosPerdidosPorCompanyia());
+			rangosSnapshot.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf, rangos.getListaIngresoPerdidoPorAreaInf());
+			rangosSnapshot.put(Constantes.nombreCampoIngresoPerdidoPorAerDest, rangos.listaIngresoPerdidoPorAerDest);
+			
+			datosConexiones.setExtraSnapshot(rangosSnapshot);
+			
+			Individuo ind = Utils.crearIndividuoConAtributos(obj, fit);
+			
+			datosConexiones.setGBest(ind);
 		}
 		
 		

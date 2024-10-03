@@ -107,6 +107,12 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
+	@GetMapping("snapshot/{proyecto}/numDias")
+	public int numDiasSolucionISnapshot(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
+		return visNeo4jService.numDiasSolucionISnapshot(proyecto);
+	}
+	
+	@CrossOrigin
 	@PostMapping("/optimize")
 	public Respuesta runOptimization(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,

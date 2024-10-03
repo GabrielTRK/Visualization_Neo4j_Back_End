@@ -27,7 +27,11 @@ import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.BPSOParamsSalida;
+import com.VisNeo4j.App.Modelo.Salida.Conexion;
+import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FechasProyecto;
+import com.VisNeo4j.App.Modelo.Salida.FitnessI;
+import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.OrdenObjSalida;
 import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
@@ -2113,5 +2117,24 @@ public class Utils {
 		
 		ind.setObjetivosNorm(objNormForm);
 		ind.setFitnessHist(fitnessHistForm);
+	}
+	
+	public static Individuo crearIndividuoConAtributos(List<Objetivo> obj, 
+			List<FitnessI> fit) {
+		Individuo ind = new Individuo(0, obj.size());
+		List<Double> objLista = new ArrayList<>();
+		for(Objetivo o : obj) {
+			objLista.add(o.getValor());
+		}
+		ind.setObjetivosNorm(objLista);
+		
+		List<Double> fitLista = new ArrayList<>();
+		for(FitnessI f : fit) {
+			fitLista.add(f.getFitness());
+		}
+		
+		ind.setFitnessHist(fitLista);
+		
+		return ind;
 	}
 }
