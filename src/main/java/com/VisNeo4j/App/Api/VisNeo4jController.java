@@ -75,6 +75,12 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
+	@GetMapping("/loadP/{proyecto}")
+	public Proyecto estadoProyectoI(@PathVariable String proyecto) throws IOException, CsvException {
+	    return visNeo4jService.obtenerProyecto(proyecto);
+	}
+	
+	@CrossOrigin
 	@GetMapping("/{proyecto}/loadS")
 	public List<Solucion> cargarSolucionesProyectoI(@PathVariable String proyecto) throws IOException, CsvException {
 		return visNeo4jService.obtenerListaSolucionesProyectoI(proyecto);

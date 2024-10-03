@@ -13,6 +13,8 @@ public class DatosConexiones {
 	private List<Aeropuerto> listaAeropuertos;
 	private List<Conexion> coordenadasConexiones;
 	private Map<String, String> fechas;
+	private Individuo GBest;
+	private Map<String, List<String>> extraSnapshot;
 
 	/*public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind, DatosRRPS_PAT datos, Map<String, String> fechas) {
 		this.listaAeropuertos = listaAeropuertos;
@@ -109,5 +111,23 @@ public class DatosConexiones {
 	public void setFechas(Map<String, String> fechas) {
 		this.fechas = fechas;
 	}
+
+	public Individuo getGBest() {
+		return GBest;
+	}
+
+	public void setGBest(Individuo gBest) {
+		GBest = gBest;
+	}
+
+	public Map<String, List<String>> getExtraSnapshot() {
+		return extraSnapshot;
+	}
+
+	public void setExtraSnapshot(Map<String, List<String>> extraSnapshot) {
+		this.extraSnapshot = extraSnapshot;
+	}
+	
+	
 
 }

@@ -1620,6 +1620,73 @@ public class Utils {
 
 		return valoresSalida;
 	}
+	
+	public static Map<String, List<String>> obtenerRangosSnapshot(List<Double> pasajerosPerdidosPorCompanyia,
+			List<Double> ingresoPerdidoAreasInf, List<Double> ingresoPerdidoAerDest)
+			throws FileNotFoundException, IOException, CsvException {
+		
+		Map<String, List<String>> valoresSalida = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.00");
+
+		int indMin = 0;
+		int indMax = pasajerosPerdidosPorCompanyia.size() - 1;
+
+		double valorMin = pasajerosPerdidosPorCompanyia.get(indMin);
+		double valorMax = pasajerosPerdidosPorCompanyia.get(indMax);
+
+		while (indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
+			if (valorMin == 0.0) {
+				valorMin = pasajerosPerdidosPorCompanyia.get(indMin);
+				indMin++;
+			}
+			if (valorMax == 1.0) {
+				valorMax = pasajerosPerdidosPorCompanyia.get(indMax);
+				indMax--;
+			}
+		}
+		valoresSalida.put(Constantes.nombreCampoPasajerosPerdidosPorCompañía,
+				Stream.of(df.format(valorMin), df.format(valorMax)).collect(Collectors.toList()));
+
+		indMin = 0;
+		indMax = ingresoPerdidoAreasInf.size() - 1;
+
+		valorMin = ingresoPerdidoAreasInf.get(indMin);
+		valorMax = ingresoPerdidoAreasInf.get(indMax);
+
+		while (indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
+			if (valorMin == 0.0) {
+				valorMin = ingresoPerdidoAreasInf.get(indMin);
+				indMin++;
+			}
+			if (valorMax == 1.0) {
+				valorMax = ingresoPerdidoAreasInf.get(indMax);
+				indMax--;
+			}
+		}
+		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAreaInf,
+				Stream.of(df.format(valorMin), df.format(valorMax)).collect(Collectors.toList()));
+
+		indMin = 0;
+		indMax = ingresoPerdidoAerDest.size() - 1;
+
+		valorMin = ingresoPerdidoAerDest.get(indMin);
+		valorMax = ingresoPerdidoAerDest.get(indMax);
+
+		while (indMin < indMax && (valorMin == 0.0 || valorMax == 1.0)) {
+			if (valorMin == 0.0) {
+				valorMin = ingresoPerdidoAerDest.get(indMin);
+				indMin++;
+			}
+			if (valorMax == 1.0) {
+				valorMax = ingresoPerdidoAerDest.get(indMax);
+				indMax--;
+			}
+		}
+		valoresSalida.put(Constantes.nombreCampoIngresoPerdidoPorAerDest,
+				Stream.of(df.format(valorMin), df.format(valorMax)).collect(Collectors.toList()));
+
+		return valoresSalida;
+	}
 
 	public static Map<Integer, String> obtenerTooltips(DatosRRPS_PAT datos) {
 		Map<Integer, String> tooltips = new HashMap<>();
@@ -1986,6 +2053,8 @@ public class Utils {
 		List<Double> restricciones = ind.getRestricciones();
 		boolean factible = ind.isFactible();
 		Double constraintViolation = ind.getConstraintViolation();
+		List<Double> fitnessHist = ind.getFitnessHist();
+		Map<String, List<Double>> extra = ind.getExtra();
 
 		nuevo.setConstraintViolation(constraintViolation);
 		nuevo.setdomina(domina);
@@ -1994,6 +2063,8 @@ public class Utils {
 		nuevo.setObjetivosNorm(copiarLista(objetivosNorm));
 		nuevo.setRestricciones(copiarLista(restricciones));
 		nuevo.setVariables(copiarLista(variables));
+		nuevo.setFitnessHist(fitnessHist);
+		nuevo.setExtra(extra);
 
 		return nuevo;
 	}
@@ -2022,5 +2093,25 @@ public class Utils {
 
 			writer.writeAll(datosFichero);
 		}
+	}
+	
+	public static void formatearIndividuo(Individuo ind) {
+		List<Double> objNormForm = new ArrayList<>();
+		List<Double> fitnessHistForm = new ArrayList<>();
+		
+		for(int i = 0; i < ind.getObjetivosNorm().size(); i++) {
+			String format = Constantes.df.format(ind.getObjetivosNorm().get(i));
+			format = format.replace(",", ".");
+			objNormForm.add(Double.valueOf(format));
+		}
+		
+		for(int i = 0; i < ind.getFitnessHist().size(); i++) {
+			String format = Constantes.df.format(ind.getFitnessHist().get(i));
+			format = format.replace(",", ".");
+			fitnessHistForm.add(Double.valueOf(format));
+		}
+		
+		ind.setObjetivosNorm(objNormForm);
+		ind.setFitnessHist(fitnessHistForm);
 	}
 }

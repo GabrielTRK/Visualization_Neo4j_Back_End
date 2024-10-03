@@ -1,8 +1,8 @@
 package com.VisNeo4j.App.Constantes;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -20,6 +20,7 @@ public class Constantes {
 	
 	public static final String extensionFichero = ".csv";
     public static final DateFormat formatoFecha = new SimpleDateFormat("yyyyMMddHHmmss");
+    public static final DecimalFormat df = new DecimalFormat("0.00");
     public static final SimpleDateFormat formatoFechaRRPS_PAT = new SimpleDateFormat("yyyy-MM-dd");
     public static final String fechaSDMin = "2020-04-01";
     public static final String fechaSDMax = "2020-08-31";

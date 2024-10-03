@@ -20,7 +20,7 @@ public class Individuo implements Comparable<Individuo> {
 	private List<Double> restricciones;
 	private boolean factible = true;
 	private Double constraintViolation = 0.0;
-	private List<List<Double>> subObjetivos;
+	
 	private List<Double> fitnessHist;
 	private Map<String, List<Double>> extra;
 	
@@ -108,14 +108,6 @@ public class Individuo implements Comparable<Individuo> {
 
 	public void setConstraintViolation(Double constraintViolation) {
 		this.constraintViolation = constraintViolation;
-	}
-
-	public List<List<Double>> getSubObjetivos() {
-		return subObjetivos;
-	}
-
-	public void setSubObjetivos(List<List<Double>> subObjetivos) {
-		this.subObjetivos = subObjetivos;
 	}
 
 	public List<Double> getFitnessHist() {

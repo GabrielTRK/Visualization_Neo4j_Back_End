@@ -598,6 +598,17 @@ public class VisNeo4jService {
 		return proyectos;
 	}
 	
+	public Proyecto obtenerProyecto(String nombre) throws FileNotFoundException, IOException, CsvException {
+		List<String> proyectoEjecutando = Utils.leerFicheroCola();
+		Proyecto proyecto = new Proyecto(nombre, (proyectoEjecutando.size() > 0 && proyectoEjecutando.get(0).equals(nombre)),
+		Utils.leerCSVFechasSalida(nombre), 
+		Utils.leerCSVParamsSalida(nombre), 
+		Utils.leerCSVPrefSalida(nombre),
+		Utils.leerCSVRestriccionesSalida(nombre));
+		
+		return proyecto;
+	}
+	
 	public List<Solucion> obtenerListaSolucionesProyectoI(String nombre) throws IOException, CsvException{
 		File directoryPath = new File(Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioFicherosObjetivos);
 		String contents[] = directoryPath.list();
@@ -644,17 +655,7 @@ public class VisNeo4jService {
 	
 	public DatosConexiones cargarProyectoISolucionJDiaKFiltro(String proyecto, int id,
 			int dia, String con) throws FileNotFoundException, IOException, CsvException, ParseException {
-		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		
-		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
-		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
-		
-		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
-		
-		fechas.put(Constantes.nombreFechaActual, this.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
-		
-		DatosConexiones datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
+		DatosConexiones datosConexiones = this.cargarProyectoISolucionJDiaK(proyecto, id, dia);
 		datosConexiones.aplicarFiltro(con);
 		
 		return datosConexiones;
@@ -769,11 +770,13 @@ public class VisNeo4jService {
 		DatosConexiones datosConexiones;
 		
 		if(Utils.leerFicheroCola().contains(proyecto)) {
-			Individuo GBest = this.bpso.getGbest();
+			Individuo GBest = Utils.copiarIndividuo(this.bpso.getGbest());
 			
 			GBest.initExtra();
 			
 			this.bpso.getProblema().extra(GBest);
+			
+			Utils.formatearIndividuo(GBest);
 			
 			GBest = this.bpso.getProblema().devolverSolucionCompleta(GBest);
 			
@@ -788,8 +791,13 @@ public class VisNeo4jService {
 			
 			
 			datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
+			datosConexiones.setGBest(GBest);
+			datosConexiones.setExtraSnapshot(Utils.obtenerRangosSnapshot(
+					GBest.getExtra().get(Constantes.nombreCampoPasajerosPerdidosPorCompañía), 
+					GBest.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAreaInf), 
+					GBest.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAerDest)));
 		}else {
-			int numSol = this.obtenerListaSolucionesProyectoI(proyecto).size();;
+			int numSol = this.obtenerListaSolucionesProyectoI(proyecto).size();
 			datosConexiones = this.cargarProyectoISolucionJDiaK(proyecto, numSol-1, dia);
 		}
 		
@@ -801,41 +809,10 @@ public class VisNeo4jService {
 	public DatosConexiones obtenerSnapshotFiltroK(String proyecto, int dia, 
 			String con) throws IOException, CsvException, ParseException {
 		
-		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
-		fechas.put(Constantes.nombreFechaActual, this.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
+		DatosConexiones snapshotFiltro = this.obtenerSnapshot(proyecto, dia);
+		snapshotFiltro.aplicarFiltro(con);
 		
-		DatosConexiones datosConexiones;
-		
-		if(Utils.leerFicheroCola().contains(proyecto)) {
-			Individuo GBest = this.bpso.getGbest();
-			
-			GBest.initExtra();
-			
-			this.bpso.getProblema().extra(GBest);
-			
-			GBest = this.bpso.getProblema().devolverSolucionCompleta(GBest);
-			
-			
-			
-			
-			List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(dia, GBest.getVariables(), datos);
-			List<Double> bits = Utils.obtenerBitsSolDiaI(dia, GBest.getVariables(), datos);
-			
-			
-			
-			
-			
-			datosConexiones = new DatosConexiones(lista, bits, datos.getDatosPorDia().get(dia), fechas);
-		}else {
-			int numSol = this.obtenerListaSolucionesProyectoI(proyecto).size();;
-			datosConexiones = this.cargarProyectoISolucionJDiaK(proyecto, numSol-1, dia);
-		}
-		
-		datosConexiones.aplicarFiltro(con);
-		
-		return datosConexiones;
+		return snapshotFiltro;
 	}
 	
 	private boolean comprobarFechas(String fecha_I, String fecha_F) throws ParseException {
