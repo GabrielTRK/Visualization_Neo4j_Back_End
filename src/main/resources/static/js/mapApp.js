@@ -38,7 +38,13 @@ if (sessionStorage.getItem("projectName") && sessionStorage.getItem("solutionID"
 
     currentAnimation = false;
 
-    mainURL = 'https://138.4.92.155:8081/' + projectName + '/' + solutionID
+    if (sessionStorage.getItem("ejecutando") == 1) {
+        mainURL = 'https://138.4.92.155:8081/snapshot/' + projectName
+    }else{
+        mainURL = 'https://138.4.92.155:8081/' + projectName + '/' + solutionID
+    }
+
+    
 
     var projection = d3.geoMercator()
         .translate([width / 2, height / 2])

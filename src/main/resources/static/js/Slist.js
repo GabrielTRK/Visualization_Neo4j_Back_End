@@ -8,86 +8,105 @@ if (sessionStorage.getItem("projectName")) {
     });
     projectName = sessionStorage.getItem("projectName")
 
-    document.getElementById('ListTitle').innerHTML = 'Solutions list from project ' + projectName
-
-    if (sessionStorage.getItem("ejecutando") == 1) {
-        console.log(sessionStorage.getItem("ejecutando"))
-
-        document.getElementById('StopSaved').style.display = 'block'
-        document.getElementById('RunSaved').style.display = 'none'
-
-        document.getElementById('DeleteSaved').style.display = 'none'
-    }
-
     url = 'https://138.4.92.155:8081/' + projectName + '/loadS'
 
-    fetch(url).then(res => {
+    document.getElementById('ListTitle').innerHTML = 'Solutions list from project ' + projectName
+
+    fetch('https://138.4.92.155:8081/loadP/' + projectName).then(res => {
         return res.json()
     })
         .then(dataBack => {
-            main = document.getElementById("MainList")
-            //Si databack.length == 0 poner mensaje de empty list
-            if (dataBack.length == 0) {
-                noSolutions = document.createElement("p")
-                noSolutions.innerHTML = 'No solutions'
-                noSolutions.classList.add('text-center')
-                main.appendChild(noSolutions)
+            
+            if(dataBack.ejecutando){
+                sessionStorage.setItem("ejecutando", 1);
+            }else{
+                sessionStorage.setItem("ejecutando", 0);
             }
-
-            datosGlobal = dataBack
-            for (i = 0; i < dataBack.length; i++) {
-
-                solutionI = document.createElement("button")
-                solutionI.setAttribute("type", "button");
-                solutionI.classList.add("Solution-" + dataBack[i].id)
-                solutionI.classList.add("list-group-item")
-                solutionI.classList.add("list-group-item-action")
-                solutionI.classList.add("flex-column")
-                solutionI.classList.add("align-items-start")
-                solutionI.setAttribute('onclick', 'optionSelected(event)')
-
-                divIDInputs = document.createElement("div")
-                divIDInputs.classList.add("Solution-" + dataBack[i].id)
-                divIDInputs.classList.add("d-flex")
-                divIDInputs.classList.add("w-100")
-
-                addIDInputs(divIDInputs, dataBack[i])
-
-                ObjP = document.createElement('p')
-                ObjP.innerHTML = 'Objective values:'
-                ObjP.classList.add("Solution-" + dataBack[i].id)
-
-                divIMGS = document.createElement('div')
-                divIMGS.classList.add("Solution-" + dataBack[i].id)
-                divIMGS.classList.add('parent')
-                divIMGS.classList.add('mb-3')
-
-                addIMGS(divIMGS, dataBack[i])
-
-                divObjs = document.createElement('div')
-                divObjs.classList.add("Solution-" + dataBack[i].id)
-                divObjs.classList.add('parent')
-                divObjs.classList.add('mb-3')
-
-                addObjs(divObjs, dataBack[i])
-
-                divInputIR = document.createElement('div')
-                divInputIR.classList.add("Solution-" + dataBack[i].id)
-                divInputIR.classList.add('d-flex')
-
-                addRisk(divInputIR, dataBack[i])
-
-                solutionI.appendChild(divIDInputs)
-                solutionI.appendChild(ObjP)
-                solutionI.appendChild(divIMGS)
-                solutionI.appendChild(divObjs)
-                solutionI.appendChild(divInputIR)
-
-
-                main.appendChild(solutionI)
+           
+            if (sessionStorage.getItem("ejecutando") == 1) {
+                console.log(sessionStorage.getItem("ejecutando"))
+        
+                document.getElementById('StopSaved').style.display = 'block'
+                document.getElementById('SnapshotSaved').style.display = 'block'
+                document.getElementById('RunSaved').style.display = 'none'
+                document.getElementById('DeleteSaved').style.display = 'none'
             }
+        
+            
+        
+            fetch(url).then(res => {
+                return res.json()
+            })
+                .then(dataBack => {
+                    main = document.getElementById("MainList")
+                    //Si databack.length == 0 poner mensaje de empty list
+                    if (dataBack.length == 0) {
+                        noSolutions = document.createElement("p")
+                        noSolutions.innerHTML = 'No solutions'
+                        noSolutions.classList.add('text-center')
+                        main.appendChild(noSolutions)
+                    }
+        
+                    datosGlobal = dataBack
+                    for (i = 0; i < dataBack.length; i++) {
+        
+                        solutionI = document.createElement("button")
+                        solutionI.setAttribute("type", "button");
+                        solutionI.classList.add("Solution-" + dataBack[i].id)
+                        solutionI.classList.add("list-group-item")
+                        solutionI.classList.add("list-group-item-action")
+                        solutionI.classList.add("flex-column")
+                        solutionI.classList.add("align-items-start")
+                        solutionI.setAttribute('onclick', 'optionSelected(event)')
+        
+                        divIDInputs = document.createElement("div")
+                        divIDInputs.classList.add("Solution-" + dataBack[i].id)
+                        divIDInputs.classList.add("d-flex")
+                        divIDInputs.classList.add("w-100")
+        
+                        addIDInputs(divIDInputs, dataBack[i])
+        
+                        ObjP = document.createElement('p')
+                        ObjP.innerHTML = 'Objective values:'
+                        ObjP.classList.add("Solution-" + dataBack[i].id)
+        
+                        divIMGS = document.createElement('div')
+                        divIMGS.classList.add("Solution-" + dataBack[i].id)
+                        divIMGS.classList.add('parent')
+                        divIMGS.classList.add('mb-3')
+        
+                        addIMGS(divIMGS, dataBack[i])
+        
+                        divObjs = document.createElement('div')
+                        divObjs.classList.add("Solution-" + dataBack[i].id)
+                        divObjs.classList.add('parent')
+                        divObjs.classList.add('mb-3')
+        
+                        addObjs(divObjs, dataBack[i])
+        
+                        divInputIR = document.createElement('div')
+                        divInputIR.classList.add("Solution-" + dataBack[i].id)
+                        divInputIR.classList.add('d-flex')
+        
+                        addRisk(divInputIR, dataBack[i])
+        
+                        solutionI.appendChild(divIDInputs)
+                        solutionI.appendChild(ObjP)
+                        solutionI.appendChild(divIMGS)
+                        solutionI.appendChild(divObjs)
+                        solutionI.appendChild(divInputIR)
+        
+        
+                        main.appendChild(solutionI)
+                    }
+                }
+                )
+
+
         }
         )
+
+    
 } else {
     window.location.href = "list.html"
 }
@@ -488,6 +507,10 @@ function deleteSol(){
                 document.getElementById('DeleteSol').style.display = 'none'
                 document.getElementById('ContinueOpt').style.display = 'none'
         });
+}
+
+function goToSnapshot(){
+    window.location.href = "map.html"
 }
 
 function logOut() {

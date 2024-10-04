@@ -8,7 +8,7 @@ if (sessionStorage.getItem("projectName") && sessionStorage.getItem("solutionID"
     var html_p_Close = '</p>'
 
     data = null
-    
+
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -23,12 +23,16 @@ if (sessionStorage.getItem("projectName") && sessionStorage.getItem("solutionID"
     minDateString = ''
     numDias = 0
 
-    mainURL = 'https://138.4.92.155:8081/' + projectName + separator + solutionID + separator
+    if (sessionStorage.getItem("ejecutando") == 1) {
+        mainURL = 'https://138.4.92.155:8081/snapshot/' + projectName + separator
+    } else {
+        mainURL = 'https://138.4.92.155:8081/' + projectName + separator + solutionID + separator
+    }
+
+    //mainURL = 'https://138.4.92.155:8081/' + projectName + separator + solutionID + separator
 
     getConnections()
-    getObj()
-    getRanges()
-    getFit()
+
 } else {
     window.location.href = "list.html"
 }
@@ -46,62 +50,62 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 }
-var connectionClicked = function (d){
-    
+var connectionClicked = function (d) {
+
     elemento = encontrarElemento(d.target.classList[0].split("-"), data.coordenadasConexiones)
-    
+
     modal.style.display = "block";
-        if (elemento.abierto_cerrado) {
-            document.getElementById('ModalText').innerHTML =
-                html_p_Open +
-                'Departures: '+ elemento.aerOrigen + ' (' + elemento.iataOrigen + ')'+
-                html_p_Close +
+    if (elemento.abierto_cerrado) {
+        document.getElementById('ModalText').innerHTML =
+            html_p_Open +
+            'Departures: ' + elemento.aerOrigen + ' (' + elemento.iataOrigen + ')' +
+            html_p_Close +
 
-                html_p_Open +
-                'Destination: '+ elemento.aerDestino + ' (' + elemento.iataDestino + ')'+
-                html_p_Close
+            html_p_Open +
+            'Destination: ' + elemento.aerDestino + ' (' + elemento.iataDestino + ')' +
+            html_p_Close
 
-                + html_p_Open +
-                'Number of passengers: ' + elemento.pasajeros +
-                html_p_Close
+            + html_p_Open +
+            'Number of passengers: ' + elemento.pasajeros +
+            html_p_Close
 
-                + html_p_Open +
-                'Revenue gained in the catchment area: ' + elemento.ingresos + ' euros' +
-                html_p_Close
+            + html_p_Open +
+            'Revenue gained in the catchment area: ' + elemento.ingresos + ' euros' +
+            html_p_Close
 
-                + html_p_Open +
-                'Revenue gained in the destination airport: ' + elemento.tasas + ' euros' +
-                html_p_Close
+            + html_p_Open +
+            'Revenue gained in the destination airport: ' + elemento.tasas + ' euros' +
+            html_p_Close
 
-                + html_p_Open +
-                'Imported risk: ' + elemento.riesgo +
-                html_p_Close
-        } else {
-            document.getElementById('ModalText').innerHTML =
-                html_p_Open +
-                'Departures: '+ elemento.aerOrigen + ' (' + elemento.iataOrigen + ')'+
-                html_p_Close +
+            + html_p_Open +
+            'Imported risk: ' + elemento.riesgo +
+            html_p_Close
+    } else {
+        document.getElementById('ModalText').innerHTML =
+            html_p_Open +
+            'Departures: ' + elemento.aerOrigen + ' (' + elemento.iataOrigen + ')' +
+            html_p_Close +
 
-                html_p_Open +
-                'Destination: '+ elemento.aerDestino + ' (' + elemento.iataDestino + ')'+
-                html_p_Close
+            html_p_Open +
+            'Destination: ' + elemento.aerDestino + ' (' + elemento.iataDestino + ')' +
+            html_p_Close
 
-                + html_p_Open +
-                'Number of affected passengers: ' + elemento.pasajeros +
-                html_p_Close
+            + html_p_Open +
+            'Number of affected passengers: ' + elemento.pasajeros +
+            html_p_Close
 
-                + html_p_Open +
-                'Revenue lost in the catchment area: ' + elemento.ingresos + ' euros' +
-                html_p_Close
+            + html_p_Open +
+            'Revenue lost in the catchment area: ' + elemento.ingresos + ' euros' +
+            html_p_Close
 
-                + html_p_Open +
-                'Revenue lost in the destination airport: ' + elemento.tasas + ' euros' +
-                html_p_Close
+            + html_p_Open +
+            'Revenue lost in the destination airport: ' + elemento.tasas + ' euros' +
+            html_p_Close
 
-                + html_p_Open +
-                'Avoided risk: ' + elemento.riesgo +
-                html_p_Close
-        }
+            + html_p_Open +
+            'Avoided risk: ' + elemento.riesgo +
+            html_p_Close
+    }
 }
 function getConnections() {
     fetch(mainURL + currentDay + separator + currentAir).then(res => {
@@ -162,6 +166,15 @@ function getConnections() {
             }
             document.getElementById('tableCaption').innerHTML = dataBack.coordenadasConexiones.length + ' connections'
 
+            if (sessionStorage.getItem("ejecutando") == 1) {
+                getObjSnapshot(dataBack)
+                getRangesSnapshot(dataBack)
+                getFitSnapshot(dataBack)
+            } else {
+                getObj()
+                getRanges()
+                getFit()
+            }
         }
         )
 }
@@ -215,28 +228,6 @@ function getObj() {
                 }
             }
 
-            /*for (j = 1; j < 6; j++) {
-
-                row3TH = document.createElement('th')
-                row3TH.setAttribute("scope", "col");
-                row3TH.classList.add('text-center')
-                row3TH.innerHTML = '<img src="../Utils/Objective' + dataBack[j].nombre + '.png" width="149" height="49">'
-
-                row4TD = document.createElement('td')
-                row4TD.setAttribute("scope", "col");
-                row4TD.classList.add('text-center')
-                if (j == 1 || j == 4) {
-                    row4TD.innerHTML = dataBack[j].valor + '%'
-                } else {
-                    row4TD.innerHTML = dataBack[j].valor
-                }
-
-
-
-                row3.appendChild(row3TH)
-                row4.appendChild(row4TD)
-            }*/
-
             row5 = document.getElementById('row5')
             row6 = document.getElementById('row6')
 
@@ -272,24 +263,85 @@ function getObj() {
                 }
             }
 
-            /*for (j = 6; j < dataBack.length; j++) {
-
-                row5TH = document.createElement('th')
-                row5TH.setAttribute("scope", "col");
-                row5TH.classList.add('text-center')
-                row5TH.innerHTML = '<img src="../Utils/Objective' + dataBack[j].nombre + '.png" width="149" height="49">'
-
-                row6TD = document.createElement('td')
-                row6TD.setAttribute("scope", "col");
-                row6TD.classList.add('text-center')
-                row6TD.innerHTML = dataBack[j].valor + '%'
-
-                row5.appendChild(row5TH)
-                row6.appendChild(row6TD)
-            }*/
-
         }
         )
+}
+
+function getObjSnapshot(dataBack) {
+    console.log(dataBack)
+    row3 = document.getElementById('row3')
+    row4 = document.getElementById('row4')
+
+    th3 = document.createElement('th')
+    th3.setAttribute("scope", "col");
+    th3.classList.add('text-center')
+    th3.innerHTML = 'Objectives'
+
+    th4 = document.createElement('th')
+    th4.setAttribute("scope", "col");
+    th4.classList.add('text-center')
+    th4.innerHTML = 'Optimal values'
+
+    row3.appendChild(th3)
+    row4.appendChild(th4)
+
+    for (id = 0; id < 5; id++) {
+
+        nombre = id + 1
+
+        row3TH = document.createElement('th')
+        row3TH.setAttribute("scope", "col");
+        row3TH.classList.add('text-center')
+        row3TH.innerHTML = '<img src="../Utils/Objective' + nombre + '.png" width="149" height="49">'
+
+        row4TD = document.createElement('td')
+        row4TD.setAttribute("scope", "col");
+        row4TD.classList.add('text-center')
+        if (id == 0 || id == 3) {
+            row4TD.innerHTML = dataBack.gbest.objetivosNorm[id] + '%'
+        } else {
+            row4TD.innerHTML = dataBack.gbest.objetivosNorm[id]
+        }
+
+
+
+        row3.appendChild(row3TH)
+        row4.appendChild(row4TD)
+    }
+
+    row5 = document.getElementById('row5')
+    row6 = document.getElementById('row6')
+
+    th5 = document.createElement('th')
+    th5.setAttribute("scope", "col");
+    th5.classList.add('text-center')
+    th5.innerHTML = 'Objectives'
+
+    th6 = document.createElement('th')
+    th6.setAttribute("scope", "col");
+    th6.classList.add('text-center')
+    th6.innerHTML = 'Optimal values'
+
+    row5.appendChild(th5)
+    row6.appendChild(th6)
+
+    for (id = 5; id < 7; id++) {
+
+        nombre = id + 1
+
+        row5TH = document.createElement('th')
+        row5TH.setAttribute("scope", "col");
+        row5TH.classList.add('text-center')
+        row5TH.innerHTML = '<img src="../Utils/Objective' + nombre + '.png" width="149" height="49">'
+
+        row6TD = document.createElement('td')
+        row6TD.setAttribute("scope", "col");
+        row6TD.classList.add('text-center')
+        row6TD.innerHTML = dataBack.gbest.objetivosNorm[id] + '%'
+
+        row5.appendChild(row5TH)
+        row6.appendChild(row6TD)
+    }
 }
 
 function getRanges() {
@@ -348,6 +400,58 @@ function getRanges() {
         )
 }
 
+function getRangesSnapshot(dataBack) {
+    //Si databack.length == 0 poner mensaje de empty list
+    //console.log(dataBack)
+
+    row7 = document.getElementById('row7')
+    row8 = document.getElementById('row8')
+
+    row7TH = document.createElement('th')
+    row7TH.setAttribute("scope", "col");
+    row7TH.classList.add('text-center')
+    row7TH.innerHTML = 'Influence areas'
+
+    row7.appendChild(row7TH)
+
+    row7TH = document.createElement('th')
+    row7TH.setAttribute("scope", "col");
+    row7TH.classList.add('text-center')
+    row7TH.innerHTML = 'Airlines'
+
+    row7.appendChild(row7TH)
+
+    row7TH = document.createElement('th')
+    row7TH.setAttribute("scope", "col");
+    row7TH.classList.add('text-center')
+    row7TH.innerHTML = 'Airports'
+
+    row7.appendChild(row7TH)
+
+    row8TD = document.createElement('td')
+    row8TD.setAttribute("scope", "col");
+    row8TD.classList.add('text-center')
+    row8TD.innerHTML = '(' + dataBack.extraSnapshot.IngresoPerdidoPorAreaInf[0] + ', ' + dataBack.extraSnapshot.IngresoPerdidoPorAreaInf[1] + ')%'
+
+    row8.appendChild(row8TD)
+
+    row8TD = document.createElement('td')
+    row8TD.setAttribute("scope", "col");
+    row8TD.classList.add('text-center')
+    row8TD.innerHTML = '(' + dataBack.extraSnapshot.PasajerosPerdidosPorCompañía[0] + ', ' + dataBack.extraSnapshot.PasajerosPerdidosPorCompañía[1] + ')%'
+
+    row8.appendChild(row8TD)
+
+    row8TD = document.createElement('td')
+    row8TD.setAttribute("scope", "col");
+    row8TD.classList.add('text-center')
+    row8TD.innerHTML = '(' + dataBack.extraSnapshot.IngresoPerdidoPorAerDest[0] + ', ' + dataBack.extraSnapshot.IngresoPerdidoPorAerDest[1] + ')%'
+
+    row8.appendChild(row8TD)
+
+
+}
+
 function getFit() {
     fetch(mainURL + 'hist').then(res => {
         return res.json()
@@ -390,6 +494,43 @@ function getFit() {
 
         }
         )
+}
+
+function getFitSnapshot(dataBack) {
+    //Si databack.length == 0 poner mensaje de empty list
+    //console.log(dataBack)
+
+    row9 = document.getElementById('row9')
+    row10 = document.getElementById('row10')
+
+    th9 = document.createElement('th')
+    th9.setAttribute("scope", "col");
+    th9.classList.add('text-center')
+    th9.innerHTML = 'Number of iteration'
+
+    th10 = document.createElement('th')
+    th10.setAttribute("scope", "col");
+    th10.classList.add('text-center')
+    th10.innerHTML = 'Fitness value'
+
+    row9.appendChild(th9)
+    row10.appendChild(th10)
+
+    for (k = 0; k < dataBack.gbest.fitnessHist.length; k++) {
+
+        row9TH = document.createElement('th')
+        row9TH.setAttribute("scope", "col");
+        row9TH.classList.add('text-center')
+        row9TH.innerHTML = k
+
+        row10TD = document.createElement('td')
+        row10TD.setAttribute("scope", "col");
+        row10TD.classList.add('text-center')
+        row10TD.innerHTML = dataBack.gbest.fitnessHist[k]
+
+        row9.appendChild(row9TH)
+        row10.appendChild(row10TD)
+    }
 }
 
 function datesDifference(fecha) {
@@ -463,12 +604,12 @@ function logOut() {
     window.location.href = "../index.html"
 }
 
-function encontrarElemento(lista, conexiones){
+function encontrarElemento(lista, conexiones) {
     pos = 0
     encontrado = false
     elemento = null
-    while(pos < conexiones.length && !encontrado){
-        if(conexiones[pos].iataOrigen == lista[0] && conexiones[pos].iataDestino == lista[1]){
+    while (pos < conexiones.length && !encontrado) {
+        if (conexiones[pos].iataOrigen == lista[0] && conexiones[pos].iataDestino == lista[1]) {
             encontrado = true
             elemento = conexiones[pos]
         }

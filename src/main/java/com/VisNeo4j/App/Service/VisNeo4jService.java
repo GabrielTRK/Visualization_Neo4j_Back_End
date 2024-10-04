@@ -446,8 +446,7 @@ public class VisNeo4jService {
 		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
 		
 		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
-		
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));;
 		Double restriccionEpi = Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0));
 		Problema problema = new RRPS_PAT(datos, restriccionEpi/100, res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
@@ -775,7 +774,8 @@ public class VisNeo4jService {
 		
 		DatosConexiones datosConexiones;
 		
-		if(Utils.leerFicheroCola().contains(proyecto)) {
+		if(Utils.leerFicheroCola().contains(proyecto) && this.bpso != null) {
+			System.out.println(this.bpso.getGbest());
 			Individuo GBest = Utils.copiarIndividuo(this.bpso.getGbest());
 			
 			GBest.initExtra();
