@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.VisNeo4j.App.Algoritmo.BPSO;
+import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
+import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Entrada.ResPolPref;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
@@ -21,8 +23,11 @@ import com.VisNeo4j.App.Modelo.Salida.Rangos;
 import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
+import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problemas.Sphere;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Service.VisNeo4jService;
+import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.BufferedReader;
@@ -31,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -279,27 +285,16 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/test")
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
-		// Enter data using BufferReader
-        /*BufferedReader reader = new BufferedReader(
-            new InputStreamReader(System.in));
-        String name = "";
-        while(!name.equals("1")) {
-        	
-        	
-        	
-        	
-        	name = reader.readLine();
-        }
-        
-        // Reading data using readLine
-        
-
-        // Printing the read line
-        System.out.println(name);*/
 		
-		String a = "aaaa";
-		System.out.println(a.replace("aa", "b"));
-		System.out.println(a);
+		BPSOParams params = new BPSOParams(100, 0.9, 1.5, 1.5, 
+				1000, 0, 0, Constantes.nombreCPGenerica, 
+				Constantes.nombreIWDyanamicDecreasing);
+		
+		Problema p = new Sphere(3);
+		
+		BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
+		
+		System.out.println(bpso.ejecutarBPSO());
 	}
 	
 	/*@CrossOrigin

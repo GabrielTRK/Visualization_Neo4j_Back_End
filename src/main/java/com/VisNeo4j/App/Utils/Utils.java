@@ -79,6 +79,62 @@ public class Utils {
 		}
 	}
 
+	public static List<Double> decodificarBinario(int bitsEnteros, int bitsDecimales, List<Double> bits) {
+		int numVariDecimales = (bits.size()) / (1 + bitsEnteros + bitsDecimales);
+		List<Double> valoresDecimales = new ArrayList<>();
+		
+		int offset = 0;
+		for (int i = 0; i < numVariDecimales; i++) {
+			Double parteEntera = 0.0;
+			Double parteDecimal = 0.0;
+			Double total = 0.0;
+			boolean positivo;
+			
+			if(bits.get(offset) == 1.0) {
+				positivo = false;
+			}else {
+				positivo = true;
+			}
+			
+			offset++;
+			
+			// Parte entera
+			for (int j = 0; j < bitsEnteros; j++) {
+				if(bits.get(offset) == 1.0) {
+					parteEntera += Math.pow(2, bitsEnteros - j - 1);
+				}
+				offset++;
+			}
+			
+			// Parte decimal
+			for (int j = 0; j < bitsDecimales; j++) {
+				if(bits.get(offset) == 1.0) {
+					parteDecimal += Math.pow(2, -(j + 1));
+				}
+				offset++;
+			}
+			total = parteEntera + parteDecimal;
+			if(!positivo) {
+				total *= -1;
+			}
+			
+			valoresDecimales.add(total);
+		}
+		return valoresDecimales;
+	}
+	
+	public static int distanciaHamming(List<Double> a, List<Double> b) {
+		int dist = 0;
+		for(int i = 0; i < a.size(); i++) {
+			double a1 = a.get(i);
+			double b1 = b.get(i);
+			if(a1 != b1) {
+				dist++;
+			}
+		}
+		return dist;
+	}
+
 	public static Poblacion juntarPoblaciones(Poblacion padres, Poblacion hijos, Problema problema) {
 		List<Individuo> lista = new ArrayList<>(2 * padres.getNumIndividuos());
 		for (int i = 0; i < padres.getNumIndividuos(); i++) {
@@ -359,14 +415,15 @@ public class Utils {
 		return TraducirSalida.añadirCoordenadas(variablesDouble,
 				conexiones.subList(offsetBits * 2, (offsetBits * 2) + Integer.valueOf(numConDia.get(dia)) * 2));
 	}
-	
+
 	public static List<Aeropuerto> obtenerSolucionDiaI(int dia, List<Double> variablesDouble, DatosRRPS_PAT datos)
 			throws FileNotFoundException, IOException, CsvException {
 		int offsetBits = 0;
 		for (int i = 0; i < dia; i++) {
 			offsetBits += Integer.valueOf(datos.getDatosPorDia().get(i).getConexiones().size());
 		}
-		variablesDouble = variablesDouble.subList(offsetBits, offsetBits + Integer.valueOf(datos.getDatosPorDia().get(dia).getConexiones().size()));
+		variablesDouble = variablesDouble.subList(offsetBits,
+				offsetBits + Integer.valueOf(datos.getDatosPorDia().get(dia).getConexiones().size()));
 
 		return TraducirSalida.añadirCoordenadas(datos.getDatosPorDia().get(dia).getConexiones());
 	}
@@ -389,14 +446,15 @@ public class Utils {
 
 		return variablesDouble;
 	}
-	
+
 	public static List<Double> obtenerBitsSolDiaI(int dia, List<Double> variablesDouble, DatosRRPS_PAT datos)
 			throws FileNotFoundException, IOException, CsvException {
 		int offsetBits = 0;
 		for (int i = 0; i < dia; i++) {
 			offsetBits += Integer.valueOf(datos.getDatosPorDia().get(i).getConexiones().size());
 		}
-		variablesDouble = variablesDouble.subList(offsetBits, offsetBits + Integer.valueOf(datos.getDatosPorDia().get(dia).getConexiones().size()));
+		variablesDouble = variablesDouble.subList(offsetBits,
+				offsetBits + Integer.valueOf(datos.getDatosPorDia().get(dia).getConexiones().size()));
 
 		return variablesDouble;
 	}
@@ -464,7 +522,7 @@ public class Utils {
 		}
 		return fichero;
 	}
-	
+
 	public static List<Double> leerCSVHistFitnessTemp(String proyecto, String id)
 			throws FileNotFoundException, IOException, CsvException {
 		List<Double> fichero = new ArrayList<>();
@@ -474,8 +532,7 @@ public class Utils {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for (int fila = 0; fila < numFilas; fila++) {
-				
-				
+
 				fichero.add(Double.valueOf(r.get(fila)[1]));
 			}
 		}
@@ -991,14 +1048,14 @@ public class Utils {
 		}
 		return pbests;
 	}
-	
+
 	public static void leerCSVV0Temp(String nombre, int id, List<List<Double>> v0)
 			throws FileNotFoundException, IOException, CsvException {
 
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
-				+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(id) + "//"
-				+ Constantes.nombreFicherov0Temp + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(
+				Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp + "//"
+						+ String.valueOf(id) + "//" + Constantes.nombreFicherov0Temp + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for (int fila = 0; fila < numFilas; fila++) {
@@ -1013,14 +1070,14 @@ public class Utils {
 			}
 		}
 	}
-	
+
 	public static void leerCSVV1Temp(String nombre, int id, List<List<Double>> v1)
 			throws FileNotFoundException, IOException, CsvException {
 
 		int numFilas;
-		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
-				+ Constantes.nombreDirectorioTemp + "//" + String.valueOf(id) + "//"
-				+ Constantes.nombreFicherov0Temp + Constantes.extensionFichero))) {
+		try (CSVReader reader = new CSVReader(new FileReader(
+				Constantes.rutaFicherosProyectos + "//" + nombre + "//" + Constantes.nombreDirectorioTemp + "//"
+						+ String.valueOf(id) + "//" + Constantes.nombreFicherov0Temp + Constantes.extensionFichero))) {
 			List<String[]> r = reader.readAll();
 			numFilas = r.size();
 			for (int fila = 0; fila < numFilas; fila++) {
@@ -1209,9 +1266,8 @@ public class Utils {
 		Restricciones res;
 		Double epi = Double.valueOf(fichero.get(0).get(1));
 		if (fichero.get(1).size() > 1) {
-			
-			res = new Restricciones(fichero.get(1).subList(1, fichero.get(1).size()),
-					epi);
+
+			res = new Restricciones(fichero.get(1).subList(1, fichero.get(1).size()), epi);
 		} else {
 			res = new Restricciones(new ArrayList<>(), epi);
 		}
@@ -1624,11 +1680,11 @@ public class Utils {
 
 		return valoresSalida;
 	}
-	
+
 	public static Map<String, List<String>> obtenerRangosSnapshot(List<Double> pasajerosPerdidosPorCompanyia,
 			List<Double> ingresoPerdidoAreasInf, List<Double> ingresoPerdidoAerDest)
 			throws FileNotFoundException, IOException, CsvException {
-		
+
 		Map<String, List<String>> valoresSalida = new HashMap<>();
 		DecimalFormat df = new DecimalFormat("0.00");
 
@@ -2098,43 +2154,42 @@ public class Utils {
 			writer.writeAll(datosFichero);
 		}
 	}
-	
+
 	public static void formatearIndividuo(Individuo ind) {
 		List<Double> objNormForm = new ArrayList<>();
 		List<Double> fitnessHistForm = new ArrayList<>();
-		
-		for(int i = 0; i < ind.getObjetivosNorm().size(); i++) {
+
+		for (int i = 0; i < ind.getObjetivosNorm().size(); i++) {
 			String format = Constantes.df.format(ind.getObjetivosNorm().get(i));
 			format = format.replace(",", ".");
 			objNormForm.add(Double.valueOf(format));
 		}
-		
-		for(int i = 0; i < ind.getFitnessHist().size(); i++) {
+
+		for (int i = 0; i < ind.getFitnessHist().size(); i++) {
 			String format = Constantes.df.format(ind.getFitnessHist().get(i));
 			format = format.replace(",", ".");
 			fitnessHistForm.add(Double.valueOf(format));
 		}
-		
+
 		ind.setObjetivosNorm(objNormForm);
 		ind.setFitnessHist(fitnessHistForm);
 	}
-	
-	public static Individuo crearIndividuoConAtributos(List<Objetivo> obj, 
-			List<FitnessI> fit) {
+
+	public static Individuo crearIndividuoConAtributos(List<Objetivo> obj, List<FitnessI> fit) {
 		Individuo ind = new Individuo(0, obj.size());
 		List<Double> objLista = new ArrayList<>();
-		for(Objetivo o : obj) {
+		for (Objetivo o : obj) {
 			objLista.add(o.getValor());
 		}
 		ind.setObjetivosNorm(objLista);
-		
+
 		List<Double> fitLista = new ArrayList<>();
-		for(FitnessI f : fit) {
+		for (FitnessI f : fit) {
 			fitLista.add(f.getFitness());
 		}
-		
+
 		ind.setFitnessHist(fitLista);
-		
+
 		return ind;
 	}
 }

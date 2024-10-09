@@ -140,7 +140,7 @@ public class Constantes {
     public static final String KO_respuestaNoFlights = "Due to the lockdown, there were no flights programmed between April 1st of 2020 and August 31st of 2020. Please chose a time window that doesn't overlap with this one.";
     public static final String KO_respuestaNoNombresIgualesYNoFlights = "The name of the project already exists. Aditionally, due to the lockdown, there were no flights programmed between April 1st of 2020 and August 31st of 2020. Please chose a time window that doesn't overlap with this one.";
     
-    public static final String OK_respuestaOptimizationCancelled = "Optimization cancelled, refresh the page to see the temporal solution obtained.";
+    public static final String OK_respuestaOptimizationCancelled = "Optimization cancelled, the new solution will appear at the end of the list.";
     public static final String OK_respuestaProjectDeleted = "Project deleted.";
     public static final String KO_respuestaProjectDeletedRunning = "The project is currently running. In order to delete it you must first cancel its optimization.";
     
