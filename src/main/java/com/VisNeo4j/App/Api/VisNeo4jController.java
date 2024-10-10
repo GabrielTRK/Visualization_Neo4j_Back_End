@@ -294,7 +294,7 @@ class VisNeo4jController {
 		
 		BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
 		
-		System.out.println(bpso.ejecutarBPSO());
+		System.out.println(bpso.ejecutarBPSOALT());
 	}
 	
 	/*@CrossOrigin

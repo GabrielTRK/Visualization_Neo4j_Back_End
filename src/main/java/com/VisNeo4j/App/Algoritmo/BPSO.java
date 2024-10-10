@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
+import com.VisNeo4j.App.Algoritmo.Parametros.AccelerationCoefficientsUpdate.C1_C2;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
@@ -33,6 +34,7 @@ public class BPSO {
 	private int minDist = 3;
 	private int maxIterAux = 3;
 	private List<Integer> timers;
+	private C1_C2 c1c2;
 	
 	public BPSO (Problema problema, BPSOParams params, String proyecto, BPSOOpciones opciones) throws FileNotFoundException, IOException, CsvException {
 		this.params = params;
@@ -45,6 +47,7 @@ public class BPSO {
 		this.poblacionPartículas = new Poblacion(this.params.getNumIndividuos(), this.problema);
 		this.timers = new ArrayList<>(this.params.getNumIndividuos());
 		this.listaAux = new ArrayList<>();
+		this.c1c2 = new C1_C2(params.getC1(), 0.0, 0.0, params.getC2(), Constantes.nombreC1_C2UpdateTimeVarying);
 		//Inicializar población o partículas y calcular fitness
 		if(opciones.isContinuarOpt()) {
 			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
@@ -83,6 +86,8 @@ public class BPSO {
 	public Individuo ejecutarBPSO() throws FileNotFoundException, IOException, CsvException {
 		while (!this.params.condicionParadaConseguida(this.poblacionPartículas, this.Gbest)){
 				//Calcular velocidades para cada bit de cada partícula, actualizar bits y fitness
+			this.params.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+			this.params.setC2(this.c1c2.updateC2(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
 			this.calcularVelocidades();
 				
 			//Calcular Pbest
@@ -124,7 +129,10 @@ public class BPSO {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String command = "";
 		while (!command.equals("1")){
-				//Calcular velocidades para cada bit de cada partícula, actualizar bits y fitness
+			this.params.getCondicionParada().setNumIteracionesActual(this.params.getIteracionActual() +1);
+			//Calcular velocidades para cada bit de cada partícula, actualizar bits y fitness
+			this.params.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+			this.params.setC2(this.c1c2.updateC2(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
 			this.calcularVelocidades();
 				
 			//Calcular Pbest
@@ -145,8 +153,10 @@ public class BPSO {
 			//System.out.println(poblacionPbest);
 			//System.out.println();
 			//System.out.println(Gbest);
-			System.out.println(this.v0);
-			System.out.println(this.v1);
+			//System.out.println(this.v0);
+			//System.out.println(this.v1);
+			System.out.println("c1: " + this.params.getC1());
+			System.out.println("c2: " + this.params.getC2());
 			//System.out.println();
 			//System.out.println(this.params.getIteracionActual() + ": " + this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
@@ -345,21 +355,22 @@ public class BPSO {
 	}
 	
 	private Double calcularPendienteFuncion() {
-		/*List<Integer> distanciaParticulas = new ArrayList<>();
-		double sumaDist = 0;
-		System.out.println(this.Gbest);
-		System.out.println(this.poblacionPartículas.getPoblacion().get(0));
+		/*List<Integer> distanciaParticulasGbest = new ArrayList<>();
 		for(int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) {
 			int distH = Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).getVariables(), this.Gbest.getVariables());
-			distanciaParticulas.add(distH);
-			if(distH < this.minDist){
-				sumaDist++;
-			}
+			distanciaParticulasGbest.add(distH);
 		}
-		System.out.println(distanciaParticulas);
-		return 100.0 * (1 - (sumaDist / this.poblacionPartículas.getNumIndividuos()));*/
+		System.out.println("Distancia con Gbest: " + distanciaParticulasGbest);
 		
-		double sumaTimers0 = 0;;
+		List<Integer> distanciaParticulasPbest = new ArrayList<>();
+		
+		for(int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) {
+			int distH = Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).getVariables(), this.poblacionPbest.getPoblacion().get(i).getVariables());
+			distanciaParticulasPbest.add(distH);
+		}
+		System.out.println("Distancia con Pbest: " + distanciaParticulasPbest);*/
+		
+		double sumaTimers0 = 0;
 		for(int i = 0; i < this.timers.size(); i++) {
 			if(this.timers.get(i) == 0) {
 				sumaTimers0++;

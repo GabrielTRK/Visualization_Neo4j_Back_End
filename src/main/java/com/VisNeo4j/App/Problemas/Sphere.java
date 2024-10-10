@@ -8,8 +8,8 @@ import com.VisNeo4j.App.Utils.Utils;
 
 public class Sphere extends Problema{
 	
-	private int bitsEnteros = 5;
-	private int bitsDecimales = 5;
+	private int bitsEnteros = 6;
+	private int bitsDecimales = 6;
 	private int bitsPorVariable = 1 + this.bitsEnteros + this.bitsDecimales;
 
 	public Sphere(int numVariables) {
@@ -43,7 +43,8 @@ public class Sphere extends Problema{
 	 public Individuo inicializarValores(Individuo ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for(int i = 0; i < super.getNumVariables(); i++) {
-			valores.add(Utils.getRandBinNumber());
+			//valores.add(Utils.getRandBinNumber());
+			valores.add(1.0);
 		}
 		ind.setVariables(valores);
 		return ind;

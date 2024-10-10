@@ -105,6 +105,8 @@ public class Constantes {
     public static final String nombreIWDyanamicDecreasing = "DynamicDecreasingIW";
     public static final String nombreCPGenerica = "maxIteraciones";
     public static final String nombreCPMaxDistQuick = "MaxDistQuick";
+    public static final String nombreC1_C2UpdateStandard = "Standard";
+    public static final String nombreC1_C2UpdateTimeVarying = "TimeVarying";
     
     public static final String nombreParamNumIndividuos = "numIndividuos";
     public static final String nombreParamInertiaW = "inertiaW";

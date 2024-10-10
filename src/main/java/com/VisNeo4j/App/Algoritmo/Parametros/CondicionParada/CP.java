@@ -7,7 +7,7 @@ import com.VisNeo4j.App.Modelo.Poblacion;
 public class CP {
 
 	private int maxIteraciones;
-	private int numIteracionesActual = 0;
+	private int numIteracionesActual = -1;
 	private double m;
 	private double p;
 
