@@ -23,8 +23,10 @@ public class C1_C2 {
 	
 	public double updateC1(int maxIter, int currIter) {
 		switch(this.method) {
-		case Constantes.nombreC1_C2UpdateTimeVarying:
-			return this.updateC1TimeVarying(maxIter, currIter);
+		case Constantes.nombreC1_C2UpdateTimeVaryingLineal:
+			return this.updateC1TimeVaryingLineal(maxIter, currIter);
+		case Constantes.nombreC1_C2UpdateTimeVaryingExponential:
+			return this.updateC1TimeVaryingExponential(maxIter, currIter);
 		default:
 			return this.c1I;
 		}
@@ -32,21 +34,29 @@ public class C1_C2 {
 	
 	public double updateC2(int maxIter, int currIter) {
 		switch(this.method) {
-		case Constantes.nombreC1_C2UpdateTimeVarying:
-			return this.updateC2TimeVarying(maxIter, currIter);
+		case Constantes.nombreC1_C2UpdateTimeVaryingLineal:
+			return this.updateC2TimeVaryingLineal(maxIter, currIter);
+		case Constantes.nombreC1_C2UpdateTimeVaryingExponential:
+			return this.updateC2TimeVaryingExponential(maxIter, currIter);
 		default:
 			return this.c1I;
 		}
 	}
 	
-	public double updateC1TimeVarying(int maxIter, int currIter) {
+	public double updateC1TimeVaryingLineal(int maxIter, int currIter) {
 		return this.c1I + ((this.c1F - this.c1I)/maxIter) * currIter;
 	}
 	
-	public double updateC2TimeVarying(int maxIter, int currIter) {
+	public double updateC2TimeVaryingLineal(int maxIter, int currIter) {
 		return this.c2I + ((this.c2F - this.c2I)/maxIter) * currIter;
 	}
 	
+	public double updateC1TimeVaryingExponential(int maxIter, int currIter) {
+		return this.c1F + (this.c1I - this.c1F) * Math.pow(Math.E, -currIter/(maxIter/10.0));
+	}
 	
+	public double updateC2TimeVaryingExponential(int maxIter, int currIter) {
+		return (this.c2F + this.c2I) - (this.c2I + (this.c2F - this.c2I)*Math.pow(Math.E, -currIter/(maxIter/10.0)));
+	}
 
 }

@@ -6,31 +6,34 @@ import java.util.List;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Utils.Utils;
 
-public class Sphere extends Problema{
+public class Rosenbrock extends Problema{
 	
-	private int bitsEnteros = 10;
-	private int bitsDecimales = 10;
+	private int bitsEnteros = 19;
+	private int bitsDecimales = 0;
 	private int bitsPorVariable = 1 + this.bitsEnteros + this.bitsDecimales;
 	private int numInicializaciones = 0;
-
-	public Sphere(int numVariables) {
+	
+	public Rosenbrock(int numVariables) {
 		super(0, 1);
 		super.setNumVariables(numVariables * this.bitsPorVariable);
 		
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	 public Individuo evaluate(Individuo solution) {
 		//Convertir las variables a decimal y aplicar la fórmula
 		List<Double> variablesDecimales = Utils.decodificarBinario(this.bitsEnteros, 
 				this.bitsDecimales, solution.getVariables());
-		
+		//System.out.println(variablesDecimales);
 		Double objetivo = 0.0;
 		List<Double> objetivos = new ArrayList<>();
 		
-		for(int i = 0; i < variablesDecimales.size(); i++) {
-			objetivo += variablesDecimales.get(i) * variablesDecimales.get(i);
+		for(int i = 0; i < variablesDecimales.size()-1; i++) {
+			double temp1 = variablesDecimales.get(i+1) - (variablesDecimales.get(i) * variablesDecimales.get(i));
+		    double temp2 = variablesDecimales.get(i) - 1.0;
+		    objetivo += (100.0 * temp1 * temp1) + (temp2 * temp2);
+			
 		}
 		
 		objetivos.add(objetivo);
@@ -56,4 +59,5 @@ public class Sphere extends Problema{
 		ind.setVariables(valores);
 		return ind;
 	}
+
 }

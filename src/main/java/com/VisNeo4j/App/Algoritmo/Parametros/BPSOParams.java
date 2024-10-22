@@ -44,7 +44,7 @@ public class BPSOParams {
 	}
 	
 	public void updateInertiaW() {
-		this.inertiaW.updateIntertiaW(this.getIteracionActual());
+		this.inertiaW.updateIntertiaW(this.getIteracionActual(), this.condicionParada.getMaxIteraciones());
 	}
 
 	public double getC1() {

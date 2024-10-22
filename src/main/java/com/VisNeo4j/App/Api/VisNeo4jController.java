@@ -24,6 +24,7 @@ import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problemas.Rosenbrock;
 import com.VisNeo4j.App.Problemas.Sphere;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Service.VisNeo4jService;
@@ -286,15 +287,15 @@ class VisNeo4jController {
 	@GetMapping("/test")
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		BPSOParams params = new BPSOParams(100, 0.9, 1.5, 1.5, 
-				1000, 0, 0, Constantes.nombreCPGenerica, 
-				Constantes.nombreIWDyanamicDecreasing);
+		BPSOParams params = new BPSOParams(100, 0.9, 1, 1, 
+				30000, 0, 0, Constantes.nombreCPGenerica, 
+				Constantes.nombreIWLinearDecreasing);
 		
-		Problema p = new Sphere(3);
+		Problema p = new Rosenbrock(5);
 		
 		BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
 		
-		System.out.println(bpso.ejecutarBPSOALT());
+		System.out.println(bpso.ejecutarBPSO());
 	}
 	
 	/*@CrossOrigin

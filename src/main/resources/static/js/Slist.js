@@ -272,12 +272,14 @@ function algoritmoGuardado() {
     span.onclick = function () {
         modal.style.display = "none";
         //modalR.style.display = "none";
+        location.reload()
     }
 
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
             //modalR.style.display = "none";
+            location.reload()
         }
     }
 
@@ -286,6 +288,7 @@ function algoritmoGuardado() {
     document.getElementById('ModalText').innerHTML = "Running optimization..."
     document.getElementById('CheckDetails').style.display = 'none'
     document.getElementById('DeleteSol').style.display = 'none'
+    document.getElementById('ContinueOpt').style.display = 'none'
 
     url = 'https://138.4.92.155:8081/' + projectName + '/optimize'
 
@@ -333,12 +336,14 @@ function stopOpt() {
     span.onclick = function () {
         modal.style.display = "none";
         //modalR.style.display = "none";
+        location.reload()
     }
 
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
             //modalR.style.display = "none";
+            location.reload()
         }
     }
 
@@ -376,12 +381,14 @@ function deleteProject() {
     span.onclick = function () {
         modal.style.display = "none";
         //modalR.style.display = "none";
+        window.location.href = "list.html"
     }
 
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
             //modalR.style.display = "none";
+            window.location.href = "list.html"
         }
     }
 
@@ -403,6 +410,10 @@ function deleteProject() {
             document.getElementById('CheckDetails').style.display = 'none'
             document.getElementById('ContinueOpt').style.display = 'none'
             document.getElementById('DeleteSol').style.display = 'none'
+
+            sessionStorage.removeItem("projectName")
+            sessionStorage.removeItem("solutionID")
+            sessionStorage.removeItem("ejecutando")
         });
 }
 
@@ -421,12 +432,14 @@ function continueOpt(){
     span.onclick = function () {
         modal.style.display = "none";
         //modalR.style.display = "none";
+        location.reload()
     }
 
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
             //modalR.style.display = "none";
+            location.reload()
         }
     }
 
@@ -481,12 +494,14 @@ function deleteSol(){
     span.onclick = function () {
         modal.style.display = "none";
         //modalR.style.display = "none";
+        location.reload()
     }
 
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
             //modalR.style.display = "none";
+            location.reload()
         }
     }
 

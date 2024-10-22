@@ -102,11 +102,13 @@ public class Constantes {
     public static final String nombreQDMPGenerica = "QDMPGenerico";
     public static final String nombreQDMPSR = "SR";
 	public static final String nombreIWGenerica = "IWGenerica";
+	public static final String nombreIWLinearDecreasing = "LinearDecreasingIW";
     public static final String nombreIWDyanamicDecreasing = "DynamicDecreasingIW";
     public static final String nombreCPGenerica = "maxIteraciones";
     public static final String nombreCPMaxDistQuick = "MaxDistQuick";
     public static final String nombreC1_C2UpdateStandard = "Standard";
-    public static final String nombreC1_C2UpdateTimeVarying = "TimeVarying";
+    public static final String nombreC1_C2UpdateTimeVaryingLineal = "TimeVaryingLineal";
+    public static final String nombreC1_C2UpdateTimeVaryingExponential = "TimeVaryingExponential";
     
     public static final String nombreParamNumIndividuos = "numIndividuos";
     public static final String nombreParamInertiaW = "inertiaW";
