@@ -804,7 +804,6 @@ public class VisNeo4jService {
 					GBest.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAerDest)));
 		}else {
 			int numSol = this.obtenerListaSolucionesProyectoI(proyecto).size();
-			//TODO: Crear el Gbest con sus atributos
 			datosConexiones = this.cargarProyectoISolucionJDiaK(proyecto, numSol-1, dia);
 			List<Objetivo> obj = this.obtenerObjSolucionI(proyecto, numSol-1);
 			List<FitnessI> fit = this.obtenerHistSolucionI(proyecto, numSol-1);

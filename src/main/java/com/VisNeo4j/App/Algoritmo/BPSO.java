@@ -23,10 +23,15 @@ public class BPSO {
 	private Problema problema;
 	private Poblacion poblacionPartículas;
 	private Poblacion poblacionPbest;
+	private Poblacion poblacionLbest;
+	private int maxDistL = 5;
 	private List<Individuo> listaAux;
 	private Individuo Gbest;
 	private List<List<Double>> v0;
 	private List<List<Double>> v1;
+	private List<List<Double>> v0L;
+	private List<List<Double>> v1L;
+	private double u = 0.5; 
 	private double r1;
 	private double r2;
 	private List<Double> fitnessHist = new ArrayList<>();
@@ -78,6 +83,7 @@ public class BPSO {
 			this.poblacionPartículas.generarPoblacionInicial(problema, false, 29, proyecto);
 			//Calcular Pbest
 			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
+			this.poblacionLbest = new Poblacion(this.params.getNumIndividuos(), problema);
 			//this.calcularPbestsYGbest();
 			//Calcular aux
 			//this.calcularAux();
@@ -355,8 +361,8 @@ public class BPSO {
 
 			
 			for(int j = 0; j < this.problema.getNumVariables(); j++) {
-				double d1_1, d0_1, d1_2, d0_2;
-				double v1, v0;
+				double d1_1, d0_1, d1_2, d0_2, d1_3, d0_3;
+				double v1, v0, v1L, v0L, v1T, v0T;
 				if(this.poblacionPbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
 					d1_1 = this.params.getC1() * this.r1;
 					d0_1 = -this.params.getC1() * this.r1;
@@ -371,8 +377,19 @@ public class BPSO {
 					d1_2 = -this.params.getC2() * this.r2;
 					d0_2 = this.params.getC2() * this.r2;
 				}
+				if(this.poblacionLbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
+					d1_3 = this.params.getC2() * this.r2;
+					d0_3 = -this.params.getC2() * this.r2;
+				}else {
+					d1_3 = -this.params.getC2() * this.r2;
+					d0_3 = this.params.getC2() * this.r2;
+				}
 				v1 = this.params.getInertiaW().getInertiaW() * this.v1.get(i).get(j) + d1_1 + d1_2;
 				v0 = this.params.getInertiaW().getInertiaW() * this.v0.get(i).get(j) + d0_1 + d0_2;
+				
+				v1L = this.params.getInertiaW().getInertiaW() * this.v1L.get(i).get(j) + d1_1 + d1_3;
+				v0L = this.params.getInertiaW().getInertiaW() * this.v0L.get(i).get(j) + d0_1 + d0_3;
+				
 				if(v1 > this.maxV) {
 					this.v1.get(i).set(j, this.maxV);
 				}else if(v1 < this.minV){
@@ -389,11 +406,31 @@ public class BPSO {
 					this.v0.get(i).set(j, v0);
 				}
 				
+				if(v0L > this.maxV) {
+					this.v0L.get(i).set(j, this.maxV);
+				}else if(v0L < this.minV){
+					this.v0L.get(i).set(j, this.minV);
+				}else {
+					this.v0L.get(i).set(j, v0L);
+				}
+				
+				if(v1L > this.maxV) {
+					this.v1L.get(i).set(j, this.maxV);
+				}else if(v1L < this.minV){
+					this.v1L.get(i).set(j, this.minV);
+				}else {
+					this.v1L.get(i).set(j, v1L);
+				}
+				//TODO: Decrementar linealmente u. Desde 1 hasta 0.
+				v1T = (1- this.u) * v1L + this.u * v1;
+				v0T = (1- this.u) * v0L + this.u * v0;
+				
 				if(this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
 					//vc = 1/(1+ Math.pow(Math.E, -5*v1));
 					//vc = Math.abs(Math.tanh(v1));
 					//System.out.print(v1 + " ");
 					vc = 1/(1+ Math.pow(Math.E, -pendiente*v1));
+					//vc = 1/(1+ Math.pow(Math.E, -pendiente*v1T));
 					//vc = 1/(1+ Math.pow(Math.E, -v1/pendiente));
 					//System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v1)));
 				}else {
@@ -401,6 +438,7 @@ public class BPSO {
 					//vc = Math.abs(Math.tanh(v0));
 					//System.out.print(v0 + " ");
 					vc = 1/(1+ Math.pow(Math.E, -pendiente*v0));
+					//vc = 1/(1+ Math.pow(Math.E, -pendiente*v0T));
 					//vc = 1/(1+ Math.pow(Math.E, -v0/pendiente));
 					//System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v0)));
 				}
@@ -689,17 +727,24 @@ public class BPSO {
 	private void rellenarVelocidadesIniciales() {
 		Individuo Temp_GBest = new Individuo(0, 0);
 		List<Individuo> listaPBests = new ArrayList<>();
+		List<Individuo> listaLBests = new ArrayList<>();
 		
 		for(int i = 0; i < this.params.getNumIndividuos(); i++) {
 			List<Double> v0_i = new ArrayList<>();
 			List<Double> v1_i = new ArrayList<>();
+			List<Double> v0_iL = new ArrayList<>();
+			List<Double> v1_iL = new ArrayList<>();
 			for(int j = 0; j < this.problema.getNumVariables(); j++) {
 				v0_i.add(0.0);
 				v1_i.add(0.0);
+				v0_iL.add(0.0);
+				v1_iL.add(0.0);
 			}
 			
 			this.v0.add(v0_i);
 			this.v1.add(v1_i);
+			this.v0L.add(v0_iL);
+			this.v1L.add(v1_iL);
 			
 			if(this.poblacionPbest.getPoblacion().get(i).getObjetivos().size() == this.poblacionPartículas.getPoblacion().get(i).getObjetivos().size()) {
 				if(this.poblacionPartículas.getPoblacion().get(i).isFactible() && this.poblacionPbest.getPoblacion().get(i).isFactible()) {
@@ -732,6 +777,8 @@ public class BPSO {
 				Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
 				listaPBests.add(nuevo);
 			}
+			
+			listaLBests.add(obtenerLbest(this.poblacionPartículas.getPoblacion().get(i)));
 			
 			if(i == 0) {
 				Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
@@ -856,8 +903,15 @@ public class BPSO {
 		return this.minPendiente + distMaxMinPendientes * (1 - (sumaDistH / this.poblacionPartículas.getNumIndividuos()));
 	}
 	
-	public Double calcularPendienteFuncion4() {
-		return 4.0 - this.params.getIteracionActual()*((4.0 - 0.05)/this.params.getMax_Num_Iteraciones());
+	private Individuo obtenerLbest(Individuo ind) {
+		Individuo Lbest = ind;
+		
+		for(Individuo i : this.poblacionPartículas.getPoblacion()) {
+			if(i.getObjetivos().get(0) < Lbest.getObjetivos().get(0) && Utils.distanciaHamming(i.getVariables(), Lbest.getVariables()) < this.maxDistL) {
+				Lbest = Utils.copiarIndividuo(i);
+			}
+		}
+		return Lbest;
 	}
 	
 	public List<Integer> DistanciasGbest(){

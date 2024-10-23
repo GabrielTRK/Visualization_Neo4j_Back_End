@@ -17,7 +17,6 @@ public class Rosenbrock extends Problema{
 		super(0, 1);
 		super.setNumVariables(numVariables * this.bitsPorVariable);
 		
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
