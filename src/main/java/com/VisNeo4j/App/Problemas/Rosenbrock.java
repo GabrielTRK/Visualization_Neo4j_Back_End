@@ -46,8 +46,8 @@ public class Rosenbrock extends Problema{
 	 public Individuo inicializarValores(Individuo ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for(int i = 0; i < super.getNumVariables(); i++) {
-			//valores.add(Utils.getRandBinNumber());
-			valores.add(1.0);
+			valores.add(Utils.getRandBinNumber());
+			//valores.add(1.0);
 			/*if (i == this.numInicializaciones) {
 				valores.add(i, 1.0);
 			} else {

@@ -291,7 +291,7 @@ class VisNeo4jController {
 				30000, 0, 0, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWLinearDecreasing);
 		
-		Problema p = new Rosenbrock(5);
+		Problema p = new Sphere(30);
 		
 		BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
 		
