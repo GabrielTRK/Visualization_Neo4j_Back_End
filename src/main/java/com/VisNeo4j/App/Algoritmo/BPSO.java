@@ -31,7 +31,8 @@ public class BPSO {
 	private List<List<Double>> v1;
 	private List<List<Double>> v0L;
 	private List<List<Double>> v1L;
-	private double u = 0.0; 
+	private double u = 0.1;
+	private double u2 = 0.0;
 	private double r1;
 	private double r2;
 	private List<Double> fitnessHist = new ArrayList<>();
@@ -42,9 +43,9 @@ public class BPSO {
 	private List<List<Integer>> timers2;
 	private C1_C2 c1c2;
 	//private C1_C2 c1c2Temp;
-	private int maxDistH = 5;
-	private double maxPendiente = 10.0;
-	private double minPendiente = 5.0;
+	private int maxDistH = 1;
+	private double maxPendiente = 5.0;
+	private double minPendiente = 1.0;
 	private double maxPendienteL = 7.0;
 	private double minPendienteL = 3.0;
 	private double maxV = 100.0;
@@ -75,12 +76,15 @@ public class BPSO {
 			//Calcular objetivos
 			this.poblacionPartículas.calcularObjetivos(problema);
 			this.poblacionPbest.calcularObjetivos(problema);
-			this.calcularAux();
+			//this.calcularAux();
 			
-			this.compararFitness();
+			//this.compararFitness();
+			this.rellenarVelocidadesIniciales();
 			
 			Utils.leerCSVV0Temp(proyecto, opciones.getId(), this.v0);
 			Utils.leerCSVV1Temp(proyecto, opciones.getId(), this.v1);
+			Utils.leerCSVV0LTemp(proyecto, opciones.getId(), this.v0L);
+			Utils.leerCSVV1LTemp(proyecto, opciones.getId(), this.v1L);
 			
 			this.fitnessHist = Utils.leerCSVHistFitnessTemp(proyecto, String.valueOf(opciones.getId()));
 		}else {
@@ -105,7 +109,8 @@ public class BPSO {
 	
 	public Individuo ejecutarBPSO() throws FileNotFoundException, IOException, CsvException {
 		while (!this.params.condicionParadaConseguida(this.poblacionPartículas, this.Gbest)){
-				//Calcular velocidades para cada bit de cada partícula, actualizar bits y fitness
+			//Calcular velocidades para cada bit de cada partícula, actualizar bits y fitness
+			this.updateU(100, this.params.getIteracionActual());
 			this.params.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
 			this.params.setC2(this.c1c2.updateC2(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
 			
@@ -114,7 +119,7 @@ public class BPSO {
 			this.calcularVelocidades3();
 			//this.calcularVelocidades2();
 			//this.calcularVelocidades3();
-				
+			
 			//Calcular Pbest
 			//this.calcularPbestsYGbest();
 			//this.calcularAux();
@@ -128,7 +133,7 @@ public class BPSO {
 			this.r2 = Utils.getRandNumber(0.0, 1.0);
 			
 			this.params.updateInertiaW();
-			this.updateU(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual());
+			//this.updateU2(this.params.getMax_Num_Iteraciones()/5, this.params.getIteracionActual());
 			//System.out.println(r1);
 			//System.out.println(r2);
 			//System.out.println(poblacionPartículas);
@@ -435,6 +440,7 @@ public class BPSO {
 				//TODO: Decrementar linealmente u. Desde 1 hasta 0.
 				v1T = (1- this.u) * v1L + this.u * v1;
 				v0T = (1- this.u) * v0L + this.u * v0;
+				
 				
 				if(this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
 					//vc = 1/(1+ Math.pow(Math.E, -5*v1));
@@ -951,7 +957,16 @@ public class BPSO {
 	}
 	
 	private void updateU(int maxIter, int currIter) {
-		this.u = 0.0 + ((1.0 - 0.0)/maxIter) * currIter;
+		if(currIter > maxIter) {
+			this.u = 0.9;
+		}else {
+			this.u = 0.1 + ((0.9 - 0.1)/maxIter) * currIter;
+		}
+		//System.out.println(this.u);
+	}
+	
+	private void updateU2(int maxIter, int currIter) {
+		this.u2 = 1.0 - (0.0 + ((1.0 - 0.0)/maxIter) * currIter);
 		//System.out.println(this.u);
 	}
 	
@@ -1038,6 +1053,22 @@ public class BPSO {
 
 	public void setV1(List<List<Double>> v1) {
 		this.v1 = v1;
+	}
+
+	public List<List<Double>> getV0L() {
+		return v0L;
+	}
+
+	public void setV0L(List<List<Double>> v0l) {
+		v0L = v0l;
+	}
+
+	public List<List<Double>> getV1L() {
+		return v1L;
+	}
+
+	public void setV1L(List<List<Double>> v1l) {
+		v1L = v1l;
 	}
 
 	public double getR1() {

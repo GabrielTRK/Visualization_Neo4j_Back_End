@@ -62,7 +62,9 @@ public class Constantes {
     public static final String nombreFicheroPoblacionTemp = "poblacion";
     public static final String nombreFicheroPbestsTemp = "pbests";
     public static final String nombreFicherov0Temp = "v0";
+    public static final String nombreFicherov0LTemp = "v0L";
     public static final String nombreFicherov1Temp = "v1";
+    public static final String nombreFicherov1LTemp = "v1L";
     public static final String nombreFicheroParamsTemp = "parametros";
     
     public static final List<String> nombresRestricciones = Stream.of("Epi").collect(Collectors.toList());;

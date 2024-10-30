@@ -284,7 +284,7 @@ public class VisNeo4jService {
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 
-				Constantes.nombreIWDyanamicDecreasing);
+				Constantes.nombreIWLinearDecreasing);
 		
 		File directoryPath = new File(Constantes.rutaFicherosProyectos);
 	      
@@ -354,7 +354,7 @@ public class VisNeo4jService {
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 
-				Constantes.nombreIWDyanamicDecreasing);
+				Constantes.nombreIWLinearDecreasing);
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
@@ -392,6 +392,9 @@ public class VisNeo4jService {
 					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, this.bpso.getV0());
 					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, this.bpso.getV1());
 					
+					Utils.crearFicheroV0LSolucionITemp(nombreProyecto, fila, this.bpso.getV0L());
+					Utils.crearFicheroV1LSolucionITemp(nombreProyecto, fila, this.bpso.getV1L());
+					
 					Utils.crearFicheroParamsTemp(nombreProyecto, fila, params);
 					
 				}
@@ -417,7 +420,7 @@ public class VisNeo4jService {
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
-				Constantes.nombreIWDyanamicDecreasing);
+				Constantes.nombreIWLinearDecreasing);
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
@@ -474,6 +477,9 @@ public class VisNeo4jService {
 				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
 				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
 				
+				Utils.crearFicheroV0LSolucionITemp(proyecto, fila, this.bpso.getV0L());
+				Utils.crearFicheroV1LSolucionITemp(proyecto, fila, this.bpso.getV1L());
+				
 				Utils.crearFicheroParamsTemp(proyecto, fila, params);
 				
 			}
@@ -522,6 +528,9 @@ public class VisNeo4jService {
 				
 				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
 				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
+				
+				Utils.crearFicheroV0LSolucionITemp(proyecto, fila, this.bpso.getV0L());
+				Utils.crearFicheroV1LSolucionITemp(proyecto, fila, this.bpso.getV1L());
 				
 				Utils.crearFicheroParamsTemp(proyecto, fila, params);
 				
