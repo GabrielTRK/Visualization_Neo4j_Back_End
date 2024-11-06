@@ -70,6 +70,7 @@ public class BPSO {
 		//Inicializar población o partículas y calcular fitness
 		if(opciones.isContinuarOpt()) {
 			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
+			this.poblacionLbest = new Poblacion(this.params.getNumIndividuos(), problema);
 			//Llamar a utils para recuperar valores
 			Utils.leerCSVPoblacionTemp(problema, proyecto, opciones.getId(), this.poblacionPartículas);
 			Utils.leerCSVPbestsTemp(problema, proyecto, opciones.getId(), this.poblacionPbest);

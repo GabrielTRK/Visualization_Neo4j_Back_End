@@ -305,7 +305,6 @@ public class RRPS_PAT extends Problema {
 
 		objetivos.add(Pasajerosporcentaje);// Pasajeros
 		objetivos.add(Conectividadsolucion);// Conectividad
-
 		return objetivos;
 	}
 

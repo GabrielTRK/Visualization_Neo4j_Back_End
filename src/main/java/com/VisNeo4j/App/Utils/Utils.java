@@ -221,6 +221,14 @@ public class Utils {
 		}
 		return list;
 	}
+	
+	public static void crearFicheroConDatosDiaI(List<String[]> datosFichero, String nombre) throws IOException {
+		try (CSVWriter writer = new CSVWriter(
+				new FileWriter(Constantes.rutaDatosPorDia + nombre + Constantes.extensionFichero), ',',
+				CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
+			writer.writeAll(datosFichero);
+		}
+	}
 
 	public static List<Individuo> leerCSV(String nombre) throws FileNotFoundException, IOException, CsvException {
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + nombre))) {

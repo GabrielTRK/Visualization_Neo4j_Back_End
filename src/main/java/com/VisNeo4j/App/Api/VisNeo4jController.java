@@ -291,7 +291,7 @@ class VisNeo4jController {
 	}
 	
 	@CrossOrigin
-	@GetMapping("snapshot/{proyecto}/numDias")
+	@GetMapping("/snapshot/{proyecto}/numDias")
 	public int numDiasSolucionISnapshot(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
 		return visNeo4jService.numDiasSolucionISnapshot(proyecto);
 	}
@@ -438,9 +438,9 @@ class VisNeo4jController {
 	}*/
 	
 	@CrossOrigin
-	@GetMapping("/getData/")
+	@GetMapping("/getData")
 	public int hola() {
-		return 1234;
+		return Utils.getRandNumber(0, 10);
 	}
 
 	/*@CrossOrigin
