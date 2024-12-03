@@ -8,7 +8,7 @@ import com.VisNeo4j.App.Utils.Utils;
 
 public class Rosenbrock extends Problema{
 	
-	private int bitsEnteros = 19;
+	private int bitsEnteros = 10;
 	private int bitsDecimales = 0;
 	private int bitsPorVariable = 1 + this.bitsEnteros + this.bitsDecimales;
 	private int numInicializaciones = 0;

@@ -30,6 +30,7 @@ import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.RRPS_PAT;
+import com.VisNeo4j.App.Problemas.RRPS_PAT_ALT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
@@ -49,6 +50,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -335,6 +338,64 @@ public class VisNeo4jService {
 		return resp;
 	}
 	
+	public Respuesta guardarProyectoALT(String fecha_I, String fecha_F, int numIteraciones,
+			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
+			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws IOException, ParseException {
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
+		
+		if(numIteraciones == 0) {
+			numIteraciones = Utils.getRandNumber(500, 30000);
+		}
+		
+		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
+				numIteraciones, m, p, Constantes.nombreCPGenerica, 
+				Constantes.nombreIWLinearDecreasing);
+		
+		File directoryPath = new File(Constantes.rutaFicherosProyectos);
+	      
+	    String contents[] = directoryPath.list();
+	    int pos = 0;
+	    boolean igual = false;
+	    while(!igual && pos < contents.length) {
+	    	if(contents[pos].equals(nombreProyecto)) {
+	    		igual = true;
+	    	}
+	    	pos++;
+	    }
+	    
+	    Respuesta resp = new Respuesta(false, null);
+	    
+		boolean fechasCorrectas = this.comprobarFechas(fecha_I, fecha_F);
+	    
+		if(igual || !fechasCorrectas) {
+			if(igual && fechasCorrectas) {
+				resp.setMensaje(Constantes.KO_respuestaNombresIguales);
+			}
+			if(!igual && !fechasCorrectas) {
+				resp.setMensaje(Constantes.KO_respuestaNoFlights);
+			}
+			if(igual && !fechasCorrectas) {
+				resp.setMensaje(Constantes.KO_respuestaNoNombresIgualesYNoFlights);
+			}
+		}else {
+			/*Utils.crearDirectorioProyecto(nombreProyecto);
+			Utils.crearDirectorioTemp(nombreProyecto);
+			Utils.crearDirectorioFitness(nombreProyecto);
+			Utils.crearDirectorioObjetivos(nombreProyecto);
+			Utils.crearDirectorioRangos(nombreProyecto);
+			
+			Utils.crearCSVFechas(fecha_I, fecha_F, nombreProyecto);
+			Utils.crearCSVParams(params, nombreProyecto);
+			Utils.crearCSVPref(preferencias, nombreProyecto);
+			Utils.crearCSVRestricciones(resEpi, resPolPref.getPol(), nombreProyecto);*/
+			resp.setOK_KO(true);
+			resp.setMensaje(Constantes.OK_respuestaProjectSaved);
+			
+		}
+		return resp;
+	}
+	
 	//Borra el proyecto indicado
 	//Se comprueba si el proyecto se está ejecutando
 	public Respuesta borrarProyecto(String nombre) throws FileNotFoundException, IOException, CsvException{
@@ -401,8 +462,8 @@ public class VisNeo4jService {
 					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, this.bpso.getV0());
 					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, this.bpso.getV1());
 					
-					Utils.crearFicheroV0LSolucionITemp(nombreProyecto, fila, this.bpso.getV0L());
-					Utils.crearFicheroV1LSolucionITemp(nombreProyecto, fila, this.bpso.getV1L());
+					//Utils.crearFicheroV0LSolucionITemp(nombreProyecto, fila, this.bpso.getV0L());
+					//Utils.crearFicheroV1LSolucionITemp(nombreProyecto, fila, this.bpso.getV1L());
 					
 					Utils.crearFicheroParamsTemp(nombreProyecto, fila, params);
 					
@@ -420,35 +481,73 @@ public class VisNeo4jService {
 		
 	}
 	
-	/*public boolean guardarYOptimizarALT(String fecha_I, String fecha_F, int numIteraciones,
+	public Respuesta guardarYOptimizarALT(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
 			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
+		numIteraciones = Utils.getRandNumber(500, 30000);
+		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
-				numIteraciones, m, p, Constantes.nombreCPMaxDistQuick, 
+				numIteraciones, m, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWLinearDecreasing);
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Problema problema = new RRPS_PAT(datos, resEpi, resPolPref.getPol(), preferencias);
+		Problema problema = new RRPS_PAT_ALT(datos, Stream.of(0.50, 0.50).collect(Collectors.toList()), resPolPref.getPol(), preferencias);
 		
-		if(this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref)) {
-			BPSO bpso = new BPSO(problema, params, nombreProyecto);
-			Individuo ind = bpso.ejecutarBPSOALT();
-			problema.devolverSolucionCompleta(ind);
-			System.out.println(ind);
-			
-			this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
-			return true;
+		Respuesta resp = new Respuesta(false, null);
+		
+		if(problema.getNumVariables() > 0) {
+			resp = this.guardarProyectoALT(fecha_I, fecha_F, numIteraciones, numIndividuos, 
+					inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
 		}else {
-			return false;
+			resp.setMensaje(Constantes.KO_respuestaNoFlights);
 		}
 		
-	}*/
+		if(resp.isOK_KO()) {
+			if(Utils.leerFicheroCola().size() > 0) {
+				resp.setOK_KO(false);
+				resp.setMensaje(Constantes.KO_respuestaProjectRunning);
+			}else {
+				Utils.modificarFicheroCola(nombreProyecto);
+				this.bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
+				Individuo ind = this.bpso.ejecutarBPSO();
+				problema.devolverSolucionCompleta(ind);
+				System.out.println(ind);
+				Utils.modificarFicheroCola("");
+				//String fila = this.guardarNuevaSolucionRRPS_PAT(ind, datos, nombreProyecto);
+				
+				/*if(!Constantes.continueOpt) {
+					Utils.crearDirectorioTempSolucion(nombreProyecto, fila);
+					
+					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					
+					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					
+					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, this.bpso.getV0());
+					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, this.bpso.getV1());
+					
+					Utils.crearFicheroV0LSolucionITemp(nombreProyecto, fila, this.bpso.getV0L());
+					Utils.crearFicheroV1LSolucionITemp(nombreProyecto, fila, this.bpso.getV1L());
+					
+					Utils.crearFicheroParamsTemp(nombreProyecto, fila, params);
+					
+				}*/
+				
+				
+				
+				resp.setMensaje(Constantes.OK_respuestaProjectSavedRunning);
+			}
+			
+		}
+		Constantes.continueOpt = true;
+		return resp;
+		
+		
+	}
 	
 	//Se ejecuta el proyecto indicado
 	//Se comprueba si se está ejecutando
@@ -488,8 +587,8 @@ public class VisNeo4jService {
 				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
 				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
 				
-				Utils.crearFicheroV0LSolucionITemp(proyecto, fila, this.bpso.getV0L());
-				Utils.crearFicheroV1LSolucionITemp(proyecto, fila, this.bpso.getV1L());
+				//Utils.crearFicheroV0LSolucionITemp(proyecto, fila, this.bpso.getV0L());
+				//Utils.crearFicheroV1LSolucionITemp(proyecto, fila, this.bpso.getV1L());
 				
 				Utils.crearFicheroParamsTemp(proyecto, fila, params);
 				
@@ -542,8 +641,8 @@ public class VisNeo4jService {
 				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
 				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
 				
-				Utils.crearFicheroV0LSolucionITemp(proyecto, fila, this.bpso.getV0L());
-				Utils.crearFicheroV1LSolucionITemp(proyecto, fila, this.bpso.getV1L());
+				//Utils.crearFicheroV0LSolucionITemp(proyecto, fila, this.bpso.getV0L());
+				//Utils.crearFicheroV1LSolucionITemp(proyecto, fila, this.bpso.getV1L());
 				
 				Utils.crearFicheroParamsTemp(proyecto, fila, params);
 				

@@ -12,6 +12,7 @@ import com.VisNeo4j.App.Algoritmo.BPSO;
 import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
+import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Entrada.ResPolPref;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
@@ -24,9 +25,12 @@ import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problemas.RRPS_PAT_ALT;
 import com.VisNeo4j.App.Problemas.Rosenbrock;
 import com.VisNeo4j.App.Problemas.Sphere;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
+import com.VisNeo4j.App.QDMP.DMPreferences;
+import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.VisNeo4j.App.Service.VisNeo4jService;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
@@ -39,6 +43,8 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 class VisNeo4jController {
@@ -399,20 +405,20 @@ class VisNeo4jController {
 	@GetMapping("/test")
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		BPSOParams params = new BPSOParams(100, 0.9, 1, 1, 
-				15000, 0, 0, Constantes.nombreCPGenerica, 
+		BPSOParams params = new BPSOParams(10, 0.9, 1, 1, 
+				100, 0, 0, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWLinearDecreasing);
 		
-		Problema p = new Rosenbrock(30);
+		Problema p = new Rosenbrock(5);
 		
 		BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
 		
-		System.out.println(bpso.ejecutarBPSO().getVariables());
+		System.out.println(bpso.ejecutarBPSOALT().getVariables());
 	}
 	
-	/*@CrossOrigin
+	@CrossOrigin
 	@PostMapping("/optimizeALT")
-	public boolean runOptimizationALT(@RequestParam("fecha_inicial") String fecha_I, 
+	public Respuesta runOptimizationALT(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
 			
 			@RequestParam("iteraciones") int numIteraciones,
@@ -426,12 +432,11 @@ class VisNeo4jController {
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		
 		return visNeo4jService.guardarYOptimizarALT(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
 	}
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@PostMapping("/{proyecto}/optimizeALT")
 	public boolean runOptimizationALT(@PathVariable String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
 		return visNeo4jService.optimizarALT(proyecto);
@@ -443,7 +448,7 @@ class VisNeo4jController {
 		return Utils.getRandNumber(0, 10);
 	}
 
-	/*@CrossOrigin
+	@CrossOrigin
 	@PostMapping("/testEva")
 	public DatosRRPS_PAT testEvaluacion(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
@@ -453,21 +458,24 @@ class VisNeo4jController {
 		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
 		
-		Problema problema = new RRPS_PAT(datos, 0.75, List.of(), preferencias);
+		Problema problema = new RRPS_PAT_ALT(datos, Stream.of(0.50).collect(Collectors.toList()), Stream.of("").collect(Collectors.toList()), preferencias);
+		
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		problema.inicializarValores(ind);
 		//problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
+		//problema.inicializarValores(ind);
+		//problema.inicializarValores(ind);
+		//problema.inicializarValores(ind);
+		//ind.setVariables(Stream.of(1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0).collect(Collectors.toList()));
 		
 		problema.evaluate(ind);
 		ind = problema.devolverSolucionCompleta(ind);
+		System.out.println(datos.getConexionesTotales());
 		System.out.println(ind);
 		System.out.println();
 		
 		return datos;
-	}*/
+	}
 	
 	@CrossOrigin
 	@GetMapping("/data")

@@ -16,10 +16,10 @@ import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
 
-public class RRPS_PAT extends Problema {
+public class RRPS_PAT_ALT extends Problema {
 
-	private Double resInf = 0.0;
-	private Double resSup;
+	private List<Double> resInf;
+	private List<Double> resSup;
 	private DatosRRPS_PAT datos;
 	private int numInicializaciones = 0;
 	private DMPreferences preferencias;
@@ -28,23 +28,27 @@ public class RRPS_PAT extends Problema {
 	private List<Integer> objetivosRestriccion = Stream.of(2, 3, 5).collect(Collectors.toList());
 	private List<Integer> orderRes = new ArrayList<>();
 
-	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, List<String> resPol, DMPreferences preferencias) {
+	public RRPS_PAT_ALT(DatosRRPS_PAT datos, List<Double> maxRiesgos, List<String> resPol, DMPreferences preferencias) {
 		super(0, 1);
-		
 		this.datos = datos;
 		this.direccionesAMantener = new ArrayList<>();
 		this.resPol = resPol;
 
 		this.calcularDireccionesAMantener();
-		super.setNumVariables(this.datos.getConexionesTotales().size() - this.direccionesAMantener.size());
-		this.resSup = maxRiesgo;
+		super.setNumVariables(
+				(this.datos.getConexionesTotales().size() - this.direccionesAMantener.size()) * datos.getNumDias());
+		this.resInf = new ArrayList<>();
+		for (int i = 0; i < this.datos.getNumDias(); i++) {
+			this.resInf.add(0.0);
+		}
+		this.resSup = maxRiesgos;
 		this.preferencias = preferencias;
 		super.setNombre(Constantes.nombreProblemaRRPS_PAT);
 
 		for (int obj : this.preferencias.getOrder().getOrder()) {
 
 			if (this.objetivosRestriccion.contains(obj)) {
-				this.orderRes.add(obj);
+				this.orderRes.add((obj - 1) + this.datos.getNumDias());
 			}
 		}
 	}
@@ -68,17 +72,19 @@ public class RRPS_PAT extends Problema {
 
 		List<Double> objetivos = this.calcularObjetivos(ind);
 
-		List<Double> restricciones = new ArrayList<>(1);
+		List<Double> restricciones = new ArrayList<>(this.datos.getNumDias());
 
-		restricciones.add(0, objetivos.get(0));
+		restricciones = objetivos.subList(0, this.datos.getNumDias());
+
 		ind.setRestricciones(restricciones);
 		this.comprobarRestricciones(ind);
 		this.comprobarOrden(ind, objetivos);
-		ind.setObjetivosNorm(objetivos.subList(1, objetivos.size()));
+
+		ind.setObjetivosNorm(objetivos.subList(this.datos.getNumDias(), objetivos.size()));
 		Double sumaPesos = 0.0;
 
-		for (int i = 1; i < objetivos.size(); i++) {
-			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
+		for (int i = this.datos.getNumDias(); i < objetivos.size(); i++) {
+			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - this.datos.getNumDias());
 		}
 
 		ind.setObjetivos(Stream.of(sumaPesos).collect(Collectors.toList()));
@@ -91,9 +97,17 @@ public class RRPS_PAT extends Problema {
 	}
 
 	private List<Double> calcularObjetivos(Individuo solucion) {
+		List<Double> Knapsacks = new ArrayList<>();
+		List<Double> KnapsacksTotal = new ArrayList<>();
+
+		for (int i = 0; i < this.datos.getNumDias(); i++) {
+			Knapsacks.add(0.0);
+			KnapsacksTotal.add(0.0);
+		}
+
 		List<Double> objetivos = new ArrayList<>();
-		Double Riesgosumatorio = 0.0;
-		Double RiesgosumatorioTotal = 0.0;
+		// Double Riesgosumatorio = 0.0;
+		// Double RiesgosumatorioTotal = 0.0;
 
 		Double IngresosTsuma = 0.0;
 		Double IngresosTtotalSuma = 0.0;
@@ -119,61 +133,69 @@ public class RRPS_PAT extends Problema {
 		Map<String, List<Double>> ingresosPorAerDest = new HashMap<>();
 
 		int pos = 0;
+		int offset = 0;
 		for (int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			Double bit = this.comprobarUno(solucion.getVariables().subList(offset, offset + this.datos.getNumDias()));
+			// Calcular dia
+			int dia = this.calcularDia(i);
 			while (pos < this.datos.getConexionesTotalesSeparadas().size()
 					&& this.datos.getConexionesTotalesSeparadas().get(pos).get(0)
 							.equals(this.datos.getConexionesTotales().get(i).get(0))
 					&& this.datos.getConexionesTotalesSeparadas().get(pos).get(1)
 							.equals(this.datos.getConexionesTotales().get(i).get(1))) {
-				Riesgosumatorio += this.datos.getRiesgos().get(pos) * solucion.getVariables().get(i);
-				RiesgosumatorioTotal += this.datos.getRiesgos().get(pos);
+				double knapsackI = KnapsacksTotal.get(dia);
+				// Riesgosumatorio += this.datos.getRiesgos().get(pos) * bit;
+				// RiesgosumatorioTotal += this.datos.getRiesgos().get(pos);
+				this.calcularKnapsacks(pos, solucion.getVariables().subList(offset, offset + this.datos.getNumDias()),
+						Knapsacks);
+				KnapsacksTotal.set(dia, knapsackI + this.datos.getRiesgos().get(pos));
 
-				IngresosTsuma += this.datos.getIngresos().get(pos) * solucion.getVariables().get(i);
+				IngresosTsuma += this.datos.getIngresos().get(pos) * bit;
 				IngresosTtotalSuma += this.datos.getIngresos().get(pos);
 
-				Pasajerossumatorio += this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i);
+				Pasajerossumatorio += this.datos.getPasajeros().get(pos) * bit;
 				Pasajerostotal += this.datos.getPasajeros().get(pos);
 
-				Tasassumatorio += this.datos.getTasas().get(pos) * solucion.getVariables().get(i);
+				Tasassumatorio += this.datos.getTasas().get(pos) * bit;
 				Tasastotal += this.datos.getTasas().get(pos);
 
 				if (pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)) != null) {
 					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
 							Stream.of(
 									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(0)
-											+ this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
+											+ this.datos.getPasajeros().get(pos) * bit,
 									pasajerosPorCompanyia.get(this.datos.getCompanyiasTotales().get(pos)).get(1)
 											+ this.datos.getPasajeros().get(pos))
 									.collect(Collectors.toList()));
 				} else {
-					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos),
-							Stream.of(this.datos.getPasajeros().get(pos) * solucion.getVariables().get(i),
-									this.datos.getPasajeros().get(pos) * 1.0).collect(Collectors.toList()));
+					pasajerosPorCompanyia.put(this.datos.getCompanyiasTotales().get(pos), Stream
+							.of(this.datos.getPasajeros().get(pos) * bit, this.datos.getPasajeros().get(pos) * 1.0)
+							.collect(Collectors.toList()));
 				}
 				if (ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)) != null) {
-					ingresosPorAreaInf
-							.put(this.datos.getAresInfTotales().get(pos),
-									Stream.of(ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
-											+ this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
-											ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
-													+ this.datos.getIngresos().get(pos))
-											.collect(Collectors.toList()));
+					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
+							Stream.of(
+									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(0)
+											+ this.datos.getIngresos().get(pos) * bit,
+									ingresosPorAreaInf.get(this.datos.getAresInfTotales().get(pos)).get(1)
+											+ this.datos.getIngresos().get(pos))
+									.collect(Collectors.toList()));
 				} else {
 					ingresosPorAreaInf.put(this.datos.getAresInfTotales().get(pos),
-							Stream.of(this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
-									this.datos.getIngresos().get(pos)).collect(Collectors.toList()));
+							Stream.of(this.datos.getIngresos().get(pos) * bit, this.datos.getIngresos().get(pos))
+									.collect(Collectors.toList()));
 				}
 				if (ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
 					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), Stream.of(
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
-									+ this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
+									+ this.datos.getTasas().get(pos) * bit,
 							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
 									+ this.datos.getTasas().get(pos))
 							.collect(Collectors.toList()));
 				} else {
 					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1),
-							Stream.of(this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
-									this.datos.getTasas().get(pos)).collect(Collectors.toList()));
+							Stream.of(this.datos.getTasas().get(pos) * bit, this.datos.getTasas().get(pos))
+									.collect(Collectors.toList()));
 				}
 
 				pos++;
@@ -194,9 +216,9 @@ public class RRPS_PAT extends Problema {
 				ConectividadauxTotalSuma = 0.0;
 			}
 			// origen = this.datos.getConexionesTotales().get(i).get(0);
-			ConectividadauxSuma += solucion.getVariables().get(i)
-					* this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
+			ConectividadauxSuma += bit * this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
 			ConectividadauxTotalSuma += this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(i);
+			offset += this.datos.getNumDias();
 		}
 
 		Double Ingresosaux = 0.0;
@@ -293,7 +315,12 @@ public class RRPS_PAT extends Problema {
 
 		// -------------RESTRICCIÓN--------------
 
-		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);// Riesgo
+		// objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);// Riesgo
+		for (int i = 0; i < Knapsacks.size(); i++) {
+			Knapsacks.set(i, Knapsacks.get(i) / KnapsacksTotal.get(i));
+		}
+
+		objetivos.addAll(Knapsacks);
 
 		// -------------OBJETIVOS----------------
 
@@ -312,25 +339,32 @@ public class RRPS_PAT extends Problema {
 	public Individuo inicializarValores(Individuo ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for (int i = 0; i < super.getNumVariables(); i++) {
+			
+			//valores.add(i, Utils.getRandBinNumber());
 
-			/*
-			 * if (this.numInicializaciones == 0) { valores.add(i, 0.0); } else if
-			 * (this.numInicializaciones == 1) { valores.add(i, 1.0); } else {
-			 */
-			if (i == this.numInicializaciones) {
+			if (this.numInicializaciones == 0) {
+				valores.add(i, 0.0);
+			} else if (this.numInicializaciones == 1) {
 				valores.add(i, 1.0);
 			} else {
-				valores.add(i, 0.0);
+				if (i == this.numInicializaciones - 2) {
+					valores.add(i, 1.0);
+				} else {
+					valores.add(i, 0.0);
+				}
 			}
-			// }
 
-			/*
-			 * if (this.numInicializaciones < super.getNumVariables()) { if (i ==
-			 * this.numInicializaciones) { valores.add(i, 1.0); } else { valores.add(i,
-			 * 0.0); } } else if (this.numInicializaciones == super.getNumVariables()) {
-			 * valores.add(i, 0.0); } else if (this.numInicializaciones ==
-			 * super.getNumVariables() + 1) { valores.add(i, 1.0); }
-			 */
+			/*if (this.numInicializaciones < super.getNumVariables()) {
+				if (i == this.numInicializaciones) {
+					valores.add(i, 1.0);
+				} else {
+					valores.add(i, 0.0);
+				}
+			} else if (this.numInicializaciones == super.getNumVariables()) {
+				valores.add(i, 0.0);
+			} else if (this.numInicializaciones == super.getNumVariables() + 1) {
+				valores.add(i, 1.0);
+			}*/
 
 		}
 		this.numInicializaciones++;
@@ -463,7 +497,14 @@ public class RRPS_PAT extends Problema {
 	public List<Double> rellenarDirecciones(List<Double> variables) {
 
 		for (int i = 0; i < this.direccionesAMantener.size(); i++) {
-			variables.add(this.direccionesAMantener.get(i), 1.0);
+			List<Double> bitsReemplazo = new ArrayList<>();
+			int dia = this.calcularDia(this.direccionesAMantener.get(i));
+			for (int j = 0; j < this.datos.getNumDias(); j++) {
+				bitsReemplazo.add(0.0);
+			}
+			bitsReemplazo.set(dia, 1.0);
+
+			variables.addAll(this.datos.getNumDias() * this.direccionesAMantener.get(i), bitsReemplazo);
 		}
 
 		return variables;
@@ -475,7 +516,14 @@ public class RRPS_PAT extends Problema {
 		List<Double> aux = ind.getVariables();
 
 		for (int i = 0; i < this.direccionesAMantener.size(); i++) {
-			aux.add(this.direccionesAMantener.get(i), 1.0);
+			List<Double> bitsReemplazo = new ArrayList<>();
+			int dia = this.calcularDia(this.direccionesAMantener.get(i));
+			for (int j = 0; j < this.datos.getNumDias(); j++) {
+				bitsReemplazo.add(0.0);
+			}
+			bitsReemplazo.set(dia, 1.0);
+
+			aux.addAll(this.datos.getNumDias() * this.direccionesAMantener.get(i), bitsReemplazo);
 		}
 
 		ind.setVariables(aux);
@@ -487,7 +535,11 @@ public class RRPS_PAT extends Problema {
 		int cont = 0;
 
 		for (int i = 0; i < this.direccionesAMantener.size(); i++) {
-			variables.remove(this.direccionesAMantener.get(i) - cont);
+
+			for (int j = 0; j < this.datos.getNumDias(); j++) {
+				variables.remove((this.direccionesAMantener.get(i) - cont) * this.datos.getNumDias());
+			}
+
 			cont++;
 		}
 
@@ -495,53 +547,98 @@ public class RRPS_PAT extends Problema {
 
 	@Override
 	public Individuo comprobarRestricciones(Individuo ind) {
-		if (ind.getRestricciones().get(0) > this.resSup) {
-			ind.setFactible(false);
-			ind.setConstraintViolation(Math.abs(this.resSup - ind.getRestricciones().get(0)));
-		} else if (ind.getRestricciones().get(0) < this.resInf) {
-			ind.setFactible(false);
-			ind.setConstraintViolation(Math.abs(this.resInf - ind.getRestricciones().get(0)));
-		} else {
-			ind.setFactible(true);
-			ind.setConstraintViolation(0.0);
+		double ConsV = 0.0;
+		// Bucle que recorre los bits de cada conexion
+		int offset = 0;
+		for (int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			List<Double> bits = ind.getVariables().subList(offset, offset + this.datos.getNumDias());
+			int count = 0;
+			for (int j = 0; j < bits.size(); j++) {
+				if (bits.get(j) == 1.0) {
+					count++;
+				}
+			}
+			if (count > 0) {
+				ConsV += 500.0 * (count - 1);
+			}
+			offset += this.datos.getNumDias();
 		}
+
+		for (int i = 0; i < this.resSup.size(); i++) {
+			if (ind.getRestricciones().get(i) > this.resSup.get(i)) {
+				ConsV += Math.abs(this.resSup.get(i) - ind.getRestricciones().get(i));
+			} else if (ind.getRestricciones().get(i) < this.resInf.get(i)) {
+				ConsV += Math.abs(this.resInf.get(i) - ind.getRestricciones().get(i));
+			}
+		}
+
+		if (ConsV == 0.0) {
+			ind.setFactible(true);
+		} else {
+			ind.setFactible(false);
+		}
+		ind.setConstraintViolation(ConsV);
 
 		return ind;
 	}
-	
+
 	private Individuo comprobarOrden(Individuo ind, List<Double> objetivos) {
 		if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
-			
+
 		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
 			ind.setFactible(false);
-			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
-			
+			ind.setConstraintViolation(ind.getConstraintViolation()
+					+ (objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
+
 		} else if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
 			ind.setFactible(false);
-			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(1)) - objetivos.get(this.orderRes.get(2))));
-			
+			ind.setConstraintViolation(ind.getConstraintViolation()
+					+ (objetivos.get(this.orderRes.get(1)) - objetivos.get(this.orderRes.get(2))));
+
 		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
 			ind.setFactible(false);
+			ind.setConstraintViolation(ind.getConstraintViolation()
+					+ (objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
 			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
-			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(1)) - objetivos.get(2)));
-			
+					ind.getConstraintViolation() + (objetivos.get(this.orderRes.get(1)) - objetivos.get(2)));
+
 		}
 		return ind;
 	}
-	
-	
+
+	private Double comprobarUno(List<Double> bitsKnapsack) {
+		for (int i = 0; i < bitsKnapsack.size(); i++) {
+			if (bitsKnapsack.get(i) == 1.0) {
+				return 1.0;
+			}
+		}
+		return 0.0;
+	}
+
+	private int calcularDia(int i) {
+		int offset = 0;
+		int dia;
+		for (dia = 0; dia < this.datos.getDatosPorDia().size(); dia++) {
+			if (i < offset + this.datos.getDatosPorDia().get(dia).getConexiones().size()) {
+				return dia;
+			} else {
+				offset += this.datos.getDatosPorDia().get(dia).getConexiones().size();
+			}
+		}
+		return dia;
+	}
+
+	private void calcularKnapsacks(int pos, List<Double> bits, List<Double> Knapsacks) {
+		for (int i = 0; i < bits.size(); i++) {
+			if (bits.get(i) == 1.0) {
+				Knapsacks.set(i, Knapsacks.get(i) + this.datos.getRiesgos().get(pos));
+			}
+		}
+	}
 
 	public DatosRRPS_PAT getDatos() {
 		return datos;
