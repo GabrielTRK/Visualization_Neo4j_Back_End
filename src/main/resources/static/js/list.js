@@ -11,7 +11,7 @@ sessionStorage.removeItem("load")
 switchsIDs = ['EU', 'NA', 'SA', 'AS', 'AF']
 switchsNames = ['Europe', 'North America', 'South America', 'Asia', 'Africa']
 
-url = 'https://138.4.92.155:8081/loadP'
+url = 'http://138.4.92.155:8081/loadP'
 
 datosGlobal = null
 
@@ -263,6 +263,7 @@ function optionSelected(event){
     //Redirigir a lista de soluciones guardando el nombre del proyecto en sessionStorage
     
     sessionStorage.setItem("projectName",event.target.classList[0]);
+    sessionStorage.removeItem("solutionID")
     window.location.href = "SList.html"
 }
 

@@ -31,7 +31,7 @@ function login(){
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( params )
     };
-    fetch( 'https://138.4.92.155:8081/login', options )
+    fetch( 'http://138.4.92.155:8081/login', options )
         .then( response => response.json() )
         .then( response => {
             if(response){

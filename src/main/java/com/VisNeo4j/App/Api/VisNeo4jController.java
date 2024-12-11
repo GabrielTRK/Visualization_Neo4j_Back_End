@@ -24,6 +24,7 @@ import com.VisNeo4j.App.Modelo.Salida.Rangos;
 import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
+import com.VisNeo4j.App.Problemas.Knapsack01_1;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.RRPS_PAT_ALT;
 import com.VisNeo4j.App.Problemas.Rosenbrock;
@@ -406,14 +407,14 @@ class VisNeo4jController {
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		BPSOParams params = new BPSOParams(10, 0.9, 1, 1, 
-				100, 0, 0, Constantes.nombreCPGenerica, 
+				50, 0, 0, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWLinearDecreasing);
 		
-		Problema p = new Rosenbrock(5);
+		Problema p = new Knapsack01_1();
 		
 		BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
 		
-		System.out.println(bpso.ejecutarBPSOALT().getVariables());
+		System.out.println(bpso.ejecutarBPSO().getVariables());
 	}
 	
 	@CrossOrigin
@@ -450,10 +451,10 @@ class VisNeo4jController {
 
 	@CrossOrigin
 	@PostMapping("/testEva")
-	public DatosRRPS_PAT testEvaluacion(@RequestParam("fecha_inicial") String fecha_I, 
+	public void testEvaluacion(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
 			@RequestBody ObjectivesOrder order) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		/*DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
 		DMPreferences preferencias = new DMPreferences(order, Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(order.getOrder().size());
@@ -462,11 +463,11 @@ class VisNeo4jController {
 		
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		problema.inicializarValores(ind);
-		//problema.inicializarValores(ind);
-		//problema.inicializarValores(ind);
-		//problema.inicializarValores(ind);
-		//problema.inicializarValores(ind);
-		//ind.setVariables(Stream.of(1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0).collect(Collectors.toList()));
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		ind.setVariables(Stream.of(1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0).collect(Collectors.toList()));
 		
 		problema.evaluate(ind);
 		ind = problema.devolverSolucionCompleta(ind);
@@ -474,7 +475,18 @@ class VisNeo4jController {
 		System.out.println(ind);
 		System.out.println();
 		
-		return datos;
+		return datos;*/
+		
+		Problema problema = new Knapsack01_1();
+		
+		Individuo ind = new Individuo(problema.getNumVariables(), 1);
+		
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.inicializarValores(ind);
+		problema.evaluate(ind);
+		System.out.println(ind);
+		
 	}
 	
 	@CrossOrigin

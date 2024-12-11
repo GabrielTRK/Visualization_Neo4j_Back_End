@@ -8,15 +8,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Constantes {
-	public static final String rutaFicheros = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\";
-	public static final String rutaDatos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\";
-	public static final String rutaDatos_por_aeropuerto = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\datos_por_aeropuerto\\";
-	public static final String rutaDatosPorDia = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\datos\\datos_por_dia\\";
-	public static final String rutaFicherosFitness = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Fitness\\";
-	public static final String rutaFicherosObjetivos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Objetivos\\";
-	public static final String rutaFicherosParams = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Parámetros\\";
-	public static final String rutaFicherosPreferencias = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Ficheros_Preferencias\\";
-	public static final String rutaFicherosProyectos = "c:\\Users\\penad\\Desktop\\Doctorado\\NSGA-III\\Visualization_Neo4j_Back_End\\data\\\\CSV\\Proyectos\\";
+	public static final String rutaFicheros = "//home//vpsadmin//RRPS_PAT//data////CSV//";
+	public static final String rutaDatos = "//home//vpsadmin//RRPS_PAT//data////datos//";
+	public static final String rutaDatos_por_aeropuerto = "//home//vpsadmin//RRPS_PAT//data////datos//datos_por_aeropuerto//";
+	public static final String rutaDatosPorDia = "//home//vpsadmin//RRPS_PAT//data////datos//datos_por_dia//";
+	public static final String rutaFicherosFitness = "//home//vpsadmin//RRPS_PAT//data////CSV//Ficheros_Fitness//";
+	public static final String rutaFicherosObjetivos = "//home//vpsadmin//RRPS_PAT//data////CSV//Ficheros_Objetivos//";
+	public static final String rutaFicherosParams = "//home//vpsadmin//RRPS_PAT//data////CSV//Ficheros_Parámetros//";
+	public static final String rutaFicherosPreferencias = "//home//vpsadmin//RRPS_PAT//data////CSV//Ficheros_Preferencias//";
+	public static final String rutaFicherosProyectos = "//home//vpsadmin//RRPS_PAT//data////CSV//Proyectos//";
 	
 	public static final String extensionFichero = ".csv";
     public static final DateFormat formatoFecha = new SimpleDateFormat("yyyyMMddHHmmss");

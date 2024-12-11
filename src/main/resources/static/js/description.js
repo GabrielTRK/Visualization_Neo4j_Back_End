@@ -13,7 +13,7 @@ if (sessionStorage.getItem("load")) {
     projectName = sessionStorage.getItem("projectName")
 
     //Load project, desactivar inputs, y cambiar botones
-    url = 'https://138.4.92.155:8081/loadP'
+    url = 'http://138.4.92.155:8081/loadP'
 
     fetch(url).then(res => {
         return res.json()
@@ -172,7 +172,7 @@ function algoritmo() {
 
         numIter = 0
 
-        url = 'https://138.4.92.155:8081/optimize' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(numIter) + '&' + p_num_P + numP +
+        url = 'http://138.4.92.155:8081/optimize' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(numIter) + '&' + p_num_P + numP +
             p_iW + iW + p_c1 + c1 + p_c2 + c2 + p_m + String(0.0) + '&' + p_p + String(0.0) + '&' + p_res_epi + epiRes + p_nombre + projectName
 
         const params = {
@@ -212,7 +212,7 @@ function algoritmoGuardado() {
     modal.style.display = "block";
     document.getElementById('ModalText').innerHTML = "Running optimization..."
 
-    url = 'https://138.4.92.155:8081/' + projectName + '/optimize'
+    url = 'http://138.4.92.155:8081/' + projectName + '/optimize'
 
     const options = {
         method: 'POST',
@@ -357,7 +357,7 @@ function saveConf() {
 
         numIter = 0
 
-        url = 'https://138.4.92.155:8081/saveP' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(numIter) + '&' + p_num_P + numP +
+        url = 'http://138.4.92.155:8081/saveP' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F + p_iteraciones + String(numIter) + '&' + p_num_P + numP +
             p_iW + iW + p_c1 + c1 + p_c2 + c2 + p_m + String(0.0) + '&' + p_p + String(0.0) + '&' + p_res_epi + epiRes + p_nombre + projectName
 
         const params = {
@@ -434,39 +434,6 @@ function drop(ev) {
 
 }
 
-function NumPshowHelp() {
-    document.getElementById("NumPTooltipText").style.visibility = "visible";
-
-}
-
-function NumPhideHelp() {
-    document.getElementById("NumPTooltipText").style.visibility = "hidden";
-}
-
-function IneWshowHelp() {
-    document.getElementById("IneWTooltipText").style.visibility = "visible";
-}
-
-function IneWhideHelp() {
-    document.getElementById("IneWTooltipText").style.visibility = "hidden";
-}
-
-function c1showHelp() {
-    document.getElementById("c1TooltipText").style.visibility = "visible";
-}
-
-function c1hideHelp() {
-    document.getElementById("c1TooltipText").style.visibility = "hidden";
-}
-
-function c2showHelp() {
-    document.getElementById("c2TooltipText").style.visibility = "visible";
-}
-
-function c2hideHelp() {
-    document.getElementById("c2TooltipText").style.visibility = "hidden";
-}
-
 function startDateOnChange() {
     date = document.getElementById('start').value
 
@@ -511,7 +478,7 @@ function checkDatesSendRequest() {
         p_fecha_F = 'fecha_final='
 
 
-        url = 'https://138.4.92.155:8081/tooltips' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F
+        url = 'http://138.4.92.155:8081/tooltips' + '?' + p_fecha_I + fecha_I + p_fecha_F + fecha_F
 
         fetch(url).then(res => {
             return res.json()

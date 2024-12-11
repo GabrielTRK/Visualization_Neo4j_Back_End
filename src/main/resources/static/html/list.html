@@ -18,17 +18,47 @@
         }
 
         body {
-            background-color: #eeeded;
+            padding-bottom: 100px;
+        }
+
+        .bg {
+            animation: slide 5s ease-in-out infinite alternate;
+            background-image: linear-gradient(-60deg, #eeeded 50%, #d2d1d1 50%);
+            bottom: 0;
+            left: -50%;
+            opacity: .5;
+            position: fixed;
+            right: -50%;
+            top: 0;
+            z-index: -1;
+        }
+
+        .bg2 {
+            animation-direction: alternate-reverse;
+            animation-duration: 6s;
+        }
+
+        .bg3 {
+            animation-duration: 7s;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-25%);
+            }
+
+            100% {
+                transform: translateX(25%);
+            }
         }
 
         .card {
             width: 75%;
             margin: 0 auto;
             margin-top: 2%;
-        }
-
-        .parent {
-            height: 45px;
+            opacity: 1;
+            border-radius: .25em;
+            box-shadow: 0 0 .25em rgba(0, 0, 0, .25);
         }
 
         .child {
@@ -38,10 +68,17 @@
             height: 100%;
             margin-right: 0.1%;
         }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1;
+        }
     </style>
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(214, 213, 213);">
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-globe-americas" viewBox="0 0 16 16">
@@ -80,6 +117,9 @@
 
 
 <body>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
     <div class="card">
         <div class="card-body">
             <h2>Load project</h2>
@@ -89,9 +129,9 @@
         </div>
     </div>
 
-    <footer class="text-center text-lg-start text-dark">
+    <footer class="text-center text-lg-start text-dark footer">
         <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgb(214, 213, 213);">
+        <div class="text-center p-3" style="background-color: rgb(214, 213, 213); opacity: 0.8;">
             Decision Analysis and Statistics Group
             <a class="text-dark" href="http://www.dasg.upm.es/">dasg.upm.es</a>
         </div>

@@ -11,43 +11,57 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
-    <script src="js/index.js" defer></script>
   <style>
     html {
       font-family: Helvetica;
     }
 
-    body {
-      background-color: #eeeded;
-      /*opacity: 1;
-      background-image: radial-gradient(#b2b2b2 2px, transparent 2px), radial-gradient(#b2b2b2 2px, #eeeded 2px);
-      background-size: 120px 120px;
-      background-position: 0 0, 80px 80px;*/
+    .bg {
+      animation: slide 5s ease-in-out infinite alternate;
+      background-image: linear-gradient(-60deg, #eeeded 50%, #d2d1d1 50%);
+      bottom: 0;
+      left: -50%;
+      opacity: .5;
+      position: fixed;
+      right: -50%;
+      top: 0;
+      z-index: -1;
+    }
+
+    .bg2 {
+      animation-direction: alternate-reverse;
+      animation-duration: 6s;
+    }
+
+    .bg3 {
+      animation-duration: 7s;
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(-25%);
+      }
+
+      100% {
+        transform: translateX(25%);
+      }
     }
 
     .card {
       width: 30%;
       margin: 0 auto;
       margin-top: 12%;
-    }
-
-    #New {
-      padding: 1rem 1rem;
-      display: inline-block;
-    }
-
-    #Load {
-      padding: 1rem 1rem;
-      float: right;
-    }
-
-    #LogIn {
-      padding: 1rem 1rem;
+      opacity: 1;
+      border-radius: .25em;
+      box-shadow: 0 0 .25em rgba(0, 0, 0, .25);
     }
   </style>
 </head>
 
 <body>
+  <div class="bg"></div>
+  <div class="bg bg2"></div>
+  <div class="bg bg3"></div>
   <div class="card">
     <div class="card-body">
       <img src="Utils/UPMLogo.png" width="220" height="110">
@@ -55,10 +69,10 @@
       <div class="text-center" style="margin-top: 5%;">
         <h5>DSS for risk reduction in pandemic spread based on the management of passenger air traffic (RRPS-PAT)</h5>
       </div>
-      
-        <div id="LogIn" class="text-center">
-          <a class="btn btn-outline-dark btn-lg" href="html/home.html" role="button">Access</a>
-        </div>
+
+      <div id="LogIn" class="text-center" style="padding: 1rem 1rem;">
+        <a class="btn btn-outline-dark btn-lg" href="html/home.html" role="button">Access</a>
+      </div>
 
       <div class="text-center">
         Decision Analysis and Statistics Group

@@ -19,42 +19,47 @@
         }
 
         body {
-            background-color: #eeeded;
-            /*opacity: 1;
-            background-image:  radial-gradient(#b2b2b2 2px, transparent 2px), radial-gradient(#b2b2b2 2px, #eeeded 2px);
-            background-size: 120px 120px;
-            background-position: 0 0,80px 80px;*/
             padding-bottom: 100px;
         }
 
-        .PageTitle {
-            padding: 1rem 1rem 0rem 1rem;
+        .bg {
+            animation: slide 5s ease-in-out infinite alternate;
+            background-image: linear-gradient(-60deg, #eeeded 50%, #d2d1d1 50%);
+            bottom: 0;
+            left: -50%;
+            opacity: .5;
+            position: fixed;
+            right: -50%;
+            top: 0;
+            z-index: -1;
         }
 
-        .TitleChild {
-            display: inline-block;
+        .bg2 {
+            animation-direction: alternate-reverse;
+            animation-duration: 6s;
         }
 
-        #Load {
-            float: right;
+        .bg3 {
+            animation-duration: 7s;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-25%);
+            }
+
+            100% {
+                transform: translateX(25%);
+            }
         }
 
         #MainCard {
             width: 64.0%;
             margin: 0 auto;
             margin-top: 2%;
-        }
-
-        #StartDateDiv {
-            width: 30%;
-            margin-left: 15%;
-        }
-
-        #EndDateDiv {
-            float: right;
-            width: 30%;
-            margin-right: 15%;
-
+            opacity: 1;
+            border-radius: .25em;
+            box-shadow: 0 0 .25em rgba(0, 0, 0, .25);
         }
 
         #Save {
@@ -123,31 +128,11 @@
             clear: both;
         }
 
-        #NumPHelp {
-            margin-left: 5%;
-
-        }
-
-        #IneWHelp {
-            margin-left: 5%;
-        }
-
-        #c1Help {
-            margin-left: 5%;
-        }
-
-        #c2Help {
-            margin-left: 5%;
-        }
-
         .footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-        }
-
-        .bi-arrow-right-square {
-            color: black;
+            z-index: 1;
         }
 
         .modal {
@@ -201,7 +186,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(214, 213, 213);">
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
@@ -245,10 +233,10 @@
     </nav>
 
     <div class="card" id="MainCard">
-        <div class="PageTitle">
+        <div class="PageTitle" style="padding: 1rem 1rem 0rem 1rem;">
 
             <div class="input-group mb-3">
-                <h2 class="TitleChild" style="margin-right: 20%;">Project description</h2>
+                <h2 class="TitleChild" style="margin-right: 20%; display: inline-block;">Project description</h2>
                 <form action="" class="was-validated" style="width: 40%; z-index: 0;">
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">Project name</span>
@@ -423,7 +411,7 @@
                             <div class="column middle">
                                 <div style="opacity: 0.5; display: flex; justify-content: center; margin-top: 5%;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
-                                        class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+                                        class="bi bi-arrow-right-square" style="color: black;" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
                                     </svg>
@@ -525,9 +513,9 @@
                                     </div>
                                 </form>
                                 <div class="col">
-                                    <svg id="NumPHelp" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
-                                        data-toggle="tooltip" title="Defines the number of particles to be used
+                                    <svg id="NumPHelp" style="margin-left: 5%;" xmlns="http://www.w3.org/2000/svg"
+                                        width="30" height="30" fill="currentColor" class="bi bi-question-circle-fill"
+                                        viewBox="0 0 16 16" data-toggle="tooltip" title="Defines the number of particles to be used
                                     in the BPSOM" data-bs-placement="right">
                                         <path
                                             d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
@@ -545,9 +533,9 @@
                                     </div>
                                 </form>
                                 <div class="col">
-                                    <svg id="IneWHelp" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
-                                        data-toggle="tooltip"
+                                    <svg id="IneWHelp" style="margin-left: 5%;" xmlns="http://www.w3.org/2000/svg"
+                                        width="30" height="30" fill="currentColor" class="bi bi-question-circle-fill"
+                                        viewBox="0 0 16 16" data-toggle="tooltip"
                                         title="Defines how fast the particles move through the search space"
                                         data-bs-placement="right">
                                         <path
@@ -567,13 +555,11 @@
                                     </div>
                                 </form>
                                 <div class="col">
-                                    <svg id="c1Help" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
-                                        data-toggle="tooltip"
-                                        title="Defines the weight of the personal bests over
+                                    <svg id="c1Help" style="margin-left: 5%;" xmlns="http://www.w3.org/2000/svg"
+                                        width="30" height="30" fill="currentColor" class="bi bi-question-circle-fill"
+                                        viewBox="0 0 16 16" data-toggle="tooltip" title="Defines the weight of the personal bests over
                                         the global
-                                        best"
-                                        data-bs-placement="right">
+                                        best" data-bs-placement="right">
                                         <path
                                             d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                     </svg>
@@ -591,9 +577,9 @@
                                     </div>
                                 </form>
                                 <div class="col">
-                                    <svg id="c2Help" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                        fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"
-                                        data-toggle="tooltip" title="Defines the weight of the global best over the
+                                    <svg id="c2Help" style="margin-left: 5%;" xmlns="http://www.w3.org/2000/svg"
+                                        width="30" height="30" fill="currentColor" class="bi bi-question-circle-fill"
+                                        viewBox="0 0 16 16" data-toggle="tooltip" title="Defines the weight of the global best over the
                                 personal bests" data-bs-placement="right">
                                         <path
                                             d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
@@ -649,7 +635,7 @@
 </body>
 <footer class="text-center text-lg-start text-dark footer">
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgb(214, 213, 213);">
+    <div class="text-center p-3" style="background-color: rgb(214, 213, 213); opacity: 0.8;">
         Decision Analysis and Statistics Group
         <a class="text-dark" href="http://www.dasg.upm.es/">dasg.upm.es</a>
     </div>

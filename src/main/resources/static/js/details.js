@@ -2,7 +2,8 @@
     window.location.href = "login.html"
 }*/
 
-if (sessionStorage.getItem("projectName") && sessionStorage.getItem("solutionID")) {
+if ((sessionStorage.getItem("projectName") && sessionStorage.getItem("ejecutando") == 1 && !sessionStorage.getItem("solutionID")) || 
+(sessionStorage.getItem("projectName") && sessionStorage.getItem("solutionID"))) {
     var html_p_Open = '<p>'
 
     var html_p_Close = '</p>'
@@ -23,13 +24,13 @@ if (sessionStorage.getItem("projectName") && sessionStorage.getItem("solutionID"
     minDateString = ''
     numDias = 0
 
-    if (sessionStorage.getItem("ejecutando") == 1) {
-        mainURL = 'https://138.4.92.155:8081/snapshot/' + projectName + separator
-    } else {
-        mainURL = 'https://138.4.92.155:8081/' + projectName + separator + solutionID + separator
+    if(sessionStorage.getItem("projectName") && sessionStorage.getItem("ejecutando") == 1 && !sessionStorage.getItem("solutionID")) {
+        mainURL = 'http://138.4.92.155:8081/snapshot/' + projectName + separator
+    } else if (sessionStorage.getItem("projectName") && sessionStorage.getItem("solutionID")){
+        mainURL = 'http://138.4.92.155:8081/' + projectName + separator + solutionID + separator
     }
 
-    //mainURL = 'https://138.4.92.155:8081/' + projectName + separator + solutionID + separator
+    //mainURL = 'http://138.4.92.155:8081/' + projectName + separator + solutionID + separator
 
     getConnections()
 
@@ -124,6 +125,9 @@ function getConnections() {
 
             row1 = document.getElementById('row1')
             row2 = document.getElementById('row2')
+            //Borrar hijos de row1 y row2
+            removeChildren(row1)
+            removeChildren(row2)
 
             th1 = document.createElement('th')
             th1.setAttribute("scope", "col");
@@ -170,6 +174,8 @@ function getConnections() {
                 getObjSnapshot(dataBack)
                 getRangesSnapshot(dataBack)
                 getFitSnapshot(dataBack)
+                //Timeout y volver a llamar la funcion
+                const myTimeout = setTimeout(getConnections, 2000);
             } else {
                 getObj()
                 getRanges()
@@ -271,6 +277,8 @@ function getObjSnapshot(dataBack) {
     console.log(dataBack)
     row3 = document.getElementById('row3')
     row4 = document.getElementById('row4')
+    removeChildren(row3)
+    removeChildren(row4)
 
     th3 = document.createElement('th')
     th3.setAttribute("scope", "col");
@@ -311,6 +319,8 @@ function getObjSnapshot(dataBack) {
 
     row5 = document.getElementById('row5')
     row6 = document.getElementById('row6')
+    removeChildren(row5)
+    removeChildren(row6)
 
     th5 = document.createElement('th')
     th5.setAttribute("scope", "col");
@@ -406,6 +416,8 @@ function getRangesSnapshot(dataBack) {
 
     row7 = document.getElementById('row7')
     row8 = document.getElementById('row8')
+    removeChildren(row7)
+    removeChildren(row8)
 
     row7TH = document.createElement('th')
     row7TH.setAttribute("scope", "col");
@@ -502,6 +514,8 @@ function getFitSnapshot(dataBack) {
 
     row9 = document.getElementById('row9')
     row10 = document.getElementById('row10')
+    removeChildren(row9)
+    removeChildren(row10)
 
     th9 = document.createElement('th')
     th9.setAttribute("scope", "col");
