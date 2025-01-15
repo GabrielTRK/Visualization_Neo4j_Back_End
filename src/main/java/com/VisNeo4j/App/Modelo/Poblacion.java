@@ -100,6 +100,7 @@ public class Poblacion {
 		for (int i = 0; i < this.numIndividuos; i++) {
 			Individuo individuo = this.poblacion.get(i);
 			individuo = p.evaluate(individuo);
+			individuo = p.repararMejorar(individuo);
 			this.poblacion.set(i, individuo);
 		}
 	}

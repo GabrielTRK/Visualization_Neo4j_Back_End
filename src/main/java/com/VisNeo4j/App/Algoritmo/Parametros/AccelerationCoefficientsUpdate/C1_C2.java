@@ -44,10 +44,20 @@ public class C1_C2 {
 	}
 	
 	public double updateC1TimeVaryingLineal(int maxIter, int currIter) {
+		/*if(currIter > maxIter) {
+			return this.c1F;
+		}else {
+			return this.c1I + ((this.c1F - this.c1I)/maxIter) * currIter;
+		}*/
 		return this.c1I + ((this.c1F - this.c1I)/maxIter) * currIter;
 	}
 	
 	public double updateC2TimeVaryingLineal(int maxIter, int currIter) {
+		/*if(currIter > maxIter) {
+			return this.c2F;
+		}else {
+			return this.c2I + ((this.c2F - this.c2I)/maxIter) * currIter;
+		}*/
 		return this.c2I + ((this.c2F - this.c2I)/maxIter) * currIter;
 	}
 	

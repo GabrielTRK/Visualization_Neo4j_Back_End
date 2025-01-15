@@ -66,7 +66,7 @@ public class Individuo implements Comparable<Individuo> {
 
 	@Override
 	public String toString() {
-		return "Individuo [variables=" + variables + ", objetivos=" + objetivos + ", restricciones=" + restricciones
+		return "Individuo [objetivos=" + objetivos + ", restricciones=" + restricciones
 				+ ", constraintViolation=" + constraintViolation + "]";
 	}
 

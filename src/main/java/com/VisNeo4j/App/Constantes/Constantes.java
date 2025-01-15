@@ -153,4 +153,5 @@ public class Constantes {
     public static final String OK_respuestaSolutionDeleted = "Solution deleted.";
     
     public static boolean continueOpt = true;
+    
 }

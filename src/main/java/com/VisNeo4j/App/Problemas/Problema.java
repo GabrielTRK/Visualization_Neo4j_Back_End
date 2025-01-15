@@ -114,6 +114,10 @@ public class Problema {
 		return solution;
 	}
 	
+	public Individuo repararMejorar(Individuo solucion) {
+		return solucion;
+	}
+	
 	//Metodo por defecto de inicialización de variables
 	public Individuo inicializarValores(Individuo ind) {
 		List<Double> variables = new ArrayList<>(this.numVariables);

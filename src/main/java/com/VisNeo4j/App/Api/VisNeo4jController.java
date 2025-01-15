@@ -24,12 +24,24 @@ import com.VisNeo4j.App.Modelo.Salida.Rangos;
 import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
-import com.VisNeo4j.App.Problemas.Knapsack01_1;
 import com.VisNeo4j.App.Problemas.Problema;
 import com.VisNeo4j.App.Problemas.RRPS_PAT_ALT;
 import com.VisNeo4j.App.Problemas.Rosenbrock;
 import com.VisNeo4j.App.Problemas.Sphere;
 import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S1;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_12a;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20c;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20d;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20e;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_24d;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S2;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S7;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S8;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_100;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_200;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_300;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_500;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.VisNeo4j.App.Service.VisNeo4jService;
@@ -405,16 +417,82 @@ class VisNeo4jController {
 	@CrossOrigin
 	@GetMapping("/test")
 	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
+		//Crer bucle que ejecute varias veces el algoritmo 
+		//Al finalizar cada ejecución se guarda en una lista la solución
+		//Al salir del bucle se calcula la Media, Std, Max, Min, etc
 		
-		BPSOParams params = new BPSOParams(10, 0.9, 1, 1, 
-				50, 0, 0, Constantes.nombreCPGenerica, 
-				Constantes.nombreIWLinearDecreasing);
+		List<Individuo> lista = new ArrayList<>();
 		
-		Problema p = new Knapsack01_1();
+		for(int i = 0; i < 1; i++) {
+			Problema p = new Knapsack01_kp_uc_300();
+			
+			BPSOParams params = new BPSOParams(50, 0.9, 1.0, 1.0, 
+					30000, 0, 0, Constantes.nombreCPGenerica, 
+					Constantes.nombreIWLinearDecreasing);
+			
+			BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
+			
+			lista.add(bpso.ejecutarBPSO());
+			//System.out.println(lista.get(i).getObjetivos());
+			System.out.println(i);
+		}
 		
-		BPSO bpso = new BPSO(p, params, "a", new BPSOOpciones(false, 0));
+		//Calcular cosas
 		
-		System.out.println(bpso.ejecutarBPSO().getVariables());
+		//Best
+		System.out.println("Worst: " + Utils.calcularMenor(lista));
+		
+		//Worst
+		System.out.println("Best: " + Utils.calcularMayor(lista));
+		
+		//Avg(F)
+		System.out.println("Avg: " + Utils.calcularAVGF(lista));
+		
+		//Std(F)
+		System.out.println("Std: " + Utils.calcularSTDF(lista));
+		
+		//Success rate
+		System.out.println("SR: " + Utils.calcularSR(lista, 1807.00));
+		
+		//Min(Iter)
+		System.out.println("Min Iter: " + Utils.calcularMinIter(lista));
+		
+		//Max(Iter)
+		System.out.println("Max Iter: " + Utils.calcularMaxIter(lista));
+		
+		//Avg(Iter)
+		System.out.println("Avg Iter: " + Utils.calcularAVGIter(lista));
+		
+		//STD(Iter)
+		System.out.println("Std Iter: " + Utils.calcularSTDIter(lista));
+		
+		/*String s = "";
+		Problema p = new Knapsack01_S7();
+		List<Individuo> listaI = new ArrayList<>();
+		
+		for(int i = 0; i < 1024; i++) {
+			String result = Integer.toBinaryString(i);
+			String resultWithPadding = String.format("%10s", result).replaceAll(" ", "0");
+			Individuo ind = new Individuo(10, 1);
+			ArrayList<Double> var  = new ArrayList<Double>(10);
+			for (int j = 0; j < 10; j++) {
+    			var.add(j, Double.valueOf(resultWithPadding.charAt(j) + s));
+    		}
+			ind.setVariables(var);
+    		ind = p.evaluate(ind);
+    		listaI.add(ind);
+		}
+		
+		Double max = Double.MIN_VALUE;
+		Individuo opt = null;
+		for(Individuo i : listaI) {
+			System.out.println(i);
+			if(i.getObjetivos().get(0) > max && i.getConstraintViolation() == 0.0) {
+				max = i.getObjetivos().get(0);
+				opt = i;
+			}
+		}
+		System.out.println(opt);*/
 	}
 	
 	@CrossOrigin
@@ -477,7 +555,7 @@ class VisNeo4jController {
 		
 		return datos;*/
 		
-		Problema problema = new Knapsack01_1();
+		Problema problema = new Knapsack01_S1();
 		
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		

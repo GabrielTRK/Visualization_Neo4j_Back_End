@@ -134,6 +134,146 @@ public class Utils {
 		}
 		return dist;
 	}
+	
+	public static Double calcularMenor(List<Individuo> lista) {
+		Double menor = Double.MAX_VALUE;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			if(lista.get(i).getObjetivos().get(0) < menor) {
+				menor = lista.get(i).getObjetivos().get(0);
+			}
+		}
+		
+		return menor;
+	}
+	
+	public static Double calcularMayor(List<Individuo> lista) {
+		Double mayor = Double.MIN_VALUE;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			if(lista.get(i).getObjetivos().get(0) > mayor) {
+				mayor = lista.get(i).getObjetivos().get(0);
+			}
+		}
+		
+		return mayor;
+	}
+	
+	public static Double calcularAVGF(List<Individuo> lista) {
+		Double media = 0.0;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			media += lista.get(i).getObjetivos().get(0);
+		}
+		
+		return media/lista.size();
+	}
+	
+	public static Double calcularSTDF(List<Individuo> lista) {
+		Double std = 0.0;
+		Double media = 0.0;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			media += lista.get(i).getObjetivos().get(0);
+		}
+		
+		media /= lista.size();
+		
+		for(int i = 0; i < lista.size(); i++) {
+			std += Math.pow(lista.get(i).getObjetivos().get(0) - media, 2);
+		}
+		
+		std /= lista.size();
+		
+		std = Math.sqrt(std);
+		
+		return std;
+	}
+	
+	public static Double calcularSR(List<Individuo> lista, Double opt) {
+		Double SR = 0.0;
+		Double cont = 0.0;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			if(lista.get(i).getObjetivos().get(0).equals(opt)) {
+				cont++;
+			}
+		}
+		System.out.println("Hit: " + cont);
+		
+		SR = cont / (lista.size() * 1.0);
+		
+		return SR * 100.0;
+	}
+	
+	public static Double calcularMinIter(List<Individuo> lista) {
+		Double menor = Double.MAX_VALUE;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			Double valor = lista.get(i).getObjetivos().get(0);
+			int pos = lista.get(i).getFitnessHist().indexOf(valor);
+			
+			if(pos < menor) {
+				menor = pos * 1.0;
+			}
+		}
+		
+		return menor;
+	}
+	
+	public static Double calcularMaxIter(List<Individuo> lista) {
+		Double mayor = Double.MIN_VALUE;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			Double valor = lista.get(i).getObjetivos().get(0);
+			int pos = lista.get(i).getFitnessHist().indexOf(valor);
+			
+			if(pos > mayor) {
+				mayor = pos * 1.0;
+			}
+		}
+		
+		return mayor;
+	}
+	
+	public static Double calcularAVGIter(List<Individuo> lista) {
+		Double media = 0.0;
+		
+		for(int i = 0; i < lista.size(); i++) {
+			Double valor = lista.get(i).getObjetivos().get(0);
+			int pos = lista.get(i).getFitnessHist().indexOf(valor);
+			
+			media += pos;
+		}
+		
+		return media / lista.size();
+	}
+	
+	public static Double calcularSTDIter(List<Individuo> lista) {
+		Double std = 0.0;
+		Double media = 0.0;
+		List<Integer> posiciones = new ArrayList<>();
+		
+		for(int i = 0; i < lista.size(); i++) {
+			Double valor = lista.get(i).getObjetivos().get(0);
+			int pos = lista.get(i).getFitnessHist().indexOf(valor);
+			posiciones.add(pos);
+			
+			media += pos;
+		}
+		
+		media /= lista.size();
+		
+		for(int i = 0; i < posiciones.size(); i++) {
+			std += Math.pow(posiciones.get(i) - media, 2);
+		}
+		
+		std /= posiciones.size();
+		
+		std = Math.sqrt(std);
+		
+		return std;
+	}
 
 	public static Poblacion juntarPoblaciones(Poblacion padres, Poblacion hijos, Problema problema) {
 		List<Individuo> lista = new ArrayList<>(2 * padres.getNumIndividuos());
@@ -2054,5 +2194,16 @@ public class Utils {
 		ind.setFitnessHist(fitLista);
 
 		return ind;
+	}
+	
+	public static List<Double> convertToDouble(List<Integer> ints){
+		
+		List<Double> doubles = new ArrayList<>();
+		
+		for(int i = 0; i < ints.size(); i++) {
+			doubles.add(ints.get(i) * 1.0);
+		}
+		
+		return doubles;
 	}
 }

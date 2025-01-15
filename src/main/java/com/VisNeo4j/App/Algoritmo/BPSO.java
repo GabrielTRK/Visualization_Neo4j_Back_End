@@ -23,31 +23,32 @@ public class BPSO {
 	private Problema problema;
 	private Poblacion poblacionPartículas;
 	private Poblacion poblacionPbest;
-	// private Poblacion poblacionLbest;
-	// private int neighborhood = 10;
+	//private Poblacion poblacionLbest;
+	//private int neighborhood = 10;
 	private List<Individuo> listaAux;
 	private Individuo Gbest;
 	private List<List<Double>> v0;
 	private List<List<Double>> v1;
-	// private List<List<Double>> v0L;
-	// private List<List<Double>> v1L;
-	private double u = 0.1;
-	private double u2 = 0.0;
+	//private List<List<Double>> v0L;
+	//private List<List<Double>> v1L;
+	//private double u = 0.0;
+	//private double u2 = 0.0;
 	private double r1;
 	private double r2;
 	private List<Double> fitnessHist = new ArrayList<>();
 	private String proyecto;
-	private int minDist = 3;
-	private int maxIterAux = 3;
-	private List<Integer> timers;
-	private List<List<Integer>> timers2;
+	//private int minDist = 3;
+	//private int maxIterAux = 3;
+	//private List<Integer> timers;
+	//private List<List<Integer>> timers2;
 	private C1_C2 c1c2;
 	// private C1_C2 c1c2Temp;
 	private int maxDistH = 1;
 	private double maxPendiente = 5.0;
 	private double minPendiente = 1.0;
-	private double maxPendienteL = 7.0;
-	private double minPendienteL = 3.0;
+	private int maxIterC1C2 = 10;
+	//private double maxPendienteL = 7.0;
+	//private double minPendienteL = 3.0;
 	private double maxV = 3.0;
 	private double minV = -3.0;
 
@@ -59,12 +60,12 @@ public class BPSO {
 		this.r2 = Utils.getRandNumber(0.0, 1.0);
 		this.v0 = new ArrayList<>();
 		this.v1 = new ArrayList<>();
-		// this.v0L = new ArrayList<>();
-		// this.v1L = new ArrayList<>();
+		//this.v0L = new ArrayList<>();
+		//this.v1L = new ArrayList<>();
 		this.proyecto = proyecto;
 		this.poblacionPartículas = new Poblacion(this.params.getNumIndividuos(), this.problema);
-		this.timers = new ArrayList<>(this.params.getNumIndividuos());
-		this.timers2 = new ArrayList<>();
+		//this.timers = new ArrayList<>(this.params.getNumIndividuos());
+		//this.timers2 = new ArrayList<>();
 		this.listaAux = new ArrayList<>();
 		this.c1c2 = new C1_C2(params.getC1(), 0.0, 0.0, params.getC2(), Constantes.nombreC1_C2UpdateTimeVaryingLineal);
 		// this.c1c2Temp = new C1_C2(params.getC1(), 0.0, 0.5, params.getC2(),
@@ -95,8 +96,7 @@ public class BPSO {
 			this.poblacionPartículas.generarPoblacionInicial(problema, false, 29, proyecto);
 			// Calcular Pbest
 			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
-			// this.poblacionLbest = new Poblacion(this.params.getNumIndividuos(),
-			// problema);
+			//this.poblacionLbest = new Poblacion(this.params.getNumIndividuos(), problema);
 			// this.calcularPbestsYGbest();
 			// Calcular aux
 			// this.calcularAux();
@@ -109,15 +109,15 @@ public class BPSO {
 			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
 		}
 
-		System.out.println(this.params.getIteracionActual() + ": " + this.Gbest + " " + this.Gbest.getObjetivosNorm()
-				+ " " + this.Gbest.getRestricciones());
+		// System.out.println(this.params.getIteracionActual() + ": " + this.Gbest + " "
+		// + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 	}
 
 	public Individuo ejecutarBPSO() throws FileNotFoundException, IOException, CsvException {
 		while (!this.params.condicionParadaConseguida(this.poblacionPartículas, this.Gbest)) {
 			// Calcular velocidades para cada bit de cada partícula, actualizar bits y
 			// fitness
-			// this.updateU(100, this.params.getIteracionActual());
+			//this.updateU(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual());
 			this.params
 					.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
 			this.params
@@ -148,7 +148,7 @@ public class BPSO {
 			// System.out.println(r2);
 			// System.out.println(poblacionPartículas);
 			// System.out.println(poblacionPbest);
-			System.out.println(this.params.getIteracionActual() + ": " + Gbest);
+			 System.out.println(this.params.getIteracionActual() + ": " + Gbest);
 			// System.out.println(this.params.getIteracionActual() + ": " +
 			// poblacionPartículas.getPoblacion().get(0));
 			// System.out.println(this.v0.get(0));
@@ -167,7 +167,7 @@ public class BPSO {
 		// System.out.println(this.poblacionPbest);
 
 		// System.out.println("Num conexiones: " + problema.getNumVariables());
-		System.out.println("fin");
+		// System.out.println("fin");
 		// this.Gbest.setFitnessHist(fitnessHist);
 		this.Gbest.initExtra();
 		this.problema.extra(this.Gbest);
@@ -188,8 +188,8 @@ public class BPSO {
 
 			this.calcularVelocidades3();
 
-			//System.out.println("Gbest: " + this.DistanciasGbest());
-			//System.out.println("Pbest: " + this.DistanciasPbest());
+			// System.out.println("Gbest: " + this.DistanciasGbest());
+			// System.out.println("Pbest: " + this.DistanciasPbest());
 			// System.out.println("Lbest: " + this.DistanciasLbest());
 
 			// Calcular Pbest
@@ -212,12 +212,12 @@ public class BPSO {
 			// poblacionLbest.getPoblacion().get(0).getVariables());
 			// System.out.println("Gbest: " + this.Gbest.getVariables());
 			// System.out.println();
-			//System.out.println(this.params.getIteracionActual());
+			// System.out.println(this.params.getIteracionActual());
 			System.out.println(this.params.getIteracionActual() + ": " + Gbest);
 			System.out.println("Ind: " + poblacionPartículas.getPoblacion().get(0));
 			// System.out.println(this.params.getInertiaW().getInertiaW());
-			//System.out.println(this.v0.get(0));
-			//System.out.println(this.v1.get(0));
+			// System.out.println(this.v0.get(0));
+			// System.out.println(this.v1.get(0));
 			// System.out.println("c1: " + this.params.getC1());
 			// System.out.println("c2: " + this.params.getC2());
 			// System.out.println();
@@ -238,7 +238,7 @@ public class BPSO {
 		return this.Gbest;
 	}
 
-	public void calcularVelocidades() throws FileNotFoundException, IOException, CsvException {
+	/*public void calcularVelocidades() throws FileNotFoundException, IOException, CsvException {
 		// Calacular pendiente de funcione sigmoide
 		// Distancia de hamming con todas las partículas
 		// Porcentaje de partículas con una distancia < z
@@ -318,9 +318,9 @@ public class BPSO {
 			// System.out.println();
 			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
 		}
-	}
+	}*/
 
-	public void calcularVelocidades2() throws FileNotFoundException, IOException, CsvException {
+	/*public void calcularVelocidades2() throws FileNotFoundException, IOException, CsvException {
 		// Calacular pendiente de funcione sigmoide
 		// Distancia de hamming con todas las partículas
 		// Porcentaje de partículas con una distancia < z
@@ -381,7 +381,7 @@ public class BPSO {
 			// System.out.println();
 			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
 		}
-	}
+	}*/
 
 	public void calcularVelocidades3() throws FileNotFoundException, IOException, CsvException {
 		// Calacular pendiente de funcione sigmoide
@@ -390,10 +390,10 @@ public class BPSO {
 
 		Individuo Temp_GBest = new Individuo(0, 0);
 		List<Individuo> listaPBests = new ArrayList<>();
-		// List<Individuo> listaLBests = new ArrayList<>();
+		//List<Individuo> listaLBests = new ArrayList<>();
 
 		double pendiente = this.calcularPendienteFuncion3();
-		System.out.println(pendiente);
+		// System.out.println(pendiente);
 		// pendiente = 1.0;
 		for (int i = 0; i < this.params.getNumIndividuos(); i++) {
 			// System.out.println(this.poblacionPartículas.getPoblacion().get(i) + " " +
@@ -417,19 +417,20 @@ public class BPSO {
 					d1_2 = -this.params.getC2() * this.r2;
 					d0_2 = this.params.getC2() * this.r2;
 				}
-				/*
-				 * if (this.poblacionLbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
-				 * d1_3 = this.params.getC2() * this.r2; d0_3 = -this.params.getC2() * this.r2;
-				 * } else { d1_3 = -this.params.getC2() * this.r2; d0_3 = this.params.getC2() *
-				 * this.r2; }
-				 */
+
+				/*if (this.poblacionLbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
+					d1_3 = this.params.getC2() * this.r2;
+					d0_3 = -this.params.getC2() * this.r2;
+				} else {
+					d1_3 = -this.params.getC2() * this.r2;
+					d0_3 = this.params.getC2() * this.r2;
+				}*/
+
 				v1 = this.params.getInertiaW().getInertiaW() * this.v1.get(i).get(j) + d1_1 + d1_2;
 				v0 = this.params.getInertiaW().getInertiaW() * this.v0.get(i).get(j) + d0_1 + d0_2;
 
-				// v1L = this.params.getInertiaW().getInertiaW() * this.v1L.get(i).get(j) + d1_1
-				// + d1_3;
-				// v0L = this.params.getInertiaW().getInertiaW() * this.v0L.get(i).get(j) + d0_1
-				// + d0_3;
+				//v1L = this.params.getInertiaW().getInertiaW() * this.v1L.get(i).get(j) + d1_1 + d1_3;
+				//v0L = this.params.getInertiaW().getInertiaW() * this.v0L.get(i).get(j) + d0_1 + d0_3;
 
 				if (v1 > this.maxV) {
 					this.v1.get(i).set(j, this.maxV);
@@ -447,25 +448,32 @@ public class BPSO {
 					this.v0.get(i).set(j, v0);
 				}
 
-				/*
-				 * if (v0L > this.maxV) { this.v0L.get(i).set(j, this.maxV); } else if (v0L <
-				 * this.minV) { this.v0L.get(i).set(j, this.minV); } else {
-				 * this.v0L.get(i).set(j, v0L); }
-				 * 
-				 * if (v1L > this.maxV) { this.v1L.get(i).set(j, this.maxV); } else if (v1L <
-				 * this.minV) { this.v1L.get(i).set(j, this.minV); } else {
-				 * this.v1L.get(i).set(j, v1L); }
-				 */
-				// Decrementar linealmente u. Desde 1 hasta 0.
-				// v1T = (1 - this.u) * v1L + this.u * v1;
-				// v0T = (1 - this.u) * v0L + this.u * v0;
+				/*if (v0L > this.maxV) {
+					this.v0L.get(i).set(j, this.maxV);
+				} else if (v0L < this.minV) {
+					this.v0L.get(i).set(j, this.minV);
+				} else {
+					this.v0L.get(i).set(j, v0L);
+				}
+
+				if (v1L > this.maxV) {
+					this.v1L.get(i).set(j, this.maxV);
+				} else if (v1L < this.minV) {
+					this.v1L.get(i).set(j, this.minV);
+				} else {
+					this.v1L.get(i).set(j, v1L);
+				}*/
+
+				// Incrementar linealmente u. Desde 0 hasta 1.
+				 //v1T = (1 - this.u) * v1L + this.u * v1;
+				 //v0T = (1 - this.u) * v0L + this.u * v0;
 
 				if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
 					// vc = 1/(1+ Math.pow(Math.E, -5*v1));
 					// vc = Math.abs(Math.tanh(v1));
 					// System.out.print(v1 + " ");
 					vc = 1 / (1 + Math.pow(Math.E, -pendiente * v1));
-					// vc = 1 / (1 + Math.pow(Math.E, -pendiente * v1T));
+					//vc = 1 / (1 + Math.pow(Math.E, -pendiente * v1T));
 					// vc = 1/(1+ Math.pow(Math.E, -v1/pendiente));
 					// System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v1)));
 				} else {
@@ -473,7 +481,7 @@ public class BPSO {
 					// vc = Math.abs(Math.tanh(v0));
 					// System.out.print(v0 + " ");
 					vc = 1 / (1 + Math.pow(Math.E, -pendiente * v0));
-					// vc = 1 / (1 + Math.pow(Math.E, -pendiente * v0T));
+					//vc = 1 / (1 + Math.pow(Math.E, -pendiente * v0T));
 					// vc = 1/(1+ Math.pow(Math.E, -v0/pendiente));
 					// System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v0)));
 				}
@@ -489,18 +497,23 @@ public class BPSO {
 					// System.out.println("xxxxxx");
 					this.v0.get(i).set(j, 0.0);
 					this.v1.get(i).set(j, 0.0);
+					
+					//this.v0L.get(i).set(j, 0.0);
+					//this.v1L.get(i).set(j, 0.0);
 				}
 
 			}
 			// System.out.println();
 			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
+			//TODO: Reparar o mejorar
+			this.problema.repararMejorar(this.poblacionPartículas.getPoblacion().get(i));
+			
 			// Actualizar PBest
 
 			if (this.poblacionPbest.getPoblacion().get(i).getObjetivos().size() == this.poblacionPartículas
 					.getPoblacion().get(i).getObjetivos().size()) {
 				if (this.poblacionPartículas.getPoblacion().get(i).isFactible()
 						&& this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					// TODO: Comprobar MinoMax
 					if (this.problema.getMinOMax().get(this.problema.getNumObjetivos() - 1)) {
 						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
 								.get(this.problema.getNumObjetivos() - 1) < this.poblacionPbest.getPoblacion().get(i)
@@ -548,13 +561,12 @@ public class BPSO {
 				listaPBests.add(nuevo);
 			}
 
-			// listaLBests.add(obtenerLbest(this.poblacionPartículas.getPoblacion().get(i)));
+			//listaLBests.add(obtenerLbest(this.poblacionPartículas.getPoblacion().get(i)));
 
 			if (i == 0) {
 				Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
 			} else {
 				if (Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					// TODO: Comprobar MinoMax
 					if (this.problema.getMinOMax().get(this.problema.getNumObjetivos() - 1)) {
 						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
 								.get(this.problema.getNumObjetivos() - 1) < Temp_GBest.getObjetivos()
@@ -582,7 +594,7 @@ public class BPSO {
 		}
 
 		this.poblacionPbest.setPoblacion(listaPBests);
-		// this.poblacionLbest.setPoblacion(listaLBests);
+		//this.poblacionLbest.setPoblacion(listaLBests);
 
 		if (this.Gbest != null) {
 			if (this.Gbest.isFactible() && Temp_GBest.isFactible()) {
@@ -591,13 +603,13 @@ public class BPSO {
 							.get(this.problema.getNumObjetivos() - 1)) {
 						this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 					}
-				}else {
+				} else {
 					if (Temp_GBest.getObjetivos().get(this.problema.getNumObjetivos() - 1) > this.Gbest.getObjetivos()
 							.get(this.problema.getNumObjetivos() - 1)) {
 						this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 					}
 				}
-				
+
 			} else if (!this.Gbest.isFactible() && !Temp_GBest.isFactible()) {
 				if (Temp_GBest.getConstraintViolation() < this.Gbest.getConstraintViolation()) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
@@ -740,7 +752,7 @@ public class BPSO {
 		}
 	}
 
-	private void calcularAux() {
+	/*private void calcularAux() {
 		if (this.listaAux.size() == this.params.getNumIndividuos()) {
 			for (int i = 0; i < this.params.getNumIndividuos(); i++) {
 				if (Utils.distanciaHamming(this.listaAux.get(i).getVariables(),
@@ -763,9 +775,9 @@ public class BPSO {
 				this.listaAux.add(nuevo);
 			}
 		}
-	}
+	}*/
 
-	private void calcularAux2() {
+	/*private void calcularAux2() {
 		if (this.listaAux.size() == this.params.getNumIndividuos()) {
 			for (int i = 0; i < this.params.getNumIndividuos(); i++) {
 				for (int j = 0; j < this.poblacionPartículas.getPoblacion().get(i).getVariables().size(); j++) {
@@ -787,14 +799,14 @@ public class BPSO {
 					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
 					this.listaAux.set(i, nuevo);
 				}
-				/*
+				
 				 * if(Utils.distanciaHamming(this.listaAux.get(i).getVariables(),
 				 * this.poblacionPartículas.getPoblacion().get(i).getVariables()) < 1) { int
 				 * timerAntes = this.timers.get(i); if(timerAntes > 0) { timerAntes--;
 				 * this.timers.set(i, timerAntes); } }else { Individuo nuevo =
 				 * Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
 				 * this.listaAux.set(i, nuevo); this.timers.set(i, this.maxIterAux); }
-				 */
+				 
 			}
 		} else {
 			for (Individuo i : this.poblacionPartículas.getPoblacion()) {
@@ -808,29 +820,29 @@ public class BPSO {
 				this.listaAux.add(nuevo);
 			}
 		}
-	}
+	}*/
 
 	private void rellenarVelocidadesIniciales() {
 		Individuo Temp_GBest = new Individuo(0, 0);
 		List<Individuo> listaPBests = new ArrayList<>();
-		// List<Individuo> listaLBests = new ArrayList<>();
+		//List<Individuo> listaLBests = new ArrayList<>();
 
 		for (int i = 0; i < this.params.getNumIndividuos(); i++) {
 			List<Double> v0_i = new ArrayList<>();
 			List<Double> v1_i = new ArrayList<>();
-			// List<Double> v0_iL = new ArrayList<>();
-			// List<Double> v1_iL = new ArrayList<>();
+			//List<Double> v0_iL = new ArrayList<>();
+			//List<Double> v1_iL = new ArrayList<>();
 			for (int j = 0; j < this.problema.getNumVariables(); j++) {
 				v0_i.add(0.0);
 				v1_i.add(0.0);
-				// v0_iL.add(0.0);
-				// v1_iL.add(0.0);
+				//v0_iL.add(0.0);
+				//v1_iL.add(0.0);
 			}
 
 			this.v0.add(v0_i);
 			this.v1.add(v1_i);
-			// this.v0L.add(v0_iL);
-			// this.v1L.add(v1_iL);
+			//this.v0L.add(v0_iL);
+			//this.v1L.add(v1_iL);
 
 			if (this.poblacionPbest.getPoblacion().get(i).getObjetivos().size() == this.poblacionPartículas
 					.getPoblacion().get(i).getObjetivos().size()) {
@@ -881,7 +893,7 @@ public class BPSO {
 				listaPBests.add(nuevo);
 			}
 
-			// listaLBests.add(obtenerLbest(this.poblacionPartículas.getPoblacion().get(i)));
+			//listaLBests.add(obtenerLbest(this.poblacionPartículas.getPoblacion().get(i)));
 
 			if (i == 0) {
 				Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
@@ -913,7 +925,7 @@ public class BPSO {
 		}
 
 		this.poblacionPbest.setPoblacion(listaPBests);
-		// this.poblacionLbest.setPoblacion(listaLBests);
+		//this.poblacionLbest.setPoblacion(listaLBests);
 
 		if (this.Gbest != null) {
 			if (this.Gbest.isFactible() && Temp_GBest.isFactible()) {
@@ -933,8 +945,8 @@ public class BPSO {
 
 	}
 
-	private Double calcularPendienteFuncion() {
-		/*
+	/*private Double calcularPendienteFuncion() {
+		
 		 * List<Integer> distanciaParticulasGbest = new ArrayList<>(); for(int i = 0; i
 		 * < this.poblacionPartículas.getPoblacion().size(); i++) { int distH =
 		 * Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).
@@ -950,7 +962,7 @@ public class BPSO {
 		 * getVariables(), this.poblacionPbest.getPoblacion().get(i).getVariables());
 		 * distanciaParticulasPbest.add(distH); }
 		 * System.out.println("Distancia con Pbest: " + distanciaParticulasPbest);
-		 */
+		 
 
 		double sumaTimers0 = 0;
 		for (int i = 0; i < this.timers.size(); i++) {
@@ -968,9 +980,9 @@ public class BPSO {
 
 		return this.minPendiente
 				+ distMaxMinPendientes * (1 - (sumaTimers0 / this.poblacionPartículas.getNumIndividuos()));
-	}
+	}*/
 
-	private Double calcularPendienteFuncion2(int id) {
+	/*private Double calcularPendienteFuncion2(int id) {
 		double sumaTimers0 = 0;
 		// System.out.println(this.timers2.get(id));
 		for (int j = 0; j < this.timers2.get(id).size(); j++) {
@@ -984,7 +996,7 @@ public class BPSO {
 
 		return this.minPendiente + distMaxMinPendientes
 				* (1 - (sumaTimers0 / this.poblacionPartículas.getPoblacion().get(id).getVariables().size()));
-	}
+	}*/
 
 	private Double calcularPendienteFuncion3() {
 		/*
@@ -1034,7 +1046,7 @@ public class BPSO {
 			}
 		}
 		if (sumaDistH != 0.0) {
-			System.out.println("Global search: " + sumaDistH);
+			// System.out.println("Global search: " + sumaDistH);
 		}
 		// System.out.println(this.timers);
 		double distMaxMinPendientes = this.maxPendiente - this.minPendiente;
@@ -1044,29 +1056,31 @@ public class BPSO {
 		// }
 	}
 
-	/*
-	 * private Individuo obtenerLbest(Individuo ind) { Individuo Lbest =
-	 * Utils.copiarIndividuo(ind);
-	 * 
-	 * for (Individuo i : this.poblacionPartículas.getPoblacion()) { if
-	 * (i.getObjetivos().get(0) < Lbest.getObjetivos().get(0) &&
-	 * Utils.distanciaHamming(i.getVariables(), Lbest.getVariables()) <
-	 * this.neighborhood) { Lbest = Utils.copiarIndividuo(i); } } return Lbest; }
-	 */
+	/*private Individuo obtenerLbest(Individuo ind) {
+		Individuo Lbest = Utils.copiarIndividuo(ind);
 
-	private void updateU(int maxIter, int currIter) {
+		for (Individuo i : this.poblacionPartículas.getPoblacion()) {
+			if (i.getObjetivos().get(0) < Lbest.getObjetivos().get(0)
+					&& Utils.distanciaHamming(i.getVariables(), Lbest.getVariables()) < this.neighborhood) {
+				Lbest = Utils.copiarIndividuo(i);
+			}
+		}
+		return Lbest;
+	}*/
+
+	/*private void updateU(int maxIter, int currIter) {
 		if (currIter > maxIter) {
-			this.u = 0.9;
+			this.u = 1.0;
 		} else {
-			this.u = 0.1 + ((0.9 - 0.1) / maxIter) * currIter;
+			this.u = 0.0 + ((1.0 - 0.0) / maxIter) * currIter;
 		}
 		// System.out.println(this.u);
-	}
+	}*/
 
-	private void updateU2(int maxIter, int currIter) {
+	/*private void updateU2(int maxIter, int currIter) {
 		this.u2 = 1.0 - (0.0 + ((1.0 - 0.0) / maxIter) * currIter);
 		// System.out.println(this.u);
-	}
+	}*/
 
 	public List<Integer> DistanciasGbest() {
 		List<Integer> distanciaParticulasGbest = new ArrayList<>();
