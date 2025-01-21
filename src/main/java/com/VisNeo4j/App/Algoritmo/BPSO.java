@@ -42,6 +42,8 @@ public class BPSO {
 	//private List<Integer> timers;
 	//private List<List<Integer>> timers2;
 	private C1_C2 c1c2;
+	private int maxIterC1;
+	private int maxIterC2;
 	// private C1_C2 c1c2Temp;
 	private int maxDistH = 1;
 	private double maxPendiente = 5.0;
@@ -103,6 +105,10 @@ public class BPSO {
 			// this.calcularAux2();
 			// Calcular Gbest
 			// this.compararFitness();
+			Double c1IterDouble = this.params.getMax_Num_Iteraciones() * 1.0;
+			Double c2IterDouble = this.params.getMax_Num_Iteraciones() * 1.0;
+			this.maxIterC1 = c1IterDouble.intValue();
+			this.maxIterC2 = c2IterDouble.intValue();
 
 			this.rellenarVelocidadesIniciales();
 
@@ -119,9 +125,9 @@ public class BPSO {
 			// fitness
 			//this.updateU(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual());
 			this.params
-					.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+					.setC1(this.c1c2.updateC1(10000, this.params.getIteracionActual()));
 			this.params
-					.setC2(this.c1c2.updateC2(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+					.setC2(this.c1c2.updateC2(10000, this.params.getIteracionActual()));
 
 			// System.out.println(this.c1c2Temp.updateC1(this.params.getMax_Num_Iteraciones(),
 			// this.params.getIteracionActual()));
@@ -1046,7 +1052,7 @@ public class BPSO {
 			}
 		}
 		if (sumaDistH != 0.0) {
-			// System.out.println("Global search: " + sumaDistH);
+			System.out.println("Global search: " + sumaDistH);
 		}
 		// System.out.println(this.timers);
 		double distMaxMinPendientes = this.maxPendiente - this.minPendiente;

@@ -22,7 +22,6 @@ public class Knapsack01 extends Problema {
 			.collect(Collectors.toList());
 	private List<Double> profits = Stream.of(55.0, 10.0, 47.0, 5.0, 4.0, 50.0, 8.0, 61.0, 85.0, 87.0)
 			.collect(Collectors.toList());
-	private List<Double> PWratio = new ArrayList<>();
 	private Double SRate = 0.5;
 
 	public Knapsack01() {
@@ -77,7 +76,7 @@ public class Knapsack01 extends Problema {
 				}
 				this.evaluate(solution);
 			}
-		}else if(solution.getRestricciones().get(0) < this.capacity){
+		}if(solution.getRestricciones().get(0) < this.capacity){
 			boolean terminate = false;
 			while (!terminate) {
 				Double dif = this.capacity - solution.getRestricciones().get(0);
