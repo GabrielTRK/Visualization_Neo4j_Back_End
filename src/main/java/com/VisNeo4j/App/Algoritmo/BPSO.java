@@ -125,9 +125,9 @@ public class BPSO {
 			// fitness
 			//this.updateU(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual());
 			this.params
-					.setC1(this.c1c2.updateC1(10000, this.params.getIteracionActual()));
+					.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
 			this.params
-					.setC2(this.c1c2.updateC2(10000, this.params.getIteracionActual()));
+					.setC2(this.c1c2.updateC2(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
 
 			// System.out.println(this.c1c2Temp.updateC1(this.params.getMax_Num_Iteraciones(),
 			// this.params.getIteracionActual()));

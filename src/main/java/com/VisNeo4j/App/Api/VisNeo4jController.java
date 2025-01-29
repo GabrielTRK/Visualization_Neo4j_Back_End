@@ -36,6 +36,7 @@ import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP1_2000_1000_1;
 import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP1_5000_1000_1;
 import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP2_2000_1000_1;
 import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP2_5000_1000_1;
+import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP3_5000_1000_1;
 import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_12a;
 import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20c;
 import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20d;
@@ -431,9 +432,9 @@ class VisNeo4jController {
 		List<Individuo> lista = new ArrayList<>();
 		
 		for(int i = 0; i < 1; i++) {
-			Problema p = new Knapsack01_KP1_5000_1000_1();
+			Problema p = new Knapsack01_KP3_5000_1000_1();
 			
-			BPSOParams params = new BPSOParams(50, 0.9, 1.9, 0.1, 
+			BPSOParams params = new BPSOParams(50, 0.9, 1.0, 1.0, 
 					5000, 0, 0, Constantes.nombreCPGenerica, 
 					Constantes.nombreIWLinearDecreasing);
 			
