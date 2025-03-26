@@ -43,14 +43,17 @@ public class LecturaDeDatos {
 	}
 	
 	public static void leerDatosRRPS_PATDiaI(String ruta, List<Double> riesgos, 
-			List<List<String>> conexiones, List<List<String>> conexionesTotal, 
-			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
-			List<String> companyias, List<String> areasInf, List<String> continentes,
-			List<Boolean> capital, List<Double> conectividades, 
+			List<Double> riesgos_KP, List<List<String>> conexiones, 
+			List<List<String>> conexionesTotal, List<Integer> pasajeros, 
+			List<Integer> pasajeros_KP, List<Double> dineroMedioT, List<Double> dineroMedioT_KP, 
+			List<Double> dineroMedioN, List<Double> dineroMedioN_KP, 
+			List<String> companyias, List<String> areasInf, List<String> areasInf_KP, 
+			List<String> continentes, List<Boolean> capital, List<Double> conectividades, 
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
-			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen,
-			List<List<String>> conexionesNombres) {
+			List<Double> tasasAeropuertos_KP, Map<String, Integer> vuelosSalientes, 
+			List<Integer> vuelosSalientesDeOrigen, List<List<String>> conexionesNombres, 
+			List<String> aeropuertosOrigen) {
 		try {
             Scanner scanner = new Scanner(new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero));
             //Comma as a delimiter
@@ -66,6 +69,13 @@ public class LecturaDeDatos {
                 	vuelosEntrantesConexion.put(Stream.of(split[7], split[8]).collect(Collectors.toList()), 1);
                     continentes.add(split[11]);
                     capital.add(Boolean.parseBoolean(split[12]));
+                    
+                    riesgos_KP.add(Double.parseDouble(split[0]));
+                    pasajeros_KP.add(Integer.parseInt(split[1]));
+                    dineroMedioT_KP.add(Double.parseDouble(split[4]));
+                    dineroMedioN_KP.add(Double.parseDouble(split[5]));
+                    tasasAeropuertos_KP.add(Double.parseDouble(split[6]));
+                    areasInf_KP.add(split[10]);
                 	if(Double.parseDouble(split[3]) == -1.0) {
                 		conectividades.add(0.0);
 					}else {
@@ -73,6 +83,12 @@ public class LecturaDeDatos {
 					}
                 }else {
                 	vuelosEntrantesConexion.put(Stream.of(split[7], split[8]).collect(Collectors.toList()), 1 + vuelosEntrantesConexion.get(Stream.of(split[7], split[8]).collect(Collectors.toList())));
+                	int posicion = conexiones.indexOf(Stream.of(split[7], split[8]).collect(Collectors.toList()));
+                	riesgos_KP.set(posicion, riesgos_KP.get(posicion) + Double.parseDouble(split[0]));
+                	pasajeros_KP.set(posicion, pasajeros_KP.get(posicion) + Integer.parseInt(split[1]));
+                	dineroMedioT_KP.set(posicion, dineroMedioT_KP.get(posicion) + Double.parseDouble(split[4]));
+                	dineroMedioN_KP.set(posicion, dineroMedioN_KP.get(posicion) + Double.parseDouble(split[5]));
+                	tasasAeropuertos_KP.set(posicion, tasasAeropuertos_KP.get(posicion) + Double.parseDouble(split[6]));
                 }
                 if(!vuelosSalientesAEspanya.keySet().contains(split[7])) {
 					vuelosSalientesAEspanya.put(split[7], 1);
@@ -91,6 +107,10 @@ public class LecturaDeDatos {
                 tasasAeropuertos.add(Double.parseDouble(split[6]));
                 companyias.add(split[2]);
                 areasInf.add(split[10]);
+                
+                if(!aeropuertosOrigen.contains(split[7])) {
+                	aeropuertosOrigen.add(split[7]);
+                }
             }
             // Closing the scanner
             scanner.close();

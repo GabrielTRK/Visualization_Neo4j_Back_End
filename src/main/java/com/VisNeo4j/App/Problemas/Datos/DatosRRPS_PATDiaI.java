@@ -23,15 +23,19 @@ public class DatosRRPS_PATDiaI {
 	//Cálculo riesgo
 	private List<Double> riesgos;
 	private List<Double> riesgosJuntos;
+	private List<Double> riesgos_KP;
 	
 	//Cálculo pérdida de pasajeros
 	private List<Integer> pasajeros;
 	private List<Integer> pasajerosJuntos;
+	private List<Integer> pasajeros_KP;
 	
 	
 	//Cálculo dinero
 	private List<Double> dineroMedioT;
+	private List<Double> dineroMedioT_KP;
 	private List<Double> dineroMedioN;
+	private List<Double> dineroMedioN_KP;
 	private List<Double> ingresosJuntos;
 	
 	
@@ -42,28 +46,37 @@ public class DatosRRPS_PATDiaI {
 	//Calculo pérdida de ingresos por tasas aeropoertuarias
 	private List<Double> tasas;
 	private List<Double> tasasJuntos;
-	
+	private List<Double> tasas_KP;
 	
 	//Cálculo homogeneidad pérdida de ingresos entre aeropuertos destino mediante las tasas
 	private List<String> areasInf;
+	private List<String> areasInf_KP;
+	private List<Double> ingresosAreaInfTotal = new ArrayList<>();
 	
 	//Conectividad
 	
 	private Map<List<String>, Integer> vuelosEntrantesConexion;
 	private List<Integer> vuelosEntrantesConexionOrdenado = new ArrayList<>();
+	private List<Integer> vuelosEntrantesConexionOrdenadoTotal = new ArrayList<>();
 	private Map<String, Integer> vuelosSalientesAEspanya;
 	private Map<String, Integer> vuelosSalientes;
 	
 	private List<Double> conectividades;
 	
-	public DatosRRPS_PATDiaI(List<Double> riesgos, List<List<String>> conexiones, List<List<String>> conexionesTotal, 
-			List<Integer> pasajeros, List<Double> dineroMedioT, List<Double> dineroMedioN,
-			List<String> companyias, List<String> areasInf, List<String> continentes, 
-			List<Boolean> capitales, Map<String, Integer> vuelosSalientes,
+	private List<String> aeropuertosOrigen;
+	
+	public DatosRRPS_PATDiaI(List<Double> riesgos, List<Double> riesgos_KP, 
+			List<List<String>> conexiones, List<List<String>> conexionesTotal, 
+			List<Integer> pasajeros, List<Integer> pasajeros_KP, List<Double> dineroMedioT, 
+			List<Double> dineroMedioT_KP, List<Double> dineroMedioN, List<Double> dineroMedioN_KP, 
+			List<String> companyias, List<String> areasInf, List<String> areasInf_KP,
+			List<String> continentes, List<Boolean> capitales, 
+			Map<String, Integer> vuelosSalientes, 
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya,  
-			List<Double> conectividades, List<Double> tasas, 
-			List<Integer> vuelosSalientesDeOrigen, List<List<String>> conexionesNombres){
+			List<Double> conectividades, List<Double> tasas, List<Double> tasas_KP,
+			List<Integer> vuelosSalientesDeOrigen, List<List<String>> conexionesNombres, 
+			List<String> aeropuertosOrigen){
 		
 		this.conexiones = conexiones;
 		this.conexionesNombres = conexionesNombres;
@@ -73,10 +86,15 @@ public class DatosRRPS_PATDiaI {
 		this.capitales = capitales;
 		
 		this.riesgos = riesgos;
+		this.riesgos_KP = riesgos_KP;
 		this.pasajeros = pasajeros;
+		this.pasajeros_KP = pasajeros_KP;
 		this.dineroMedioT = dineroMedioT;
+		this.dineroMedioT_KP = dineroMedioT_KP;
 		this.dineroMedioN = dineroMedioN;
+		this.dineroMedioN_KP = dineroMedioN_KP;
 		this.tasas = tasas;
+		this.tasas_KP = tasas_KP;
 		
 		this.vuelosEntrantesConexion = vuelosEntrantesConexion;
 		this.vuelosSalientesAEspanya = vuelosSalientesAEspanya;
@@ -88,9 +106,11 @@ public class DatosRRPS_PATDiaI {
 		this.companyias = companyias;
 		this.areasInf = areasInf;
 		
+		this.aeropuertosOrigen = aeropuertosOrigen;
+		
 		this.obtenerDatosConectividad();
-		
-		
+		this.obtenerSumaTotalVuelosEntrantes();
+		this.obtenerIngresosTotalesPorAreaInf();
 	}
 	
 	
@@ -104,6 +124,31 @@ public class DatosRRPS_PATDiaI {
 						/ 
 						this.vuelosSalientes.get(this.conexiones.get(i).get(0)));
             }
+		}
+	}
+	
+	private void obtenerSumaTotalVuelosEntrantes() {
+		for(int i = 0; i < this.aeropuertosOrigen.size(); i++) {
+			String origen = this.aeropuertosOrigen.get(i);
+			int sumaVuelosTotal = 0;
+			for(int j = 0; j < this.conexiones.size(); j++) {
+				if(this.conexiones.get(j).get(0).equals(origen)) {
+					sumaVuelosTotal += this.vuelosEntrantesConexionOrdenado.get(j);
+				}
+			}
+			this.vuelosEntrantesConexionOrdenadoTotal.add(sumaVuelosTotal);
+		}
+	}
+	
+	private void obtenerIngresosTotalesPorAreaInf() {
+		for(int i = 0; i < this.areasInf_KP.size(); i++) {
+			double ingreso = 0.0;
+			for(int j = 0; j < this.areasInf.size(); j++) {
+				if(this.areasInf_KP.get(i).equals(this.areasInf.get(j))) {
+					ingreso += this.dineroMedioN.get(j) + this.dineroMedioT.get(j);
+				}
+			}
+			this.ingresosAreaInfTotal.add(ingreso);
 		}
 	}
 	
@@ -313,4 +358,102 @@ public class DatosRRPS_PATDiaI {
 	public void setTasasJuntos(List<Double> tasasJuntos) {
 		this.tasasJuntos = tasasJuntos;
 	}
+
+
+
+	public List<Double> getRiesgos_KP() {
+		return riesgos_KP;
+	}
+
+
+
+	public void setRiesgos_KP(List<Double> riesgos_KP) {
+		this.riesgos_KP = riesgos_KP;
+	}
+
+
+
+	public List<Integer> getPasajeros_KP() {
+		return pasajeros_KP;
+	}
+
+
+
+	public void setPasajeros_KP(List<Integer> pasajeros_KP) {
+		this.pasajeros_KP = pasajeros_KP;
+	}
+
+
+
+	public List<Double> getDineroMedioT_KP() {
+		return dineroMedioT_KP;
+	}
+
+
+
+	public void setDineroMedioT_KP(List<Double> dineroMedioT_KP) {
+		this.dineroMedioT_KP = dineroMedioT_KP;
+	}
+
+
+
+	public List<Double> getDineroMedioN_KP() {
+		return dineroMedioN_KP;
+	}
+
+
+
+	public void setDineroMedioN_KP(List<Double> dineroMedioN_KP) {
+		this.dineroMedioN_KP = dineroMedioN_KP;
+	}
+
+
+
+	public List<Double> getTasas_KP() {
+		return tasas_KP;
+	}
+
+
+
+	public void setTasas_KP(List<Double> tasas_KP) {
+		this.tasas_KP = tasas_KP;
+	}
+
+
+
+	public List<Integer> getVuelosEntrantesConexionOrdenadoTotal() {
+		return vuelosEntrantesConexionOrdenadoTotal;
+	}
+
+
+
+	public void setVuelosEntrantesConexionOrdenadoTotal(List<Integer> vuelosEntrantesConexionOrdenadoTotal) {
+		this.vuelosEntrantesConexionOrdenadoTotal = vuelosEntrantesConexionOrdenadoTotal;
+	}
+
+
+
+	public List<String> getAreasInf_KP() {
+		return areasInf_KP;
+	}
+
+
+
+	public void setAreasInf_KP(List<String> areasInf_KP) {
+		this.areasInf_KP = areasInf_KP;
+	}
+
+
+
+	public List<Double> getIngresosAreaInfTotal() {
+		return ingresosAreaInfTotal;
+	}
+
+
+
+	public void setIngresosAreaInfTotal(List<Double> ingresosAreaInfTotal) {
+		this.ingresosAreaInfTotal = ingresosAreaInfTotal;
+	}
+	
+	
 }

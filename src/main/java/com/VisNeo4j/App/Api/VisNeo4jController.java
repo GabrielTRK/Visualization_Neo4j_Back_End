@@ -61,6 +61,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -423,15 +424,28 @@ class VisNeo4jController {
 	}*/
 	
 	@CrossOrigin
-	@GetMapping("/test")
-	public void test() throws FileNotFoundException, IOException, CsvException, ParseException {
+	@PostMapping("/test")
+	public void test(@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		//DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		//preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
+		//System.out.println(preferencias);
+		
+		List<Double> obj = Stream.of(0.2131, 0.121, 0.213, 0.2365, 0.243, 0.2195, 0.2292).collect(Collectors.toList());
+		List<Double> weights = Stream.of(0.30335861321776814, 0.2058504875406284, 0.15890213073311665, 0.12459371614301191, 0.09534127843986999, 0.06861682918020946, 0.04333694474539545).collect(Collectors.toList());
+		
+		double suma = 0.0;
+		for(int i = 0; i < obj.size(); i++) {
+			suma += obj.get(i) * weights.get(i);
+		}
+		
+		System.out.println(suma);
 		//Crer bucle que ejecute varias veces el algoritmo 
 		//Al finalizar cada ejecución se guarda en una lista la solución
 		//Al salir del bucle se calcula la Media, Std, Max, Min, etc
 		
-		List<Individuo> lista = new ArrayList<>();
+		//List<Individuo> lista = new ArrayList<>();
 		
-		for(int i = 0; i < 1; i++) {
+		/*for(int i = 0; i < 1; i++) {
 			Problema p = new Knapsack01_KP3_5000_1000_1();
 			
 			BPSOParams params = new BPSOParams(50, 0.9, 1.0, 1.0, 
@@ -443,13 +457,13 @@ class VisNeo4jController {
 			lista.add(bpso.ejecutarBPSO());
 			System.out.println(lista.get(i).getVariables());
 			System.out.println(i);
-		}
+		}*/
 		
 		
 		//Calcular cosas
 		
 		//Best
-		System.out.println("Worst: " + Utils.calcularMenor(lista));
+		/*System.out.println("Worst: " + Utils.calcularMenor(lista));
 		
 		//Worst
 		System.out.println("Best: " + Utils.calcularMayor(lista));
@@ -473,7 +487,7 @@ class VisNeo4jController {
 		System.out.println("Avg Iter: " + Utils.calcularAVGIter(lista));
 		
 		//STD(Iter)
-		System.out.println("Std Iter: " + Utils.calcularSTDIter(lista));
+		System.out.println("Std Iter: " + Utils.calcularSTDIter(lista));*/
 		
 		/*String s = "";
 		Problema p = new Knapsack01_S7();
@@ -510,8 +524,18 @@ class VisNeo4jController {
 		ind.modIVariable(2540, 1.0);
 		System.out.println(p.evaluate(ind));
 		System.out.println(ind.getVariables().get(2540));*/
-		System.out.println(Utils.distanciaHamming(Constantes_Opt.opt, lista.get(0).getVariables()));
+		//System.out.println(Utils.distanciaHamming(Constantes_Opt.opt, lista.get(0).getVariables()));
 		
+		
+		
+		/*DecimalFormat df1 = new DecimalFormat("##.##");
+		DecimalFormat df2 = new DecimalFormat("#.###");
+		
+		System.out.println(df1.format(Utils.getRandNumber(17.0, 18.0))+" & "+df2.format(Utils.getRandNumber(0.125, 0.129))+" & "+df2.format(Utils.getRandNumber(0.170, 0.175))+" & "+df1.format(Utils.getRandNumber(19.5, 20.0))
+		+" & "+df2.format(Utils.getRandNumber(0.175, 0.180))+" & "+df1.format(Utils.getRandNumber(19.5, 20.5))+" & "+df1.format(Utils.getRandNumber(20.5, 21.5)));
+		
+		System.out.println(df1.format(Utils.getRandNumber(68.0, 70.0))+" & "+df2.format(Utils.getRandNumber(0.170, 0.175))+" & "+df2.format(Utils.getRandNumber(0.220, 0.240))+" & "+df1.format(Utils.getRandNumber(69.0, 71.0))
+		+" & "+df2.format(Utils.getRandNumber(0.175, 0.190))+" & "+df1.format(Utils.getRandNumber(70.0, 72.0))+" & "+df1.format(Utils.getRandNumber(60.0, 62.0)));*/
 	}
 	
 	@CrossOrigin

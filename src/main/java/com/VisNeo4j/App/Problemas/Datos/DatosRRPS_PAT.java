@@ -22,8 +22,17 @@ public class DatosRRPS_PAT {
 	private List<Double> ingresos;
 	private List<Double> tasas;
 	
+	private List<Double> riesgos_KP;
+	private List<Integer> pasajeros_KP;
+	private List<Double> ingresos_KP;
+	private List<Double> tasas_KP;
+	private List<String> areasInf_KP;
+	
 	private List<Integer> vuelosEntrantesConexionOrdenadoTotales;
+	private List<Integer> vuelosEntrantesConexionOrdenadoTotalTotales;
 	private List<Double> conectividadesTotales;
+	
+	private List<Double> ingresosAreaInfTotalTotales;
 	
 	private List<String> companyiasTotales;
 	
@@ -53,9 +62,19 @@ public class DatosRRPS_PAT {
 			riesgos.addAll(this.datosPorDia.get(i).getRiesgos());
 		}
 		
+		this.riesgos_KP = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			riesgos_KP.addAll(this.datosPorDia.get(i).getRiesgos_KP());
+		}
+		
 		this.pasajeros = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			pasajeros.addAll(this.datosPorDia.get(i).getPasajeros());
+		}
+		
+		this.pasajeros_KP = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			pasajeros_KP.addAll(this.datosPorDia.get(i).getPasajeros_KP());
 		}
 		
 		this.ingresos = new ArrayList<>();
@@ -68,9 +87,24 @@ public class DatosRRPS_PAT {
 			this.ingresos.set(i, this.ingresos.get(i) + ingresosN.get(i));
 		}
 		
+		this.ingresos_KP = new ArrayList<>();
+		List<Double> ingresosN_KP = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			ingresosN_KP.addAll(this.datosPorDia.get(i).getDineroMedioN_KP());
+			ingresos_KP.addAll(this.datosPorDia.get(i).getDineroMedioT_KP());
+		}
+		for(int i = 0; i < this.ingresos_KP.size(); i++) {
+			this.ingresos_KP.set(i, this.ingresos_KP.get(i) + ingresosN_KP.get(i));
+		}
+		
 		this.tasas = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			tasas.addAll(this.datosPorDia.get(i).getTasas());
+		}
+		
+		this.tasas_KP = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			tasas_KP.addAll(this.datosPorDia.get(i).getTasas_KP());
 		}
 		
 		this.vuelosEntrantesConexionOrdenadoTotales = new ArrayList<>();
@@ -100,6 +134,21 @@ public class DatosRRPS_PAT {
 		this.capitalesTotales = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			this.capitalesTotales.addAll(this.datosPorDia.get(i).getCapitales());
+		}
+		
+		this.vuelosEntrantesConexionOrdenadoTotalTotales = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			this.vuelosEntrantesConexionOrdenadoTotalTotales.addAll(this.datosPorDia.get(i).getVuelosEntrantesConexionOrdenadoTotal());
+		}
+		
+		this.areasInf_KP = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			this.areasInf_KP.addAll(this.datosPorDia.get(i).getAreasInf_KP());
+		}
+		
+		this.ingresosAreaInfTotalTotales = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			this.ingresosAreaInfTotalTotales.addAll(this.datosPorDia.get(i).getIngresosAreaInfTotal());
 		}
 	}
 
@@ -237,6 +286,62 @@ public class DatosRRPS_PAT {
 
 	public void setCapitalesTotales(List<Boolean> capitalesTotales) {
 		this.capitalesTotales = capitalesTotales;
+	}
+
+	public List<Double> getRiesgos_KP() {
+		return riesgos_KP;
+	}
+
+	public void setRiesgos_KP(List<Double> riesgos_KP) {
+		this.riesgos_KP = riesgos_KP;
+	}
+
+	public List<Integer> getPasajeros_KP() {
+		return pasajeros_KP;
+	}
+
+	public void setPasajeros_KP(List<Integer> pasajeros_KP) {
+		this.pasajeros_KP = pasajeros_KP;
+	}
+
+	public List<Double> getIngresos_KP() {
+		return ingresos_KP;
+	}
+
+	public void setIngresos_KP(List<Double> ingresos_KP) {
+		this.ingresos_KP = ingresos_KP;
+	}
+
+	public List<Double> getTasas_KP() {
+		return tasas_KP;
+	}
+
+	public void setTasas_KP(List<Double> tasas_KP) {
+		this.tasas_KP = tasas_KP;
+	}
+
+	public List<Integer> getVuelosEntrantesConexionOrdenadoTotalTotales() {
+		return vuelosEntrantesConexionOrdenadoTotalTotales;
+	}
+
+	public void setVuelosEntrantesConexionOrdenadoTotalTotales(List<Integer> vuelosEntrantesConexionOrdenadoTotalTotales) {
+		this.vuelosEntrantesConexionOrdenadoTotalTotales = vuelosEntrantesConexionOrdenadoTotalTotales;
+	}
+
+	public List<String> getAreasInf_KP() {
+		return areasInf_KP;
+	}
+
+	public void setAreasInf_KP(List<String> areasInf_KP) {
+		this.areasInf_KP = areasInf_KP;
+	}
+
+	public List<Double> getIngresosAreaInfTotalTotales() {
+		return ingresosAreaInfTotalTotales;
+	}
+
+	public void setIngresosAreaInfTotalTotales(List<Double> ingresosAreaInfTotalTotales) {
+		this.ingresosAreaInfTotalTotales = ingresosAreaInfTotalTotales;
 	}
 	
 	

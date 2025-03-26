@@ -475,7 +475,7 @@ public class BPSO {
 				 //v0T = (1 - this.u) * v0L + this.u * v0;
 
 				if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
-					// vc = 1/(1+ Math.pow(Math.E, -5*v1));
+					//vc = 1/(1+ Math.pow(Math.E, -v1));
 					// vc = Math.abs(Math.tanh(v1));
 					// System.out.print(v1 + " ");
 					vc = 1 / (1 + Math.pow(Math.E, -pendiente * v1));
@@ -483,7 +483,7 @@ public class BPSO {
 					// vc = 1/(1+ Math.pow(Math.E, -v1/pendiente));
 					// System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v1)));
 				} else {
-					// vc = 1/(1+ Math.pow(Math.E, -5*v0));
+					//vc = 1/(1+ Math.pow(Math.E, -v0));
 					// vc = Math.abs(Math.tanh(v0));
 					// System.out.print(v0 + " ");
 					vc = 1 / (1 + Math.pow(Math.E, -pendiente * v0));

@@ -19,10 +19,12 @@ public class DMPreferences {
 	
 	public void generateWeightsVector(int numObjetivos){
 		switch(this.method) {
-		case Constantes.nombreQDMPSR:
-			this.SRMethod(numObjetivos);
-		default:
-			this.QDMPgeneric(numObjetivos);
+			case Constantes.nombreQDMPSR:
+				this.SRMethod(numObjetivos);
+				break;
+			default:
+				this.QDMPgeneric(numObjetivos);
+				break;
 		}
 	}
 	
@@ -51,16 +53,16 @@ public class DMPreferences {
 			
 			vector.add(objetivoi);
 		}
+		
 		this.setWeightsVector(vector);
 		this.adjustWeightsOrder(numObjetivos);
 	}
 	
 	public void adjustWeightsOrder(int numObjetivos) {
 		List<Double> newWeights = new ArrayList<>();
-		Utils.rellenarListaDeCeros(newWeights, numObjetivos);
 		
 		for(int i = 0; i < this.order.getOrder().size(); i++) {
-			newWeights.set(this.order.getOrder().get(i)-1, this.weightsVector.get(i));
+				newWeights.add(i, this.weightsVector.get(this.order.getOrder().get(i)-1));
 		}
 		
 		this.weightsVector = newWeights;
@@ -80,6 +82,11 @@ public class DMPreferences {
 
 	public void setWeightsVector(List<Double> weightsVector) {
 		this.weightsVector = weightsVector;
+	}
+
+	@Override
+	public String toString() {
+		return "DMPreferences [order=" + order + ", weightsVector=" + weightsVector + ", method=" + method + "]";
 	}
 	
 	

@@ -114,13 +114,18 @@ public class VisNeo4jService {
 	public DatosRRPS_PATDiaI obtenerDatosRRPS_PATDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
 			String año_I, String año_F, String ruta) throws IOException{
 		List<Double> riesgos = new ArrayList<>();
+		List<Double> riesgos_KP = new ArrayList<>();
 		List<List<String>> conexiones = new ArrayList<>();
 		List<List<String>> conexionesTotal = new ArrayList<>();
 		List<Integer> pasajeros = new ArrayList<>();
+		List<Integer> pasajeros_KP = new ArrayList<>();
 		List<Double> dineroMedioT = new ArrayList<>();
+		List<Double> dineroMedioT_KP = new ArrayList<>();
 		List<Double> dineroMedioN = new ArrayList<>();
+		List<Double> dineroMedioN_KP = new ArrayList<>();
 		List<String> companyias = new ArrayList<>();
 		List<String> areasInf = new ArrayList<>();
+		List<String> areasInf_KP = new ArrayList<>();
 		List<String> continentes = new ArrayList<>();
 		List<Boolean> capital = new ArrayList<>();
 		Map<String, Integer> vuelosSalientes = new HashMap<>();
@@ -128,17 +133,20 @@ public class VisNeo4jService {
 		Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
 		List<Double> conectividades = new ArrayList<>();
 		List<Double> tasasAeropuertos = new ArrayList<>();
+		List<Double> tasasAeropuertos_KP = new ArrayList<>();
 		List<Integer> vuelosSalientesDeOrigen = new ArrayList<>();
 		List<List<String>> conexionesNombres = new ArrayList<>();
+		List<String> aeropuertosOrigen = new ArrayList<>();
 		
 		File file = new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero);
 		
 		if (file.exists()) {
-			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, conexiones, conexionesTotal, 
-					pasajeros, dineroMedioT, dineroMedioN, companyias, areasInf, continentes, 
-					capital, conectividades,  
-					vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, 
-					vuelosSalientes, vuelosSalientesDeOrigen, conexionesNombres);
+			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, riesgos_KP, conexiones, 
+					conexionesTotal, pasajeros, pasajeros_KP, dineroMedioT, dineroMedioT_KP, 
+					dineroMedioN, dineroMedioN_KP, companyias, areasInf, areasInf_KP, continentes, 
+					capital, conectividades, vuelosEntrantesConexion, vuelosSalientesAEspanya, 
+					tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientes, 
+					vuelosSalientesDeOrigen, conexionesNombres, aeropuertosOrigen);
 		}
         else {
         	obtenerDatosRRPS_PAT_BBDD_DiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
@@ -149,10 +157,12 @@ public class VisNeo4jService {
         			dia_I, dia_F, mes_I, mes_F, año_I, año_F, ruta);
         }
 		
-		return new DatosRRPS_PATDiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
-				dineroMedioT, dineroMedioN, companyias, areasInf, continentes, capital, 
-				vuelosSalientes, vuelosEntrantesConexion, vuelosSalientesAEspanya,  
-				conectividades, tasasAeropuertos, vuelosSalientesDeOrigen, conexionesNombres);
+		return new DatosRRPS_PATDiaI(riesgos, riesgos_KP, conexiones, conexionesTotal, pasajeros, 
+				pasajeros_KP, dineroMedioT, dineroMedioT_KP, dineroMedioN, dineroMedioN_KP, 
+				companyias, areasInf, areasInf_KP, continentes, capital, vuelosSalientes, 
+				vuelosEntrantesConexion, vuelosSalientesAEspanya, conectividades, 
+				tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientesDeOrigen, 
+				conexionesNombres, aeropuertosOrigen);
 	}
 	
 	//Obtiene los datos del dia indicado con la BBDD
@@ -420,7 +430,7 @@ public class VisNeo4jService {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
-		numIteraciones = Utils.getRandNumber(500, 30000);
+		numIteraciones = Utils.getRandNumber(5000, 5001);
 		
 		BPSOParams params = new BPSOParams(numIndividuos, inertiaW, c1, c2, 
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 

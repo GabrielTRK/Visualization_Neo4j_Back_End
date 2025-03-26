@@ -17,6 +17,8 @@ import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class RRPS_PAT extends Problema {
+	
+	private Double SRate = 0.5;
 
 	private Double resInf = 0.0;
 	private Double resSup;
@@ -27,6 +29,21 @@ public class RRPS_PAT extends Problema {
 	private List<Integer> direccionesAMantener;
 	private List<Integer> objetivosRestriccion = Stream.of(2, 3, 5).collect(Collectors.toList());
 	private List<Integer> orderRes = new ArrayList<>();
+	
+	private Double RiesgosumatorioTotal = 0.0;
+	private Double IngresosTtotalSuma = 0.0;
+
+	private Double Pasajerostotal = 0.0;
+
+	private Double Tasastotal = 0.0;
+	
+	private Double ConectividadtotalSuma = 0.0;
+	
+	
+	private Map<String, List<Double>> pasajerosPorCompanyia = new HashMap<>();
+	private Map<String, List<Double>> ingresosPorAreaInf = new HashMap<>();
+	private Map<String, List<Double>> ingresosPorAerDest = new HashMap<>();
+	
 
 	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, List<String> resPol, DMPreferences preferencias) {
 		super(0, 1);
@@ -178,7 +195,7 @@ public class RRPS_PAT extends Problema {
 
 				pos++;
 			}
-
+			//TODO: crear una lista para el total de vuelos entrantes para cada origen. Repetidos
 			if (!this.datos.getConexionesTotales().get(i).get(0).equals(origen)) {
 				if (i > 0) {
 					Double Conectividadaux = 0.0;
@@ -292,19 +309,30 @@ public class RRPS_PAT extends Problema {
 		ingresoPorAerDestDesvTip = Math.sqrt(ingresoPorAerDestDesvTip);
 
 		// -------------RESTRICCIÓN--------------
-
+		solucion.initExtra();
+		Map<String, List<Double>> valoresAdicionales = solucion.getExtra();
+		
+		
+		valoresAdicionales.put(Constantes.nombreRiesgoImportado, Stream.of(Riesgosumatorio).collect(Collectors.toList()));
+		
 		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);// Riesgo
+		this.RiesgosumatorioTotal = RiesgosumatorioTotal;
 
 		// -------------OBJETIVOS----------------
 
 		objetivos.add(1 - Ingresosaux);// Ingresos
+		this.IngresosTtotalSuma = IngresosTtotalSuma;
 		objetivos.add(ingresoPerdidoAreasInfDesvTip); // Homogen ingresos areas inf
+		this.ingresosPorAreaInf = ingresosPorAreaInf;
 		objetivos.add(pasajerosPorCompanyiaDesvTipPerdida); // Homogen pasajerosCom
 		objetivos.add(Tasasporcentaje);// Tasas
+		this.Tasastotal = Tasastotal;
 		objetivos.add(ingresoPorAerDestDesvTip); // Homogen tasas aeropuerto dest
 
 		objetivos.add(Pasajerosporcentaje);// Pasajeros
+		this.Pasajerostotal = Pasajerostotal;
 		objetivos.add(Conectividadsolucion);// Conectividad
+		this.ConectividadtotalSuma = ConectividadtotalSuma;
 		return objetivos;
 	}
 
@@ -541,7 +569,107 @@ public class RRPS_PAT extends Problema {
 		return ind;
 	}
 	
+	@Override
+	public Individuo repararMejorar(Individuo solucion) {
+		
+		if(solucion.getRestricciones().get(0) > this.resSup) {
+			while (solucion.getRestricciones().get(0) > this.resSup) {
+				if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
+					Double maxRatio = Double.MIN_VALUE;
+					int maxRatioPos = 0;
+					for(int i = 0; i < this.getNumVariables(); i++) {
+						if(solucion.getVariables().get(i) == 1.0 && this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal) > maxRatio) {
+							maxRatio = this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal);
+							maxRatioPos = i;
+						}
+					}
+					solucion.modIVariable(maxRatioPos, 0.0);
+				}else {
+					int minRatioPos = Utils.getRandNumber(0, getNumVariables());
+					solucion.modIVariable(minRatioPos, 0.0);
+				}
+				this.evaluate(solucion);
+			}
+		}if(solucion.getRestricciones().get(0) < this.resSup){
+			boolean terminate = false;
+			while (!terminate) {
+				//Double dif = this.resSup - solucion.getRestricciones().get(0);
+				
+				List<Double> candidatos = new ArrayList<>();
+				Map<Double, Integer> candidatosRatio = new HashMap<>();
+				
+				for(int i = 0; i < this.getNumVariables(); i++) {
+					if(solucion.getVariables().get(i) == 0.0 && (this.resSup - (solucion.getExtra().get(Constantes.nombreRiesgoImportado).get(0) + this.datos.getRiesgos_KP().get(i)) / this.RiesgosumatorioTotal) >= 0.0) {
+						candidatos.add(this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal));
+						candidatosRatio.put(this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal), i);
+					}
+				}
+				if(candidatos.size() != 0) {
+					Collections.sort(candidatos);
+					
+					if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
+						int pos = candidatosRatio.get(candidatos.get(0));
+						solucion.modIVariable(pos, 1.0);
+					}else {
+						int pos = candidatosRatio.get(candidatos.get(Utils.getRandNumber(0, candidatos.size())));
+						solucion.modIVariable(pos, 1.0);
+					}
+					this.evaluate(solucion);
+				}else {
+					terminate = true;
+				}
+				
+			}
+		}
+		
+		return solucion;
+	}
 	
+	public double evalKP(int posicion) {
+		double eval = 0.0;
+		double ingresos = 0.0;
+		double pasajeros = 0.0;
+		double tasas = 0.0;
+		double conectividad = 0.0;
+		double HingresosAreaInf = 0.0;
+		double mediaPerdidaIngresosPAreaInf = 0.0;
+		//double conectividadTotal = 0.0;
+		
+		ingresos = 1.0 - (this.datos.getIngresos_KP().get(posicion) / this.IngresosTtotalSuma);
+		tasas = 1.0 - (this.datos.getTasas_KP().get(posicion) / this.Tasastotal);
+		pasajeros = 1.0 - (this.datos.getPasajeros_KP().get(posicion)*1.0 / this.Pasajerostotal*1.0);
+		
+		if(this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion)*1.0 != 0.0) {
+			conectividad = 1.0 - (this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(posicion)*1.0 / this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion)*1.0);
+		}
+		conectividad *= this.datos.getConectividadesTotales().get(posicion);
+		
+		if(this.ConectividadtotalSuma != 0.0) {
+			conectividad /= this.ConectividadtotalSuma;
+		}
+		
+		mediaPerdidaIngresosPAreaInf = ((this.ingresosPorAreaInf.keySet().size()-1) * 1.0 + (1.0 - (this.datos.getIngresos().get(posicion)/this.datos.getIngresosAreaInfTotalTotales().get(posicion))))/this.ingresosPorAreaInf.keySet().size();
+		
+		for(int i = 0; i < this.ingresosPorAreaInf.keySet().size(); i++) {
+			if(i == 0) {
+				HingresosAreaInf += Math.pow((1.0 - (this.datos.getIngresos().get(posicion)/this.datos.getIngresosAreaInfTotalTotales().get(posicion))) - mediaPerdidaIngresosPAreaInf, 2);
+			}else {
+				HingresosAreaInf += Math.pow(1.0 - mediaPerdidaIngresosPAreaInf, 2);
+			}
+		}
+		
+		HingresosAreaInf /= this.ingresosPorAreaInf.keySet().size();
+		
+		HingresosAreaInf = Math.sqrt(HingresosAreaInf);
+		
+		eval += ingresos * this.preferencias.getWeightsVector().get(0);
+		eval += HingresosAreaInf * this.preferencias.getWeightsVector().get(1);
+		eval += tasas * this.preferencias.getWeightsVector().get(3);
+		eval += pasajeros * this.preferencias.getWeightsVector().get(5);
+		eval += conectividad * this.preferencias.getWeightsVector().get(6);
+		
+		return eval;
+	}
 
 	public DatosRRPS_PAT getDatos() {
 		return datos;
