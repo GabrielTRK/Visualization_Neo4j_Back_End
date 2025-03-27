@@ -34,6 +34,8 @@ public class DatosRRPS_PAT {
 	
 	private List<Double> ingresosAreaInfTotalTotales;
 	
+	private List<Double> ingresosAerDestTotalTotales;
+	
 	private List<String> companyiasTotales;
 	
 	private List<String> aresInfTotales;
@@ -149,6 +151,11 @@ public class DatosRRPS_PAT {
 		this.ingresosAreaInfTotalTotales = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			this.ingresosAreaInfTotalTotales.addAll(this.datosPorDia.get(i).getIngresosAreaInfTotal());
+		}
+		
+		this.ingresosAerDestTotalTotales = new ArrayList<>();
+		for(int i = 0; i < this.datosPorDia.size(); i++) {
+			this.ingresosAerDestTotalTotales.addAll(this.datosPorDia.get(i).getIngresosAerDestTotal());
 		}
 	}
 
@@ -342,6 +349,14 @@ public class DatosRRPS_PAT {
 
 	public void setIngresosAreaInfTotalTotales(List<Double> ingresosAreaInfTotalTotales) {
 		this.ingresosAreaInfTotalTotales = ingresosAreaInfTotalTotales;
+	}
+
+	public List<Double> getIngresosAerDestTotalTotales() {
+		return ingresosAerDestTotalTotales;
+	}
+
+	public void setIngresosAerDestTotalTotales(List<Double> ingresosAerDestTotalTotales) {
+		this.ingresosAerDestTotalTotales = ingresosAerDestTotalTotales;
 	}
 	
 	

@@ -51,6 +51,9 @@ public class DatosRRPS_PATDiaI {
 	//Cálculo homogeneidad pérdida de ingresos entre aeropuertos destino mediante las tasas
 	private List<String> areasInf;
 	private List<String> areasInf_KP;
+	private List<Double> ingresosAerDestTotal = new ArrayList<>();
+	
+	//Cálculo homogeneidad pérdida de ingresos entre areas de influencia
 	private List<Double> ingresosAreaInfTotal = new ArrayList<>();
 	
 	//Conectividad
@@ -111,6 +114,7 @@ public class DatosRRPS_PATDiaI {
 		this.obtenerDatosConectividad();
 		this.obtenerSumaTotalVuelosEntrantes();
 		this.obtenerIngresosTotalesPorAreaInf();
+		this.obtenerIngresosTotalesPorAerDest();
 	}
 	
 	
@@ -149,6 +153,18 @@ public class DatosRRPS_PATDiaI {
 				}
 			}
 			this.ingresosAreaInfTotal.add(ingreso);
+		}
+	}
+	
+	private void obtenerIngresosTotalesPorAerDest() {
+		for(int i = 0; i < this.conexiones.size(); i++) {
+			double ingreso = 0.0;
+			for(int j = 0; j < this.conexionesTotal.size(); j++) {
+				if(this.conexiones.get(i).get(1).equals(this.conexionesTotal.get(j).get(1))) {
+					ingreso += this.tasas.get(j);
+				}
+			}
+			this.ingresosAerDestTotal.add(ingreso);
 		}
 	}
 	
@@ -453,6 +469,18 @@ public class DatosRRPS_PATDiaI {
 
 	public void setIngresosAreaInfTotal(List<Double> ingresosAreaInfTotal) {
 		this.ingresosAreaInfTotal = ingresosAreaInfTotal;
+	}
+
+
+
+	public List<Double> getIngresosAerDestTotal() {
+		return ingresosAerDestTotal;
+	}
+
+
+
+	public void setIngresosAerDestTotal(List<Double> ingresosAerDestTotal) {
+		this.ingresosAerDestTotal = ingresosAerDestTotal;
 	}
 	
 	

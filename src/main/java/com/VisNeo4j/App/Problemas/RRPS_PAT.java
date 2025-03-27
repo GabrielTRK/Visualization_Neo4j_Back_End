@@ -633,7 +633,8 @@ public class RRPS_PAT extends Problema {
 		double conectividad = 0.0;
 		double HingresosAreaInf = 0.0;
 		double mediaPerdidaIngresosPAreaInf = 0.0;
-		//double conectividadTotal = 0.0;
+		double mediaPerdidaIngresosPAerDest = 0.0;
+		double HingresosAerDest = 0.0;
 		
 		ingresos = 1.0 - (this.datos.getIngresos_KP().get(posicion) / this.IngresosTtotalSuma);
 		tasas = 1.0 - (this.datos.getTasas_KP().get(posicion) / this.Tasastotal);
@@ -648,23 +649,29 @@ public class RRPS_PAT extends Problema {
 			conectividad /= this.ConectividadtotalSuma;
 		}
 		
+		
 		mediaPerdidaIngresosPAreaInf = ((this.ingresosPorAreaInf.keySet().size()-1) * 1.0 + (1.0 - (this.datos.getIngresos().get(posicion)/this.datos.getIngresosAreaInfTotalTotales().get(posicion))))/this.ingresosPorAreaInf.keySet().size();
 		
-		for(int i = 0; i < this.ingresosPorAreaInf.keySet().size(); i++) {
-			if(i == 0) {
-				HingresosAreaInf += Math.pow((1.0 - (this.datos.getIngresos().get(posicion)/this.datos.getIngresosAreaInfTotalTotales().get(posicion))) - mediaPerdidaIngresosPAreaInf, 2);
-			}else {
-				HingresosAreaInf += Math.pow(1.0 - mediaPerdidaIngresosPAreaInf, 2);
-			}
-		}
+		HingresosAreaInf += (this.ingresosPorAreaInf.keySet().size() - 1) * Math.pow(1.0 - mediaPerdidaIngresosPAreaInf, 2);
+		HingresosAreaInf += Math.pow((1.0 - (this.datos.getIngresos().get(posicion)/this.datos.getIngresosAreaInfTotalTotales().get(posicion))) - mediaPerdidaIngresosPAreaInf, 2);
 		
 		HingresosAreaInf /= this.ingresosPorAreaInf.keySet().size();
 		
 		HingresosAreaInf = Math.sqrt(HingresosAreaInf);
 		
+		mediaPerdidaIngresosPAerDest = ((this.ingresosPorAerDest.keySet().size()-1) * 1.0 + (1.0 - (this.datos.getTasas().get(posicion)/this.datos.getIngresosAerDestTotalTotales().get(posicion))))/this.ingresosPorAerDest.keySet().size();
+		
+		HingresosAerDest += (this.ingresosPorAerDest.keySet().size() - 1) * Math.pow(1.0 - mediaPerdidaIngresosPAerDest, 2);
+		HingresosAerDest += Math.pow((1.0 - (this.datos.getTasas().get(posicion)/this.datos.getIngresosAerDestTotalTotales().get(posicion))) - mediaPerdidaIngresosPAerDest, 2);
+		
+		HingresosAerDest /= this.ingresosPorAerDest.keySet().size();
+		
+		HingresosAerDest = Math.sqrt(HingresosAerDest);
+		
 		eval += ingresos * this.preferencias.getWeightsVector().get(0);
 		eval += HingresosAreaInf * this.preferencias.getWeightsVector().get(1);
 		eval += tasas * this.preferencias.getWeightsVector().get(3);
+		eval += HingresosAerDest * this.preferencias.getWeightsVector().get(4);
 		eval += pasajeros * this.preferencias.getWeightsVector().get(5);
 		eval += conectividad * this.preferencias.getWeightsVector().get(6);
 		
