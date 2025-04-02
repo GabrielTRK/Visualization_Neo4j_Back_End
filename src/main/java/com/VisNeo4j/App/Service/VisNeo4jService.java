@@ -124,6 +124,8 @@ public class VisNeo4jService {
 		List<Double> dineroMedioN = new ArrayList<>();
 		List<Double> dineroMedioN_KP = new ArrayList<>();
 		List<String> companyias = new ArrayList<>();
+		List<List<Integer>> pasajerosCompanyias_KP = new ArrayList<>();
+		List<List<String>> companyias_KP = new ArrayList<>();
 		List<String> areasInf = new ArrayList<>();
 		List<String> areasInf_KP = new ArrayList<>();
 		List<String> continentes = new ArrayList<>();
@@ -142,8 +144,9 @@ public class VisNeo4jService {
 		
 		if (file.exists()) {
 			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, riesgos_KP, conexiones, 
-					conexionesTotal, pasajeros, pasajeros_KP, dineroMedioT, dineroMedioT_KP, 
-					dineroMedioN, dineroMedioN_KP, companyias, areasInf, areasInf_KP, continentes, 
+					conexionesTotal, pasajeros, pasajeros_KP, 
+					dineroMedioT, dineroMedioT_KP, dineroMedioN, dineroMedioN_KP, 
+					companyias, pasajerosCompanyias_KP, companyias_KP, areasInf, areasInf_KP, continentes, 
 					capital, conectividades, vuelosEntrantesConexion, vuelosSalientesAEspanya, 
 					tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientes, 
 					vuelosSalientesDeOrigen, conexionesNombres, aeropuertosOrigen);
@@ -159,7 +162,7 @@ public class VisNeo4jService {
 		
 		return new DatosRRPS_PATDiaI(riesgos, riesgos_KP, conexiones, conexionesTotal, pasajeros, 
 				pasajeros_KP, dineroMedioT, dineroMedioT_KP, dineroMedioN, dineroMedioN_KP, 
-				companyias, areasInf, areasInf_KP, continentes, capital, vuelosSalientes, 
+				companyias, pasajerosCompanyias_KP, companyias_KP, areasInf, areasInf_KP, continentes, capital, vuelosSalientes, 
 				vuelosEntrantesConexion, vuelosSalientesAEspanya, conectividades, 
 				tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientesDeOrigen, 
 				conexionesNombres, aeropuertosOrigen);

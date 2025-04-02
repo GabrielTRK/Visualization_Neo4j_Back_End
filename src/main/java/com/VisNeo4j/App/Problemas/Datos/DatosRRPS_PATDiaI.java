@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 
@@ -41,6 +43,9 @@ public class DatosRRPS_PATDiaI {
 	
 	//Cálculo homogeneidad pasajeros aerolineas
 	private List<String> companyias;
+	private List<List<Integer>> pasajerosCompanyias_KP;
+	private List<List<String>> companyias_KP;
+	private List<List<Integer>> totalPasajerosCompanyias = new ArrayList<>();
 	
 	
 	//Calculo pérdida de ingresos por tasas aeropoertuarias
@@ -72,7 +77,7 @@ public class DatosRRPS_PATDiaI {
 			List<List<String>> conexiones, List<List<String>> conexionesTotal, 
 			List<Integer> pasajeros, List<Integer> pasajeros_KP, List<Double> dineroMedioT, 
 			List<Double> dineroMedioT_KP, List<Double> dineroMedioN, List<Double> dineroMedioN_KP, 
-			List<String> companyias, List<String> areasInf, List<String> areasInf_KP,
+			List<String> companyias, List<List<Integer>> pasajerosCompanyias_KP, List<List<String>> companyias_KP, List<String> areasInf, List<String> areasInf_KP,
 			List<String> continentes, List<Boolean> capitales, 
 			Map<String, Integer> vuelosSalientes, 
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
@@ -99,6 +104,8 @@ public class DatosRRPS_PATDiaI {
 		this.tasas = tasas;
 		this.tasas_KP = tasas_KP;
 		
+		this.areasInf_KP = areasInf_KP;
+		
 		this.vuelosEntrantesConexion = vuelosEntrantesConexion;
 		this.vuelosSalientesAEspanya = vuelosSalientesAEspanya;
 		
@@ -111,10 +118,14 @@ public class DatosRRPS_PATDiaI {
 		
 		this.aeropuertosOrigen = aeropuertosOrigen;
 		
+		this.companyias_KP = companyias_KP;
+		this.pasajerosCompanyias_KP = pasajerosCompanyias_KP;
+		
 		this.obtenerDatosConectividad();
 		this.obtenerSumaTotalVuelosEntrantes();
 		this.obtenerIngresosTotalesPorAreaInf();
 		this.obtenerIngresosTotalesPorAerDest();
+		this.obtenerPasajerosTotalesPorCompanyia();
 	}
 	
 	
@@ -132,11 +143,10 @@ public class DatosRRPS_PATDiaI {
 	}
 	
 	private void obtenerSumaTotalVuelosEntrantes() {
-		for(int i = 0; i < this.aeropuertosOrigen.size(); i++) {
-			String origen = this.aeropuertosOrigen.get(i);
-			int sumaVuelosTotal = 0;
+		for(int i = 0; i < this.conexiones.size(); i++) {
+			int sumaVuelosTotal = this.vuelosEntrantesConexionOrdenado.get(i);
 			for(int j = 0; j < this.conexiones.size(); j++) {
-				if(this.conexiones.get(j).get(0).equals(origen)) {
+				if(this.conexiones.get(i).get(0).equals(this.conexiones.get(j).get(0)) && i != j) {
 					sumaVuelosTotal += this.vuelosEntrantesConexionOrdenado.get(j);
 				}
 			}
@@ -165,6 +175,23 @@ public class DatosRRPS_PATDiaI {
 				}
 			}
 			this.ingresosAerDestTotal.add(ingreso);
+		}
+	}
+	
+	private void obtenerPasajerosTotalesPorCompanyia() {
+		for(int i = 0; i < this.companyias_KP.size(); i++) {
+			List<Integer> listaTotalPasajeros = new ArrayList<>();
+			this.totalPasajerosCompanyias.add(listaTotalPasajeros);
+			for(int j = 0; j < this.companyias_KP.get(i).size(); j++) {
+				int totalPasajeros = 0;
+				for(int k = 0; k < this.companyias_KP.size(); k++) {
+					if(this.companyias_KP.get(k).contains(this.companyias_KP.get(i).get(j))) {
+						int posicion = this.companyias_KP.get(k).indexOf(this.companyias_KP.get(i).get(j));
+						totalPasajeros += this.pasajerosCompanyias_KP.get(k).get(posicion);
+					}
+				}
+				this.totalPasajerosCompanyias.get(i).add(totalPasajeros);
+			}
 		}
 	}
 	
@@ -481,6 +508,42 @@ public class DatosRRPS_PATDiaI {
 
 	public void setIngresosAerDestTotal(List<Double> ingresosAerDestTotal) {
 		this.ingresosAerDestTotal = ingresosAerDestTotal;
+	}
+
+
+
+	public List<List<Integer>> getPasajerosCompanyias_KP() {
+		return pasajerosCompanyias_KP;
+	}
+
+
+
+	public void setPasajerosCompanyias_KP(List<List<Integer>> pasajerosCompanyias_KP) {
+		this.pasajerosCompanyias_KP = pasajerosCompanyias_KP;
+	}
+
+
+
+	public List<List<String>> getCompanyias_KP() {
+		return companyias_KP;
+	}
+
+
+
+	public void setCompanyias_KP(List<List<String>> companyias_KP) {
+		this.companyias_KP = companyias_KP;
+	}
+
+
+
+	public List<List<Integer>> getTotalPasajerosCompanyias() {
+		return totalPasajerosCompanyias;
+	}
+
+
+
+	public void setTotalPasajerosCompanyias(List<List<Integer>> totalPasajerosCompanyias) {
+		this.totalPasajerosCompanyias = totalPasajerosCompanyias;
 	}
 	
 	

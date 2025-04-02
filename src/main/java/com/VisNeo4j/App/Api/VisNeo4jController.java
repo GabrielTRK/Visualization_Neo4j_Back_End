@@ -27,6 +27,7 @@ import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problemas.RRPS_PAT;
 import com.VisNeo4j.App.Problemas.RRPS_PAT_ALT;
 import com.VisNeo4j.App.Problemas.Rosenbrock;
 import com.VisNeo4j.App.Problemas.Sphere;
@@ -425,20 +426,27 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@PostMapping("/test")
-	public void test(@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
-		//DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
-		//preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
-		//System.out.println(preferencias);
+	public void test(@RequestParam("fecha_inicial") String fecha_I, 
+			@RequestParam("fecha_final") String fecha_F,
+			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
-		List<Double> obj = Stream.of(0.2131, 0.121, 0.213, 0.2365, 0.243, 0.2195, 0.2292).collect(Collectors.toList());
-		List<Double> weights = Stream.of(0.30335861321776814, 0.2058504875406284, 0.15890213073311665, 0.12459371614301191, 0.09534127843986999, 0.06861682918020946, 0.04333694474539545).collect(Collectors.toList());
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		double suma = 0.0;
-		for(int i = 0; i < obj.size(); i++) {
-			suma += obj.get(i) * weights.get(i);
-		}
+		Problema problema = new RRPS_PAT(datos, 90.0 / 100.0, resPolPref.getPol(), preferencias);
 		
-		System.out.println(suma);
+		Individuo ind = new Individuo(problema.getNumVariables(), 1);
+		
+		ind.setVariables(Stream.of(0.0, 0.0, 0.0).collect(Collectors.toList()));
+		
+		problema.evaluate(ind);
+		System.out.println(ind);
+		
+		problema.repararMejorar(ind);
+		
+		System.out.println(ind);
+		
 		//Crer bucle que ejecute varias veces el algoritmo 
 		//Al finalizar cada ejecución se guarda en una lista la solución
 		//Al salir del bucle se calcula la Media, Std, Max, Min, etc

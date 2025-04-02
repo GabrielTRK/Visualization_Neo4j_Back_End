@@ -47,7 +47,8 @@ public class LecturaDeDatos {
 			List<List<String>> conexionesTotal, List<Integer> pasajeros, 
 			List<Integer> pasajeros_KP, List<Double> dineroMedioT, List<Double> dineroMedioT_KP, 
 			List<Double> dineroMedioN, List<Double> dineroMedioN_KP, 
-			List<String> companyias, List<String> areasInf, List<String> areasInf_KP, 
+			List<String> companyias, List<List<Integer>> pasajerosCompanyias_KP, 
+			List<List<String>> companyias_KP, List<String> areasInf, List<String> areasInf_KP, 
 			List<String> continentes, List<Boolean> capital, List<Double> conectividades, 
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
@@ -76,6 +77,10 @@ public class LecturaDeDatos {
                     dineroMedioN_KP.add(Double.parseDouble(split[5]));
                     tasasAeropuertos_KP.add(Double.parseDouble(split[6]));
                     areasInf_KP.add(split[10]);
+          
+                    companyias_KP.add(Stream.of(split[2]).collect(Collectors.toList()));
+                    pasajerosCompanyias_KP.add(Stream.of(Integer.parseInt(split[1])).collect(Collectors.toList()));
+                    
                 	if(Double.parseDouble(split[3]) == -1.0) {
                 		conectividades.add(0.0);
 					}else {
@@ -89,6 +94,16 @@ public class LecturaDeDatos {
                 	dineroMedioT_KP.set(posicion, dineroMedioT_KP.get(posicion) + Double.parseDouble(split[4]));
                 	dineroMedioN_KP.set(posicion, dineroMedioN_KP.get(posicion) + Double.parseDouble(split[5]));
                 	tasasAeropuertos_KP.set(posicion, tasasAeropuertos_KP.get(posicion) + Double.parseDouble(split[6]));
+                	
+                	if(!companyias_KP.get(posicion).contains(split[2])) {
+                		companyias_KP.get(posicion).add(split[2]);
+                    	pasajerosCompanyias_KP.get(posicion).add(Integer.parseInt(split[1]));
+                    }else {
+                    	int posicionCompanyia = companyias_KP.get(posicion).indexOf(split[2]);
+                    	
+                    	pasajerosCompanyias_KP.get(posicion).set(posicionCompanyia, 
+                    			pasajerosCompanyias_KP.get(posicion).get(posicionCompanyia) + Integer.parseInt(split[1]));
+                    }
                 }
                 if(!vuelosSalientesAEspanya.keySet().contains(split[7])) {
 					vuelosSalientesAEspanya.put(split[7], 1);

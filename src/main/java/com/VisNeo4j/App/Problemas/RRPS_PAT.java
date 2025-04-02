@@ -100,9 +100,27 @@ public class RRPS_PAT extends Problema {
 
 		ind.setObjetivos(Stream.of(sumaPesos).collect(Collectors.toList()));
 
-		this.quitarDirecciones(aux);
+		return ind;
+	}
+	
+	public Individuo evaluate2(Individuo ind) {
 
-		ind.setVariables(aux);
+		List<Double> objetivos = this.calcularObjetivos(ind);
+
+		List<Double> restricciones = new ArrayList<>(1);
+
+		restricciones.add(0, objetivos.get(0));
+		ind.setRestricciones(restricciones);
+		this.comprobarRestricciones(ind);
+		this.comprobarOrden(ind, objetivos);
+		ind.setObjetivosNorm(objetivos.subList(1, objetivos.size()));
+		Double sumaPesos = 0.0;
+
+		for (int i = 1; i < objetivos.size(); i++) {
+			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
+		}
+
+		ind.setObjetivos(Stream.of(sumaPesos).collect(Collectors.toList()));
 
 		return ind;
 	}
@@ -325,6 +343,7 @@ public class RRPS_PAT extends Problema {
 		objetivos.add(ingresoPerdidoAreasInfDesvTip); // Homogen ingresos areas inf
 		this.ingresosPorAreaInf = ingresosPorAreaInf;
 		objetivos.add(pasajerosPorCompanyiaDesvTipPerdida); // Homogen pasajerosCom
+		this.pasajerosPorCompanyia = pasajerosPorCompanyia;
 		objetivos.add(Tasasporcentaje);// Tasas
 		this.Tasastotal = Tasastotal;
 		objetivos.add(ingresoPorAerDestDesvTip); // Homogen tasas aeropuerto dest
@@ -571,14 +590,15 @@ public class RRPS_PAT extends Problema {
 	
 	@Override
 	public Individuo repararMejorar(Individuo solucion) {
+		List<Double> aux = solucion.getVariables();
 		
 		if(solucion.getRestricciones().get(0) > this.resSup) {
-			while (solucion.getRestricciones().get(0) > this.resSup) {
+			while (solucion.getRestricciones().get(0) > this.resSup && this.comprobarUnos(solucion)) {
 				if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
 					Double maxRatio = Double.MIN_VALUE;
 					int maxRatioPos = 0;
 					for(int i = 0; i < this.getNumVariables(); i++) {
-						if(solucion.getVariables().get(i) == 1.0 && this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal) > maxRatio) {
+						if(!this.direccionesAMantener.contains(i) && solucion.getVariables().get(i) == 1.0 && this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal) > maxRatio) {
 							maxRatio = this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal);
 							maxRatioPos = i;
 						}
@@ -586,9 +606,12 @@ public class RRPS_PAT extends Problema {
 					solucion.modIVariable(maxRatioPos, 0.0);
 				}else {
 					int minRatioPos = Utils.getRandNumber(0, getNumVariables());
+					while(solucion.getVariables().get(minRatioPos) == 0.0) {
+						minRatioPos = Utils.getRandNumber(0, getNumVariables());
+					}
 					solucion.modIVariable(minRatioPos, 0.0);
 				}
-				this.evaluate(solucion);
+				this.evaluate2(solucion);
 			}
 		}if(solucion.getRestricciones().get(0) < this.resSup){
 			boolean terminate = false;
@@ -614,7 +637,7 @@ public class RRPS_PAT extends Problema {
 						int pos = candidatosRatio.get(candidatos.get(Utils.getRandNumber(0, candidatos.size())));
 						solucion.modIVariable(pos, 1.0);
 					}
-					this.evaluate(solucion);
+					this.evaluate2(solucion);
 				}else {
 					terminate = true;
 				}
@@ -622,7 +645,24 @@ public class RRPS_PAT extends Problema {
 			}
 		}
 		
+		
+		this.quitarDirecciones(aux);
+
+		solucion.setVariables(aux);
+		
 		return solucion;
+	}
+	
+	private boolean comprobarUnos(Individuo solucion) {
+		boolean hayUnos = false;
+		int pos = 0;
+		while(!hayUnos && pos < solucion.getVariables().size()) {
+			if(solucion.getVariables().get(pos) == 1.0 && !this.direccionesAMantener.contains(pos)) {
+				hayUnos = true;
+			}
+			pos++;
+		}
+		return hayUnos;
 	}
 	
 	public double evalKP(int posicion) {
@@ -635,6 +675,9 @@ public class RRPS_PAT extends Problema {
 		double mediaPerdidaIngresosPAreaInf = 0.0;
 		double mediaPerdidaIngresosPAerDest = 0.0;
 		double HingresosAerDest = 0.0;
+		double sumaPerdidaPasajerosPCompanyia = 0.0;
+		double mediaPerdidaPasajerosPCompanyia = 0.0;
+		double HpasajerosCompanyia = 0.0;
 		
 		ingresos = 1.0 - (this.datos.getIngresos_KP().get(posicion) / this.IngresosTtotalSuma);
 		tasas = 1.0 - (this.datos.getTasas_KP().get(posicion) / this.Tasastotal);
@@ -668,8 +711,24 @@ public class RRPS_PAT extends Problema {
 		
 		HingresosAerDest = Math.sqrt(HingresosAerDest);
 		
+		for(int i = 0; i < this.datos.getCompanyias_KP().get(posicion).size(); i++) {
+			sumaPerdidaPasajerosPCompanyia += 1.0 - (this.datos.getPasajerosCompanyias_KP().get(posicion).get(i)/this.datos.getTotalPasajerosCompanyias().get(posicion).get(i));
+		}
+		
+		mediaPerdidaPasajerosPCompanyia = ((this.pasajerosPorCompanyia.keySet().size() - this.datos.getCompanyias_KP().get(posicion).size()) * 1.0 + sumaPerdidaPasajerosPCompanyia)/this.pasajerosPorCompanyia.keySet().size();
+		
+		HpasajerosCompanyia += (this.pasajerosPorCompanyia.keySet().size() - this.datos.getCompanyias_KP().get(posicion).size()) * Math.pow(1.0 - mediaPerdidaPasajerosPCompanyia, 2);
+		for(int i = 0; i < this.datos.getCompanyias_KP().get(posicion).size(); i++) {
+			HpasajerosCompanyia += Math.pow((1.0 - (this.datos.getPasajerosCompanyias_KP().get(posicion).get(i)/this.datos.getTotalPasajerosCompanyias().get(posicion).get(i))), 2);
+		}
+		
+		HpasajerosCompanyia /= this.pasajerosPorCompanyia.keySet().size();
+		
+		HpasajerosCompanyia = Math.sqrt(HpasajerosCompanyia);
+		
 		eval += ingresos * this.preferencias.getWeightsVector().get(0);
 		eval += HingresosAreaInf * this.preferencias.getWeightsVector().get(1);
+		eval += HpasajerosCompanyia * this.preferencias.getWeightsVector().get(2);
 		eval += tasas * this.preferencias.getWeightsVector().get(3);
 		eval += HingresosAerDest * this.preferencias.getWeightsVector().get(4);
 		eval += pasajeros * this.preferencias.getWeightsVector().get(5);
