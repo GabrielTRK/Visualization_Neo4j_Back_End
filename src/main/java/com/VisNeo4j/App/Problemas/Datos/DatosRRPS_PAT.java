@@ -1,6 +1,7 @@
 package com.VisNeo4j.App.Problemas.Datos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,17 +99,73 @@ public class DatosRRPS_PAT {
 			this.capitalesTotales.addAll(this.datosPorDia.get(i).getCapitales());
 			this.vuelosEntrantesConexionOrdenadoTotalTotales.addAll(this.datosPorDia.get(i).getVuelosEntrantesConexionOrdenadoTotal());
 			this.areasInf_KP.addAll(this.datosPorDia.get(i).getAreasInf_KP());
-			this.ingresosAreaInfTotalTotales.addAll(this.datosPorDia.get(i).getIngresosAreaInfTotal());
-			this.ingresosAerDestTotalTotales.addAll(this.datosPorDia.get(i).getIngresosAerDestTotal());
+			//this.ingresosAreaInfTotalTotales.addAll(this.datosPorDia.get(i).getIngresosAreaInfTotal());
+			//this.ingresosAerDestTotalTotales.addAll(this.datosPorDia.get(i).getIngresosAerDestTotal());
 			this.companyias_KP.addAll(this.datosPorDia.get(i).getCompanyias_KP());
 			this.pasajerosCompanyias_KP.addAll(this.datosPorDia.get(i).getPasajerosCompanyias_KP());
-			this.totalPasajerosCompanyias.addAll(this.datosPorDia.get(i).getTotalPasajerosCompanyias());
+			//this.totalPasajerosCompanyias.addAll(this.datosPorDia.get(i).getTotalPasajerosCompanyias());
 		}
 		for(int i = 0; i < this.ingresos.size(); i++) {
 			this.ingresos.set(i, this.ingresos.get(i) + ingresosN.get(i));
 		}
 		for(int i = 0; i < this.ingresos_KP.size(); i++) {
 			this.ingresos_KP.set(i, this.ingresos_KP.get(i) + ingresosN_KP.get(i));
+		}
+		
+		this.obtenerIngresosTotalesPorAreaInf();
+		this.obtenerIngresosTotalesPorAerDest();
+		this.obtenerPasajerosTotalesPorCompanyia();
+	}
+	
+	private void obtenerIngresosTotalesPorAreaInf() {
+		for(int i = 0; i < this.areasInf_KP.size(); i++) {
+			double ingreso = 0.0;
+			for(int j = 0; j < this.aresInfTotales.size(); j++) {
+				if(this.areasInf_KP.get(i).equals(this.aresInfTotales.get(j))) {
+					ingreso += this.ingresos.get(j);
+				}
+			}
+			this.ingresosAreaInfTotalTotales.add(ingreso);
+		}
+	}
+	
+	private void obtenerIngresosTotalesPorAerDest() {
+		for(int i = 0; i < this.conexionesTotales.size(); i++) {
+			double ingreso = 0.0;
+			for(int j = 0; j < this.conexionesTotalesSeparadas.size(); j++) {
+				if(this.conexionesTotales.get(i).get(1).equals(this.conexionesTotalesSeparadas.get(j).get(1))) {
+					ingreso += this.tasas.get(j);
+				}
+			}
+			this.ingresosAerDestTotalTotales.add(ingreso);
+		}
+	}
+	
+	private void obtenerPasajerosTotalesPorCompanyia() {
+		Map<String, Integer> totalPasajerosComp = new HashMap<>();
+		
+		for(int i = 0; i < this.companyias_KP.size(); i++) {
+			List<Integer> listaTotalPasajeros = new ArrayList<>();
+			this.totalPasajerosCompanyias.add(listaTotalPasajeros);
+			for(int j = 0; j < this.companyias_KP.get(i).size(); j++) {
+				
+				if(totalPasajerosComp.containsKey(this.companyias_KP.get(i).get(j))) {
+					this.totalPasajerosCompanyias.get(i).add(totalPasajerosComp.get(this.companyias_KP.get(i).get(j)));
+				}else {
+					int totalPasajeros = 0;
+					for(int k = 0; k < this.companyias_KP.size(); k++) {
+						int posicion = this.companyias_KP.get(k).indexOf(this.companyias_KP.get(i).get(j));
+						if(posicion != -1) {
+							totalPasajeros += this.pasajerosCompanyias_KP.get(k).get(posicion);
+						}
+					}
+					this.totalPasajerosCompanyias.get(i).add(totalPasajeros);
+					totalPasajerosComp.put(this.companyias_KP.get(i).get(j), totalPasajeros);
+				}
+				
+				
+				
+			}
 		}
 	}
 

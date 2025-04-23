@@ -59,6 +59,7 @@ public class DMPreferences {
 	}
 	
 	public void adjustWeightsOrder(int numObjetivos) {
+		//TODO: Asociar pesos a id de objetivos con un Map
 		List<Double> newWeights = new ArrayList<>();
 		
 		for(int i = 0; i < this.order.getOrder().size(); i++) {

@@ -337,6 +337,7 @@ public class RRPS_PAT extends Problema {
 		this.RiesgosumatorioTotal = RiesgosumatorioTotal;
 
 		// -------------OBJETIVOS----------------
+		//TODO: Pasar de lista de objetivos a Map
 
 		objetivos.add(1 - Ingresosaux);// Ingresos
 		this.IngresosTtotalSuma = IngresosTtotalSuma;

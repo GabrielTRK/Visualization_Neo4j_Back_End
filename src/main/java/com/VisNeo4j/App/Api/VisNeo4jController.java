@@ -429,12 +429,14 @@ class VisNeo4jController {
 	public void test(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+		
+		
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Problema problema = new RRPS_PAT(datos, 90.0 / 100.0, resPolPref.getPol(), preferencias);
+		/*Problema problema = new RRPS_PAT(datos, 90.0 / 100.0, resPolPref.getPol(), preferencias);
 		
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		
@@ -445,7 +447,7 @@ class VisNeo4jController {
 		
 		problema.repararMejorar(ind);
 		
-		System.out.println(ind);
+		System.out.println(ind);*/
 		
 		//Crer bucle que ejecute varias veces el algoritmo 
 		//Al finalizar cada ejecución se guarda en una lista la solución

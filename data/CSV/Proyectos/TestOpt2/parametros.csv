@@ -1,0 +1,5 @@
+numIndividuos,10
+inertiaW,0.9
+c1,1.0
+c2,1.0
+numIteraciones,5000

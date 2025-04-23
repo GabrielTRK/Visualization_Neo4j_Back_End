@@ -123,9 +123,9 @@ public class DatosRRPS_PATDiaI {
 		
 		this.obtenerDatosConectividad();
 		this.obtenerSumaTotalVuelosEntrantes();
-		this.obtenerIngresosTotalesPorAreaInf();
-		this.obtenerIngresosTotalesPorAerDest();
-		this.obtenerPasajerosTotalesPorCompanyia();
+		//this.obtenerIngresosTotalesPorAreaInf();
+		//this.obtenerIngresosTotalesPorAerDest();
+		//this.obtenerPasajerosTotalesPorCompanyia();
 	}
 	
 	
@@ -179,18 +179,29 @@ public class DatosRRPS_PATDiaI {
 	}
 	
 	private void obtenerPasajerosTotalesPorCompanyia() {
+		Map<String, Integer> totalPasajerosComp = new HashMap<>();
+		
 		for(int i = 0; i < this.companyias_KP.size(); i++) {
 			List<Integer> listaTotalPasajeros = new ArrayList<>();
 			this.totalPasajerosCompanyias.add(listaTotalPasajeros);
 			for(int j = 0; j < this.companyias_KP.get(i).size(); j++) {
-				int totalPasajeros = 0;
-				for(int k = 0; k < this.companyias_KP.size(); k++) {
-					if(this.companyias_KP.get(k).contains(this.companyias_KP.get(i).get(j))) {
+				
+				if(totalPasajerosComp.containsKey(this.companyias_KP.get(i).get(j))) {
+					this.totalPasajerosCompanyias.get(i).add(totalPasajerosComp.get(this.companyias_KP.get(i).get(j)));
+				}else {
+					int totalPasajeros = 0;
+					for(int k = 0; k < this.companyias_KP.size(); k++) {
 						int posicion = this.companyias_KP.get(k).indexOf(this.companyias_KP.get(i).get(j));
-						totalPasajeros += this.pasajerosCompanyias_KP.get(k).get(posicion);
+						if(posicion != -1) {
+							totalPasajeros += this.pasajerosCompanyias_KP.get(k).get(posicion);
+						}
 					}
+					this.totalPasajerosCompanyias.get(i).add(totalPasajeros);
+					totalPasajerosComp.put(this.companyias_KP.get(i).get(j), totalPasajeros);
 				}
-				this.totalPasajerosCompanyias.get(i).add(totalPasajeros);
+				
+				
+				
 			}
 		}
 	}
