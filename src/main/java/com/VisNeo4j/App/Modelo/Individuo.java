@@ -22,6 +22,7 @@ public class Individuo implements Comparable<Individuo> {
 	private Double constraintViolation = 0.0;
 	
 	private List<Double> fitnessHist;
+	//private Map<Integer, Double> idObjetivos = new HashMap<>();
 	private Map<String, List<Double>> extra;
 	
 	public Individuo(int numVariables, int numObjetivos) {
@@ -120,6 +121,14 @@ public class Individuo implements Comparable<Individuo> {
 	public void initExtra() {
 		this.extra = new HashMap<>();
 	}
+
+	/*public Map<Integer, Double> getIdObjetivos() {
+		return idObjetivos;
+	}
+
+	public void setIdObjetivos(Map<Integer, Double> idObjetivos) {
+		this.idObjetivos = idObjetivos;
+	}*/
 
 	public Map<String, List<Double>> getExtra() {
 		return extra;

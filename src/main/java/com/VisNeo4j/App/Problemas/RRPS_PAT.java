@@ -91,12 +91,17 @@ public class RRPS_PAT extends Problema {
 		ind.setRestricciones(restricciones);
 		this.comprobarRestricciones(ind);
 		this.comprobarOrden(ind, objetivos);
-		ind.setObjetivosNorm(objetivos.subList(1, objetivos.size()));
+		ind.setObjetivosNorm(objetivos.subList(0, objetivos.size()));
 		Double sumaPesos = 0.0;
-
-		for (int i = 1; i < objetivos.size(); i++) {
-			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
+		
+		for(int i = 0; i < this.preferencias.getOrder().getOrder().size(); i++) {
+			sumaPesos += objetivos.get(this.preferencias.getOrder().getOrder().get(i)) 
+					* this.preferencias.getIdWeights().get(this.preferencias.getOrder().getOrder().get(i));
 		}
+
+		/*for (int i = 1; i < objetivos.size(); i++) {
+			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
+		}*/
 
 		ind.setObjetivos(Stream.of(sumaPesos).collect(Collectors.toList()));
 
@@ -113,12 +118,17 @@ public class RRPS_PAT extends Problema {
 		ind.setRestricciones(restricciones);
 		this.comprobarRestricciones(ind);
 		this.comprobarOrden(ind, objetivos);
-		ind.setObjetivosNorm(objetivos.subList(1, objetivos.size()));
+		ind.setObjetivosNorm(objetivos.subList(0, objetivos.size()));
 		Double sumaPesos = 0.0;
 
-		for (int i = 1; i < objetivos.size(); i++) {
-			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
+		for(int i = 0; i < this.preferencias.getOrder().getOrder().size(); i++) {
+			sumaPesos += objetivos.get(this.preferencias.getOrder().getOrder().get(i)) 
+					* this.preferencias.getIdWeights().get(this.preferencias.getOrder().getOrder().get(i));
 		}
+		
+		/*for (int i = 1; i < objetivos.size(); i++) {
+			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - 1);
+		}*/
 
 		ind.setObjetivos(Stream.of(sumaPesos).collect(Collectors.toList()));
 
@@ -213,7 +223,7 @@ public class RRPS_PAT extends Problema {
 
 				pos++;
 			}
-			//TODO: crear una lista para el total de vuelos entrantes para cada origen. Repetidos
+			
 			if (!this.datos.getConexionesTotales().get(i).get(0).equals(origen)) {
 				if (i > 0) {
 					Double Conectividadaux = 0.0;
@@ -335,24 +345,39 @@ public class RRPS_PAT extends Problema {
 		
 		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);// Riesgo
 		this.RiesgosumatorioTotal = RiesgosumatorioTotal;
+		//solucion.getIdObjetivos().put(0, Riesgosumatorio / RiesgosumatorioTotal);
 
 		// -------------OBJETIVOS----------------
 		//TODO: Pasar de lista de objetivos a Map
 
 		objetivos.add(1 - Ingresosaux);// Ingresos
 		this.IngresosTtotalSuma = IngresosTtotalSuma;
+		//solucion.getIdObjetivos().put(1, 1 - Ingresosaux);
+		
+		
 		objetivos.add(ingresoPerdidoAreasInfDesvTip); // Homogen ingresos areas inf
 		this.ingresosPorAreaInf = ingresosPorAreaInf;
+		//solucion.getIdObjetivos().put(2, ingresoPerdidoAreasInfDesvTip);
+		
 		objetivos.add(pasajerosPorCompanyiaDesvTipPerdida); // Homogen pasajerosCom
 		this.pasajerosPorCompanyia = pasajerosPorCompanyia;
+		//solucion.getIdObjetivos().put(3, pasajerosPorCompanyiaDesvTipPerdida);
+		
 		objetivos.add(Tasasporcentaje);// Tasas
 		this.Tasastotal = Tasastotal;
+		//solucion.getIdObjetivos().put(4, Tasasporcentaje);
+		
 		objetivos.add(ingresoPorAerDestDesvTip); // Homogen tasas aeropuerto dest
+		//solucion.getIdObjetivos().put(5, ingresoPorAerDestDesvTip);
 
 		objetivos.add(Pasajerosporcentaje);// Pasajeros
 		this.Pasajerostotal = Pasajerostotal;
+		//solucion.getIdObjetivos().put(6, Pasajerosporcentaje);
+		
 		objetivos.add(Conectividadsolucion);// Conectividad
 		this.ConectividadtotalSuma = ConectividadtotalSuma;
+		//solucion.getIdObjetivos().put(7, Conectividadsolucion);
+		
 		return objetivos;
 	}
 
@@ -543,7 +568,19 @@ public class RRPS_PAT extends Problema {
 
 	@Override
 	public Individuo comprobarRestricciones(Individuo ind) {
-		if (ind.getRestricciones().get(0) > this.resSup) {
+		double constraintV = 0.0;
+		ind.setConstraintViolation(constraintV);
+		ind.setFactible(true);
+		
+		for(int res : this.preferencias.getOrder().getRestricciones().keySet()) {
+			if(ind.getObjetivosNorm().get(res) > this.preferencias.getOrder().getRestricciones().get(res)) {
+				ind.setFactible(false);
+				constraintV += Math.abs(this.preferencias.getOrder().getRestricciones().get(res) - ind.getObjetivosNorm().get(res));
+			}
+		}
+		ind.setConstraintViolation(constraintV);
+		
+		/*if (ind.getRestricciones().get(0) > this.resSup) {
 			ind.setFactible(false);
 			ind.setConstraintViolation(Math.abs(this.resSup - ind.getRestricciones().get(0)));
 		} else if (ind.getRestricciones().get(0) < this.resInf) {
@@ -552,99 +589,125 @@ public class RRPS_PAT extends Problema {
 		} else {
 			ind.setFactible(true);
 			ind.setConstraintViolation(0.0);
-		}
+		}*/
 
 		return ind;
 	}
 	
 	private Individuo comprobarOrden(Individuo ind, List<Double> objetivos) {
-		if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
-				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
-			
-		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
-				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
-			ind.setFactible(false);
-			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
-			
-		} else if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
-				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
-			ind.setFactible(false);
-			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(1)) - objetivos.get(this.orderRes.get(2))));
-			
-		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
-				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
-			ind.setFactible(false);
-			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
-			ind.setConstraintViolation(
-					ind.getConstraintViolation() + 
-					(objetivos.get(this.orderRes.get(1)) - objetivos.get(2)));
-			
+		
+		if(this.orderRes.size() == 3) {
+			if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
+					&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
+				
+			} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
+					&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
+				ind.setFactible(false);
+				ind.setConstraintViolation(
+						ind.getConstraintViolation() + 
+						(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
+				
+			} else if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
+					&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
+				ind.setFactible(false);
+				ind.setConstraintViolation(
+						ind.getConstraintViolation() + 
+						(objetivos.get(this.orderRes.get(1)) - objetivos.get(this.orderRes.get(2))));
+				
+			} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
+					&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
+				ind.setFactible(false);
+				ind.setConstraintViolation(
+						ind.getConstraintViolation() + 
+						(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
+				ind.setConstraintViolation(
+						ind.getConstraintViolation() + 
+						(objetivos.get(this.orderRes.get(1)) - objetivos.get(2)));
+				
+			}
+		}else if(this.orderRes.size() == 2) {
+			if(objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))){
+				ind.setFactible(false);
+				ind.setConstraintViolation(
+						ind.getConstraintViolation() + 
+						(objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
+			}
 		}
+		
+		
 		return ind;
 	}
 	
 	@Override
 	public Individuo repararMejorar(Individuo solucion) {
 		List<Double> aux = solucion.getVariables();
-		
-		if(solucion.getRestricciones().get(0) > this.resSup) {
-			while (solucion.getRestricciones().get(0) > this.resSup && this.comprobarUnos(solucion)) {
-				if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
-					Double maxRatio = Double.MIN_VALUE;
-					int maxRatioPos = 0;
-					for(int i = 0; i < this.getNumVariables(); i++) {
-						if(!this.direccionesAMantener.contains(i) && solucion.getVariables().get(i) == 1.0 && this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal) > maxRatio) {
-							maxRatio = this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal);
-							maxRatioPos = i;
-						}
-					}
-					solucion.modIVariable(maxRatioPos, 0.0);
-				}else {
-					int minRatioPos = Utils.getRandNumber(0, getNumVariables());
-					while(solucion.getVariables().get(minRatioPos) == 0.0) {
-						minRatioPos = Utils.getRandNumber(0, getNumVariables());
-					}
-					solucion.modIVariable(minRatioPos, 0.0);
-				}
-				this.evaluate2(solucion);
-			}
-		}if(solucion.getRestricciones().get(0) < this.resSup){
-			boolean terminate = false;
-			while (!terminate) {
-				//Double dif = this.resSup - solucion.getRestricciones().get(0);
-				
-				List<Double> candidatos = new ArrayList<>();
-				Map<Double, Integer> candidatosRatio = new HashMap<>();
-				
-				for(int i = 0; i < this.getNumVariables(); i++) {
-					if(solucion.getVariables().get(i) == 0.0 && (this.resSup - (solucion.getExtra().get(Constantes.nombreRiesgoImportado).get(0) + this.datos.getRiesgos_KP().get(i)) / this.RiesgosumatorioTotal) >= 0.0) {
-						candidatos.add(this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal));
-						candidatosRatio.put(this.evalKP(i)/(this.datos.getRiesgos_KP().get(i)/this.RiesgosumatorioTotal), i);
-					}
-				}
-				if(candidatos.size() != 0) {
-					Collections.sort(candidatos);
-					
+		if(this.preferencias.getOrder().getRestricciones().keySet().size() >= 1) {
+			List<Integer> idsRes = this.restricionesInfactibles(solucion);
+			if(idsRes.size() != 0) {
+				while (idsRes.size() != 0 && this.comprobarUnos(solucion)) {
 					if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
-						int pos = candidatosRatio.get(candidatos.get(0));
-						solucion.modIVariable(pos, 1.0);
+						Double maxRatio = Double.MIN_VALUE;
+						int maxRatioPos = 0;
+						for(int i = 0; i < this.getNumVariables(); i++) {
+							if(!this.direccionesAMantener.contains(i) && solucion.getVariables().get(i) == 1.0) {
+								double ratio = this.evalKP(i);
+								if(ratio > maxRatio) {
+									maxRatio = ratio;
+									maxRatioPos = i;
+								}
+							}
+						}
+						solucion.modIVariable(maxRatioPos, 0.0);
 					}else {
-						int pos = candidatosRatio.get(candidatos.get(Utils.getRandNumber(0, candidatos.size())));
-						solucion.modIVariable(pos, 1.0);
+						int minRatioPos = Utils.getRandNumber(0, getNumVariables());
+						while(solucion.getVariables().get(minRatioPos) == 0.0) {
+							minRatioPos = Utils.getRandNumber(0, getNumVariables());
+						}
+						solucion.modIVariable(minRatioPos, 0.0);
 					}
 					this.evaluate2(solucion);
-				}else {
-					terminate = true;
 				}
-				
+			}
+			if(idsRes.size() == 0){
+				boolean terminate = false;
+				while (!terminate) {
+					//Double dif = this.resSup - solucion.getRestricciones().get(0);
+					
+					List<Double> candidatos = new ArrayList<>();
+					Map<Double, Integer> candidatosRatio = new HashMap<>();
+					
+					for(int i = 0; i < this.getNumVariables(); i++) {
+						if(solucion.getVariables().get(i) == 0.0) {
+							Individuo temp = new Individuo(this.getNumVariables(), this.getNumObjetivos());
+							temp.setVariables(Utils.copiarLista(aux));
+							temp.setIVariable(i, 1.0);
+							this.evaluate2(temp);
+							List<Integer> idsResTemp = this.restricionesInfactibles(temp);
+							if(idsResTemp.size() == 0) {
+								candidatos.add(this.evalKP(i));
+								candidatosRatio.put(this.evalKP(i), i);
+							}
+						}
+					}
+					if(candidatos.size() != 0) {
+						Collections.sort(candidatos);
+						
+						if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
+							int pos = candidatosRatio.get(candidatos.get(0));
+							solucion.modIVariable(pos, 1.0);
+						}else {
+							int pos = candidatosRatio.get(candidatos.get(Utils.getRandNumber(0, candidatos.size())));
+							solucion.modIVariable(pos, 1.0);
+						}
+						this.evaluate2(solucion);
+					}else {
+						terminate = true;
+					}
+					
+				}
 			}
 		}
+		
 		
 		
 		this.quitarDirecciones(aux);
@@ -652,6 +715,16 @@ public class RRPS_PAT extends Problema {
 		solucion.setVariables(aux);
 		
 		return solucion;
+	}
+	
+	private List<Integer> restricionesInfactibles(Individuo solucion) {
+		List<Integer> ids = new ArrayList<>();
+		for(int res : this.preferencias.getOrder().getRestricciones().keySet()) {
+			if(solucion.getObjetivosNorm().get(res) > this.preferencias.getOrder().getRestricciones().get(res)) {
+				ids.add(res);
+			}
+		}
+		return ids;
 	}
 	
 	private boolean comprobarUnos(Individuo solucion) {
@@ -668,6 +741,8 @@ public class RRPS_PAT extends Problema {
 	
 	public double evalKP(int posicion) {
 		double eval = 0.0;
+		double res = 0.0;
+		double riesgo = 0.0;
 		double ingresos = 0.0;
 		double pasajeros = 0.0;
 		double tasas = 0.0;
@@ -679,7 +754,9 @@ public class RRPS_PAT extends Problema {
 		double sumaPerdidaPasajerosPCompanyia = 0.0;
 		double mediaPerdidaPasajerosPCompanyia = 0.0;
 		double HpasajerosCompanyia = 0.0;
+		List<Double> objetivos = new ArrayList<>();
 		
+		riesgo = this.datos.getRiesgos_KP().get(posicion)/this.RiesgosumatorioTotal;
 		ingresos = 1.0 - (this.datos.getIngresos_KP().get(posicion) / this.IngresosTtotalSuma);
 		tasas = 1.0 - (this.datos.getTasas_KP().get(posicion) / this.Tasastotal);
 		pasajeros = 1.0 - (this.datos.getPasajeros_KP().get(posicion)*1.0 / this.Pasajerostotal*1.0);
@@ -727,15 +804,24 @@ public class RRPS_PAT extends Problema {
 		
 		HpasajerosCompanyia = Math.sqrt(HpasajerosCompanyia);
 		
-		eval += ingresos * this.preferencias.getWeightsVector().get(0);
-		eval += HingresosAreaInf * this.preferencias.getWeightsVector().get(1);
-		eval += HpasajerosCompanyia * this.preferencias.getWeightsVector().get(2);
-		eval += tasas * this.preferencias.getWeightsVector().get(3);
-		eval += HingresosAerDest * this.preferencias.getWeightsVector().get(4);
-		eval += pasajeros * this.preferencias.getWeightsVector().get(5);
-		eval += conectividad * this.preferencias.getWeightsVector().get(6);
+		objetivos.add(riesgo);
+		objetivos.add(ingresos);
+		objetivos.add(HingresosAreaInf);
+		objetivos.add(HpasajerosCompanyia);
+		objetivos.add(tasas);
+		objetivos.add(HingresosAerDest);
+		objetivos.add(pasajeros);
+		objetivos.add(conectividad);
 		
-		return eval;
+		for(int i = 0; i < this.preferencias.getOrder().getOrder().size(); i++) {
+			eval += objetivos.get(this.preferencias.getOrder().getOrder().get(i)) * this.preferencias.getIdWeights().get(i);
+		}
+		
+		for(int id : this.preferencias.getOrder().getRestricciones().keySet()) {
+			res += objetivos.get(id);
+		}
+		
+		return eval/res;
 	}
 
 	public DatosRRPS_PAT getDatos() {

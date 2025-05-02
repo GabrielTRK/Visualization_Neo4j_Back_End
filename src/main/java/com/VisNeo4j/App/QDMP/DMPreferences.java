@@ -1,7 +1,9 @@
 package com.VisNeo4j.App.QDMP;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Utils.Utils;
@@ -11,6 +13,7 @@ public class DMPreferences {
 	private ObjectivesOrder order;
 	private List<Double> weightsVector;
 	private String method;
+	private Map<Integer, Double> idWeights;
 	
 	public DMPreferences(ObjectivesOrder order, String method){
 		this.order = order;
@@ -60,13 +63,18 @@ public class DMPreferences {
 	
 	public void adjustWeightsOrder(int numObjetivos) {
 		//TODO: Asociar pesos a id de objetivos con un Map
+		this.idWeights = new HashMap<>();
+		
+		
 		List<Double> newWeights = new ArrayList<>();
 		
 		for(int i = 0; i < this.order.getOrder().size(); i++) {
+			this.idWeights.put(this.order.getOrder().get(i), this.weightsVector.get(i));
 				newWeights.add(i, this.weightsVector.get(this.order.getOrder().get(i)-1));
 		}
 		
 		this.weightsVector = newWeights;
+		System.out.println(this.idWeights);
 	}
 
 	public ObjectivesOrder getOrder() {
@@ -83,6 +91,14 @@ public class DMPreferences {
 
 	public void setWeightsVector(List<Double> weightsVector) {
 		this.weightsVector = weightsVector;
+	}
+
+	public Map<Integer, Double> getIdWeights() {
+		return idWeights;
+	}
+
+	public void setIdWeights(Map<Integer, Double> idWeights) {
+		this.idWeights = idWeights;
 	}
 
 	@Override

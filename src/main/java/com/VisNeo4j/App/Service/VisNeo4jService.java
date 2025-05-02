@@ -430,7 +430,7 @@ public class VisNeo4jService {
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
 			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj(), resPolPref.getRestricciones()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
 		numIteraciones = Utils.getRandNumber(5000, 5001);

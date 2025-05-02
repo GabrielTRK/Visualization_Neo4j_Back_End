@@ -511,7 +511,6 @@ public class BPSO {
 			}
 			// System.out.println();
 			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
-			//TODO: Reparar o mejorar
 			this.problema.repararMejorar(this.poblacionPartículas.getPoblacion().get(i));
 			
 			// Actualizar PBest
@@ -1025,7 +1024,7 @@ public class BPSO {
 
 		/*
 		 * if(this.params.getIteracionActual() < this.params.getMax_Num_Iteraciones()/5)
-		 * { //TODO: Pendiente con LBEST
+		 * { 
 		 * 
 		 * int sumaDistL = 0;
 		 * 
@@ -1041,7 +1040,6 @@ public class BPSO {
 		 * return this.minPendienteL + distMaxMinPendientes * (1 - (sumaDistL /
 		 * this.poblacionPartículas.getNumIndividuos())); }else {
 		 */
-		// TODO: Pendiente con GBEST
 
 		double sumaDistH = 0;
 

@@ -434,7 +434,9 @@ class VisNeo4jController {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		//DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		
+		
 		
 		/*Problema problema = new RRPS_PAT(datos, 90.0 / 100.0, resPolPref.getPol(), preferencias);
 		
