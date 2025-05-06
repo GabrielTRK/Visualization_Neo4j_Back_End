@@ -62,7 +62,6 @@ public class DMPreferences {
 	}
 	
 	public void adjustWeightsOrder(int numObjetivos) {
-		//TODO: Asociar pesos a id de objetivos con un Map
 		this.idWeights = new HashMap<>();
 		
 		
@@ -74,7 +73,6 @@ public class DMPreferences {
 		}
 		
 		this.weightsVector = newWeights;
-		System.out.println(this.idWeights);
 	}
 
 	public ObjectivesOrder getOrder() {

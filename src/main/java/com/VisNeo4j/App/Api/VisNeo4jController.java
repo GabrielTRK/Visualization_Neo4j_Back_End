@@ -65,7 +65,9 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -436,7 +438,15 @@ class VisNeo4jController {
 		
 		//DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
+		Map<String, List<Double>> mapa = new HashMap<>();
+		mapa.put("a", Stream.of(0.0, 0.0, 0.0).collect(Collectors.toList()));
+		mapa.put("b", Stream.of(1.0, 1.0, 1.0).collect(Collectors.toList()));
 		
+		
+		Map<String, List<Double>> mapa2 = new HashMap<>();
+		mapa2.put("c", Stream.of(5.0, 5.0, 5.0).collect(Collectors.toList()));
+		mapa.putAll(mapa2);
+		System.out.println(mapa);
 		
 		/*Problema problema = new RRPS_PAT(datos, 90.0 / 100.0, resPolPref.getPol(), preferencias);
 		

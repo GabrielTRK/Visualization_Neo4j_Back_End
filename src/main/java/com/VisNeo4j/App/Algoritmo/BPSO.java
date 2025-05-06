@@ -175,7 +175,7 @@ public class BPSO {
 		// System.out.println("Num conexiones: " + problema.getNumVariables());
 		// System.out.println("fin");
 		// this.Gbest.setFitnessHist(fitnessHist);
-		this.Gbest.initExtra();
+		//this.Gbest.initExtra();
 		this.problema.extra(this.Gbest);
 		return this.Gbest;
 	}
@@ -239,7 +239,7 @@ public class BPSO {
 		// System.out.println("Num conexiones: " + problema.getNumVariables());
 		System.out.println("fin");
 		this.Gbest.setFitnessHist(fitnessHist);
-		this.Gbest.initExtra();
+		//this.Gbest.initExtra();
 		this.problema.extra(this.Gbest);
 		return this.Gbest;
 	}

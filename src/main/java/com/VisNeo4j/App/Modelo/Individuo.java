@@ -28,6 +28,7 @@ public class Individuo implements Comparable<Individuo> {
 	public Individuo(int numVariables, int numObjetivos) {
 		this.variables = new ArrayList<Double>(numVariables);
 		this.objetivos = new ArrayList<Double>(numObjetivos);
+		this.initExtra();
 	}
 
 	public List<Double> getVariables() {
