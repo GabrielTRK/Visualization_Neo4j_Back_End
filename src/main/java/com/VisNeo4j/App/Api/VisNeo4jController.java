@@ -433,33 +433,22 @@ class VisNeo4jController {
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		
-		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
+		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj(), resPolPref.getRestricciones()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
-		//DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Map<String, List<Double>> mapa = new HashMap<>();
-		mapa.put("a", Stream.of(0.0, 0.0, 0.0).collect(Collectors.toList()));
-		mapa.put("b", Stream.of(1.0, 1.0, 1.0).collect(Collectors.toList()));
-		
-		
-		Map<String, List<Double>> mapa2 = new HashMap<>();
-		mapa2.put("c", Stream.of(5.0, 5.0, 5.0).collect(Collectors.toList()));
-		mapa.putAll(mapa2);
-		System.out.println(mapa);
-		
-		/*Problema problema = new RRPS_PAT(datos, 90.0 / 100.0, resPolPref.getPol(), preferencias);
+		Problema problema = new RRPS_PAT(datos, resPolPref.getPol(), preferencias);
 		
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		
 		ind.setVariables(Stream.of(0.0, 0.0, 0.0).collect(Collectors.toList()));
-		
 		problema.evaluate(ind);
 		System.out.println(ind);
 		
 		problema.repararMejorar(ind);
 		
-		System.out.println(ind);*/
+		System.out.println(ind);
 		
 		//Crer bucle que ejecute varias veces el algoritmo 
 		//Al finalizar cada ejecución se guarda en una lista la solución
