@@ -44,7 +44,7 @@ public class RRPS_PAT extends Problema {
 	private Map<String, List<Double>> ingresosPorAreaInf = new HashMap<>();
 	private Map<String, List<Double>> ingresosPorAerDest = new HashMap<>();
 	
-	private Map<String, Double> vuelosEntrantesOrigen = new HashMap<>();
+	private Map<String, List<Double>> vuelosEntrantesOrigen = new HashMap<>();
 	
 
 	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, List<String> resPol, DMPreferences preferencias) {
@@ -192,7 +192,16 @@ public class RRPS_PAT extends Problema {
 		Map<String, List<Double>> ingresosPorAerDest = new HashMap<>();
 
 		int pos = 0;
+		int dia = 0;
+		int numConexiones = this.datos.getDatosPorDia().get(dia).getConexiones().size();
+		int offset = 0;
 		for (int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			//Calcular num dia
+			if(i >= numConexiones + offset) {
+				offset += numConexiones;
+				dia = this.calcularDia(i);
+				numConexiones = this.datos.getDatosPorDia().get(dia).getConexiones().size();
+			}
 			while (pos < this.datos.getConexionesTotalesSeparadas().size()
 					&& this.datos.getConexionesTotalesSeparadas().get(pos).get(0)
 							.equals(this.datos.getConexionesTotales().get(i).get(0))
@@ -236,15 +245,15 @@ public class RRPS_PAT extends Problema {
 							Stream.of(this.datos.getIngresos().get(pos) * solucion.getVariables().get(i),
 									this.datos.getIngresos().get(pos)).collect(Collectors.toList()));
 				}
-				if (ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)) != null) {
-					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1), Stream.of(
-							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(0)
+				if (ingresosPorAerDest.get(this.datos.getConexionesNombresTotalesSeparadas().get(pos).get(1)) != null) {
+					ingresosPorAerDest.put(this.datos.getConexionesNombresTotalesSeparadas().get(pos).get(1), Stream.of(
+							ingresosPorAerDest.get(this.datos.getConexionesNombresTotalesSeparadas().get(pos).get(1)).get(0)
 									+ this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
-							ingresosPorAerDest.get(this.datos.getConexionesTotalesSeparadas().get(pos).get(1)).get(1)
+							ingresosPorAerDest.get(this.datos.getConexionesNombresTotalesSeparadas().get(pos).get(1)).get(1)
 									+ this.datos.getTasas().get(pos))
 							.collect(Collectors.toList()));
 				} else {
-					ingresosPorAerDest.put(this.datos.getConexionesTotalesSeparadas().get(pos).get(1),
+					ingresosPorAerDest.put(this.datos.getConexionesNombresTotalesSeparadas().get(pos).get(1),
 							Stream.of(this.datos.getTasas().get(pos) * solucion.getVariables().get(i),
 									this.datos.getTasas().get(pos)).collect(Collectors.toList()));
 				}
@@ -256,9 +265,9 @@ public class RRPS_PAT extends Problema {
 				if (i > 0) {
 					Double Conectividadaux = 0.0;
 					if (ConectividadauxTotalSuma != 0) {
+						this.vuelosEntrantesOrigen.put(origen + String.valueOf(dia), Stream.of(ConectividadauxSuma).collect(Collectors.toList()));
 						Conectividadaux = ConectividadauxSuma / ConectividadauxTotalSuma;
 					}
-					this.vuelosEntrantesOrigen.put(origen, ConectividadauxSuma);
 					Conectividadsuma += this.datos.getConectividadesTotales().get(i - 1) * (1 - Conectividadaux);
 					ConectividadtotalSuma += this.datos.getConectividadesTotales().get(i - 1);
 				}
@@ -284,11 +293,12 @@ public class RRPS_PAT extends Problema {
 		if (ConectividadauxTotalSuma != 0) {
 			Conectividadaux = ConectividadauxSuma / ConectividadauxTotalSuma;
 		}
+		this.vuelosEntrantesOrigen.put(origen + String.valueOf(dia), Stream.of(ConectividadauxSuma).collect(Collectors.toList()));
 		Conectividadsuma += this.datos.getConectividadesTotales().get(this.datos.getConexionesTotales().size() - 1)
 				* (1 - Conectividadaux);
 		ConectividadtotalSuma += this.datos.getConectividadesTotales()
 				.get(this.datos.getConexionesTotales().size() - 1);
-
+		
 		if (ConectividadtotalSuma != 0) {
 			Conectividadsolucion = Conectividadsuma / ConectividadtotalSuma;
 		}
@@ -374,6 +384,7 @@ public class RRPS_PAT extends Problema {
 		valoresAdicionales.putAll(ingresosPorAerDest);
 		valoresAdicionales.putAll(ingresosPorAreaInf);
 		valoresAdicionales.putAll(pasajerosPorCompanyia);
+		valoresAdicionales.putAll(this.vuelosEntrantesOrigen);
 		objetivos.add(Riesgosumatorio / RiesgosumatorioTotal);// Riesgo
 		this.RiesgosumatorioTotal = RiesgosumatorioTotal;
 		//solucion.getIdObjetivos().put(0, Riesgosumatorio / RiesgosumatorioTotal);
@@ -607,7 +618,7 @@ public class RRPS_PAT extends Problema {
 			if((res == 1 || res == 4 || res == 6 || res == 7) && 1 - ind.getObjetivosNorm().get(res) > this.preferencias.getOrder().getRestricciones().get(res) / 100) {
 				ind.setFactible(false);
 				constraintV += Math.abs(this.preferencias.getOrder().getRestricciones().get(res)/100 - (1 - ind.getObjetivosNorm().get(res)));
-			}else if((res == 0 || res == 2 || res == 3 || res == 5) && ind.getObjetivosNorm().get(res) > this.preferencias.getOrder().getRestricciones().get(res)) {
+			}else if((res == 0 || res == 2 || res == 3 || res == 5) && ind.getObjetivosNorm().get(res) > this.preferencias.getOrder().getRestricciones().get(res) / 100) {
 				ind.setFactible(false);
 				constraintV += Math.abs(this.preferencias.getOrder().getRestricciones().get(res)/100 - ind.getObjetivosNorm().get(res));
 			}
@@ -682,7 +693,7 @@ public class RRPS_PAT extends Problema {
 					if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
 						Double maxRatio = Double.MIN_VALUE;
 						int maxRatioPos = 0;
-						for(int i = 0; i < this.getNumVariables(); i++) {
+						for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
 							if(!this.direccionesAMantener.contains(i) && solucion.getVariables().get(i) == 1.0) {
 								double ratio = this.evalKP(i);
 								if(ratio > maxRatio) {
@@ -693,9 +704,9 @@ public class RRPS_PAT extends Problema {
 						}
 						solucion.modIVariable(maxRatioPos, 0.0);
 					}else {
-						int minRatioPos = Utils.getRandNumber(0, getNumVariables());
+						int minRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
 						while(solucion.getVariables().get(minRatioPos) == 0.0) {
-							minRatioPos = Utils.getRandNumber(0, getNumVariables());
+							minRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
 						}
 						solucion.modIVariable(minRatioPos, 0.0);
 					}
@@ -708,8 +719,9 @@ public class RRPS_PAT extends Problema {
 				while (!terminate) {
 					List<Double> candidatos = new ArrayList<>();
 					Map<Double, Integer> candidatosRatio = new HashMap<>();
-					for(int i = 0; i < this.getNumVariables(); i++) {
+					for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
 						if(solucion.getVariables().get(i) == 0.0) {
+							System.out.println(i);
 							List<Double> objTemp = this.calcularObjTemp(solucion, i);
 							List<Integer> idsResTemp = this.restricionesInfactibles(objTemp);
 							if(idsResTemp.size() == 0) {
@@ -842,10 +854,11 @@ public class RRPS_PAT extends Problema {
 		if(this.preferencias.getOrder().getRestricciones().keySet().contains(5)) {
 			Double HingresosAerDest = 0.0;
 			Double mediaingresosAerDest = 0.0;
-			valorActual = solucion.getExtra().get(this.datos.getConexionesTotales().get(posicion).get(1));
+			System.out.println(solucion.getExtra());
+			valorActual = solucion.getExtra().get(this.datos.getConexionesNombresTotales().get(posicion).get(1));
 			valorAntes = valorActual.get(0);
 			valorActual.set(0, valorAntes + this.datos.getTasas_KP().get(posicion));
-			solucion.getExtra().put(this.datos.getConexionesTotales().get(posicion).get(1), valorActual);
+			solucion.getExtra().put(this.datos.getConexionesNombresTotales().get(posicion).get(1), valorActual);
 			for(String aer : this.ingresosPorAerDest.keySet()) {
 				mediaingresosAerDest += 1.0 - (solucion.getExtra().get(aer).get(0) / solucion.getExtra().get(aer).get(1));
 			}
@@ -866,17 +879,18 @@ public class RRPS_PAT extends Problema {
 		}
 		objTemp.add(-1.0);
 		if(this.preferencias.getOrder().getRestricciones().keySet().contains(7)) {
+			int dia = this.calcularDia(posicion);
 			Double conectividadAntes = solucion.getObjetivosNorm().get(7);
-			conectividadAntes *= this.ConectividadtotalSuma;
 			
-			conectividadAntes -= this.datos.getConectividadesTotales().get(posicion) * (1 - (this.vuelosEntrantesOrigen.get(this.datos.getConexionesTotales().get(posicion).get(0)) / 1.0*this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion)));
-			conectividadAntes += this.datos.getConectividadesTotales().get(posicion) * (1 - (( this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(posicion)*1.0 + this.vuelosEntrantesOrigen.get(this.datos.getConexionesTotales().get(posicion).get(0)) ) / 1.0*this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion)));
+			conectividadAntes *= this.ConectividadtotalSuma;
+			conectividadAntes -= this.datos.getConectividadesTotales().get(posicion) * (1 - (solucion.getExtra().get(this.datos.getConexionesTotales().get(posicion).get(0) + String.valueOf(dia)).get(0) / (1.0*this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion))));
+			conectividadAntes += this.datos.getConectividadesTotales().get(posicion) * (1 - (( (this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(posicion)*1.0) + solucion.getExtra().get(this.datos.getConexionesTotales().get(posicion).get(0) + String.valueOf(dia)).get(0) ) / (1.0*this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion))));
 			
 			conectividadAntes /= this.ConectividadtotalSuma;
 			
 			objTemp.set(7, conectividadAntes);
 		}
-		System.out.println(objTemp);
+		
 		return objTemp;
 	}
 	
@@ -984,7 +998,18 @@ public class RRPS_PAT extends Problema {
 		return eval/res;
 	}
 	
-	
+	private int calcularDia(int pos) {
+		int i = 0;
+		int offset = 0;
+		while(i < this.datos.getDatosPorDia().size()) {
+			if(pos < this.datos.getDatosPorDia().get(i).getConexiones().size() + offset) {
+				break;
+			}
+			offset += this.datos.getDatosPorDia().get(i).getConexiones().size();
+			i++;
+		}
+		return i;
+	}
 
 	public DatosRRPS_PAT getDatos() {
 		return datos;

@@ -53,7 +53,8 @@ public class LecturaDeDatos {
 			Map<List<String>, Integer> vuelosEntrantesConexion, 
 			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos, 
 			List<Double> tasasAeropuertos_KP, Map<String, Integer> vuelosSalientes, 
-			List<Integer> vuelosSalientesDeOrigen, List<List<String>> conexionesNombres, 
+			List<Integer> vuelosSalientesDeOrigen, List<List<String>> conexionesNombres,
+			List<List<String>> conexionesNombresTotal, 
 			List<String> aeropuertosOrigen) {
 		try {
             Scanner scanner = new Scanner(new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero));
@@ -115,6 +116,7 @@ public class LecturaDeDatos {
                 }
                 
                 conexionesTotal.add(Stream.of(split[7], split[8]).collect(Collectors.toList()));
+            	conexionesNombresTotal.add(Stream.of(split[13], split[14]).collect(Collectors.toList()));
                 riesgos.add(Double.parseDouble(split[0]));
                 pasajeros.add(Integer.parseInt(split[1]));
                 dineroMedioT.add(Double.parseDouble(split[4]));

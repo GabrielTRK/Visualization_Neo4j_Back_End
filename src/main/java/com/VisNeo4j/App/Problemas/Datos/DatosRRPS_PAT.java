@@ -16,6 +16,7 @@ public class DatosRRPS_PAT {
 	private List<DatosRRPS_PATDiaI> datosPorDia;
 	private List<List<String>> conexionesTotales;
 	private List<List<String>> conexionesNombresTotales;
+	private List<List<String>> conexionesNombresTotalesSeparadas;
 	private List<List<String>> conexionesTotalesSeparadas;
 	
 	private List<Double> riesgos;
@@ -52,8 +53,9 @@ public class DatosRRPS_PAT {
 		this.fechaFinal = fechaFinal;
 		this.datosPorDia = datosPorDia;
 		this.conexionesTotales = new ArrayList<>();
-		this.conexionesNombresTotales = new ArrayList<>();
 		this.conexionesTotalesSeparadas = new ArrayList<>();
+		this.conexionesNombresTotales = new ArrayList<>();
+		this.conexionesNombresTotalesSeparadas = new ArrayList<>();
 		this.riesgos = new ArrayList<>();
 		this.riesgos_KP = new ArrayList<>();
 		this.pasajeros = new ArrayList<>();
@@ -79,8 +81,9 @@ public class DatosRRPS_PAT {
 		this.totalPasajerosCompanyias = new ArrayList<>();
 		for(int i = 0; i < this.datosPorDia.size(); i++) {
 			this.conexionesTotales.addAll(this.datosPorDia.get(i).getConexiones());
-			this.conexionesNombresTotales.addAll(this.datosPorDia.get(i).getConexionesNombres());
 			this.conexionesTotalesSeparadas.addAll(this.datosPorDia.get(i).getConexionesTotal());
+			this.conexionesNombresTotales.addAll(this.datosPorDia.get(i).getConexionesNombres());
+			this.conexionesNombresTotalesSeparadas.addAll(this.datosPorDia.get(i).getConexionesNombresTotal());
 			this.riesgos.addAll(this.datosPorDia.get(i).getRiesgos());
 			this.riesgos_KP.addAll(this.datosPorDia.get(i).getRiesgos_KP());
 			this.pasajeros.addAll(this.datosPorDia.get(i).getPasajeros());
@@ -215,6 +218,14 @@ public class DatosRRPS_PAT {
 
 	public void setConexionesNombresTotales(List<List<String>> conexionesNombresTotales) {
 		this.conexionesNombresTotales = conexionesNombresTotales;
+	}
+
+	public List<List<String>> getConexionesNombresTotalesSeparadas() {
+		return conexionesNombresTotalesSeparadas;
+	}
+
+	public void setConexionesNombresTotalesSeparadas(List<List<String>> conexionesNombresTotales) {
+		this.conexionesNombresTotalesSeparadas = conexionesNombresTotales;
 	}
 
 	public List<Double> getRiesgos() {

@@ -16,6 +16,7 @@ public class DatosRRPS_PATDiaI {
 	private List<List<String>> conexiones;
 	
 	private List<List<String>> conexionesNombres;
+	private List<List<String>> conexionesNombresTotal;
 	
 	private List<List<String>> conexionesTotal;
 	
@@ -84,10 +85,12 @@ public class DatosRRPS_PATDiaI {
 			Map<String, Integer> vuelosSalientesAEspanya,  
 			List<Double> conectividades, List<Double> tasas, List<Double> tasas_KP,
 			List<Integer> vuelosSalientesDeOrigen, List<List<String>> conexionesNombres, 
+			List<List<String>> conexionesNombresTotal,
 			List<String> aeropuertosOrigen){
 		
 		this.conexiones = conexiones;
 		this.conexionesNombres = conexionesNombres;
+		this.conexionesNombresTotal = conexionesNombresTotal;
 		this.conexionesTotal = conexionesTotal;
 		
 		this.continentes = continentes;
@@ -259,6 +262,14 @@ public class DatosRRPS_PATDiaI {
 
 	public void setConexionesNombres(List<List<String>> conexionesNombres) {
 		this.conexionesNombres = conexionesNombres;
+	}
+
+	public List<List<String>> getConexionesNombresTotal() {
+		return conexionesNombresTotal;
+	}
+
+	public void setConexionesNombresTotal(List<List<String>> conexionesNombresTotal) {
+		this.conexionesNombresTotal = conexionesNombresTotal;
 	}
 
 	public List<List<String>> getConexionesTotal() {

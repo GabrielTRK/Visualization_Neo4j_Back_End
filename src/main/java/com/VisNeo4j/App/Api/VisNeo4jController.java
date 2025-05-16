@@ -450,6 +450,12 @@ class VisNeo4jController {
 		
 		System.out.println(ind);
 		
+		/*Individuo ind2 = new Individuo(problema.getNumVariables(), 1);
+		
+		ind2.setVariables(Stream.of(1.0, 0.0, 0.0).collect(Collectors.toList()));
+		problema.evaluate(ind2);
+		System.out.println(ind2);*/
+		
 		//Crer bucle que ejecute varias veces el algoritmo 
 		//Al finalizar cada ejecución se guarda en una lista la solución
 		//Al salir del bucle se calcula la Media, Std, Max, Min, etc

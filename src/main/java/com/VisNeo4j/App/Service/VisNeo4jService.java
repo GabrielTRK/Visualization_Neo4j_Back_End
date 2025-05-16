@@ -138,6 +138,7 @@ public class VisNeo4jService {
 		List<Double> tasasAeropuertos_KP = new ArrayList<>();
 		List<Integer> vuelosSalientesDeOrigen = new ArrayList<>();
 		List<List<String>> conexionesNombres = new ArrayList<>();
+		List<List<String>> conexionesNombresTotal = new ArrayList<>();
 		List<String> aeropuertosOrigen = new ArrayList<>();
 		
 		File file = new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero);
@@ -149,7 +150,7 @@ public class VisNeo4jService {
 					companyias, pasajerosCompanyias_KP, companyias_KP, areasInf, areasInf_KP, continentes, 
 					capital, conectividades, vuelosEntrantesConexion, vuelosSalientesAEspanya, 
 					tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientes, 
-					vuelosSalientesDeOrigen, conexionesNombres, aeropuertosOrigen);
+					vuelosSalientesDeOrigen, conexionesNombres, conexionesNombresTotal, aeropuertosOrigen);
 		}
         else {
         	obtenerDatosRRPS_PAT_BBDD_DiaI(riesgos, conexiones, conexionesTotal, pasajeros, 
@@ -165,7 +166,7 @@ public class VisNeo4jService {
 				companyias, pasajerosCompanyias_KP, companyias_KP, areasInf, areasInf_KP, continentes, capital, vuelosSalientes, 
 				vuelosEntrantesConexion, vuelosSalientesAEspanya, conectividades, 
 				tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientesDeOrigen, 
-				conexionesNombres, aeropuertosOrigen);
+				conexionesNombres, conexionesNombresTotal, aeropuertosOrigen);
 	}
 	
 	//Obtiene los datos del dia indicado con la BBDD
