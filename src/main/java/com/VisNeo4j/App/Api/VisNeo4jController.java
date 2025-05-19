@@ -440,7 +440,15 @@ class VisNeo4jController {
 		
 		Problema problema = new RRPS_PAT(datos, resPolPref.getPol(), preferencias);
 		
-		Individuo ind = new Individuo(problema.getNumVariables(), 1);
+		BPSOParams params = new BPSOParams(50, 0.9, 1.0, 1.0, 
+				5000, 0, 0, Constantes.nombreCPGenerica, 
+				Constantes.nombreIWLinearDecreasing);
+		
+		BPSO bpso = new BPSO(problema, params, "a", new BPSOOpciones(false, 0));
+		
+		System.out.println(bpso.ejecutarBPSO());
+		
+		/*Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		
 		ind.setVariables(Stream.of(0.0, 0.0, 0.0).collect(Collectors.toList()));
 		problema.evaluate(ind);
@@ -448,7 +456,7 @@ class VisNeo4jController {
 		
 		problema.repararMejorar(ind);
 		
-		System.out.println(ind);
+		System.out.println(ind);*/
 		
 		/*Individuo ind2 = new Individuo(problema.getNumVariables(), 1);
 		

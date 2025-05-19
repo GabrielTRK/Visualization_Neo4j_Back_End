@@ -65,14 +65,10 @@ public class DMPreferences {
 		this.idWeights = new HashMap<>();
 		
 		
-		List<Double> newWeights = new ArrayList<>();
-		
 		for(int i = 0; i < this.order.getOrder().size(); i++) {
 			this.idWeights.put(this.order.getOrder().get(i), this.weightsVector.get(i));
-			//newWeights.add(i, this.weightsVector.get(this.order.getOrder().get(i)-1));
 		}
 		
-		//this.weightsVector = newWeights;
 	}
 
 	public ObjectivesOrder getOrder() {

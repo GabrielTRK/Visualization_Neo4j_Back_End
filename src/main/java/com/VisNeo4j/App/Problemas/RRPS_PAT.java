@@ -46,6 +46,8 @@ public class RRPS_PAT extends Problema {
 	
 	private Map<String, List<Double>> vuelosEntrantesOrigen = new HashMap<>();
 	
+	private List<Double> evalKP = new ArrayList<>();
+	
 
 	public RRPS_PAT(DatosRRPS_PAT datos, Double maxRiesgo, List<String> resPol, DMPreferences preferencias) {
 		super(0, 1);
@@ -86,6 +88,7 @@ public class RRPS_PAT extends Problema {
 				this.orderRes.add(obj);
 			}
 		}
+		this.calcularEvalKP();
 	}
 
 	private void calcularDireccionesAMantener() {
@@ -685,6 +688,9 @@ public class RRPS_PAT extends Problema {
 	
 	@Override
 	public Individuo repararMejorar(Individuo solucion) {
+		//TODO: Se debe intentar reparar la solución quitando conexiones y añadiendo.
+		//TODO: Se debe intentar mejorar la solución quitando conexiones y añadiendo.
+		//TODO: Al final del método se comparan las soluciones obtenidas por ambas vías y descartamos la peor
 		List<Double> aux = solucion.getVariables();
 		if(this.preferencias.getOrder().getRestricciones().keySet().size() >= 1) {
 			List<Integer> idsRes = this.restricionesInfactibles(solucion.getObjetivosNorm());
@@ -694,7 +700,7 @@ public class RRPS_PAT extends Problema {
 						Double maxRatio = Double.MIN_VALUE;
 						int maxRatioPos = 0;
 						for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
-							if(!this.direccionesAMantener.contains(i) && solucion.getVariables().get(i) == 1.0) {
+							if(this.evalKP.get(i) != -1.0 && solucion.getVariables().get(i) == 1.0) {
 								double ratio = this.evalKP(i);
 								if(ratio > maxRatio) {
 									maxRatio = ratio;
@@ -721,11 +727,10 @@ public class RRPS_PAT extends Problema {
 					Map<Double, Integer> candidatosRatio = new HashMap<>();
 					for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
 						if(solucion.getVariables().get(i) == 0.0) {
-							System.out.println(i);
 							List<Double> objTemp = this.calcularObjTemp(solucion, i);
 							List<Integer> idsResTemp = this.restricionesInfactibles(objTemp);
 							if(idsResTemp.size() == 0) {
-								Double eval = this.evalKP(i);
+								Double eval = this.evalKP.get(i);
 								candidatos.add(eval);
 								candidatosRatio.put(eval, i);
 							}
@@ -854,7 +859,6 @@ public class RRPS_PAT extends Problema {
 		if(this.preferencias.getOrder().getRestricciones().keySet().contains(5)) {
 			Double HingresosAerDest = 0.0;
 			Double mediaingresosAerDest = 0.0;
-			System.out.println(solucion.getExtra());
 			valorActual = solucion.getExtra().get(this.datos.getConexionesNombresTotales().get(posicion).get(1));
 			valorAntes = valorActual.get(0);
 			valorActual.set(0, valorAntes + this.datos.getTasas_KP().get(posicion));
@@ -1009,6 +1013,16 @@ public class RRPS_PAT extends Problema {
 			i++;
 		}
 		return i;
+	}
+	
+	private void calcularEvalKP() {
+		for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
+			if(!this.direccionesAMantener.contains(i)){
+				this.evalKP.add(this.evalKP(i));
+			}else {
+				this.evalKP.add(-1.0);
+			}
+		}
 	}
 
 	public DatosRRPS_PAT getDatos() {

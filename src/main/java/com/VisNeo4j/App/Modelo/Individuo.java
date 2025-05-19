@@ -65,10 +65,11 @@ public class Individuo implements Comparable<Individuo> {
 
 	
 
+
 	@Override
 	public String toString() {
-		return "Individuo [variables=" + variables + ", objetivos=" + objetivos + ", objetivosNorm=" + objetivosNorm
-				+ ", restricciones=" + restricciones + ", constraintViolation=" + constraintViolation + "]";
+		return "Individuo [objetivos=" + objetivos + ", objetivosNorm=" + objetivosNorm + ", constraintViolation="
+				+ constraintViolation + "]";
 	}
 
 	public int getdomina() {
