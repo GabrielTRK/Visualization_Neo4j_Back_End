@@ -296,7 +296,7 @@ public class VisNeo4jService {
 	//Se hacen validaciones de nombre y de fechas.
 	public Respuesta guardarProyecto(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
-			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws IOException, ParseException {
+			String nombreProyecto, ResPolPref resPolPref) throws IOException, ParseException {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
@@ -344,7 +344,7 @@ public class VisNeo4jService {
 			Utils.crearCSVFechas(fecha_I, fecha_F, nombreProyecto);
 			Utils.crearCSVParams(params, nombreProyecto);
 			Utils.crearCSVPref(preferencias, nombreProyecto);
-			Utils.crearCSVRestricciones(resEpi, resPolPref.getPol(), nombreProyecto);
+			Utils.crearCSVRestricciones(resPolPref.getRestricciones(), resPolPref.getPol(), nombreProyecto);
 			resp.setOK_KO(true);
 			resp.setMensaje(Constantes.OK_respuestaProjectSaved);
 			
@@ -429,7 +429,7 @@ public class VisNeo4jService {
 	//Se hacen validaciones de nombre, fechas y se comprueba si se está ejecutando
 	public Respuesta guardarYOptimizar(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
-			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+			String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj(), resPolPref.getRestricciones()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
@@ -442,13 +442,13 @@ public class VisNeo4jService {
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Problema problema = new RRPS_PAT(datos, resEpi / 100, resPolPref.getPol(), preferencias);
+		Problema problema = new RRPS_PAT(datos, resPolPref.getPol(), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
 		if(problema.getNumVariables() > 0) {
 			resp = this.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-					inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+					inertiaW, c1, c2, m, p, nombreProyecto, resPolPref);
 		}else {
 			resp.setMensaje(Constantes.KO_respuestaNoFlights);
 		}
@@ -573,9 +573,21 @@ public class VisNeo4jService {
 		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
 		
 		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
+		Map<Integer, Double> restricciones;
+		
+		restricciones = new HashMap<>();
+		
+		for(String key : res.keySet()) {
+			if(!key.equals(Constantes.nombreRestriccionPolitica)) {
+				restricciones.put(Integer.valueOf(key), Double.valueOf(res.get(key).get(0)));
+			}
+		}
+		
+		preferencias.getOrder().setRestricciones(restricciones);
+		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));;
-		Double restriccionEpi = Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0));
-		Problema problema = new RRPS_PAT(datos, restriccionEpi/100, res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		
+		Problema problema = new RRPS_PAT(datos, res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
@@ -628,8 +640,20 @@ public class VisNeo4jService {
 		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
 		
 		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
-		Double restriccionEpi = Double.valueOf(res.get(Constantes.nombreRestriccionEpidemiologica).get(0));
-		Problema problema = new RRPS_PAT(datos, restriccionEpi/100, res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		
+		Map<Integer, Double> restricciones;
+		
+		restricciones = new HashMap<>();
+		
+		for(String key : res.keySet()) {
+			if(!key.equals(Constantes.nombreRestriccionPolitica)) {
+				restricciones.put(Integer.valueOf(key), Double.valueOf(res.get(key).get(0)));
+			}
+		}
+		
+		preferencias.getOrder().setRestricciones(restricciones);
+
+		Problema problema = new RRPS_PAT(datos, res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		

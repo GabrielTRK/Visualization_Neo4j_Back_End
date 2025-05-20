@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -1341,19 +1342,26 @@ public class Utils {
 		return fechas;
 	}
 
-	public static void crearCSVRestricciones(double epi, List<String> pol, String nombre) throws IOException {
+	public static void crearCSVRestricciones(Map<Integer, Double> restricciones, List<String> pol, String nombre) throws IOException {
 		List<String[]> lista = new ArrayList<>();
-		String[] paramI = new String[2];
+		/*String[] paramI = new String[2];
 		paramI[0] = Constantes.nombreRestriccionEpidemiologica;
 		paramI[1] = String.valueOf(epi);
-		lista.add(paramI);
+		lista.add(paramI);*/
 
-		paramI = new String[1 + pol.size()];
+		String[] paramI = new String[1 + pol.size()];
 		paramI[0] = Constantes.nombreRestriccionPolitica;
 		for (int i = 0; i < pol.size(); i++) {
 			paramI[i + 1] = pol.get(i);
 		}
 		lista.add(paramI);
+		
+		for(Integer i : restricciones.keySet()) {
+			paramI = new String[2];
+			paramI[0] = String.valueOf(i);
+			paramI[1] = String.valueOf(restricciones.get(i));
+			lista.add(paramI);
+		}
 
 		try (CSVWriter writer = new CSVWriter(
 				new FileWriter(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
@@ -1366,6 +1374,7 @@ public class Utils {
 
 	public static Restricciones leerCSVRestriccionesSalida(String nombre) throws IOException, CsvException {
 		List<List<String>> fichero = new ArrayList<>();
+		Map<Integer, Double> restricciones = new HashMap<>();
 		int numFilas;
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicherosProyectos + "//" + nombre + "//"
 				+ Constantes.nombreFicheroRestricciones + Constantes.extensionFichero))) {
@@ -1381,12 +1390,16 @@ public class Utils {
 			}
 		}
 		Restricciones res;
-		Double epi = Double.valueOf(fichero.get(0).get(1));
-		if (fichero.get(1).size() > 1) {
+		//Double epi = Double.valueOf(fichero.get(0).get(1));
+		for(int i = 1; i < fichero.size(); i++) {
+			restricciones.put(Integer.valueOf(fichero.get(i).get(0)), Double.valueOf(fichero.get(i).get(1)));
+		}
+		
+		if (fichero.get(0).size() > 1) {
 
-			res = new Restricciones(fichero.get(1).subList(1, fichero.get(1).size()), epi);
+			res = new Restricciones(fichero.get(0).subList(1, fichero.get(1).size()), restricciones);
 		} else {
-			res = new Restricciones(new ArrayList<>(), epi);
+			res = new Restricciones(new ArrayList<>(), restricciones);
 		}
 
 		return res;
@@ -1410,9 +1423,13 @@ public class Utils {
 		}
 
 		Map<String, List<String>> res = new HashMap<>();
+		
+		for(int i = 1; i < fichero.size(); i++) {
+			res.put(fichero.get(i).get(0), Stream.of(fichero.get(i).get(1)).collect(Collectors.toList()));
+		}
 
-		res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(0).subList(1, fichero.get(0).size()));
-		res.put(Constantes.nombreRestriccionPolitica, fichero.get(1).subList(1, fichero.get(1).size()));
+		//res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(0).subList(1, fichero.get(0).size()));
+		res.put(Constantes.nombreRestriccionPolitica, fichero.get(0).subList(1, fichero.get(1).size()));
 
 		return res;
 	}

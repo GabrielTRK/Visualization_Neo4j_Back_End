@@ -1,15 +1,16 @@
 package com.VisNeo4j.App.Modelo.Salida;
 
 import java.util.List;
+import java.util.Map;
 
 public class Restricciones {
 	
 	private List<String> pol;
-	private Double epi;
-	public Restricciones(List<String> pol, Double epi) {
+	private Map<Integer, Double> restricciones;
+	public Restricciones(List<String> pol, Map<Integer, Double> restricciones) {
 		super();
 		this.pol = pol;
-		this.epi = epi;
+		this.restricciones = restricciones;
 	}
 	
 	public List<String> getPol() {
@@ -20,12 +21,14 @@ public class Restricciones {
 		this.pol = pol;
 	}
 
-	public Double getEpi() {
-		return epi;
+	public Map<Integer, Double> getRestricciones() {
+		return restricciones;
 	}
-	public void setEpi(Double epi) {
-		this.epi = epi;
+
+	public void setRestricciones(Map<Integer, Double> restricciones) {
+		this.restricciones = restricciones;
 	}
+
 	
 	
 

@@ -92,12 +92,11 @@ class VisNeo4jController {
 			@RequestParam("c2") double c2,
 			@RequestParam("m") double m,
 			@RequestParam("p") double p,
-			@RequestParam("res_epi") double resEpi,
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws IOException, ParseException {
 		
 		return visNeo4jService.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+				inertiaW, c1, c2, m, p, nombreProyecto, resPolPref);
 	}
 	
 	@CrossOrigin
@@ -118,12 +117,11 @@ class VisNeo4jController {
 			@RequestParam("c2") double c2,
 			@RequestParam("m") double m,
 			@RequestParam("p") double p,
-			@RequestParam("res_epi") double resEpi,
 			@RequestParam("nombre") String nombreProyecto,
 			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		return visNeo4jService.guardarYOptimizar(fecha_I, fecha_F, numIteraciones, numIndividuos, 
-				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
+				inertiaW, c1, c2, m, p, nombreProyecto, resPolPref);
 	}
 
 	@CrossOrigin
