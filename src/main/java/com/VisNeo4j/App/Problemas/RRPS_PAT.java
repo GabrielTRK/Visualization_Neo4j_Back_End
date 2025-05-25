@@ -688,45 +688,96 @@ public class RRPS_PAT extends Problema {
 	
 	@Override
 	public Individuo repararMejorar(Individuo solucion) {
-		//TODO: Se debe intentar reparar la solución quitando conexiones y añadiendo.
-		//TODO: Se debe intentar mejorar la solución quitando conexiones y añadiendo.
-		//TODO: Al final del método se comparan las soluciones obtenidas por ambas vías y descartamos la peor
-		List<Double> aux = solucion.getVariables();
+		//Se debe intentar reparar la solución quitando conexiones y añadiendo.
+		//Se debe intentar mejorar la solución quitando conexiones y añadiendo.
+		//Al final del método se comparan las soluciones obtenidas por ambas vías y descartamos la peor
+		Individuo solucion2 = Utils.copiarIndividuo(solucion);
+		
 		if(this.preferencias.getOrder().getRestricciones().keySet().size() >= 1) {
 			List<Integer> idsRes = this.restricionesInfactibles(solucion.getObjetivosNorm());
-			if(idsRes.size() != 0) {
-				while (idsRes.size() != 0 && this.comprobarUnos(solucion)) {
+			List<Integer> idsRes2 = this.restricionesInfactibles(solucion2.getObjetivosNorm());
+			
+			if(idsRes.size() != 0 || idsRes2.size() != 0) {
+				boolean reparar1 = (idsRes.size() != 0 && this.comprobarUnos(solucion));
+				boolean reparar2 = (idsRes2.size() != 0 && this.comprobarCeros(solucion2));
+				while (reparar1 || reparar2) {
 					if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
 						Double maxRatio = Double.MIN_VALUE;
 						int maxRatioPos = 0;
+							
+						Double minRatio = Double.MAX_VALUE;
+						int minRatioPos = 0;
+							
 						for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
-							if(this.evalKP.get(i) != -1.0 && solucion.getVariables().get(i) == 1.0) {
-								double ratio = this.evalKP(i);
-								if(ratio > maxRatio) {
-									maxRatio = ratio;
-									maxRatioPos = i;
+							if(reparar1) {
+								if(this.evalKP.get(i) != -1.0 && solucion.getVariables().get(i) == 1.0) {
+									double ratio = this.evalKP.get(i);
+									if(ratio > maxRatio) {
+										maxRatio = ratio;
+										maxRatioPos = i;
+									}
 								}
 							}
+							if(reparar2) {
+								if(solucion2.getVariables().get(i) == 0.0) {
+									double ratio = this.evalKP.get(i);
+									if(ratio < minRatio) {
+										minRatio = ratio;
+										minRatioPos = i;
+									}
+								}
+							}
+								
 						}
-						solucion.modIVariable(maxRatioPos, 0.0);
+						if(reparar1) {
+							solucion.modIVariable(maxRatioPos, 0.0);
+						}
+						if(reparar2) {
+							solucion2.modIVariable(minRatioPos, 1.0);
+						}
 					}else {
-						int minRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
-						while(solucion.getVariables().get(minRatioPos) == 0.0) {
-							minRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
+						if(reparar1) {
+							int maxRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
+							while(solucion.getVariables().get(maxRatioPos) == 0.0) {
+								maxRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
+							}
+							solucion.modIVariable(maxRatioPos, 0.0);
 						}
-						solucion.modIVariable(minRatioPos, 0.0);
+						if(reparar2) {
+							int minRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
+							while(solucion2.getVariables().get(minRatioPos) == 1.0) {
+								minRatioPos = Utils.getRandNumber(0, this.datos.getConexionesTotales().size());
+							}
+							solucion2.modIVariable(minRatioPos, 1.0);
+						}
 					}
-					this.evaluate2(solucion);
-					idsRes = this.restricionesInfactibles(solucion.getObjetivosNorm());
+					if(reparar1) {
+						this.evaluate2(solucion);
+						idsRes = this.restricionesInfactibles(solucion.getObjetivosNorm());
+						reparar1 = (idsRes.size() != 0 && this.comprobarUnos(solucion));
+						
+					}
+					if(reparar2) {
+						this.evaluate2(solucion2);
+						idsRes2 = this.restricionesInfactibles(solucion2.getObjetivosNorm());
+						reparar2 = (idsRes2.size() != 0 && this.comprobarCeros(solucion2));
+					}
 				}
 			}
-			if(idsRes.size() == 0){
+			
+			if(idsRes.size() == 0 || idsRes2.size() == 0){
+				boolean mejorar1 = (idsRes.size() == 0);
+				boolean mejorar2 = (idsRes2.size() == 0);
+				
 				boolean terminate = false;
 				while (!terminate) {
 					List<Double> candidatos = new ArrayList<>();
 					Map<Double, Integer> candidatosRatio = new HashMap<>();
+					
+					List<Double> candidatos2 = new ArrayList<>();
+					Map<Double, Integer> candidatosRatio2 = new HashMap<>();
 					for(int i = 0; i < this.datos.getConexionesTotales().size(); i++) {
-						if(solucion.getVariables().get(i) == 0.0) {
+						if(mejorar1 && solucion.getVariables().get(i) == 0.0) {
 							List<Double> objTemp = this.calcularObjTemp(solucion, i);
 							List<Integer> idsResTemp = this.restricionesInfactibles(objTemp);
 							if(idsResTemp.size() == 0) {
@@ -735,8 +786,17 @@ public class RRPS_PAT extends Problema {
 								candidatosRatio.put(eval, i);
 							}
 						}
+						if(mejorar2 && solucion.getVariables().get(i) == 1.0) {
+							List<Double> objTemp2 = this.calcularObjTemp2(solucion, i);
+							List<Integer> idsResTemp2 = this.restricionesInfactibles(objTemp2);
+							if(idsResTemp2.size() == 0) {
+								Double eval = this.evalKP.get(i);
+								candidatos2.add(eval);
+								candidatosRatio2.put(eval, i);
+							}
+						}
 					}
-					if(candidatos.size() != 0) {
+					if(mejorar1 && candidatos.size() != 0) {
 						Collections.sort(candidatos);
 						if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
 							int pos = candidatosRatio.get(candidatos.get(0));
@@ -746,7 +806,17 @@ public class RRPS_PAT extends Problema {
 							solucion.modIVariable(pos, 1.0);
 						}
 						this.evaluate2(solucion);
-					}else {
+					}if(mejorar2 && candidatos2.size() != 0) {
+						Collections.sort(candidatos2, Collections.reverseOrder());
+						if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
+							int pos = candidatosRatio2.get(candidatos2.get(0));
+							solucion2.modIVariable(pos, 0.0);
+						}else {
+							int pos = candidatosRatio2.get(candidatos2.get(Utils.getRandNumber(0, candidatos2.size())));
+							solucion2.modIVariable(pos, 0.0);
+						}
+						this.evaluate2(solucion2);
+					}if(candidatos.size() == 0 && candidatos2.size() == 0) {
 						terminate = true;
 					}
 					
@@ -754,13 +824,29 @@ public class RRPS_PAT extends Problema {
 			}
 		}
 		
+		Individuo Ifinal = null;
 		
+		if(solucion.isFactible() && solucion2.isFactible()) {
+			if(solucion.getObjetivos().get(0) < solucion2.getObjetivos().get(0)) {
+				Ifinal = solucion;
+			}else {
+				Ifinal = solucion2;
+			}
+		}else if(solucion.isFactible() && !solucion2.isFactible()) {
+			Ifinal = solucion;
+		}else if(!solucion.isFactible() && solucion2.isFactible()) {
+			Ifinal = solucion2;
+		}else if(!solucion.isFactible() && !solucion2.isFactible()) {
+			if(solucion.getConstraintViolation() < solucion2.getConstraintViolation()) {
+				Ifinal = solucion;
+			}else {
+				Ifinal = solucion2;
+			}
+		}
 		
-		this.quitarDirecciones(aux);
-
-		solucion.setVariables(aux);
+		this.quitarDirecciones(Ifinal.getVariables());
 		
-		return solucion;
+		return Ifinal;
 	}
 	
 	private List<Integer> restricionesInfactibles(List<Double> obj) {
@@ -812,7 +898,7 @@ public class RRPS_PAT extends Problema {
 			valorActual.set(0, valorAntes + this.datos.getIngresos_KP().get(posicion));
 			solucion.getExtra().put(this.datos.getAreasInf_KP().get(posicion), valorActual);
 			for(String areaInf : this.ingresosPorAreaInf.keySet()) {
-				mediaingresosAreaInf += 1.0 - (solucion.getExtra().get(areaInf).get(0) / solucion.getExtra().get(areaInf).get(0));
+				mediaingresosAreaInf += 1.0 - (solucion.getExtra().get(areaInf).get(0) / solucion.getExtra().get(areaInf).get(1));
 			}
 			mediaingresosAreaInf /= this.ingresosPorAreaInf.keySet().size();
 			for(String areaInf : this.ingresosPorAreaInf.keySet()) {
@@ -898,6 +984,115 @@ public class RRPS_PAT extends Problema {
 		return objTemp;
 	}
 	
+	private List<Double> calcularObjTemp2(Individuo solucion, int posicion) {
+		List<Double> objTemp = new ArrayList<>();
+		objTemp.add(-1.0);
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(0)) {
+			Double riesgo = solucion.getObjetivosNorm().get(0)*this.RiesgosumatorioTotal;
+			objTemp.set(0, (riesgo - this.datos.getRiesgos_KP().get(posicion))/ this.RiesgosumatorioTotal);
+		}
+		objTemp.add(-1.0);
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(1)) {
+			Double ingresos = (1 - solucion.getObjetivosNorm().get(1))*this.IngresosTtotalSuma;
+			objTemp.set(1, 1 - (ingresos - this.datos.getIngresos_KP().get(posicion)) / this.IngresosTtotalSuma);
+		}
+		objTemp.add(-1.0);
+		List<Double> valorActual;
+		Double valorAntes;
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(2)) {
+			Double HingresosAreaInf = 0.0;
+			Double mediaingresosAreaInf = 0.0;
+			valorActual = solucion.getExtra().get(this.datos.getAreasInf_KP().get(posicion));
+			valorAntes = valorActual.get(0);
+			valorActual.set(0, valorAntes - this.datos.getIngresos_KP().get(posicion));
+			solucion.getExtra().put(this.datos.getAreasInf_KP().get(posicion), valorActual);
+			for(String areaInf : this.ingresosPorAreaInf.keySet()) {
+				mediaingresosAreaInf += 1.0 - (solucion.getExtra().get(areaInf).get(0) / solucion.getExtra().get(areaInf).get(1));
+			}
+			mediaingresosAreaInf /= this.ingresosPorAreaInf.keySet().size();
+			for(String areaInf : this.ingresosPorAreaInf.keySet()) {
+				HingresosAreaInf += Math.pow((1.0 - (solucion.getExtra().get(areaInf).get(0) / solucion.getExtra().get(areaInf).get(1))) - mediaingresosAreaInf, 2);
+			}
+			HingresosAreaInf /= this.ingresosPorAreaInf.keySet().size();
+			HingresosAreaInf = Math.sqrt(HingresosAreaInf);
+			objTemp.set(2, HingresosAreaInf);
+			valorActual.set(0, valorAntes);
+		}
+		objTemp.add(-1.0);
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(3)) {
+			Double HpasajerosCompanyia = 0.0;
+			Double mediaingresosPasajerosCompanyia = 0.0;
+			List<List<Double>> valoresAntes = new ArrayList<>();
+			for(int i = 0; i < this.datos.getCompanyias_KP().get(posicion).size(); i++) {
+				valorActual = solucion.getExtra().get(this.datos.getCompanyias_KP().get(posicion).get(i));
+				valoresAntes.add(Utils.copiarLista(valorActual));
+				valorActual.set(0, valoresAntes.get(0).get(0) - this.datos.getPasajerosCompanyias_KP().get(posicion).get(i));
+				solucion.getExtra().put(this.datos.getCompanyias_KP().get(posicion).get(i), valorActual);
+			}
+			for(String companyia : this.pasajerosPorCompanyia.keySet()) {
+				mediaingresosPasajerosCompanyia += 1.0 - (solucion.getExtra().get(companyia).get(0) / solucion.getExtra().get(companyia).get(1));
+			}
+			mediaingresosPasajerosCompanyia /= this.pasajerosPorCompanyia.keySet().size();
+			for(String companyia : this.pasajerosPorCompanyia.keySet()) {
+				HpasajerosCompanyia += Math.pow((1.0 - (solucion.getExtra().get(companyia).get(0) / solucion.getExtra().get(companyia).get(1))) - mediaingresosPasajerosCompanyia , 2);
+			}
+			HpasajerosCompanyia /= this.pasajerosPorCompanyia.keySet().size();
+			HpasajerosCompanyia = Math.sqrt(HpasajerosCompanyia);
+			
+			for(int i = 0; i < this.datos.getCompanyias_KP().get(posicion).size(); i++) {
+				solucion.getExtra().put(this.datos.getCompanyias_KP().get(posicion).get(i), valoresAntes.get(i));
+			}
+			
+			objTemp.set(3, HpasajerosCompanyia);
+		}
+		objTemp.add(-1.0);
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(4)) {
+			Double tasas = (1 - solucion.getObjetivosNorm().get(4))*this.Tasastotal;
+			objTemp.set(4, 1 - (tasas - this.datos.getTasas_KP().get(posicion)) / this.Tasastotal);
+		}
+		objTemp.add(-1.0);
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(5)) {
+			Double HingresosAerDest = 0.0;
+			Double mediaingresosAerDest = 0.0;
+			valorActual = solucion.getExtra().get(this.datos.getConexionesNombresTotales().get(posicion).get(1));
+			valorAntes = valorActual.get(0);
+			valorActual.set(0, valorAntes - this.datos.getTasas_KP().get(posicion));
+			solucion.getExtra().put(this.datos.getConexionesNombresTotales().get(posicion).get(1), valorActual);
+			for(String aer : this.ingresosPorAerDest.keySet()) {
+				mediaingresosAerDest += 1.0 - (solucion.getExtra().get(aer).get(0) / solucion.getExtra().get(aer).get(1));
+			}
+			mediaingresosAerDest /= this.ingresosPorAerDest.keySet().size();
+			for(String aer : this.ingresosPorAerDest.keySet()) {
+				HingresosAerDest += Math.pow((1.0 - (solucion.getExtra().get(aer).get(0)/solucion.getExtra().get(aer).get(1))) - mediaingresosAerDest, 2);
+			}
+			HingresosAerDest /= this.ingresosPorAerDest.keySet().size();
+			HingresosAerDest = Math.sqrt(HingresosAerDest);
+			
+			objTemp.set(5, HingresosAerDest);
+			valorActual.set(0, valorAntes);
+		}
+		objTemp.add(-1.0);
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(6)) {
+			Double pasajeros = (1 - solucion.getObjetivosNorm().get(6))*this.Pasajerostotal;
+			objTemp.set(6, 1 - (pasajeros - this.datos.getPasajeros_KP().get(posicion)) / this.Pasajerostotal);
+		}
+		objTemp.add(-1.0);
+		if(this.preferencias.getOrder().getRestricciones().keySet().contains(7)) {
+			int dia = this.calcularDia(posicion);
+			Double conectividadAntes = solucion.getObjetivosNorm().get(7);
+			
+			conectividadAntes *= this.ConectividadtotalSuma;
+			conectividadAntes -= this.datos.getConectividadesTotales().get(posicion) * (1 - (solucion.getExtra().get(this.datos.getConexionesTotales().get(posicion).get(0) + String.valueOf(dia)).get(0) / (1.0*this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion))));
+			conectividadAntes += this.datos.getConectividadesTotales().get(posicion) * (1 - (( (solucion.getExtra().get(this.datos.getConexionesTotales().get(posicion).get(0) + String.valueOf(dia)).get(0) - this.datos.getVuelosEntrantesConexionOrdenadoTotales().get(posicion)*1.0) ) / (1.0*this.datos.getVuelosEntrantesConexionOrdenadoTotalTotales().get(posicion))));
+			
+			conectividadAntes /= this.ConectividadtotalSuma;
+			
+			objTemp.set(7, conectividadAntes);
+		}
+		
+		return objTemp;
+	}
+	
 	private boolean comprobarUnos(Individuo solucion) {
 		boolean hayUnos = false;
 		int pos = 0;
@@ -908,6 +1103,10 @@ public class RRPS_PAT extends Problema {
 			pos++;
 		}
 		return hayUnos;
+	}
+	
+	private boolean comprobarCeros(Individuo solucion) {
+		return solucion.getVariables().contains(0.0);
 	}
 	
 	public double evalKP(int posicion) {
