@@ -2153,7 +2153,7 @@ public class Utils {
 		nuevo.setRestricciones(copiarLista(restricciones));
 		nuevo.setVariables(copiarLista(variables));
 		nuevo.setFitnessHist(fitnessHist);
-		nuevo.setExtra(extra);
+		nuevo.getExtra().putAll(extra);
 
 		return nuevo;
 	}

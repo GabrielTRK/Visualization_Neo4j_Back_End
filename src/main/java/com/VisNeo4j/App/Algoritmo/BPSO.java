@@ -511,7 +511,7 @@ public class BPSO {
 			}
 			// System.out.println();
 			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
-			this.problema.repararMejorar(this.poblacionPartículas.getPoblacion().get(i));
+			this.poblacionPartículas.getPoblacion().set(i, this.problema.repararMejorar(this.poblacionPartículas.getPoblacion().get(i)));
 			
 			// Actualizar PBest
 

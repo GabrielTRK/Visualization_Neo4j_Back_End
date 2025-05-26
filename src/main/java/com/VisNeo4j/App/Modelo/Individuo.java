@@ -63,13 +63,10 @@ public class Individuo implements Comparable<Individuo> {
 		this.objetivos.set(pos, obj);
 	}
 
-	
-
-
 	@Override
 	public String toString() {
-		return "Individuo [objetivos=" + objetivos + ", objetivosNorm=" + objetivosNorm + ", constraintViolation="
-				+ constraintViolation + "]";
+		return "Individuo [variables=" + variables + ", objetivos=" + objetivos + ", objetivosNorm=" + objetivosNorm
+				+ ", constraintViolation=" + constraintViolation + "]";
 	}
 
 	public int getdomina() {
