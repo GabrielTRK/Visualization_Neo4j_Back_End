@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
-import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
+import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
+import com.VisNeo4j.App.Problems.Data.DatosRRPS_PATDiaI;
 
 public class DatosConexiones {
 	

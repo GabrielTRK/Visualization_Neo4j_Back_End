@@ -3,7 +3,7 @@ package com.VisNeo4j.App.Operadores;
 import java.util.List;
 
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class OperadorMutacion {
@@ -21,7 +21,7 @@ public class OperadorMutacion {
 	}
 
 	//Mutación polinómica
-	public Individuo polyMut(Individuo solucion, Problema prob) {
+	public Individuo polyMut(Individuo solucion, Problem prob) {
 		double rand, delta1, delta2, mutPow, deltaq, y, yl, yu, val, xy;
 		List<Double> solucionVal = solucion.getVariables();
 		
@@ -59,7 +59,7 @@ public class OperadorMutacion {
 	}
 	
 	//Mutación cambio de bit
-	public Individuo cambioDeBit(Individuo solucion, Problema prob) {
+	public Individuo cambioDeBit(Individuo solucion, Problem prob) {
 		List<Double> solucionVal = solucion.getVariables();
 		for (int j = 0; j < prob.getNumVariables(); j++) {
 			if (Utils.getRandNumber(0.0, Math.nextUp(1.0)) < this.probMuta) {
@@ -76,7 +76,7 @@ public class OperadorMutacion {
 	}
 	
 	//Mutación cambio de bit
-		public Individuo numeroAleatorio(Individuo solucion, Problema prob) {
+		public Individuo numeroAleatorio(Individuo solucion, Problem prob) {
 			List<Double> solucionVal = solucion.getVariables();
 			for (int j = 0; j < prob.getNumVariables(); j++) {
 				if (Utils.getRandNumber(0.0, Math.nextUp(1.0)) < this.probMuta) {

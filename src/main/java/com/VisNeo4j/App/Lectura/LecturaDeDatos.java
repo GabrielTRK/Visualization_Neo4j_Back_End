@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problems.Problem;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 

@@ -13,7 +13,7 @@ import com.VisNeo4j.App.Operadores.OperadorCruce;
 import com.VisNeo4j.App.Operadores.OperadorMutacion;
 import com.VisNeo4j.App.Operadores.OperadorReemplazo;
 import com.VisNeo4j.App.Operadores.OperadorSeleccion;
-import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
@@ -30,7 +30,7 @@ public class Nsgaiii {
 	private OperadorSeleccion seleccion;
 	private OperadorReemplazo reemplazo;
 	private List<ReferencePoint> referencePoints = new Vector<>();
-	private Problema problema;
+	private Problem problema;
 	private boolean elitismo;
 	private int tamañoAux;
 	private List<Individuo> structAux = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Nsgaiii {
 	
 	public Nsgaiii (int numIndividuos,
 			int numGeneraciones, Double indiceDistrC, Double indiceDistrM, double probCruce,
-			double probMut, int numberOfDivisions, Problema prob, boolean leerF, 
+			double probMut, int numberOfDivisions, Problem prob, boolean leerF, 
 			String nombreFichero, boolean elitismo, int tamañoAux) throws FileNotFoundException, IOException, CsvException {
 		
 		//Inicializar problema, poblacion y operadores

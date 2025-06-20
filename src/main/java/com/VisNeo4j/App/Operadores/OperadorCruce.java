@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class OperadorCruce {
@@ -25,7 +25,7 @@ public class OperadorCruce {
 	}
 	
 	//Simulated Binary Crossover(SBX)
-	public List<Individuo> SBX (Individuo padre1, Individuo padre2, Problema prob){
+	public List<Individuo> SBX (Individuo padre1, Individuo padre2, Problem prob){
 		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		List<Individuo> hijos = new ArrayList<Individuo>(2);
@@ -98,7 +98,7 @@ public class OperadorCruce {
 	}
 	
 	//Cruce binario en un punto
-	public List<Individuo> cruceUnPunto (Individuo padre1, Individuo padre2, Problema prob){
+	public List<Individuo> cruceUnPunto (Individuo padre1, Individuo padre2, Problem prob){
 		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		List<Individuo> hijos = new ArrayList<Individuo>(2);
@@ -130,7 +130,7 @@ public class OperadorCruce {
 		return hijos;
 	}
 	
-	public List<Individuo> cruceDosPuntos (Individuo padre1, Individuo padre2, Problema prob){
+	public List<Individuo> cruceDosPuntos (Individuo padre1, Individuo padre2, Problem prob){
 		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		List<Individuo> hijos = new ArrayList<Individuo>(2);
@@ -171,7 +171,7 @@ public class OperadorCruce {
 		return hijos;
 	}
 	
-	public List<Individuo> cruceUniforme (Individuo padre1, Individuo padre2, Problema prob){
+	public List<Individuo> cruceUniforme (Individuo padre1, Individuo padre2, Problem prob){
 		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
 		List<Individuo> hijos = new ArrayList<Individuo>(2);

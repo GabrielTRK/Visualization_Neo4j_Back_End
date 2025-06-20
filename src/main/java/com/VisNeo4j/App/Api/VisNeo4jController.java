@@ -15,7 +15,7 @@ import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Constantes.Constantes_Opt;
 import com.VisNeo4j.App.Constantes.Constantes_Sol;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Entrada.ResPolPref;
+import com.VisNeo4j.App.Modelo.Entrada.PreferencesConstraints;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
 import com.VisNeo4j.App.Modelo.Salida.FitnessI;
@@ -26,31 +26,31 @@ import com.VisNeo4j.App.Modelo.Salida.Rangos;
 import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
-import com.VisNeo4j.App.Problemas.Problema;
-import com.VisNeo4j.App.Problemas.RRPS_PAT;
-import com.VisNeo4j.App.Problemas.RRPS_PAT_ALT;
-import com.VisNeo4j.App.Problemas.Rosenbrock;
-import com.VisNeo4j.App.Problemas.Sphere;
-import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S1;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP1_2000_1000_1;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP1_5000_1000_1;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP2_2000_1000_1;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP2_5000_1000_1;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_KP3_5000_1000_1;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_12a;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20c;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20d;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_20e;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_Ks_24d;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S2;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S7;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_S8;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_100;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_1000;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_200;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_300;
-import com.VisNeo4j.App.Problemas.Knapsack.Knapsack01_kp_uc_500;
+import com.VisNeo4j.App.Problems.Problem;
+import com.VisNeo4j.App.Problems.RRPS_PAT;
+import com.VisNeo4j.App.Problems.RRPS_PAT_ALT;
+import com.VisNeo4j.App.Problems.Rosenbrock;
+import com.VisNeo4j.App.Problems.Sphere;
+import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_KP1_2000_1000_1;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_KP1_5000_1000_1;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_KP2_2000_1000_1;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_KP2_5000_1000_1;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_KP3_5000_1000_1;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_Ks_12a;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_Ks_20c;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_Ks_20d;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_Ks_20e;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_Ks_24d;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_S1;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_S2;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_S7;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_S8;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_kp_uc_100;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_kp_uc_1000;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_kp_uc_200;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_kp_uc_300;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_kp_uc_500;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.VisNeo4j.App.Service.VisNeo4jService;
@@ -93,7 +93,7 @@ class VisNeo4jController {
 			@RequestParam("m") double m,
 			@RequestParam("p") double p,
 			@RequestParam("nombre") String nombreProyecto,
-			@RequestBody ResPolPref resPolPref) throws IOException, ParseException {
+			@RequestBody PreferencesConstraints resPolPref) throws IOException, ParseException {
 		
 		return visNeo4jService.guardarProyecto(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, nombreProyecto, resPolPref);
@@ -118,7 +118,7 @@ class VisNeo4jController {
 			@RequestParam("m") double m,
 			@RequestParam("p") double p,
 			@RequestParam("nombre") String nombreProyecto,
-			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+			@RequestBody PreferencesConstraints resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		return visNeo4jService.guardarYOptimizar(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, nombreProyecto, resPolPref);
@@ -428,10 +428,16 @@ class VisNeo4jController {
 	@PostMapping("/test")
 	public void test(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F,
-			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+			@RequestBody PreferencesConstraints resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
+		String string = "004,034556";
+		String[] parts = string.split(",");
 		
-		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj(), resPolPref.getRestricciones()), Constantes.nombreQDMPSR);
+		for(int i = 0; i < parts.length; i++) {
+			System.out.println(parts[i]);
+		}
+		
+		/*DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj(), resPolPref.getRestricciones()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
 		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
@@ -448,13 +454,13 @@ class VisNeo4jController {
 		
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		
-		ind.setVariables(Stream.of(1.0, 0.0, 0.0).collect(Collectors.toList()));
+		ind.setVariables(Stream.of(0.0, 0.0, 1.0).collect(Collectors.toList()));
 		problema.evaluate(ind);
 		System.out.println(ind);
 		
 		ind = problema.repararMejorar(ind);
 		
-		System.out.println(ind);
+		System.out.println(ind);*/
 		
 		/*Individuo ind2 = new Individuo(problema.getNumVariables(), 1);
 		
@@ -575,7 +581,7 @@ class VisNeo4jController {
 			@RequestParam("p") double p,
 			@RequestParam("res_epi") double resEpi,
 			@RequestParam("nombre") String nombreProyecto,
-			@RequestBody ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+			@RequestBody PreferencesConstraints resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		return visNeo4jService.guardarYOptimizarALT(fecha_I, fecha_F, numIteraciones, numIndividuos, 
 				inertiaW, c1, c2, m, p, resEpi, nombreProyecto, resPolPref);
@@ -621,7 +627,7 @@ class VisNeo4jController {
 		
 		return datos;*/
 		
-		Problema problema = new Knapsack01_S1();
+		Problem problema = new Knapsack01_S1();
 		
 		Individuo ind = new Individuo(problema.getNumVariables(), 1);
 		
@@ -635,9 +641,9 @@ class VisNeo4jController {
 	
 	@CrossOrigin
 	@GetMapping("/data")
-	public DatosRRPS_PAT obtenerDatos(@RequestParam("fecha_inicial") String fecha_I, 
+	public DataRRPS_PAT obtenerDatos(@RequestParam("fecha_inicial") String fecha_I, 
 			@RequestParam("fecha_final") String fecha_F) throws FileNotFoundException, IOException, CsvException, ParseException {
-		DatosRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		DataRRPS_PAT datos = visNeo4jService.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
 		return datos;
 	}

@@ -14,6 +14,16 @@ public class BPSOParams {
 	private CP condicionParada;
 	
 	public BPSOParams(int numIndividuos, double inertiaW, double c1, double c2, int maxIteraciones, 
+			String CPMethod, String IWMethod) {
+		super();
+		this.numIndividuos = numIndividuos;
+		this.inertiaW = new InertiaW(inertiaW, IWMethod);
+		this.c1 = c1;
+		this.c2 = c2;
+		this.condicionParada = new CP(maxIteraciones, 0, 0, CPMethod);
+	}
+	
+	public BPSOParams(int numIndividuos, double inertiaW, double c1, double c2, int maxIteraciones, 
 			double m, double p, String CPMethod, String IWMethod) {
 		super();
 		this.numIndividuos = numIndividuos;

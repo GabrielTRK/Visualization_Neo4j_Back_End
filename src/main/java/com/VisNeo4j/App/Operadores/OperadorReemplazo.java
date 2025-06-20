@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
 import com.VisNeo4j.App.Modelo.ReferencePoint;
-import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class OperadorReemplazo {
@@ -24,7 +24,7 @@ public class OperadorReemplazo {
 	}
 	
 	//Obtiene el ranking de No Dominancia a partir de los frentes de pareto encontrados
-	public List<List<Individuo>> obtenerFrentes(Poblacion total, Problema prob){
+	public List<List<Individuo>> obtenerFrentes(Poblacion total, Problem prob){
 		
 		List<List<Individuo>> frentesDePareto = new ArrayList<>();
 		
@@ -39,7 +39,7 @@ public class OperadorReemplazo {
 		return this.frentesDePareto;
 	}
 	
-	public List<List<Individuo>> obtenerFrentes(List<Individuo> total, Problema prob){
+	public List<List<Individuo>> obtenerFrentes(List<Individuo> total, Problem prob){
 		
 		List<List<Individuo>> frentesDePareto = new ArrayList<>();
 		
@@ -54,7 +54,7 @@ public class OperadorReemplazo {
 		return this.frentesDePareto;
 	}
 	
-	public List<Individuo> obtenerPrimerFrente(Poblacion total, Problema prob){
+	public List<Individuo> obtenerPrimerFrente(Poblacion total, Problem prob){
 		
 		List<Individuo> frenteDePareto = new ArrayList<>();
 		
@@ -64,7 +64,7 @@ public class OperadorReemplazo {
 		return frenteDePareto;
 	}
 	
-	public List<Individuo> obtenerPrimerFrente(List<Individuo> total, Problema prob){
+	public List<Individuo> obtenerPrimerFrente(List<Individuo> total, Problem prob){
 		
 		List<Individuo> frenteDePareto = new ArrayList<>();
 		
@@ -75,7 +75,7 @@ public class OperadorReemplazo {
 	}
 	
 	//Para cada individuo calcula cuántos individuos lo dominan
-	public Poblacion rankingNoDominancia(Poblacion p, Problema prob) {
+	public Poblacion rankingNoDominancia(Poblacion p, Problem prob) {
 		for (int i = 0; i < p.getPoblacion().size(); i++) {
 			int domina = 0;
 			Individuo a = p.getPoblacion().get(i);
@@ -95,7 +95,7 @@ public class OperadorReemplazo {
 		return p;
 	}
 	
-	public List<Individuo> rankingNoDominancia(List<Individuo> p, Problema prob) {
+	public List<Individuo> rankingNoDominancia(List<Individuo> p, Problem prob) {
 		for (int i = 0; i < p.size(); i++) {
 			int domina = 0;
 			Individuo a = p.get(i);
@@ -115,7 +115,7 @@ public class OperadorReemplazo {
 		return p;
 	}
 	
-	public Poblacion rankingNoDominanciaNuevo(Poblacion p, Problema prob) {
+	public Poblacion rankingNoDominanciaNuevo(Poblacion p, Problem prob) {
 		for (int i = 0; i < p.getPoblacion().size(); i++) {
 			int domina = 0;
 			Individuo a = p.getPoblacion().get(i);
@@ -137,7 +137,7 @@ public class OperadorReemplazo {
 		return p;
 	}
 	
-	public List<Individuo> rankingNoDominanciaNuevo(List<Individuo> p, Problema prob) {
+	public List<Individuo> rankingNoDominanciaNuevo(List<Individuo> p, Problem prob) {
 		for (int i = 0; i < p.size(); i++) {
 			int domina = 0;
 			Individuo a = p.get(i);
@@ -160,7 +160,7 @@ public class OperadorReemplazo {
 	}
 	
 	//Definición de dominancia. En la función, "a" domina a "b"
-	private boolean esDominante (Individuo a, Individuo b, Problema prob) {
+	private boolean esDominante (Individuo a, Individuo b, Problem prob) {
 		int mEstricto = 0;
 		int mOIgual = 0;
 		if(a.isFactible() && b.isFactible()) {
@@ -204,7 +204,7 @@ public class OperadorReemplazo {
 	//Inserta los individuos de cada frente según su ranking.
 	//En caso de que a un frente le sobren individuos, se aplica el método del hiperplano de Das y Dennis para elegir los individuos que fomenten mayor diversidad
 	public Poblacion rellenarPoblacionConFrentes (Poblacion p, 
-			Poblacion total, Problema prob) {
+			Poblacion total, Problem prob) {
 		
 		List<Individuo> nuevaLista = new ArrayList<>(p.getNumIndividuos());
 		for (int i = 0; i < this.frentesDePareto.size(); i++) {
@@ -226,7 +226,7 @@ public class OperadorReemplazo {
 		return p;
 	}
 	
-	private List<Individuo> dasDennis(Problema prob){
+	private List<Individuo> dasDennis(Problem prob){
 		//Restarle a cada individuo los valores del punto ideal
 		List<Double> punto_ideal = traducirObjetivos(prob);
 		//Calcular los puntos extremos con el Achivement Scalarization Function de cada individuo del primer frente
@@ -263,7 +263,7 @@ public class OperadorReemplazo {
 		return result;
 	}
 	
-	private List<Double> traducirObjetivos(Problema prob){
+	private List<Double> traducirObjetivos(Problem prob){
 		List<Double> punto_ideal;
 		punto_ideal = new ArrayList<>(prob.getNumObjetivos());
 		
@@ -296,7 +296,7 @@ public class OperadorReemplazo {
 	}
 	
 	//Encontrar puntos extremos con el Achivement Scalarization Function de cada individuo
-	private List<Individuo> encontrarPuntosExtremos (Problema prob){
+	private List<Individuo> encontrarPuntosExtremos (Problem prob){
 		List<Individuo> extremePoints = new ArrayList<>();
 		Individuo min_indv = null;
 		for (int f = 0; f < prob.getNumObjetivos(); f += 1) {
@@ -315,7 +315,7 @@ public class OperadorReemplazo {
 	}
 	
 	//Achivement Scalarization Function
-	private double ASF(Individuo s, int index, Problema prob) {
+	private double ASF(Individuo s, int index, Problem prob) {
 		double max_ratio = Double.NEGATIVE_INFINITY;
 		for (int i = 0; i < prob.getNumObjetivos(); i++) {
 			double weight = (index == i) ? 1.0 : 0.000001;
@@ -325,7 +325,7 @@ public class OperadorReemplazo {
 	}
 	
 	//Construcción del hiperplano con los puntos extremos
-	private List<Double> construirHiperplano(List<Individuo> extreme_points, Problema prob){
+	private List<Double> construirHiperplano(List<Individuo> extreme_points, Problem prob){
 		
 		boolean duplicate = false;
 		for (int i = 0; !duplicate && i < extreme_points.size(); i += 1) {
@@ -393,7 +393,7 @@ public class OperadorReemplazo {
 	 }
 	
 	//Normalizacion de objetivos mediante la division por los puntos de interseccion traducidos
-	public void normalizeObjectives(List<Double> intercepts, List<Double> ideal_point, Problema prob) {
+	public void normalizeObjectives(List<Double> intercepts, List<Double> ideal_point, Problem prob) {
 		for (int t = 0; t < frentesDePareto.size(); t += 1) {
 			for (Individuo s : frentesDePareto.get(t)) {
 

@@ -13,14 +13,14 @@ import com.VisNeo4j.App.Algoritmo.Parametros.AccelerationCoefficientsUpdate.C1_C
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
-import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
 public class BPSO {
 
 	private BPSOParams params;
-	private Problema problema;
+	private Problem problema;
 	private Poblacion poblacionPartículas;
 	private Poblacion poblacionPbest;
 	//private Poblacion poblacionLbest;
@@ -54,7 +54,7 @@ public class BPSO {
 	private double maxV = 3.0;
 	private double minV = -3.0;
 
-	public BPSO(Problema problema, BPSOParams params, String proyecto, BPSOOpciones opciones)
+	public BPSO(Problem problema, BPSOParams params, String proyecto, BPSOOpciones opciones)
 			throws FileNotFoundException, IOException, CsvException {
 		this.params = params;
 		this.problema = problema;
@@ -119,7 +119,7 @@ public class BPSO {
 		// + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 	}
 
-	public Individuo ejecutarBPSO() throws FileNotFoundException, IOException, CsvException {
+	public Individuo runBPSO() throws FileNotFoundException, IOException, CsvException {
 		while (!this.params.condicionParadaConseguida(this.poblacionPartículas, this.Gbest)) {
 			// Calcular velocidades para cada bit de cada partícula, actualizar bits y
 			// fitness
@@ -1126,11 +1126,11 @@ public class BPSO {
 		this.params = params;
 	}
 
-	public Problema getProblema() {
+	public Problem getProblema() {
 		return problema;
 	}
 
-	public void setProblema(Problema problema) {
+	public void setProblema(Problem problema) {
 		this.problema = problema;
 	}
 

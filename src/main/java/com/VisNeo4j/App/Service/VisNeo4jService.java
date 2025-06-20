@@ -15,7 +15,7 @@ import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Entrada.ResPolPref;
+import com.VisNeo4j.App.Modelo.Entrada.PreferencesConstraints;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
@@ -28,11 +28,11 @@ import com.VisNeo4j.App.Modelo.Salida.Respuesta;
 import com.VisNeo4j.App.Modelo.Salida.Solucion;
 import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
-import com.VisNeo4j.App.Problemas.Problema;
-import com.VisNeo4j.App.Problemas.RRPS_PAT;
-import com.VisNeo4j.App.Problemas.RRPS_PAT_ALT;
-import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
-import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
+import com.VisNeo4j.App.Problems.Problem;
+import com.VisNeo4j.App.Problems.RRPS_PAT;
+import com.VisNeo4j.App.Problems.RRPS_PAT_ALT;
+import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
+import com.VisNeo4j.App.Problems.Data.DatosRRPS_PATDiaI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.VisNeo4j.App.Utils.Utils;
@@ -71,7 +71,7 @@ public class VisNeo4jService {
 	}
 	
 	//Obtiene los datos del problema entre las fechas indicadas, ambas incluidas
-	public DatosRRPS_PAT obtenerDatosRRPS_PAT(String fecha_I, String fecha_F) throws ParseException, IOException {
+	public DataRRPS_PAT obtenerDatosRRPS_PAT(String fecha_I, String fecha_F) throws ParseException, IOException {
 		List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
 		
 		Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fecha_I);
@@ -106,7 +106,7 @@ public class VisNeo4jService {
 	    }
 	    
 	    
-		return new DatosRRPS_PAT(numDias+1, Constantes.formatoFechaRRPS_PAT.format(fechaInicio), 
+		return new DataRRPS_PAT(numDias+1, Constantes.formatoFechaRRPS_PAT.format(fechaInicio), 
 				Constantes.formatoFechaRRPS_PAT.format(fechaFinal), datosPorDia);
 	}
 	
@@ -296,7 +296,7 @@ public class VisNeo4jService {
 	//Se hacen validaciones de nombre y de fechas.
 	public Respuesta guardarProyecto(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
-			String nombreProyecto, ResPolPref resPolPref) throws IOException, ParseException {
+			String nombreProyecto, PreferencesConstraints resPolPref) throws IOException, ParseException {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
@@ -354,7 +354,7 @@ public class VisNeo4jService {
 	
 	public Respuesta guardarProyectoALT(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
-			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws IOException, ParseException {
+			double resEpi, String nombreProyecto, PreferencesConstraints resPolPref) throws IOException, ParseException {
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
 		
@@ -429,7 +429,7 @@ public class VisNeo4jService {
 	//Se hacen validaciones de nombre, fechas y se comprueba si se está ejecutando
 	public Respuesta guardarYOptimizar(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
-			String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+			String nombreProyecto, PreferencesConstraints resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj(), resPolPref.getRestricciones()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
@@ -440,9 +440,9 @@ public class VisNeo4jService {
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWLinearDecreasing);
 		
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		DataRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Problema problema = new RRPS_PAT(datos, resPolPref.getPol(), preferencias);
+		Problem problema = new RRPS_PAT(datos, resPolPref.getPol(), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
@@ -460,7 +460,7 @@ public class VisNeo4jService {
 			}else {
 				Utils.modificarFicheroCola(nombreProyecto);
 				this.bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
-				Individuo ind = this.bpso.ejecutarBPSO();
+				Individuo ind = this.bpso.runBPSO();
 				problema.devolverSolucionCompleta(ind);
 				System.out.println(ind);
 				Utils.modificarFicheroCola("");
@@ -497,7 +497,7 @@ public class VisNeo4jService {
 	
 	public Respuesta guardarYOptimizarALT(String fecha_I, String fecha_F, int numIteraciones,
 			int numIndividuos, double inertiaW, double c1, double c2, double m, double p,
-			double resEpi, String nombreProyecto, ResPolPref resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
+			double resEpi, String nombreProyecto, PreferencesConstraints resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
 		DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
@@ -508,9 +508,9 @@ public class VisNeo4jService {
 				numIteraciones, m, p, Constantes.nombreCPGenerica, 
 				Constantes.nombreIWLinearDecreasing);
 		
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
+		DataRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fecha_I, fecha_F);
 		
-		Problema problema = new RRPS_PAT_ALT(datos, Stream.of(0.50, 0.50).collect(Collectors.toList()), resPolPref.getPol(), preferencias);
+		Problem problema = new RRPS_PAT_ALT(datos, Stream.of(0.50, 0.50).collect(Collectors.toList()), resPolPref.getPol(), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
@@ -528,7 +528,7 @@ public class VisNeo4jService {
 			}else {
 				Utils.modificarFicheroCola(nombreProyecto);
 				this.bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
-				Individuo ind = this.bpso.ejecutarBPSO();
+				Individuo ind = this.bpso.runBPSO();
 				problema.devolverSolucionCompleta(ind);
 				System.out.println(ind);
 				Utils.modificarFicheroCola("");
@@ -585,9 +585,9 @@ public class VisNeo4jService {
 		
 		preferencias.getOrder().setRestricciones(restricciones);
 		
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));;
+		DataRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));;
 		
-		Problema problema = new RRPS_PAT(datos, res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		Problem problema = new RRPS_PAT(datos, res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
@@ -596,7 +596,7 @@ public class VisNeo4jService {
 		}else {
 			Utils.modificarFicheroCola(proyecto);
 			this.bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(false, 0));
-			Individuo ind = this.bpso.ejecutarBPSO();
+			Individuo ind = this.bpso.runBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
 			Utils.modificarFicheroCola("");
@@ -639,7 +639,7 @@ public class VisNeo4jService {
 		
 		Map<String, List<String>> res = this.cargarRestriccionesProyecto(proyecto);
 		
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		DataRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
 		
 		Map<Integer, Double> restricciones;
 		
@@ -653,7 +653,7 @@ public class VisNeo4jService {
 		
 		preferencias.getOrder().setRestricciones(restricciones);
 
-		Problema problema = new RRPS_PAT(datos, res.get(Constantes.nombreRestriccionPolitica), preferencias);
+		Problem problema = new RRPS_PAT(datos, res.get(Constantes.nombreRestriccionPolitica), preferencias);
 		
 		Respuesta resp = new Respuesta(false, null);
 		
@@ -662,7 +662,7 @@ public class VisNeo4jService {
 		}else {
 			Utils.modificarFicheroCola(proyecto);
 			this.bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(true, id));
-			Individuo ind = this.bpso.ejecutarBPSO();
+			Individuo ind = this.bpso.runBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
 			Utils.modificarFicheroCola("");
@@ -732,7 +732,7 @@ public class VisNeo4jService {
 	}*/
 	
 	//Guarda la solucion nueva asociada al proyecto ejecutado
-	public String guardarNuevaSolucionRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre) throws IOException, CsvException {
+	public String guardarNuevaSolucionRRPS_PAT(Individuo ind, DataRRPS_PAT datos, String nombre) throws IOException, CsvException {
 		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos, nombre);
 		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila, nombre);
 		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila, nombre);
@@ -803,7 +803,7 @@ public class VisNeo4jService {
 	//Se obtienen los datos de las conexiones de la solución y proyecto indicados en el dia k
 	public DatosConexiones cargarProyectoISolucionJDiaK(String proyecto, int id, int dia) throws FileNotFoundException, IOException, CsvException, ParseException {
 		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		DataRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
 		
 		List<Aeropuerto> lista = Utils.obtenerSolucionDiaI(proyecto, id, dia);
 		List<Double> bits = Utils.obtenerBitsSolDiaI(proyecto, id, dia);
@@ -831,7 +831,7 @@ public class VisNeo4jService {
 	public DatosConexiones obtenerSnapshot(String proyecto, int dia) throws IOException, CsvException, ParseException {
 		
 		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		DataRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
 		datos.getDatosPorDia().get(dia).calcularDatosJuntos();
 		fechas.put(Constantes.nombreFechaActual, this.calcularFecha(fechas.get(Constantes.nombreFechaInicial), dia));
 		
@@ -907,7 +907,7 @@ public class VisNeo4jService {
 	//Se obtiene el número de dias de un proyecto que se está ejecutando
 	public int numDiasSolucionISnapshot(String proyecto) throws FileNotFoundException, IOException, CsvException, ParseException {
 		Map<String, String> fechas = this.cargarFechasProyecto(proyecto);
-		DatosRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
+		DataRRPS_PAT datos = this.obtenerDatosRRPS_PAT(fechas.get(Constantes.nombreFechaInicial), fechas.get(Constantes.nombreFechaFinal));
 		return datos.getNumDias();
 	}
 	

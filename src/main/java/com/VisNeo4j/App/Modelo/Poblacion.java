@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.VisNeo4j.App.Problemas.Problema;
+import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
@@ -19,7 +19,7 @@ public class Poblacion {
 	private int numIndividuos;
 	private List<Individuo> poblacion;
 	
-	public Poblacion(int numIndividuos, Problema p) {
+	public Poblacion(int numIndividuos, Problem p) {
 		this.numIndividuos = numIndividuos;
 		this.poblacion = new ArrayList<Individuo>(this.numIndividuos);
 		
@@ -49,7 +49,7 @@ public class Poblacion {
 		}
 	}
 
-	public void generarPoblacionInicial(Problema p, boolean leerFichero, String nombreFichero) throws FileNotFoundException, IOException, CsvException {
+	public void generarPoblacionInicial(Problem p, boolean leerFichero, String nombreFichero) throws FileNotFoundException, IOException, CsvException {
 		if(!leerFichero) {
 			this.obtenerValores(p);
 			this.calcularObjetivos(p);
@@ -66,7 +66,7 @@ public class Poblacion {
 		
 	}
 	
-	public void generarPoblacionInicial(Problema p, boolean leerFichero, int filaFichero, String proyecto) throws FileNotFoundException, IOException, CsvException {
+	public void generarPoblacionInicial(Problem p, boolean leerFichero, int filaFichero, String proyecto) throws FileNotFoundException, IOException, CsvException {
 		if(!leerFichero) {
 			this.obtenerValores(p);
 			this.calcularObjetivos(p);
@@ -88,7 +88,7 @@ public class Poblacion {
 		
 	}
 	
-	public void obtenerValores(Problema p) {
+	public void obtenerValores(Problem p) {
 		for (int i = 0; i < this.numIndividuos; i++) {
 			Individuo individuo = this.poblacion.get(i);
 			individuo = p.inicializarValores(individuo);
@@ -96,7 +96,7 @@ public class Poblacion {
 		}
 	}
 	
-	public void calcularObjetivos(Problema p) throws FileNotFoundException, IOException, CsvException {
+	public void calcularObjetivos(Problem p) throws FileNotFoundException, IOException, CsvException {
 		for (int i = 0; i < this.numIndividuos; i++) {
 			Individuo individuo = this.poblacion.get(i);
 			individuo = p.evaluate(individuo);
@@ -105,7 +105,7 @@ public class Poblacion {
 		}
 	}
 	
-	public void obtenerIndividuosRestantes(Problema p) throws FileNotFoundException, IOException, CsvException {
+	public void obtenerIndividuosRestantes(Problem p) throws FileNotFoundException, IOException, CsvException {
 		while(this.poblacion.size() < this.numIndividuos) {
 			Individuo individuo = new Individuo(p.getNumVariables(), p.getNumObjetivos());
 			individuo = p.inicializarValores(individuo);

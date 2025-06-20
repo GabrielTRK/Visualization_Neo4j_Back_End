@@ -9,13 +9,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,6 +27,7 @@ import org.springframework.util.FileSystemUtils;
 
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
+import com.VisNeo4j.App.Lectura.LecturaDeDatos;
 import com.VisNeo4j.App.Modelo.Individuo;
 import com.VisNeo4j.App.Modelo.Poblacion;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
@@ -36,9 +40,9 @@ import com.VisNeo4j.App.Modelo.Salida.Objetivo;
 import com.VisNeo4j.App.Modelo.Salida.OrdenObjSalida;
 import com.VisNeo4j.App.Modelo.Salida.Restricciones;
 import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
-import com.VisNeo4j.App.Problemas.Problema;
-import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PAT;
-import com.VisNeo4j.App.Problemas.Datos.DatosRRPS_PATDiaI;
+import com.VisNeo4j.App.Problems.Problem;
+import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
+import com.VisNeo4j.App.Problems.Data.DatosRRPS_PATDiaI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.opencsv.CSVReader;
@@ -83,200 +87,200 @@ public class Utils {
 	public static List<Double> decodificarBinario(int bitsEnteros, int bitsDecimales, List<Double> bits) {
 		int numVariDecimales = (bits.size()) / (1 + bitsEnteros + bitsDecimales);
 		List<Double> valoresDecimales = new ArrayList<>();
-		
+
 		int offset = 0;
 		for (int i = 0; i < numVariDecimales; i++) {
 			Double parteEntera = 0.0;
 			Double parteDecimal = 0.0;
 			Double total = 0.0;
 			boolean positivo;
-			
-			if(bits.get(offset) == 1.0) {
+
+			if (bits.get(offset) == 1.0) {
 				positivo = false;
-			}else {
+			} else {
 				positivo = true;
 			}
-			
+
 			offset++;
-			
+
 			// Parte entera
 			for (int j = 0; j < bitsEnteros; j++) {
-				if(bits.get(offset) == 1.0) {
+				if (bits.get(offset) == 1.0) {
 					parteEntera += Math.pow(2, bitsEnteros - j - 1);
 				}
 				offset++;
 			}
-			
+
 			// Parte decimal
 			for (int j = 0; j < bitsDecimales; j++) {
-				if(bits.get(offset) == 1.0) {
+				if (bits.get(offset) == 1.0) {
 					parteDecimal += Math.pow(2, -(j + 1));
 				}
 				offset++;
 			}
 			total = parteEntera + parteDecimal;
-			if(!positivo) {
+			if (!positivo) {
 				total *= -1;
 			}
-			
+
 			valoresDecimales.add(total);
 		}
 		return valoresDecimales;
 	}
-	
+
 	public static int distanciaHamming(List<Double> a, List<Double> b) {
 		int dist = 0;
-		for(int i = 0; i < a.size(); i++) {
+		for (int i = 0; i < a.size(); i++) {
 			double a1 = a.get(i);
 			double b1 = b.get(i);
-			if(a1 != b1) {
+			if (a1 != b1) {
 				dist++;
 			}
 		}
 		return dist;
 	}
-	
+
 	public static Double calcularMenor(List<Individuo> lista) {
 		Double menor = Double.MAX_VALUE;
-		
-		for(int i = 0; i < lista.size(); i++) {
-			if(lista.get(i).getObjetivos().get(0) < menor) {
+
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.get(i).getObjetivos().get(0) < menor) {
 				menor = lista.get(i).getObjetivos().get(0);
 			}
 		}
-		
+
 		return menor;
 	}
-	
+
 	public static Double calcularMayor(List<Individuo> lista) {
 		Double mayor = Double.MIN_VALUE;
-		
-		for(int i = 0; i < lista.size(); i++) {
-			if(lista.get(i).getObjetivos().get(0) > mayor) {
+
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.get(i).getObjetivos().get(0) > mayor) {
 				mayor = lista.get(i).getObjetivos().get(0);
 			}
 		}
-		
+
 		return mayor;
 	}
-	
+
 	public static Double calcularAVGF(List<Individuo> lista) {
 		Double media = 0.0;
-		
-		for(int i = 0; i < lista.size(); i++) {
+
+		for (int i = 0; i < lista.size(); i++) {
 			media += lista.get(i).getObjetivos().get(0);
 		}
-		
-		return media/lista.size();
+
+		return media / lista.size();
 	}
-	
+
 	public static Double calcularSTDF(List<Individuo> lista) {
 		Double std = 0.0;
 		Double media = 0.0;
-		
-		for(int i = 0; i < lista.size(); i++) {
+
+		for (int i = 0; i < lista.size(); i++) {
 			media += lista.get(i).getObjetivos().get(0);
 		}
-		
+
 		media /= lista.size();
-		
-		for(int i = 0; i < lista.size(); i++) {
+
+		for (int i = 0; i < lista.size(); i++) {
 			std += Math.pow(lista.get(i).getObjetivos().get(0) - media, 2);
 		}
-		
+
 		std /= lista.size();
-		
+
 		std = Math.sqrt(std);
-		
+
 		return std;
 	}
-	
+
 	public static Double calcularSR(List<Individuo> lista, Double opt) {
 		Double SR = 0.0;
 		Double cont = 0.0;
-		
-		for(int i = 0; i < lista.size(); i++) {
-			if(lista.get(i).getObjetivos().get(0).equals(opt)) {
+
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.get(i).getObjetivos().get(0).equals(opt)) {
 				cont++;
 			}
 		}
 		System.out.println("Hit: " + cont);
-		
+
 		SR = cont / (lista.size() * 1.0);
-		
+
 		return SR * 100.0;
 	}
-	
+
 	public static Double calcularMinIter(List<Individuo> lista) {
 		Double menor = Double.MAX_VALUE;
-		
-		for(int i = 0; i < lista.size(); i++) {
+
+		for (int i = 0; i < lista.size(); i++) {
 			Double valor = lista.get(i).getObjetivos().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
-			
-			if(pos < menor) {
+
+			if (pos < menor) {
 				menor = pos * 1.0;
 			}
 		}
-		
+
 		return menor;
 	}
-	
+
 	public static Double calcularMaxIter(List<Individuo> lista) {
 		Double mayor = Double.MIN_VALUE;
-		
-		for(int i = 0; i < lista.size(); i++) {
+
+		for (int i = 0; i < lista.size(); i++) {
 			Double valor = lista.get(i).getObjetivos().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
-			
-			if(pos > mayor) {
+
+			if (pos > mayor) {
 				mayor = pos * 1.0;
 			}
 		}
-		
+
 		return mayor;
 	}
-	
+
 	public static Double calcularAVGIter(List<Individuo> lista) {
 		Double media = 0.0;
-		
-		for(int i = 0; i < lista.size(); i++) {
+
+		for (int i = 0; i < lista.size(); i++) {
 			Double valor = lista.get(i).getObjetivos().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
-			
+
 			media += pos;
 		}
-		
+
 		return media / lista.size();
 	}
-	
+
 	public static Double calcularSTDIter(List<Individuo> lista) {
 		Double std = 0.0;
 		Double media = 0.0;
 		List<Integer> posiciones = new ArrayList<>();
-		
-		for(int i = 0; i < lista.size(); i++) {
+
+		for (int i = 0; i < lista.size(); i++) {
 			Double valor = lista.get(i).getObjetivos().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
 			posiciones.add(pos);
-			
+
 			media += pos;
 		}
-		
+
 		media /= lista.size();
-		
-		for(int i = 0; i < posiciones.size(); i++) {
+
+		for (int i = 0; i < posiciones.size(); i++) {
 			std += Math.pow(posiciones.get(i) - media, 2);
 		}
-		
+
 		std /= posiciones.size();
-		
+
 		std = Math.sqrt(std);
-		
+
 		return std;
 	}
 
-	public static Poblacion juntarPoblaciones(Poblacion padres, Poblacion hijos, Problema problema) {
+	public static Poblacion juntarPoblaciones(Poblacion padres, Poblacion hijos, Problem problema) {
 		List<Individuo> lista = new ArrayList<>(2 * padres.getNumIndividuos());
 		for (int i = 0; i < padres.getNumIndividuos(); i++) {
 			lista.add(padres.getPoblacion().get(i));
@@ -362,7 +366,7 @@ public class Utils {
 		}
 		return list;
 	}
-	
+
 	public static void crearFicheroConDatosDiaI(List<String[]> datosFichero, String nombre) throws IOException {
 		try (CSVWriter writer = new CSVWriter(
 				new FileWriter(Constantes.rutaDatosPorDia + nombre + Constantes.extensionFichero), ',',
@@ -450,7 +454,7 @@ public class Utils {
 				conexiones.subList(offsetBits * 2, (offsetBits * 2) + Integer.valueOf(numConDia.get(dia)) * 2));
 	}
 
-	public static List<Aeropuerto> obtenerSolucionDiaI(int dia, List<Double> variablesDouble, DatosRRPS_PAT datos)
+	public static List<Aeropuerto> obtenerSolucionDiaI(int dia, List<Double> variablesDouble, DataRRPS_PAT datos)
 			throws FileNotFoundException, IOException, CsvException {
 		int offsetBits = 0;
 		for (int i = 0; i < dia; i++) {
@@ -481,7 +485,7 @@ public class Utils {
 		return variablesDouble;
 	}
 
-	public static List<Double> obtenerBitsSolDiaI(int dia, List<Double> variablesDouble, DatosRRPS_PAT datos)
+	public static List<Double> obtenerBitsSolDiaI(int dia, List<Double> variablesDouble, DataRRPS_PAT datos)
 			throws FileNotFoundException, IOException, CsvException {
 		int offsetBits = 0;
 		for (int i = 0; i < dia; i++) {
@@ -692,7 +696,7 @@ public class Utils {
 
 	}
 
-	public static String modificarCSVproblemaRRPS_PAT(Individuo ind, DatosRRPS_PAT datos, String nombre)
+	public static String modificarCSVproblemaRRPS_PAT(Individuo ind, DataRRPS_PAT datos, String nombre)
 			throws IOException, CsvException {
 		int filaConexiones = modificarCSVconexiones(datos.getConexionesTotales(), nombre);
 		List<String> numConDia = new ArrayList<>();
@@ -798,8 +802,9 @@ public class Utils {
 
 		}
 	}
-	
-	public static void crearFicheroV0LSolucionITemp(String nombre, String id, List<List<Double>> v0L) throws IOException {
+
+	public static void crearFicheroV0LSolucionITemp(String nombre, String id, List<List<Double>> v0L)
+			throws IOException {
 		List<String[]> lista = new ArrayList<>();
 
 		for (int i = 0; i < v0L.size(); i++) {
@@ -838,8 +843,9 @@ public class Utils {
 
 		}
 	}
-	
-	public static void crearFicheroV1LSolucionITemp(String nombre, String id, List<List<Double>> v1L) throws IOException {
+
+	public static void crearFicheroV1LSolucionITemp(String nombre, String id, List<List<Double>> v1L)
+			throws IOException {
 		List<String[]> lista = new ArrayList<>();
 
 		for (int i = 0; i < v1L.size(); i++) {
@@ -1077,7 +1083,7 @@ public class Utils {
 
 	}
 
-	public static Poblacion leerCSVPoblacionTemp(Problema problema, String nombre, int id, Poblacion poblacion)
+	public static Poblacion leerCSVPoblacionTemp(Problem problema, String nombre, int id, Poblacion poblacion)
 			throws FileNotFoundException, IOException, CsvException {
 
 		int numFilas;
@@ -1100,7 +1106,7 @@ public class Utils {
 		return poblacion;
 	}
 
-	public static Poblacion leerCSVPbestsTemp(Problema problema, String nombre, int id, Poblacion pbests)
+	public static Poblacion leerCSVPbestsTemp(Problem problema, String nombre, int id, Poblacion pbests)
 			throws FileNotFoundException, IOException, CsvException {
 
 		int numFilas;
@@ -1144,7 +1150,7 @@ public class Utils {
 			}
 		}
 	}
-	
+
 	public static void leerCSVV0LTemp(String nombre, int id, List<List<Double>> v0L)
 			throws FileNotFoundException, IOException, CsvException {
 
@@ -1188,7 +1194,7 @@ public class Utils {
 			}
 		}
 	}
-	
+
 	public static void leerCSVV1LTemp(String nombre, int id, List<List<Double>> v1L)
 			throws FileNotFoundException, IOException, CsvException {
 
@@ -1342,12 +1348,14 @@ public class Utils {
 		return fechas;
 	}
 
-	public static void crearCSVRestricciones(Map<Integer, Double> restricciones, List<String> pol, String nombre) throws IOException {
+	public static void crearCSVRestricciones(Map<Integer, Double> restricciones, List<String> pol, String nombre)
+			throws IOException {
 		List<String[]> lista = new ArrayList<>();
-		/*String[] paramI = new String[2];
-		paramI[0] = Constantes.nombreRestriccionEpidemiologica;
-		paramI[1] = String.valueOf(epi);
-		lista.add(paramI);*/
+		/*
+		 * String[] paramI = new String[2]; paramI[0] =
+		 * Constantes.nombreRestriccionEpidemiologica; paramI[1] = String.valueOf(epi);
+		 * lista.add(paramI);
+		 */
 
 		String[] paramI = new String[1 + pol.size()];
 		paramI[0] = Constantes.nombreRestriccionPolitica;
@@ -1355,8 +1363,8 @@ public class Utils {
 			paramI[i + 1] = pol.get(i);
 		}
 		lista.add(paramI);
-		
-		for(Integer i : restricciones.keySet()) {
+
+		for (Integer i : restricciones.keySet()) {
 			paramI = new String[2];
 			paramI[0] = String.valueOf(i);
 			paramI[1] = String.valueOf(restricciones.get(i));
@@ -1390,11 +1398,11 @@ public class Utils {
 			}
 		}
 		Restricciones res;
-		//Double epi = Double.valueOf(fichero.get(0).get(1));
-		for(int i = 1; i < fichero.size(); i++) {
+		// Double epi = Double.valueOf(fichero.get(0).get(1));
+		for (int i = 1; i < fichero.size(); i++) {
 			restricciones.put(Integer.valueOf(fichero.get(i).get(0)), Double.valueOf(fichero.get(i).get(1)));
 		}
-		
+
 		if (fichero.get(0).size() > 1) {
 
 			res = new Restricciones(fichero.get(0).subList(1, fichero.get(1).size()), restricciones);
@@ -1423,12 +1431,13 @@ public class Utils {
 		}
 
 		Map<String, List<String>> res = new HashMap<>();
-		
-		for(int i = 1; i < fichero.size(); i++) {
+
+		for (int i = 1; i < fichero.size(); i++) {
 			res.put(fichero.get(i).get(0), Stream.of(fichero.get(i).get(1)).collect(Collectors.toList()));
 		}
 
-		//res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(0).subList(1, fichero.get(0).size()));
+		// res.put(Constantes.nombreRestriccionEpidemiologica, fichero.get(0).subList(1,
+		// fichero.get(0).size()));
 		res.put(Constantes.nombreRestriccionPolitica, fichero.get(0).subList(1, fichero.get(1).size()));
 
 		return res;
@@ -1882,7 +1891,7 @@ public class Utils {
 		return valoresSalida;
 	}
 
-	public static Map<Integer, String> obtenerTooltips(DatosRRPS_PAT datos) {
+	public static Map<Integer, String> obtenerTooltips(DataRRPS_PAT datos) {
 		Map<Integer, String> tooltips = new HashMap<>();
 		DecimalFormat df = new DecimalFormat("0.00");
 
@@ -2212,15 +2221,216 @@ public class Utils {
 
 		return ind;
 	}
-	
-	public static List<Double> convertToDouble(List<Integer> ints){
-		
+
+	public static List<Double> convertToDouble(List<Integer> ints) {
+
 		List<Double> doubles = new ArrayList<>();
-		
-		for(int i = 0; i < ints.size(); i++) {
+
+		for (int i = 0; i < ints.size(); i++) {
 			doubles.add(ints.get(i) * 1.0);
 		}
-		
+
 		return doubles;
+	}
+
+	// Obtiene los datos del problema entre las fechas indicadas, ambas incluidas
+	public static DataRRPS_PAT getDataRRPS_PAT(String fecha_I, String fecha_F)
+			throws ParseException, IOException {
+		List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
+
+		Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fecha_I);
+		Date fechaFinal = Constantes.formatoFechaRRPS_PAT.parse(fecha_F);
+
+		long diffInMillies = Math.abs(fechaFinal.getTime() - fechaInicio.getTime());
+		int numDias = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+		Calendar c = Calendar.getInstance();
+		c.setTime(fechaInicio);
+
+		for (int i = 0; i <= numDias; i++) {
+
+			String dia_Inicial = String.valueOf(c.get(Calendar.DATE));
+			if (dia_Inicial.length() == 1) {
+				dia_Inicial = "0" + dia_Inicial;
+			}
+			String dia_Final = dia_Inicial;
+			String mes_Inicial = String.valueOf(c.get(Calendar.MONTH) + 1);
+			if (mes_Inicial.length() == 1) {
+				mes_Inicial = "0" + mes_Inicial;
+			}
+			String mes_Final = mes_Inicial;
+			String año_Inicial = String.valueOf(c.get(Calendar.YEAR));
+			String año_Final = año_Inicial;
+
+			datosPorDia.add(getDataRRPS_PATDiaI(dia_Inicial, dia_Final, mes_Inicial, mes_Final, año_Inicial,
+					año_Final, año_Inicial + "-" + mes_Inicial + "-" + dia_Inicial));
+
+			c.add(Calendar.DATE, 1);
+		}
+
+		return new DataRRPS_PAT(numDias + 1, Constantes.formatoFechaRRPS_PAT.format(fechaInicio),
+				Constantes.formatoFechaRRPS_PAT.format(fechaFinal), datosPorDia);
+	}
+
+	// Obtiene los datos del dia indicado. Si existen en el fichero, se leen, si no,
+	// se buscan en la BBDD.
+	public static DatosRRPS_PATDiaI getDataRRPS_PATDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
+			String año_I, String año_F, String ruta) throws IOException {
+		List<Double> riesgos = new ArrayList<>();
+		List<Double> riesgos_KP = new ArrayList<>();
+		List<List<String>> conexiones = new ArrayList<>();
+		List<List<String>> conexionesTotal = new ArrayList<>();
+		List<Integer> pasajeros = new ArrayList<>();
+		List<Integer> pasajeros_KP = new ArrayList<>();
+		List<Double> dineroMedioT = new ArrayList<>();
+		List<Double> dineroMedioT_KP = new ArrayList<>();
+		List<Double> dineroMedioN = new ArrayList<>();
+		List<Double> dineroMedioN_KP = new ArrayList<>();
+		List<String> companyias = new ArrayList<>();
+		List<List<Integer>> pasajerosCompanyias_KP = new ArrayList<>();
+		List<List<String>> companyias_KP = new ArrayList<>();
+		List<String> areasInf = new ArrayList<>();
+		List<String> areasInf_KP = new ArrayList<>();
+		List<String> continentes = new ArrayList<>();
+		List<Boolean> capital = new ArrayList<>();
+		Map<String, Integer> vuelosSalientes = new HashMap<>();
+		Map<List<String>, Integer> vuelosEntrantesConexion = new HashMap<>();
+		Map<String, Integer> vuelosSalientesAEspanya = new HashMap<>();
+		List<Double> conectividades = new ArrayList<>();
+		List<Double> tasasAeropuertos = new ArrayList<>();
+		List<Double> tasasAeropuertos_KP = new ArrayList<>();
+		List<Integer> vuelosSalientesDeOrigen = new ArrayList<>();
+		List<List<String>> conexionesNombres = new ArrayList<>();
+		List<List<String>> conexionesNombresTotal = new ArrayList<>();
+		List<String> aeropuertosOrigen = new ArrayList<>();
+
+		File file = new File(Constantes.rutaDatosPorDia + ruta + Constantes.extensionFichero);
+
+		if (file.exists()) {
+			LecturaDeDatos.leerDatosRRPS_PATDiaI(ruta, riesgos, riesgos_KP, conexiones, conexionesTotal, pasajeros,
+					pasajeros_KP, dineroMedioT, dineroMedioT_KP, dineroMedioN, dineroMedioN_KP, companyias,
+					pasajerosCompanyias_KP, companyias_KP, areasInf, areasInf_KP, continentes, capital, conectividades,
+					vuelosEntrantesConexion, vuelosSalientesAEspanya, tasasAeropuertos, tasasAeropuertos_KP,
+					vuelosSalientes, vuelosSalientesDeOrigen, conexionesNombres, conexionesNombresTotal,
+					aeropuertosOrigen);
+		} else {
+			getDataRRPS_PAT_BBDD_DiaI(riesgos, conexiones, conexionesTotal, pasajeros, dineroMedioT, dineroMedioN,
+					companyias, areasInf, continentes, capital, conectividades, vuelosEntrantesConexion,
+					vuelosSalientesAEspanya, tasasAeropuertos, vuelosSalientes, vuelosSalientesDeOrigen,
+					conexionesNombres, dia_I, dia_F, mes_I, mes_F, año_I, año_F, ruta);
+		}
+
+		return new DatosRRPS_PATDiaI(riesgos, riesgos_KP, conexiones, conexionesTotal, pasajeros, pasajeros_KP,
+				dineroMedioT, dineroMedioT_KP, dineroMedioN, dineroMedioN_KP, companyias, pasajerosCompanyias_KP,
+				companyias_KP, areasInf, areasInf_KP, continentes, capital, vuelosSalientes, vuelosEntrantesConexion,
+				vuelosSalientesAEspanya, conectividades, tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientesDeOrigen,
+				conexionesNombres, conexionesNombresTotal, aeropuertosOrigen);
+	}
+
+	// Obtiene los datos del dia indicado con la BBDD
+	public static void getDataRRPS_PAT_BBDD_DiaI(List<Double> riesgos, List<List<String>> conexiones,
+			List<List<String>> conexionesTotal, List<Integer> pasajeros, List<Double> dineroMedioT,
+			List<Double> dineroMedioN, List<String> companyias, List<String> areasInf, List<String> continentes,
+			List<Boolean> capital, List<Double> conectividades, Map<List<String>, Integer> vuelosEntrantesConexion,
+			Map<String, Integer> vuelosSalientesAEspanya, List<Double> tasasAeropuertos,
+			Map<String, Integer> vuelosSalientes, List<Integer> vuelosSalientesDeOrigen,
+			List<List<String>> conexionesNombres, String dia_I, String dia_F, String mes_I, String mes_F, String año_I,
+			String año_F, String ruta) throws IOException {
+
+		/*
+		 * String fecha_I = "\"" + año_I + "-" + mes_I + "-" + dia_I + "\""; String
+		 * fecha_F = "\"" + año_F + "-" + mes_F + "-" + dia_F + "\"";
+		 * 
+		 * List<String[]> datosFichero = new ArrayList<>(); String[] cabecera = new
+		 * String[15];
+		 * 
+		 * cabecera[0] = String.valueOf(Constantes.sirDBField); cabecera[1] =
+		 * String.valueOf(Constantes.pasajerosDBField); cabecera[2] =
+		 * String.valueOf(Constantes.companyiaDBField); cabecera[3] =
+		 * String.valueOf(Constantes.conectividadDBField); cabecera[4] =
+		 * String.valueOf(Constantes.dineroTDBField); cabecera[5] =
+		 * String.valueOf(Constantes.dineroNDBField); cabecera[6] =
+		 * String.valueOf(Constantes.tasasDBField); cabecera[7] =
+		 * String.valueOf(Constantes.origenDBField); cabecera[8] =
+		 * String.valueOf(Constantes.destinoDBField); cabecera[9] =
+		 * String.valueOf(Constantes.VuelosDesdeOrigenDBField); cabecera[10] =
+		 * String.valueOf(Constantes.areaInfDBField); cabecera[11] =
+		 * String.valueOf(Constantes.continentDBField); cabecera[12] =
+		 * String.valueOf(Constantes.capitalDBField); cabecera[13] =
+		 * String.valueOf(Constantes.origenNombreDBField); cabecera[14] =
+		 * String.valueOf(Constantes.destinoNombreDBField);
+		 * 
+		 * datosFichero.add(cabecera);
+		 * 
+		 * try (Session session = sessionFor(database())) { var records =
+		 * session.readTransaction(tx -> tx.run("" +
+		 * " match (cont:Continent)<-[:BELONGS_TO]-(c:Country)-[:INFLUENCE_ZONE]->(a:Airport)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->(ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
+		 * +
+		 * " where a2.countryIso = 'ES' and a.countryIso <>'ES' and f.dateOfDeparture <= date("
+		 * + fecha_F +") and f.dateOfDeparture >= date("+ fecha_I
+		 * +") and f.operator <> 'UNKNOWN' and f.seatsCapacity > 0 and a2.weightFee > 0.0 and f.passengers > 0"
+		 * + " with cont,f,a,a2 order by a.iata, a2.iata "
+		 * 
+		 * + " call{ " + " with a " +
+		 * " match (a)-[r1]->(ao:AirportOperationDay)-[r2]->(f:FLIGHT)-[r3]->   (ao2:AirportOperationDay)<-[r4]-(a2:Airport) "
+		 * + " where f.dateOfDeparture <= date("+ fecha_F
+		 * +") and f.dateOfDeparture >= date("+ fecha_I
+		 * +") and f.operator <> 'UNKNOWN' " + " return count(*) as numVuelos " + " } "
+		 * 
+		 * +
+		 * " return f.flightIfinal as sir,f.passengers as pasajeros,f.operator as companyia,a.connectivity as conectividad,f.incomeFromTurism as dineroT,f.incomeFromBusiness as dineroN,f.destinationAirportIncome as tasas,a.iata as origen,a2.iata as destino, numVuelos as VuelosDesdeOrigen, a2.regionName as areaInf, cont.continentId as continente, a.capital as capital, a.airportName as origenNombre, a2.airportName as destinoNombre"
+		 * ).list()); records.forEach(record -> { var sir =
+		 * record.get(Constantes.sirDBField).asDouble(); var origen =
+		 * record.get(Constantes.origenDBField).asString(); var destino =
+		 * record.get(Constantes.destinoDBField).asString(); var Num_Pasajeros =
+		 * record.get(Constantes.pasajerosDBField).asInt(); var companyia =
+		 * record.get(Constantes.companyiaDBField).asString(); var conectividad =
+		 * record.get(Constantes.conectividadDBField).asDouble(); var dineroT =
+		 * record.get(Constantes.dineroTDBField).asDouble(); var dineroN =
+		 * record.get(Constantes.dineroNDBField).asDouble(); var tasas =
+		 * record.get(Constantes.tasasDBField).asDouble(); var VuelosDesdeOrigen =
+		 * record.get(Constantes.VuelosDesdeOrigenDBField).asInt(); var areaInf =
+		 * record.get(Constantes.areaInfDBField).asString(); var continente =
+		 * record.get(Constantes.continentDBField).asString(); var isCapital =
+		 * record.get(Constantes.capitalDBField).asBoolean(); var origenNombre =
+		 * record.get(Constantes.origenNombreDBField).asString(); var destinoNombre =
+		 * record.get(Constantes.destinoNombreDBField).asString();
+		 * 
+		 * if(!conexiones.contains(List.of(origen, destino))) {
+		 * conexiones.add(List.of(origen, destino));
+		 * conexionesNombres.add(List.of(origenNombre, destinoNombre));
+		 * vuelosEntrantesConexion.put(List.of(origen, destino), 1);
+		 * continentes.add(continente); capital.add(isCapital); if(conectividad == -1.0)
+		 * { conectividades.add(0.0); }else { conectividades.add(conectividad); } }else
+		 * { vuelosEntrantesConexion.put(List.of(origen, destino), 1 +
+		 * vuelosEntrantesConexion.get(List.of(origen, destino))); }
+		 * if(!vuelosSalientesAEspanya.keySet().contains(origen)) {
+		 * vuelosSalientesAEspanya.put(origen, 1); }else {
+		 * vuelosSalientesAEspanya.put(origen, 1 + vuelosSalientesAEspanya.get(origen));
+		 * } if(!vuelosSalientes.keySet().contains(origen)) {
+		 * vuelosSalientes.put(origen, VuelosDesdeOrigen); }
+		 * 
+		 * conexionesTotal.add(List.of(origen, destino)); riesgos.add(sir);
+		 * pasajeros.add(Num_Pasajeros); dineroMedioT.add(dineroT);
+		 * dineroMedioN.add(dineroN); tasasAeropuertos.add(tasas);
+		 * companyias.add(companyia); areasInf.add(areaInf);
+		 * 
+		 * String[] filaIFichero = new String[15];
+		 * 
+		 * filaIFichero[0] = String.valueOf(sir); filaIFichero[1] =
+		 * String.valueOf(Num_Pasajeros); filaIFichero[2] = String.valueOf(companyia);
+		 * filaIFichero[3] = String.valueOf(conectividad); filaIFichero[4] =
+		 * String.valueOf(dineroT); filaIFichero[5] = String.valueOf(dineroN);
+		 * filaIFichero[6] = String.valueOf(tasas); filaIFichero[7] =
+		 * String.valueOf(origen); filaIFichero[8] = String.valueOf(destino);
+		 * filaIFichero[9] = String.valueOf(VuelosDesdeOrigen); filaIFichero[10] =
+		 * String.valueOf(areaInf); filaIFichero[11] = String.valueOf(continente);
+		 * filaIFichero[12] = String.valueOf(isCapital); filaIFichero[13] =
+		 * String.valueOf(origenNombre); filaIFichero[14] =
+		 * String.valueOf(destinoNombre);
+		 * 
+		 * datosFichero.add(filaIFichero); }); }
+		 * Utils.crearFicheroConDatosDiaI(datosFichero, ruta);
+		 */
 	}
 }
