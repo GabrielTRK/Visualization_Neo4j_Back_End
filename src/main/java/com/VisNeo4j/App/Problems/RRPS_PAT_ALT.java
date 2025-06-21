@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
@@ -63,7 +63,7 @@ public class RRPS_PAT_ALT extends Problem {
 	}
 
 	@Override
-	public Individuo evaluate(Individuo ind) {
+	public Particle evaluate(Particle ind) {
 		List<Double> aux = ind.getVariables();
 
 		this.rellenarDirecciones(aux);
@@ -76,18 +76,18 @@ public class RRPS_PAT_ALT extends Problem {
 
 		restricciones = objetivos.subList(0, this.datos.getNumDias());
 
-		ind.setRestricciones(restricciones);
+		ind.setConstraints(restricciones);
 		this.comprobarRestricciones(ind);
 		this.comprobarOrden(ind, objetivos);
 
-		ind.setObjetivosNorm(objetivos.subList(this.datos.getNumDias(), objetivos.size()));
+		ind.setObjectivesNorm(objetivos.subList(this.datos.getNumDias(), objetivos.size()));
 		Double sumaPesos = 0.0;
 
 		for (int i = this.datos.getNumDias(); i < objetivos.size(); i++) {
 			sumaPesos += objetivos.get(i) * this.preferencias.getWeightsVector().get(i - this.datos.getNumDias());
 		}
 
-		ind.setObjetivos(Stream.of(sumaPesos).collect(Collectors.toList()));
+		ind.setObjectives(Stream.of(sumaPesos).collect(Collectors.toList()));
 
 		this.quitarDirecciones(aux);
 
@@ -96,7 +96,7 @@ public class RRPS_PAT_ALT extends Problem {
 		return ind;
 	}
 
-	private List<Double> calcularObjetivos(Individuo solucion) {
+	private List<Double> calcularObjetivos(Particle solucion) {
 		List<Double> Knapsacks = new ArrayList<>();
 		List<Double> KnapsacksTotal = new ArrayList<>();
 
@@ -336,7 +336,7 @@ public class RRPS_PAT_ALT extends Problem {
 	}
 
 	@Override
-	public Individuo inicializarValores(Individuo ind) {
+	public Particle inicializarValores(Particle ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for (int i = 0; i < super.getNumVariables(); i++) {
 			
@@ -373,7 +373,7 @@ public class RRPS_PAT_ALT extends Problem {
 	}
 
 	@Override
-	public Individuo extra(Individuo ind) {
+	public Particle extra(Particle ind) {
 
 		List<Double> aux = ind.getVariables();
 
@@ -511,7 +511,7 @@ public class RRPS_PAT_ALT extends Problem {
 	}
 
 	@Override
-	public Individuo devolverSolucionCompleta(Individuo ind) {
+	public Particle devolverSolucionCompleta(Particle ind) {
 
 		List<Double> aux = ind.getVariables();
 
@@ -546,7 +546,7 @@ public class RRPS_PAT_ALT extends Problem {
 	}
 
 	@Override
-	public Individuo comprobarRestricciones(Individuo ind) {
+	public Particle comprobarRestricciones(Particle ind) {
 		double ConsV = 0.0;
 		// Bucle que recorre los bits de cada conexion
 		int offset = 0;
@@ -565,42 +565,42 @@ public class RRPS_PAT_ALT extends Problem {
 		}
 
 		for (int i = 0; i < this.resSup.size(); i++) {
-			if (ind.getRestricciones().get(i) > this.resSup.get(i)) {
-				ConsV += Math.abs(this.resSup.get(i) - ind.getRestricciones().get(i));
-			} else if (ind.getRestricciones().get(i) < this.resInf.get(i)) {
-				ConsV += Math.abs(this.resInf.get(i) - ind.getRestricciones().get(i));
+			if (ind.getConstraints().get(i) > this.resSup.get(i)) {
+				ConsV += Math.abs(this.resSup.get(i) - ind.getConstraints().get(i));
+			} else if (ind.getConstraints().get(i) < this.resInf.get(i)) {
+				ConsV += Math.abs(this.resInf.get(i) - ind.getConstraints().get(i));
 			}
 		}
 
 		if (ConsV == 0.0) {
-			ind.setFactible(true);
+			ind.setFeasible(true);
 		} else {
-			ind.setFactible(false);
+			ind.setFeasible(false);
 		}
 		ind.setConstraintViolation(ConsV);
 
 		return ind;
 	}
 
-	private Individuo comprobarOrden(Individuo ind, List<Double> objetivos) {
+	private Particle comprobarOrden(Particle ind, List<Double> objetivos) {
 		if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
 
 		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) <= objetivos.get(this.orderRes.get(2))) {
-			ind.setFactible(false);
+			ind.setFeasible(false);
 			ind.setConstraintViolation(ind.getConstraintViolation()
 					+ (objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
 
 		} else if (objetivos.get(this.orderRes.get(0)) <= objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
-			ind.setFactible(false);
+			ind.setFeasible(false);
 			ind.setConstraintViolation(ind.getConstraintViolation()
 					+ (objetivos.get(this.orderRes.get(1)) - objetivos.get(this.orderRes.get(2))));
 
 		} else if (objetivos.get(this.orderRes.get(0)) > objetivos.get(this.orderRes.get(1))
 				&& objetivos.get(this.orderRes.get(1)) > objetivos.get(this.orderRes.get(2))) {
-			ind.setFactible(false);
+			ind.setFeasible(false);
 			ind.setConstraintViolation(ind.getConstraintViolation()
 					+ (objetivos.get(this.orderRes.get(0)) - objetivos.get(this.orderRes.get(1))));
 			ind.setConstraintViolation(

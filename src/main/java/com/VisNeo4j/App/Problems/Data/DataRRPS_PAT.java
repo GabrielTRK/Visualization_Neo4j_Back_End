@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 
 public class DataRRPS_PAT {
 	

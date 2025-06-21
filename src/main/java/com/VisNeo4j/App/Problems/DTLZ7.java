@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class DTLZ7 extends Problem{
@@ -27,7 +27,7 @@ public class DTLZ7 extends Problem{
 	
 	//Calcular valores de funcion objetivo
 	@Override
-	public Individuo evaluate(Individuo solution) {
+	public Particle evaluate(Particle solution) {
 		int numberOfVariables = super.getNumVariables();
 		int numberOfObjectives = super.getNumObjetivos();
 
@@ -58,14 +58,14 @@ public class DTLZ7 extends Problem{
 
 		f[numberOfObjectives - 1] = (1 + g) * h;
 
-		solution.setObjetivos(Utils.ArraytoArrayList(f));
+		solution.setObjectives(Utils.ArraytoArrayList(f));
 
 		return solution;
 	  }
 	
 	//Inicializar de forma aleatoria los valores de las variables según los límites
 	@Override
-	public Individuo inicializarValores(Individuo ind) {
+	public Particle inicializarValores(Particle ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for(int i = 0; i < super.getNumVariables(); i++) {
 			valores.add(i, Utils.getRandNumber(super.getLimitesInferiores().get(i),

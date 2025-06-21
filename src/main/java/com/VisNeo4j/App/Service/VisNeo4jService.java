@@ -14,7 +14,7 @@ import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Modelo.Entrada.PreferencesConstraints;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
@@ -460,7 +460,7 @@ public class VisNeo4jService {
 			}else {
 				Utils.modificarFicheroCola(nombreProyecto);
 				this.bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
-				Individuo ind = this.bpso.runBPSO();
+				Particle ind = this.bpso.runBPSO();
 				problema.devolverSolucionCompleta(ind);
 				System.out.println(ind);
 				Utils.modificarFicheroCola("");
@@ -469,9 +469,9 @@ public class VisNeo4jService {
 				if(!Constantes.continueOpt) {
 					Utils.crearDirectorioTempSolucion(nombreProyecto, fila);
 					
-					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, this.bpso.getparticlesPopulation());
 					
-					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, this.bpso.getparticlesPopulation());
 					
 					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, this.bpso.getV0());
 					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, this.bpso.getV1());
@@ -528,7 +528,7 @@ public class VisNeo4jService {
 			}else {
 				Utils.modificarFicheroCola(nombreProyecto);
 				this.bpso = new BPSO(problema, params, nombreProyecto, new BPSOOpciones(false, 0));
-				Individuo ind = this.bpso.runBPSO();
+				Particle ind = this.bpso.runBPSO();
 				problema.devolverSolucionCompleta(ind);
 				System.out.println(ind);
 				Utils.modificarFicheroCola("");
@@ -537,9 +537,9 @@ public class VisNeo4jService {
 				/*if(!Constantes.continueOpt) {
 					Utils.crearDirectorioTempSolucion(nombreProyecto, fila);
 					
-					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					Utils.crearFicheroPoblacionSolucionITemp(nombreProyecto, fila, this.bpso.getparticlesPopulation());
 					
-					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, this.bpso.getPoblacionPartículas());
+					Utils.crearFicheroPbestsSolucionITemp(nombreProyecto, fila, this.bpso.getparticlesPopulation());
 					
 					Utils.crearFicheroV0SolucionITemp(nombreProyecto, fila, this.bpso.getV0());
 					Utils.crearFicheroV1SolucionITemp(nombreProyecto, fila, this.bpso.getV1());
@@ -596,7 +596,7 @@ public class VisNeo4jService {
 		}else {
 			Utils.modificarFicheroCola(proyecto);
 			this.bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(false, 0));
-			Individuo ind = this.bpso.runBPSO();
+			Particle ind = this.bpso.runBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
 			Utils.modificarFicheroCola("");
@@ -606,9 +606,9 @@ public class VisNeo4jService {
 				Utils.crearDirectorioTempSolucion(proyecto, fila);
 				
 				
-				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, this.bpso.getparticlesPopulation());
 				
-				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, this.bpso.getparticlesPopulation());
 				
 				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
 				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
@@ -662,7 +662,7 @@ public class VisNeo4jService {
 		}else {
 			Utils.modificarFicheroCola(proyecto);
 			this.bpso = new BPSO(problema, params, proyecto, new BPSOOpciones(true, id));
-			Individuo ind = this.bpso.runBPSO();
+			Particle ind = this.bpso.runBPSO();
 			problema.devolverSolucionCompleta(ind);
 			System.out.println(ind);
 			Utils.modificarFicheroCola("");
@@ -672,9 +672,9 @@ public class VisNeo4jService {
 				Utils.crearDirectorioTempSolucion(proyecto, fila);
 				
 				
-				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				Utils.crearFicheroPoblacionSolucionITemp(proyecto, fila, this.bpso.getparticlesPopulation());
 				
-				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, this.bpso.getPoblacionPartículas());
+				Utils.crearFicheroPbestsSolucionITemp(proyecto, fila, this.bpso.getparticlesPopulation());
 				
 				Utils.crearFicheroV0SolucionITemp(proyecto, fila, this.bpso.getV0());
 				Utils.crearFicheroV1SolucionITemp(proyecto, fila, this.bpso.getV1());
@@ -732,10 +732,10 @@ public class VisNeo4jService {
 	}*/
 	
 	//Guarda la solucion nueva asociada al proyecto ejecutado
-	public String guardarNuevaSolucionRRPS_PAT(Individuo ind, DataRRPS_PAT datos, String nombre) throws IOException, CsvException {
+	public String guardarNuevaSolucionRRPS_PAT(Particle ind, DataRRPS_PAT datos, String nombre) throws IOException, CsvException {
 		String fila = Utils.modificarCSVproblemaRRPS_PAT(ind, datos, nombre);
 		Utils.crearCSVConFitnessPorIteracion(ind.getFitnessHist(), fila, nombre);
-		Utils.crearCSVObjetivos(ind.getObjetivosNorm(), ind.getRestricciones(), fila, nombre);
+		Utils.crearCSVObjetivos(ind.getObjectivesNorm(), ind.getConstraints(), fila, nombre);
 		Utils.crearCSVHistogramas(ind.getExtra().get(Constantes.nombreCampoPasajerosPerdidosPorCompañía), 
 				ind.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAreaInf), 
 				ind.getExtra().get(Constantes.nombreCampoIngresoPerdidoPorAerDest), fila, nombre);
@@ -839,15 +839,15 @@ public class VisNeo4jService {
 		
 		if(Utils.leerFicheroCola().contains(proyecto) && this.bpso != null) {
 			System.out.println(this.bpso.getGbest());
-			Individuo GBest = Utils.copiarIndividuo(this.bpso.getGbest());
+			Particle GBest = Utils.copiarIndividuo(this.bpso.getGbest());
 			
 			GBest.initExtra();
 			
-			this.bpso.getProblema().extra(GBest);
+			this.bpso.getproblem().extra(GBest);
 			
 			Utils.formatearIndividuo(GBest);
 			
-			GBest = this.bpso.getProblema().devolverSolucionCompleta(GBest);
+			GBest = this.bpso.getproblem().devolverSolucionCompleta(GBest);
 			
 			
 			
@@ -878,7 +878,7 @@ public class VisNeo4jService {
 			
 			datosConexiones.setExtraSnapshot(rangosSnapshot);
 			
-			Individuo ind = Utils.crearIndividuoConAtributos(obj, fit);
+			Particle ind = Utils.crearIndividuoConAtributos(obj, fit);
 			
 			datosConexiones.setGBest(ind);
 		}

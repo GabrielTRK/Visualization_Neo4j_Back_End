@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
-import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Poblacion;
+import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Modelo.Population;
 import com.VisNeo4j.App.Modelo.ReferencePoint;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
@@ -15,7 +15,7 @@ public class OperadorReemplazo {
 	
 	//Parámetros del Operador de Reemplazo
 
-	private List<List<Individuo>> frentesDePareto;
+	private List<List<Particle>> frentesDePareto;
 	private int solutionsToSelect;
 	private List<ReferencePoint> referencePoints;
 	
@@ -24,13 +24,13 @@ public class OperadorReemplazo {
 	}
 	
 	//Obtiene el ranking de No Dominancia a partir de los frentes de pareto encontrados
-	public List<List<Individuo>> obtenerFrentes(Poblacion total, Problem prob){
+	public List<List<Particle>> obtenerFrentes(Population total, Problem prob){
 		
-		List<List<Individuo>> frentesDePareto = new ArrayList<>();
+		List<List<Particle>> frentesDePareto = new ArrayList<>();
 		
 		this.rankingNoDominancia(total, prob);
-		while(total.getPoblacion().size() != 0) {
-			List<Individuo> frenteTemp = Utils.obtenerFrenteConIndice(total, 0);
+		while(total.getPopulation().size() != 0) {
+			List<Particle> frenteTemp = Utils.obtenerFrenteConIndice(total, 0);
 			total = Utils.borrarElementosDeLista(frenteTemp, total);
 			frentesDePareto.add(frenteTemp);
 			this.rankingNoDominancia(total, prob);
@@ -39,13 +39,13 @@ public class OperadorReemplazo {
 		return this.frentesDePareto;
 	}
 	
-	public List<List<Individuo>> obtenerFrentes(List<Individuo> total, Problem prob){
+	public List<List<Particle>> obtenerFrentes(List<Particle> total, Problem prob){
 		
-		List<List<Individuo>> frentesDePareto = new ArrayList<>();
+		List<List<Particle>> frentesDePareto = new ArrayList<>();
 		
 		this.rankingNoDominancia(total, prob);
 		while(total.size() != 0) {
-			List<Individuo> frenteTemp = Utils.obtenerFrenteConIndice(total, 0);
+			List<Particle> frenteTemp = Utils.obtenerFrenteConIndice(total, 0);
 			total = Utils.borrarElementosDeLista(frenteTemp, total);
 			frentesDePareto.add(frenteTemp);
 			this.rankingNoDominancia(total, prob);
@@ -54,9 +54,9 @@ public class OperadorReemplazo {
 		return this.frentesDePareto;
 	}
 	
-	public List<Individuo> obtenerPrimerFrente(Poblacion total, Problem prob){
+	public List<Particle> obtenerPrimerFrente(Population total, Problem prob){
 		
-		List<Individuo> frenteDePareto = new ArrayList<>();
+		List<Particle> frenteDePareto = new ArrayList<>();
 		
 		this.rankingNoDominanciaNuevo(total, prob);
 		frenteDePareto = Utils.obtenerFrenteConIndice(total, 0);
@@ -64,9 +64,9 @@ public class OperadorReemplazo {
 		return frenteDePareto;
 	}
 	
-	public List<Individuo> obtenerPrimerFrente(List<Individuo> total, Problem prob){
+	public List<Particle> obtenerPrimerFrente(List<Particle> total, Problem prob){
 		
-		List<Individuo> frenteDePareto = new ArrayList<>();
+		List<Particle> frenteDePareto = new ArrayList<>();
 		
 		this.rankingNoDominanciaNuevo(total, prob);
 		frenteDePareto = Utils.obtenerFrenteConIndice(total, 0);
@@ -75,13 +75,13 @@ public class OperadorReemplazo {
 	}
 	
 	//Para cada individuo calcula cuántos individuos lo dominan
-	public Poblacion rankingNoDominancia(Poblacion p, Problem prob) {
-		for (int i = 0; i < p.getPoblacion().size(); i++) {
+	public Population rankingNoDominancia(Population p, Problem prob) {
+		for (int i = 0; i < p.getPopulation().size(); i++) {
 			int domina = 0;
-			Individuo a = p.getPoblacion().get(i);
-			for (int j = 0; j < p.getPoblacion().size(); j++) {
+			Particle a = p.getPopulation().get(i);
+			for (int j = 0; j < p.getPopulation().size(); j++) {
 				if (i != j) {
-					Individuo b = p.getPoblacion().get(j);
+					Particle b = p.getPopulation().get(j);
 					if(esDominante(b, a, prob)) {
 						domina++;
 					}
@@ -89,19 +89,19 @@ public class OperadorReemplazo {
 			}
 			a.setdomina(domina);
 		}
-		List<Individuo> listaOrden = p.getPoblacion();
+		List<Particle> listaOrden = p.getPopulation();
 		Collections.sort(listaOrden);
-		p.setPoblacion(listaOrden);
+		p.setPopulation(listaOrden);
 		return p;
 	}
 	
-	public List<Individuo> rankingNoDominancia(List<Individuo> p, Problem prob) {
+	public List<Particle> rankingNoDominancia(List<Particle> p, Problem prob) {
 		for (int i = 0; i < p.size(); i++) {
 			int domina = 0;
-			Individuo a = p.get(i);
+			Particle a = p.get(i);
 			for (int j = 0; j < p.size(); j++) {
 				if (i != j) {
-					Individuo b = p.get(j);
+					Particle b = p.get(j);
 					if(esDominante(b, a, prob)) {
 						domina++;
 					}
@@ -109,20 +109,20 @@ public class OperadorReemplazo {
 			}
 			a.setdomina(domina);
 		}
-		List<Individuo> listaOrden = p;
+		List<Particle> listaOrden = p;
 		Collections.sort(listaOrden);
 		p = listaOrden;
 		return p;
 	}
 	
-	public Poblacion rankingNoDominanciaNuevo(Poblacion p, Problem prob) {
-		for (int i = 0; i < p.getPoblacion().size(); i++) {
+	public Population rankingNoDominanciaNuevo(Population p, Problem prob) {
+		for (int i = 0; i < p.getPopulation().size(); i++) {
 			int domina = 0;
-			Individuo a = p.getPoblacion().get(i);
+			Particle a = p.getPopulation().get(i);
 			int j = 0;
-			while (domina == 0 && j < p.getPoblacion().size()) {
+			while (domina == 0 && j < p.getPopulation().size()) {
 				if (i != j) {
-					Individuo b = p.getPoblacion().get(j);
+					Particle b = p.getPopulation().get(j);
 					if(esDominante(b, a, prob)) {
 						domina++;
 					}
@@ -131,20 +131,20 @@ public class OperadorReemplazo {
 			}
 			a.setdomina(domina);
 		}
-		List<Individuo> listaOrden = p.getPoblacion();
+		List<Particle> listaOrden = p.getPopulation();
 		Collections.sort(listaOrden);
-		p.setPoblacion(listaOrden);
+		p.setPopulation(listaOrden);
 		return p;
 	}
 	
-	public List<Individuo> rankingNoDominanciaNuevo(List<Individuo> p, Problem prob) {
+	public List<Particle> rankingNoDominanciaNuevo(List<Particle> p, Problem prob) {
 		for (int i = 0; i < p.size(); i++) {
 			int domina = 0;
-			Individuo a = p.get(i);
+			Particle a = p.get(i);
 			int j = 0;
 			while (domina == 0 && j < p.size()) {
 				if (i != j) {
-					Individuo b = p.get(j);
+					Particle b = p.get(j);
 					if(esDominante(b, a, prob)) {
 						domina++;
 					}
@@ -153,30 +153,30 @@ public class OperadorReemplazo {
 			}
 			a.setdomina(domina);
 		}
-		List<Individuo> listaOrden = p;
+		List<Particle> listaOrden = p;
 		Collections.sort(listaOrden);
 		p = listaOrden;
 		return p;
 	}
 	
 	//Definición de dominancia. En la función, "a" domina a "b"
-	private boolean esDominante (Individuo a, Individuo b, Problem prob) {
+	private boolean esDominante (Particle a, Particle b, Problem prob) {
 		int mEstricto = 0;
 		int mOIgual = 0;
-		if(a.isFactible() && b.isFactible()) {
+		if(a.isFeasible() && b.isFeasible()) {
 			for (int i = 0; i < prob.getNumObjetivos(); i++) {
 				if(prob.getMinOMax().get(i)) {
-					if(a.getObjetivos().get(i) < b.getObjetivos().get(i) && mEstricto == 0) {
+					if(a.getObjectives().get(i) < b.getObjectives().get(i) && mEstricto == 0) {
 						mEstricto = 1;
 					}
-					if (a.getObjetivos().get(i) <= b.getObjetivos().get(i)) {
+					if (a.getObjectives().get(i) <= b.getObjectives().get(i)) {
 						mOIgual++;
 					}
 				}else {
-					if(a.getObjetivos().get(i) > b.getObjetivos().get(i) && mEstricto == 0) {
+					if(a.getObjectives().get(i) > b.getObjectives().get(i) && mEstricto == 0) {
 						mEstricto = 1;
 					}
-					if (a.getObjetivos().get(i) >= b.getObjetivos().get(i)) {
+					if (a.getObjectives().get(i) >= b.getObjectives().get(i)) {
 						mOIgual++;
 					}
 				}
@@ -186,9 +186,9 @@ public class OperadorReemplazo {
 			} else {
 				return false;
 			}
-		}else if(a.isFactible() && !b.isFactible()) {
+		}else if(a.isFeasible() && !b.isFeasible()) {
 			return true;
-		}else if(!a.isFactible() && b.isFactible()) {
+		}else if(!a.isFeasible() && b.isFeasible()) {
 			return false;
 		}else {
 			if(a.getConstraintViolation() < b.getConstraintViolation()) {
@@ -203,34 +203,34 @@ public class OperadorReemplazo {
 	
 	//Inserta los individuos de cada frente según su ranking.
 	//En caso de que a un frente le sobren individuos, se aplica el método del hiperplano de Das y Dennis para elegir los individuos que fomenten mayor diversidad
-	public Poblacion rellenarPoblacionConFrentes (Poblacion p, 
-			Poblacion total, Problem prob) {
+	public Population rellenarPoblacionConFrentes (Population p, 
+			Population total, Problem prob) {
 		
-		List<Individuo> nuevaLista = new ArrayList<>(p.getNumIndividuos());
+		List<Particle> nuevaLista = new ArrayList<>(p.getnumParticles());
 		for (int i = 0; i < this.frentesDePareto.size(); i++) {
-			if(nuevaLista.size() + this.frentesDePareto.get(i).size() <= p.getNumIndividuos()) {
+			if(nuevaLista.size() + this.frentesDePareto.get(i).size() <= p.getnumParticles()) {
 				Utils.juntarListas(nuevaLista, this.frentesDePareto.get(i));
 			}else {
-				if(nuevaLista.size() != p.getNumIndividuos()) {
+				if(nuevaLista.size() != p.getnumParticles()) {
 					this.frentesDePareto = this.frentesDePareto.subList(0, i + 1);
-					this.solutionsToSelect = p.getNumIndividuos() - nuevaLista.size();
+					this.solutionsToSelect = p.getnumParticles() - nuevaLista.size();
 					//Metodo del hiperplano
-					List<Individuo> ultimosMiembros = dasDennis(prob);
+					List<Particle> ultimosMiembros = dasDennis(prob);
 					Utils.juntarListas(nuevaLista, ultimosMiembros);
 				}
-				p.setPoblacion(nuevaLista);
+				p.setPopulation(nuevaLista);
 				return p;
 			}
 		}
-		p.setPoblacion(nuevaLista);
+		p.setPopulation(nuevaLista);
 		return p;
 	}
 	
-	private List<Individuo> dasDennis(Problem prob){
+	private List<Particle> dasDennis(Problem prob){
 		//Restarle a cada individuo los valores del punto ideal
 		List<Double> punto_ideal = traducirObjetivos(prob);
 		//Calcular los puntos extremos con el Achivement Scalarization Function de cada individuo del primer frente
-		List<Individuo> extreme_points = encontrarPuntosExtremos(prob);
+		List<Particle> extreme_points = encontrarPuntosExtremos(prob);
 		//Crear hiperplano con lospuntos extremos
 	    List<Double> intercepts = construirHiperplano(extreme_points, prob);
 	    //Normalizar los valores de funcion objetivo de cada individuo
@@ -245,14 +245,14 @@ public class OperadorReemplazo {
 	    }
 	    
 	    
-	    List<Individuo> result = new ArrayList<>();
+	    List<Particle> result = new ArrayList<>();
 
 	    while (result.size() < this.solutionsToSelect) {
 	    	final List<ReferencePoint> first = this.referencePointsTree.firstEntry().getValue();
 	    	final int min_rp_index = 1 == first.size() ? 0 : Utils.nextInt(0, first.size() - 1);
 	    	final ReferencePoint min_rp = first.remove(min_rp_index);
 	    	if (first.isEmpty()) this.referencePointsTree.pollFirstEntry();
-	    	Individuo chosen = SelectClusterMember(min_rp);
+	    	Particle chosen = SelectClusterMember(min_rp);
 	    	if (chosen != null) {
 	    		min_rp.AddMember();
 	    		this.addToTree(min_rp);
@@ -272,22 +272,22 @@ public class OperadorReemplazo {
 			double minf = Double.MAX_VALUE;
 		    for (int i = 0; i < this.frentesDePareto.get(0).size(); i += 1) // min values must appear in the first front
 		    {
-		    	minf = Math.min(minf, this.frentesDePareto.get(0).get(i).getObjetivos().get(f));
+		    	minf = Math.min(minf, this.frentesDePareto.get(0).get(i).getObjectives().get(f));
 		    }
 		    punto_ideal.add(minf);
 		}
 		//Inicializar ObjetivosNorm
-		for (List<Individuo> list : this.frentesDePareto) {
-	    	for (Individuo i : list) {
-	    		i.setObjetivosNorm(Utils.inicializarLista(prob.getNumObjetivos()));
+		for (List<Particle> list : this.frentesDePareto) {
+	    	for (Particle i : list) {
+	    		i.setObjectivesNorm(Utils.inicializarLista(prob.getNumObjetivos()));
 	        }
 	    }
 		//Restarle el punto ideal a cada valor de funcion objetivo
-		for (List<Individuo> list : this.frentesDePareto) {
-		    	for (Individuo i : list) {
-		    		List<Double> o = i.getObjetivosNorm();
+		for (List<Particle> list : this.frentesDePareto) {
+		    	for (Particle i : list) {
+		    		List<Double> o = i.getObjectivesNorm();
 		    		for (int f = 0; f < prob.getNumObjetivos(); f += 1) {
-		    			o.set(f, i.getObjetivos().get(f) - punto_ideal.get(f));
+		    			o.set(f, i.getObjectives().get(f) - punto_ideal.get(f));
 		        }
 		    }
 		}
@@ -296,12 +296,12 @@ public class OperadorReemplazo {
 	}
 	
 	//Encontrar puntos extremos con el Achivement Scalarization Function de cada individuo
-	private List<Individuo> encontrarPuntosExtremos (Problem prob){
-		List<Individuo> extremePoints = new ArrayList<>();
-		Individuo min_indv = null;
+	private List<Particle> encontrarPuntosExtremos (Problem prob){
+		List<Particle> extremePoints = new ArrayList<>();
+		Particle min_indv = null;
 		for (int f = 0; f < prob.getNumObjetivos(); f += 1) {
 			double min_ASF = Double.MAX_VALUE;
-			for (Individuo s : frentesDePareto.get(0)) {
+			for (Particle s : frentesDePareto.get(0)) {
 				double asf = ASF(s, f, prob);
 				if (asf < min_ASF) {
 					min_ASF = asf;
@@ -315,17 +315,17 @@ public class OperadorReemplazo {
 	}
 	
 	//Achivement Scalarization Function
-	private double ASF(Individuo s, int index, Problem prob) {
+	private double ASF(Particle s, int index, Problem prob) {
 		double max_ratio = Double.NEGATIVE_INFINITY;
 		for (int i = 0; i < prob.getNumObjetivos(); i++) {
 			double weight = (index == i) ? 1.0 : 0.000001;
-			max_ratio = Math.max(max_ratio, s.getObjetivosNorm().get(i) / weight);
+			max_ratio = Math.max(max_ratio, s.getObjectivesNorm().get(i) / weight);
 		}
 		return max_ratio;
 	}
 	
 	//Construcción del hiperplano con los puntos extremos
-	private List<Double> construirHiperplano(List<Individuo> extreme_points, Problem prob){
+	private List<Double> construirHiperplano(List<Particle> extreme_points, Problem prob){
 		
 		boolean duplicate = false;
 		for (int i = 0; !duplicate && i < extreme_points.size(); i += 1) {
@@ -341,7 +341,7 @@ public class OperadorReemplazo {
 	    {
 	    	System.out.println("Duplicado");
 	    	for (int f = 0; f < prob.getNumObjetivos(); f += 1) {
-	    		intercepts.add(extreme_points.get(f).getObjetivos().get(f));
+	    		intercepts.add(extreme_points.get(f).getObjectives().get(f));
 	    	}
 	    } else {
 	    	// Encontrar la ecuación del hiperplano
@@ -349,9 +349,9 @@ public class OperadorReemplazo {
 	    	for (int i = 0; i < prob.getNumObjetivos(); i++) b.add(1.0);
 
 	    	List<List<Double>> A = new ArrayList<>();
-	    	for (Individuo s : extreme_points) {
+	    	for (Particle s : extreme_points) {
 	    		List<Double> aux = new ArrayList<>();
-	    		for (int i = 0; i < prob.getNumObjetivos(); i++) aux.add(s.getObjetivos().get(i));
+	    		for (int i = 0; i < prob.getNumObjetivos(); i++) aux.add(s.getObjectives().get(i));
 	    		A.add(aux);
 	    	}
 	    	List<Double> x = guassianElimination(A, b);
@@ -395,10 +395,10 @@ public class OperadorReemplazo {
 	//Normalizacion de objetivos mediante la division por los puntos de interseccion traducidos
 	public void normalizeObjectives(List<Double> intercepts, List<Double> ideal_point, Problem prob) {
 		for (int t = 0; t < frentesDePareto.size(); t += 1) {
-			for (Individuo s : frentesDePareto.get(t)) {
+			for (Particle s : frentesDePareto.get(t)) {
 
 				for (int f = 0; f < prob.getNumObjetivos(); f++) {
-					List<Double> conv_obj = s.getObjetivosNorm();
+					List<Double> conv_obj = s.getObjectivesNorm();
 					if (Math.abs(intercepts.get(f) - ideal_point.get(f)) > 10e-10) {
 						conv_obj.set(f, conv_obj.get(f) / (intercepts.get(f) - ideal_point.get(f)));
 					} else {
@@ -412,11 +412,11 @@ public class OperadorReemplazo {
 	public void associate() {
 
 		for (int t = 0; t < frentesDePareto.size(); t++) {
-			for (Individuo s : frentesDePareto.get(t)) {
+			for (Particle s : frentesDePareto.get(t)) {
 				int min_rp = -1;
 				double min_dist = Double.MAX_VALUE;
 				for (int r = 0; r < this.referencePoints.size(); r++) {
-					double d = perpendicularDistance(this.referencePoints.get(r).position, s.getObjetivosNorm());
+					double d = perpendicularDistance(this.referencePoints.get(r).position, s.getObjectivesNorm());
 					if (d < min_dist) {
 						min_dist = d;
 						min_rp = r;
@@ -455,8 +455,8 @@ public class OperadorReemplazo {
 		this.referencePointsTree.get(key).add(rp);
 	}
 	
-	Individuo SelectClusterMember(ReferencePoint rp) {
-		Individuo chosen = null;
+	Particle SelectClusterMember(ReferencePoint rp) {
+		Particle chosen = null;
 		if (rp.HasPotentialMember()) {
 			if (rp.MemberSize() == 0) // currently has no member
 			{
@@ -468,11 +468,11 @@ public class OperadorReemplazo {
 		return chosen;
 	}
 
-	public List<List<Individuo>> getFrentesDePareto() {
+	public List<List<Particle>> getFrentesDePareto() {
 		return frentesDePareto;
 	}
 
-	public void setFrentesDePareto(List<List<Individuo>> frentesDePareto) {
+	public void setFrentesDePareto(List<List<Particle>> frentesDePareto) {
 		this.frentesDePareto = frentesDePareto;
 	}
 	

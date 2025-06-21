@@ -1,9 +1,9 @@
 package com.VisNeo4j.App.Modelo.Salida;
 
-import com.VisNeo4j.App.Algoritmo.Parametros.CondicionParada.CP;
 import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
-import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Poblacion;
+import com.VisNeo4j.App.Algoritmo.Parametros.StopCondition.CP;
+import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Modelo.Population;
 
 public class BPSOParamsSalida {
 	

@@ -9,12 +9,12 @@ import java.util.Map;
 
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 
 public class TraducirSalida {
 	
-	public static List<Aeropuerto> traducir(Individuo ind, List<List<String>> conexiones){
+	public static List<Aeropuerto> traducir(Particle ind, List<List<String>> conexiones){
 		List<Aeropuerto> listaAeropuertos = new ArrayList<>();
 		
 		Map<String, List<Double>> coordenadas = new HashMap<>(); 

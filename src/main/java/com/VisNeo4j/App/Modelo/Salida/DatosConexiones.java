@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
 import com.VisNeo4j.App.Problems.Data.DatosRRPS_PATDiaI;
 
@@ -13,7 +13,7 @@ public class DatosConexiones {
 	private List<Aeropuerto> listaAeropuertos;
 	private List<Conexion> coordenadasConexiones;
 	private Map<String, String> fechas;
-	private Individuo GBest;
+	private Particle GBest;
 	private Map<String, List<String>> extraSnapshot;
 
 	/*public DatosConexiones(List<Aeropuerto> listaAeropuertos, Individuo ind, DatosRRPS_PAT datos, Map<String, String> fechas) {
@@ -112,11 +112,11 @@ public class DatosConexiones {
 		this.fechas = fechas;
 	}
 
-	public Individuo getGBest() {
+	public Particle getGBest() {
 		return GBest;
 	}
 
-	public void setGBest(Individuo gBest) {
+	public void setGBest(Particle gBest) {
 		GBest = gBest;
 	}
 

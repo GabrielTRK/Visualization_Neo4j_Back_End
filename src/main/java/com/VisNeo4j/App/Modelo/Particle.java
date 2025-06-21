@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Individuo implements Comparable<Individuo> {
+public class Particle implements Comparable<Particle> {
 	/*Cada individuo está compuesto por: 
 		- Los valores de sus variables
 		- Los valores de funcion objetivo
@@ -15,19 +15,19 @@ public class Individuo implements Comparable<Individuo> {
 	
 	private List<Double> variables;
 	private int domina = 0;
-	private List<Double> objetivos;
-	private List<Double> objetivosNorm;
-	private List<Double> restricciones;
-	private boolean factible = true;
+	private List<Double> objectives;
+	private List<Double> objectivesNorm;
+	private List<Double> constraints;
+	private boolean feasible = true;
 	private Double constraintViolation = 0.0;
 	
 	private List<Double> fitnessHist;
 	//private Map<Integer, Double> idObjetivos = new HashMap<>();
 	private Map<String, List<Double>> extra;
 	
-	public Individuo(int numVariables, int numObjetivos) {
+	public Particle(int numVariables, int numObjetives) {
 		this.variables = new ArrayList<Double>(numVariables);
-		this.objetivos = new ArrayList<Double>(numObjetivos);
+		this.objectives = new ArrayList<Double>(numObjetives);
 		this.initExtra();
 	}
 
@@ -47,26 +47,29 @@ public class Individuo implements Comparable<Individuo> {
 		this.variables.set(posicion, variable);
 	}
 
-	public List<Double> getObjetivos() {
-		return objetivos;
+	public List<Double> getObjectives() {
+		return objectives;
 	}
 
-	public void setObjetivos(List<Double> objetivos) {
-		this.objetivos = objetivos;
+	public void setObjectives(List<Double> objectives) {
+		this.objectives = objectives;
 	}
 	
 	public void addIObjetivo(int pos, Double obj) {
-		this.objetivos.add(pos, obj);
+		this.objectives.add(pos, obj);
 	}
 	
-	public void setIObjetivo(int pos, Double obj) {
-		this.objetivos.set(pos, obj);
+	public void setIObjective(int pos, Double obj) {
+		this.objectives.set(pos, obj);
 	}
+
+	
 
 	@Override
 	public String toString() {
-		return "Individuo [variables=" + variables + ", objetivos=" + objetivos + ", objetivosNorm=" + objetivosNorm
-				+ ", constraintViolation=" + constraintViolation + "]";
+		return "Particle [variables=" + variables + ", objectives=" + objectives + ", objectivesNorm=" + objectivesNorm
+				+ ", constraints=" + constraints + ", feasible=" + feasible + ", constraintViolation="
+				+ constraintViolation + "]";
 	}
 
 	public int getdomina() {
@@ -77,28 +80,28 @@ public class Individuo implements Comparable<Individuo> {
 		this.domina = domina;
 	}
 
-	public List<Double> getObjetivosNorm() {
-		return objetivosNorm;
+	public List<Double> getObjectivesNorm() {
+		return objectivesNorm;
 	}
 
-	public void setObjetivosNorm(List<Double> objetivosNorm) {
-		this.objetivosNorm = objetivosNorm;
+	public void setObjectivesNorm(List<Double> objectivesNorm) {
+		this.objectivesNorm = objectivesNorm;
 	}
 
-	public List<Double> getRestricciones() {
-		return restricciones;
+	public List<Double> getConstraints() {
+		return constraints;
 	}
 
-	public void setRestricciones(List<Double> restricciones) {
-		this.restricciones = restricciones;
+	public void setConstraints(List<Double> constraints) {
+		this.constraints = constraints;
 	}
 
-	public boolean isFactible() {
-		return factible;
+	public boolean isFeasible() {
+		return feasible;
 	}
 
-	public void setFactible(boolean factible) {
-		this.factible = factible;
+	public void setFeasible(boolean feasible) {
+		this.feasible = feasible;
 	}
 
 	public Double getConstraintViolation() {
@@ -139,7 +142,7 @@ public class Individuo implements Comparable<Individuo> {
 
 	//Se comparan el número de individuos que dominan a 2 individuos para asigarles un ranking
 	@Override
-	public int compareTo(Individuo o) {
+	public int compareTo(Particle o) {
 		int compareDom = o.getdomina();
 		    return this.getdomina() - compareDom;
 	}

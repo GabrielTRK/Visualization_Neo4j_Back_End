@@ -54,7 +54,7 @@ public class MainApp {
 		//Specify the start date(inclusive) and the end date(inclusive) that should be considered.
 		//All the flights from that time window will be added to the problem
 		//The date format is yyyy-MM-DD
-		String startDate = "2020-09-30";
+		/*String startDate = "2020-09-30";
 		String endDate = "2020-09-30";
 		
 		DataRRPS_PAT data = Utils.getDataRRPS_PAT(startDate, endDate);
@@ -80,7 +80,7 @@ public class MainApp {
 		
 		//Problem p = new RRPS_PAT(data, preferencesConstraints.getPol(), preferences, SRate);
 		
-		
+		*/
 		
 		BPSOParams params = new BPSOParams(numParticles, inertiaW, c1, c2, 
 						maxFunctionEv, Constantes.nombreCPGenerica, 

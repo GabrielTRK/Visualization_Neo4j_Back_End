@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Poblacion;
+import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Modelo.Population;
 import com.VisNeo4j.App.Modelo.ReferencePoint;
 import com.VisNeo4j.App.Operadores.OperadorCruce;
 import com.VisNeo4j.App.Operadores.OperadorMutacion;
@@ -19,9 +19,9 @@ import com.opencsv.exceptions.CsvException;
 
 public class Nsgaiii {
 	
-	private Poblacion poblacion;
-	private List<Individuo> frenteDePareto;
-	private List<Individuo> frentesAux = new ArrayList<>();
+	private Population poblacion;
+	private List<Particle> frenteDePareto;
+	private List<Particle> frentesAux = new ArrayList<>();
 	private int numGeneraciones;
 	private OperadorCruce cruce;
 	private OperadorMutacion mutacion;
@@ -33,8 +33,8 @@ public class Nsgaiii {
 	private Problem problema;
 	private boolean elitismo;
 	private int tamañoAux;
-	private List<Individuo> structAux = new ArrayList<>();
-	private List<Individuo> structAuxAnterior = new ArrayList<>();
+	private List<Particle> structAux = new ArrayList<>();
+	private List<Particle> structAuxAnterior = new ArrayList<>();
 	private int contIguales = 0;
 	
 	public Nsgaiii (int numIndividuos,
@@ -44,7 +44,7 @@ public class Nsgaiii {
 		
 		//Inicializar problema, poblacion y operadores
 		this.problema = prob;
-		this.poblacion = new Poblacion(numIndividuos, this.problema);
+		this.poblacion = new Population(numIndividuos, this.problema);
 		this.indiceDistrC = indiceDistrC;
 		this.indiceDistrM = indiceDistrM;
 		this.cruce = new OperadorCruce(probCruce, this.indiceDistrC);
@@ -56,12 +56,12 @@ public class Nsgaiii {
 		this.elitismo = elitismo;
 		this.structAux = new ArrayList<>();
 		this.tamañoAux = tamañoAux;
-		this.poblacion.generarPoblacionInicial(this.problema, leerF, nombreFichero);
+		this.poblacion.generateInitialPopulation(this.problema, leerF, nombreFichero);
 
 	}
 	
-	public List<Individuo> ejecutarNSGAIII() throws FileNotFoundException, IOException, CsvException{
-		Poblacion hijos;
+	public List<Particle> ejecutarNSGAIII() throws FileNotFoundException, IOException, CsvException{
+		Population hijos;
 		
 		int contadorGeneraciones = 0;
 		long startTime = 0;
@@ -80,14 +80,14 @@ public class Nsgaiii {
 		return this.structAux; //Devuelve el frente de pareto obtenido
 	}
 	
-	private Poblacion generarDescendientes(int contadorGeneraciones) throws FileNotFoundException, IOException, CsvException {
-		Poblacion poblacionHijos = new Poblacion(this.poblacion.getNumIndividuos(), this.problema);
-		List<Individuo> totalHijos = new ArrayList<Individuo>(this.poblacion.getNumIndividuos());
+	private Population generarDescendientes(int contadorGeneraciones) throws FileNotFoundException, IOException, CsvException {
+		Population poblacionHijos = new Population(this.poblacion.getnumParticles(), this.problema);
+		List<Particle> totalHijos = new ArrayList<Particle>(this.poblacion.getnumParticles());
 		
 		int contadorIndividuos = 0;
 		
-		while (totalHijos.size() < this.poblacion.getNumIndividuos()) {
-			List<Individuo> nuevosHijos = new ArrayList<>(2);
+		while (totalHijos.size() < this.poblacion.getnumParticles()) {
+			List<Particle> nuevosHijos = new ArrayList<>(2);
 			//Seleccion
 			if(this.elitismo/* && contadorGeneraciones > 0*/) {
 				nuevosHijos = this.seleccion.seleccionPorTorneoNSGAIII(this.poblacion);
@@ -107,24 +107,24 @@ public class Nsgaiii {
 			
 			//Añadir hijos e incrementar el contador
 			contadorIndividuos = contadorIndividuos + 2;
-			if(this.poblacion.getNumIndividuos() - totalHijos.size() == 1) {
+			if(this.poblacion.getnumParticles() - totalHijos.size() == 1) {
 				totalHijos.add(contadorIndividuos - 2, nuevosHijos.get(0));
 			}else {
 				totalHijos.add(contadorIndividuos - 2, nuevosHijos.get(0));
 				totalHijos.add(contadorIndividuos - 1, nuevosHijos.get(1));
 			}
 		}
-		poblacionHijos.setPoblacion(totalHijos);
-		poblacionHijos.calcularObjetivos(this.problema);
+		poblacionHijos.setPopulation(totalHijos);
+		poblacionHijos.getObjectives(this.problema);
 		
 		
 		return poblacionHijos;
 	}
 	
-	private void obtenerNuevaGeneracion(Poblacion hijos) {
+	private void obtenerNuevaGeneracion(Population hijos) {
 		//Reemplazo
-		Poblacion total = Utils.juntarPoblaciones(this.poblacion, hijos, this.problema);
-		Poblacion totalAux = total;
+		Population total = Utils.juntarPoblaciones(this.poblacion, hijos, this.problema);
+		Population totalAux = total;
 		this.frentesAux = this.reemplazo.obtenerFrentes(totalAux, this.problema).get(0);
 		//Elegir grupos según el ranking y aplicar el método de Das y Dennis cuando corresponda
 		this.poblacion = this.reemplazo.rellenarPoblacionConFrentes(this.poblacion,
@@ -146,7 +146,7 @@ public class Nsgaiii {
 		System.out.println("Cuenta: " + this.contIguales);
 	}
 	
-	private boolean condicionDeParadaConseguida(int contadorGeneraciones, Poblacion p, long tiempo) {
+	private boolean condicionDeParadaConseguida(int contadorGeneraciones, Population p, long tiempo) {
 		
 		//Se comprueba la generación en la que se encuentra el algoritmo
 		if(contIguales >= this.numGeneraciones /*|| tiempo >= 5*/) {

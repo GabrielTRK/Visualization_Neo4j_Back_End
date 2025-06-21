@@ -1,48 +1,48 @@
 package com.VisNeo4j.App.Algoritmo.Parametros;
 
-import com.VisNeo4j.App.Algoritmo.Parametros.CondicionParada.CP;
 import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
-import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Poblacion;
+import com.VisNeo4j.App.Algoritmo.Parametros.StopCondition.CP;
+import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Modelo.Population;
 
 public class BPSOParams {
 	
-	private int numIndividuos;
+	private int numParticles;
 	private InertiaW inertiaW;
 	private double c1;
 	private double c2;
-	private CP condicionParada;
+	private CP stopCondition;
 	
-	public BPSOParams(int numIndividuos, double inertiaW, double c1, double c2, int maxIteraciones, 
+	public BPSOParams(int numParticles, double inertiaW, double c1, double c2, int maxIteraciones, 
 			String CPMethod, String IWMethod) {
 		super();
-		this.numIndividuos = numIndividuos;
+		this.numParticles = numParticles;
 		this.inertiaW = new InertiaW(inertiaW, IWMethod);
 		this.c1 = c1;
 		this.c2 = c2;
-		this.condicionParada = new CP(maxIteraciones, 0, 0, CPMethod);
+		this.stopCondition = new CP(maxIteraciones, 0, 0, CPMethod);
 	}
 	
-	public BPSOParams(int numIndividuos, double inertiaW, double c1, double c2, int maxIteraciones, 
+	public BPSOParams(int numParticles, double inertiaW, double c1, double c2, int maxIteraciones, 
 			double m, double p, String CPMethod, String IWMethod) {
 		super();
-		this.numIndividuos = numIndividuos;
+		this.numParticles = numParticles;
 		this.inertiaW = new InertiaW(inertiaW, IWMethod);
 		this.c1 = c1;
 		this.c2 = c2;
-		this.condicionParada = new CP(maxIteraciones, m, p, CPMethod);
+		this.stopCondition = new CP(maxIteraciones, m, p, CPMethod);
 	}
 	
-	public boolean condicionParadaConseguida(Poblacion particulas, Individuo GBest) {
-		return this.condicionParada.condicionParadaConseguida(particulas, GBest);
+	public boolean stopConditionMet(Population particulas, Particle GBest) {
+		return this.stopCondition.stopConditionMet(particulas, GBest);
 	}
 
-	public int getNumIndividuos() {
-		return numIndividuos;
+	public int getnumParticles() {
+		return numParticles;
 	}
 
-	public void setNumIndividuos(int numIndividuos) {
-		this.numIndividuos = numIndividuos;
+	public void setnumParticles(int numParticles) {
+		this.numParticles = numParticles;
 	}
 
 	public InertiaW getInertiaW() {
@@ -54,7 +54,7 @@ public class BPSOParams {
 	}
 	
 	public void updateInertiaW() {
-		this.inertiaW.updateIntertiaW(this.getIteracionActual(), this.condicionParada.getMaxIteraciones());
+		this.inertiaW.updateIntertiaW(this.getcurrentFE(), this.stopCondition.getMaxFEs());
 	}
 
 	public double getC1() {
@@ -73,24 +73,24 @@ public class BPSOParams {
 		this.c2 = c2;
 	}
 
-	public int getMax_Num_Iteraciones() {
-		return this.condicionParada.getMaxIteraciones();
+	public int getMax_FEs() {
+		return this.stopCondition.getMaxFEs();
 	}
 
-	public void setMax_Num_Iteraciones(int max_Num_Iteraciones) {
-		this.condicionParada.setMaxIteraciones(max_Num_Iteraciones);
+	public void setMaxFEs(int maxFEs) {
+		this.stopCondition.setMaxFEs(maxFEs);
 	}
 	
-	public int getIteracionActual() {
-		return this.condicionParada.getNumIteracionesActual();
+	public int getcurrentFE() {
+		return this.stopCondition.getcurrentFE();
 	}
 
-	public CP getCondicionParada() {
-		return condicionParada;
+	public CP getstopCondition() {
+		return stopCondition;
 	}
 
-	public void setCondicionParada(CP condicionParada) {
-		this.condicionParada = condicionParada;
+	public void setstopCondition(CP stopCondition) {
+		this.stopCondition = stopCondition;
 	}
 
 }

@@ -11,8 +11,8 @@ import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Algoritmo.Parametros.AccelerationCoefficientsUpdate.C1_C2;
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Poblacion;
+import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Modelo.Population;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
@@ -20,13 +20,13 @@ import com.opencsv.exceptions.CsvException;
 public class BPSO {
 
 	private BPSOParams params;
-	private Problem problema;
-	private Poblacion poblacionPartículas;
-	private Poblacion poblacionPbest;
+	private Problem problem;
+	private Population particlesPopulation;
+	private Population PbestPopulation;
 	//private Poblacion poblacionLbest;
 	//private int neighborhood = 10;
-	private List<Individuo> listaAux;
-	private Individuo Gbest;
+	private List<Particle> listaAux;
+	private Particle Gbest;
 	private List<List<Double>> v0;
 	private List<List<Double>> v1;
 	//private List<List<Double>> v0L;
@@ -42,22 +42,19 @@ public class BPSO {
 	//private List<Integer> timers;
 	//private List<List<Integer>> timers2;
 	private C1_C2 c1c2;
-	private int maxIterC1;
-	private int maxIterC2;
 	// private C1_C2 c1c2Temp;
 	private int maxDistH = 1;
-	private double maxPendiente = 5.0;
-	private double minPendiente = 1.0;
-	private int maxIterC1C2 = 10;
+	private double maxSlope = 5.0;
+	private double minSlope = 1.0;
 	//private double maxPendienteL = 7.0;
 	//private double minPendienteL = 3.0;
 	private double maxV = 3.0;
 	private double minV = -3.0;
 
-	public BPSO(Problem problema, BPSOParams params, String proyecto, BPSOOpciones opciones)
+	public BPSO(Problem problem, BPSOParams params, String proyecto, BPSOOpciones opciones)
 			throws FileNotFoundException, IOException, CsvException {
 		this.params = params;
-		this.problema = problema;
+		this.problem = problem;
 		this.r1 = Utils.getRandNumber(0.0, 1.0);
 		this.r2 = Utils.getRandNumber(0.0, 1.0);
 		this.v0 = new ArrayList<>();
@@ -65,24 +62,22 @@ public class BPSO {
 		//this.v0L = new ArrayList<>();
 		//this.v1L = new ArrayList<>();
 		this.proyecto = proyecto;
-		this.poblacionPartículas = new Poblacion(this.params.getNumIndividuos(), this.problema);
-		//this.timers = new ArrayList<>(this.params.getNumIndividuos());
+		this.particlesPopulation = new Population(this.params.getnumParticles(), this.problem);
+		//this.timers = new ArrayList<>(this.params.getnumParticles());
 		//this.timers2 = new ArrayList<>();
 		this.listaAux = new ArrayList<>();
 		this.c1c2 = new C1_C2(params.getC1(), 0.0, 0.0, params.getC2(), Constantes.nombreC1_C2UpdateTimeVaryingLineal);
-		// this.c1c2Temp = new C1_C2(params.getC1(), 0.0, 0.5, params.getC2(),
-		// Constantes.nombreC1_C2UpdateTimeVaryingExponential);
 		// Inicializar población o partículas y calcular fitness
 		if (opciones.isContinuarOpt()) {
-			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
-			// this.poblacionLbest = new Poblacion(this.params.getNumIndividuos(),
-			// problema);
+			this.PbestPopulation = new Population(this.params.getnumParticles(), problem);
+			// this.poblacionLbest = new Poblacion(this.params.getnumParticles(),
+			// problem);
 			// Llamar a utils para recuperar valores
-			Utils.leerCSVPoblacionTemp(problema, proyecto, opciones.getId(), this.poblacionPartículas);
-			Utils.leerCSVPbestsTemp(problema, proyecto, opciones.getId(), this.poblacionPbest);
+			Utils.leerCSVPoblacionTemp(problem, proyecto, opciones.getId(), this.particlesPopulation);
+			Utils.leerCSVPbestsTemp(problem, proyecto, opciones.getId(), this.PbestPopulation);
 			// Calcular objetivos
-			this.poblacionPartículas.calcularObjetivos(problema);
-			this.poblacionPbest.calcularObjetivos(problema);
+			this.particlesPopulation.getObjectives(problem);
+			this.PbestPopulation.getObjectives(problem);
 			// this.calcularAux();
 
 			// this.compararFitness();
@@ -95,104 +90,56 @@ public class BPSO {
 
 			this.fitnessHist = Utils.leerCSVHistFitnessTemp(proyecto, String.valueOf(opciones.getId()));
 		} else {
-			this.poblacionPartículas.generarPoblacionInicial(problema, false, 29, proyecto);
+			this.particlesPopulation.generateInitialPopulation(problem, false, 29, proyecto);
 			// Calcular Pbest
-			this.poblacionPbest = new Poblacion(this.params.getNumIndividuos(), problema);
-			//this.poblacionLbest = new Poblacion(this.params.getNumIndividuos(), problema);
-			// this.calcularPbestsYGbest();
-			// Calcular aux
-			// this.calcularAux();
-			// this.calcularAux2();
-			// Calcular Gbest
-			// this.compararFitness();
-			Double c1IterDouble = this.params.getMax_Num_Iteraciones() * 1.0;
-			Double c2IterDouble = this.params.getMax_Num_Iteraciones() * 1.0;
-			this.maxIterC1 = c1IterDouble.intValue();
-			this.maxIterC2 = c2IterDouble.intValue();
+			this.PbestPopulation = new Population(this.params.getnumParticles(), problem);
 
 			this.rellenarVelocidadesIniciales();
 
-			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
+			this.fitnessHist.add(this.Gbest.getObjectives().get(0));
 		}
-
-		// System.out.println(this.params.getIteracionActual() + ": " + this.Gbest + " "
-		// + this.Gbest.getObjetivosNorm() + " " + this.Gbest.getRestricciones());
 	}
 
-	public Individuo runBPSO() throws FileNotFoundException, IOException, CsvException {
-		while (!this.params.condicionParadaConseguida(this.poblacionPartículas, this.Gbest)) {
+	public Particle runBPSO() throws FileNotFoundException, IOException, CsvException {
+		while (!this.params.stopConditionMet(this.particlesPopulation, this.Gbest)) {
 			// Calcular velocidades para cada bit de cada partícula, actualizar bits y
 			// fitness
-			//this.updateU(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual());
 			this.params
-					.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+					.setC1(this.c1c2.updateC1(this.params.getMax_FEs(), this.params.getcurrentFE()));
 			this.params
-					.setC2(this.c1c2.updateC2(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+					.setC2(this.c1c2.updateC2(this.params.getMax_FEs(), this.params.getcurrentFE()));
 
-			// System.out.println(this.c1c2Temp.updateC1(this.params.getMax_Num_Iteraciones(),
-			// this.params.getIteracionActual()));
-			// System.out.println(this.c1c2Temp.updateC2(this.params.getMax_Num_Iteraciones(),
-			// this.params.getIteracionActual()));
-			this.calcularVelocidades3();
-			// this.calcularVelocidades2();
-			// this.calcularVelocidades3();
-
-			// Calcular Pbest
-			// this.calcularPbestsYGbest();
-			// this.calcularAux();
-			// this.calcularAux2();
-			// Calcular Gbest
-			// this.compararFitness();
+			
+			this.updatePositionsAndPbestGbest();
 
 			this.r1 = Utils.getRandNumber(0.0, 1.0);
 			this.r2 = Utils.getRandNumber(0.0, 1.0);
 
 			this.params.updateInertiaW();
-			// this.updateU2(this.params.getMax_Num_Iteraciones()/5,
-			// this.params.getIteracionActual());
-			// System.out.println(r1);
-			// System.out.println(r2);
-			// System.out.println(poblacionPartículas);
-			// System.out.println(poblacionPbest);
-			 System.out.println(this.params.getIteracionActual() + ": " + Gbest);
-			// System.out.println(this.params.getIteracionActual() + ": " +
-			// poblacionPartículas.getPoblacion().get(0));
-			// System.out.println(this.v0.get(0));
-			// System.out.println(this.v1.get(0));
-			// System.out.println("c1: " + this.params.getC1());
-			// System.out.println("c2: " + this.params.getC2());
-			// System.out.println();
-			// System.out.println(this.params.getIteracionActual() + ": " +
-			// this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " +
-			// this.Gbest.getRestricciones());
-			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
+			
+			System.out.println(this.params.getcurrentFE() + ": " + Gbest);
+			
+			this.fitnessHist.add(this.Gbest.getObjectives().get(0));
 			this.Gbest.setFitnessHist(fitnessHist);
 		}
 
-		// System.out.println(this.poblacionPartículas);
-		// System.out.println(this.poblacionPbest);
-
-		// System.out.println("Num conexiones: " + problema.getNumVariables());
-		// System.out.println("fin");
-		// this.Gbest.setFitnessHist(fitnessHist);
-		//this.Gbest.initExtra();
-		this.problema.extra(this.Gbest);
+		this.problem.extra(this.Gbest);
 		return this.Gbest;
 	}
 
-	public Individuo ejecutarBPSOALT() throws FileNotFoundException, IOException, CsvException {
+	public Particle ejecutarBPSOALT() throws FileNotFoundException, IOException, CsvException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String command = "";
 		while (!command.equals("1")) {
-			this.params.getCondicionParada().setNumIteracionesActual(this.params.getIteracionActual() + 1);
+			this.params.getstopCondition().setcurrentFE(this.params.getcurrentFE() + 1);
 			// Calcular velocidades para cada bit de cada partícula, actualizar bits y
 			// fitness
 			this.params
-					.setC1(this.c1c2.updateC1(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+					.setC1(this.c1c2.updateC1(this.params.getMax_FEs(), this.params.getcurrentFE()));
 			this.params
-					.setC2(this.c1c2.updateC2(this.params.getMax_Num_Iteraciones(), this.params.getIteracionActual()));
+					.setC2(this.c1c2.updateC2(this.params.getMax_FEs(), this.params.getcurrentFE()));
 
-			this.calcularVelocidades3();
+			this.updatePositionsAndPbestGbest();
 
 			// System.out.println("Gbest: " + this.DistanciasGbest());
 			// System.out.println("Pbest: " + this.DistanciasPbest());
@@ -213,14 +160,14 @@ public class BPSO {
 			// System.out.println(r1);
 			// System.out.println(r2);
 			// System.out.println("Pbest: " +
-			// poblacionPbest.getPoblacion().get(0).getVariables());
+			// PbestPopulation.getPopulation().get(0).getVariables());
 			// System.out.println("Lbest: " +
-			// poblacionLbest.getPoblacion().get(0).getVariables());
+			// poblacionLbest.getPopulation().get(0).getVariables());
 			// System.out.println("Gbest: " + this.Gbest.getVariables());
 			// System.out.println();
 			// System.out.println(this.params.getIteracionActual());
-			System.out.println(this.params.getIteracionActual() + ": " + Gbest);
-			System.out.println("Ind: " + poblacionPartículas.getPoblacion().get(0));
+			System.out.println(this.params.getcurrentFE() + ": " + Gbest);
+			System.out.println("Ind: " + particlesPopulation.getPopulation().get(0));
 			// System.out.println(this.params.getInertiaW().getInertiaW());
 			// System.out.println(this.v0.get(0));
 			// System.out.println(this.v1.get(0));
@@ -228,19 +175,19 @@ public class BPSO {
 			// System.out.println("c2: " + this.params.getC2());
 			// System.out.println();
 			// System.out.println(this.params.getIteracionActual() + ": " +
-			// this.Gbest.getObjetivos() + " " + this.Gbest.getObjetivosNorm() + " " +
+			// this.Gbest.getObjectives() + " " + this.Gbest.getObjectivesNorm() + " " +
 			// this.Gbest.getRestricciones());
-			this.fitnessHist.add(this.Gbest.getObjetivos().get(0));
+			this.fitnessHist.add(this.Gbest.getObjectives().get(0));
 			command = reader.readLine();
 		}
-		// System.out.println(this.poblacionPartículas);
-		// System.out.println(this.poblacionPbest);
+		// System.out.println(this.particlesPopulation);
+		// System.out.println(this.PbestPopulation);
 
-		// System.out.println("Num conexiones: " + problema.getNumVariables());
+		// System.out.println("Num conexiones: " + problem.getNumVariables());
 		System.out.println("fin");
 		this.Gbest.setFitnessHist(fitnessHist);
 		//this.Gbest.initExtra();
-		this.problema.extra(this.Gbest);
+		this.problem.extra(this.Gbest);
 		return this.Gbest;
 	}
 
@@ -253,15 +200,15 @@ public class BPSO {
 		// System.out.println(pendiente);
 		// System.out.println("Gbest: " + this.DistanciasGbest());
 		// System.out.println("Pbest: " + this.DistanciasPbest());
-		for (int i = 0; i < this.params.getNumIndividuos(); i++) {
-			// System.out.println(this.poblacionPartículas.getPoblacion().get(i) + " " +
-			// this.poblacionPbest.getPoblacion().get(i));
+		for (int i = 0; i < this.params.getnumParticles(); i++) {
+			// System.out.println(this.particlesPopulation.getPopulation().get(i) + " " +
+			// this.PbestPopulation.getPopulation().get(i));
 			double vc;
 
-			for (int j = 0; j < this.problema.getNumVariables(); j++) {
+			for (int j = 0; j < this.problem.getNumVariables(); j++) {
 				double d1_1, d0_1, d1_2, d0_2;
 				double v1, v0;
-				if (this.poblacionPbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
+				if (this.PbestPopulation.getPopulation().get(i).getVariables().get(j) == 1.0) {
 					d1_1 = this.params.getC1() * this.r1;
 					d0_1 = -this.params.getC1() * this.r1;
 				} else {
@@ -294,7 +241,7 @@ public class BPSO {
 					this.v0.get(i).set(j, v0);
 				}
 
-				if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
+				if (this.particlesPopulation.getPopulation().get(i).getVariables().get(j) == 0.0) {
 					// vc = 1/(1+ Math.pow(Math.E, -10*v1));
 					// vc = Math.abs(Math.tanh(v1));
 					// System.out.print(v1 + " ");
@@ -308,10 +255,10 @@ public class BPSO {
 					// System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v0)));
 				}
 				if (Utils.getRandNumber(0.0, 1.0) < vc) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
-						this.poblacionPartículas.getPoblacion().get(i).modIVariable(j, 1.0);
+					if (this.particlesPopulation.getPopulation().get(i).getVariables().get(j) == 0.0) {
+						this.particlesPopulation.getPopulation().get(i).modIVariable(j, 1.0);
 					} else {
-						this.poblacionPartículas.getPoblacion().get(i).modIVariable(j, 0.0);
+						this.particlesPopulation.getPopulation().get(i).modIVariable(j, 0.0);
 					}
 				}
 
@@ -322,7 +269,7 @@ public class BPSO {
 
 			}
 			// System.out.println();
-			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
+			this.problem.evaluate(this.particlesPopulation.getPopulation().get(i));
 		}
 	}*/
 
@@ -333,18 +280,18 @@ public class BPSO {
 		// double pendiente = this.calcularPendienteFuncion();
 		// System.out.println("Gbest: " + this.DistanciasGbest());
 		// System.out.println("Pbest: " + this.DistanciasPbest());
-		for (int i = 0; i < this.params.getNumIndividuos(); i++) {
-			// System.out.println(this.poblacionPartículas.getPoblacion().get(i) + " " +
-			// this.poblacionPbest.getPoblacion().get(i));
+		for (int i = 0; i < this.params.getnumParticles(); i++) {
+			// System.out.println(this.particlesPopulation.getPopulation().get(i) + " " +
+			// this.PbestPopulation.getPopulation().get(i));
 			double vc;
 
 			double pendiente = this.calcularPendienteFuncion2(i);
 			// System.out.print(pendiente + ", ");
 
-			for (int j = 0; j < this.problema.getNumVariables(); j++) {
+			for (int j = 0; j < this.problem.getNumVariables(); j++) {
 				double d1_1, d0_1, d1_2, d0_2;
 				double v1, v0;
-				if (this.poblacionPbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
+				if (this.PbestPopulation.getPopulation().get(i).getVariables().get(j) == 1.0) {
 					d1_1 = this.params.getC1() * this.r1;
 					d0_1 = -this.params.getC1() * this.r1;
 				} else {
@@ -363,7 +310,7 @@ public class BPSO {
 				this.v1.get(i).set(j, v1);
 				this.v0.get(i).set(j, v0);
 
-				if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
+				if (this.particlesPopulation.getPopulation().get(i).getVariables().get(j) == 0.0) {
 					// vc = 1/(1+ Math.pow(Math.E, -v1));
 					// vc = Math.abs(Math.tanh(v1));
 					// System.out.print(v1 + " ");
@@ -377,39 +324,31 @@ public class BPSO {
 					// System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v0)));
 				}
 				if (Utils.getRandNumber(0.0, 1.0) < vc) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
-						this.poblacionPartículas.getPoblacion().get(i).modIVariable(j, 1.0);
+					if (this.particlesPopulation.getPopulation().get(i).getVariables().get(j) == 0.0) {
+						this.particlesPopulation.getPopulation().get(i).modIVariable(j, 1.0);
 					} else {
-						this.poblacionPartículas.getPoblacion().get(i).modIVariable(j, 0.0);
+						this.particlesPopulation.getPopulation().get(i).modIVariable(j, 0.0);
 					}
 				}
 			}
 			// System.out.println();
-			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
+			this.problem.evaluate(this.particlesPopulation.getPopulation().get(i));
 		}
 	}*/
 
-	public void calcularVelocidades3() throws FileNotFoundException, IOException, CsvException {
-		// Calacular pendiente de funcione sigmoide
-		// Distancia de hamming con todas las partículas
-		// Porcentaje de partículas con una distancia < z
+	public void updatePositionsAndPbestGbest() throws FileNotFoundException, IOException, CsvException {
 
-		Individuo Temp_GBest = new Individuo(0, 0);
-		List<Individuo> listaPBests = new ArrayList<>();
-		//List<Individuo> listaLBests = new ArrayList<>();
+		Particle Temp_GBest = new Particle(0, 0);
+		List<Particle> listaPBests = new ArrayList<>();
 
-		double pendiente = this.calcularPendienteFuncion3();
-		// System.out.println(pendiente);
-		// pendiente = 1.0;
-		for (int i = 0; i < this.params.getNumIndividuos(); i++) {
-			// System.out.println(this.poblacionPartículas.getPoblacion().get(i) + " " +
-			// this.poblacionPbest.getPoblacion().get(i));
+		double slope = this.computeSlope();
+		for (int i = 0; i < this.params.getnumParticles(); i++) {
 			double vc;
 
-			for (int j = 0; j < this.problema.getNumVariables(); j++) {
-				double d1_1, d0_1, d1_2, d0_2, d1_3, d0_3;
-				double v1, v0, v1L, v0L, v1T, v0T;
-				if (this.poblacionPbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
+			for (int j = 0; j < this.problem.getNumVariables(); j++) {
+				double d1_1, d0_1, d1_2, d0_2;
+				double v1, v0;
+				if (this.PbestPopulation.getPopulation().get(i).getVariables().get(j) == 1.0) {
 					d1_1 = this.params.getC1() * this.r1;
 					d0_1 = -this.params.getC1() * this.r1;
 				} else {
@@ -424,19 +363,10 @@ public class BPSO {
 					d0_2 = this.params.getC2() * this.r2;
 				}
 
-				/*if (this.poblacionLbest.getPoblacion().get(i).getVariables().get(j) == 1.0) {
-					d1_3 = this.params.getC2() * this.r2;
-					d0_3 = -this.params.getC2() * this.r2;
-				} else {
-					d1_3 = -this.params.getC2() * this.r2;
-					d0_3 = this.params.getC2() * this.r2;
-				}*/
 
 				v1 = this.params.getInertiaW().getInertiaW() * this.v1.get(i).get(j) + d1_1 + d1_2;
 				v0 = this.params.getInertiaW().getInertiaW() * this.v0.get(i).get(j) + d0_1 + d0_2;
 
-				//v1L = this.params.getInertiaW().getInertiaW() * this.v1L.get(i).get(j) + d1_1 + d1_3;
-				//v0L = this.params.getInertiaW().getInertiaW() * this.v0L.get(i).get(j) + d0_1 + d0_3;
 
 				if (v1 > this.maxV) {
 					this.v1.get(i).set(j, this.maxV);
@@ -454,168 +384,132 @@ public class BPSO {
 					this.v0.get(i).set(j, v0);
 				}
 
-				/*if (v0L > this.maxV) {
-					this.v0L.get(i).set(j, this.maxV);
-				} else if (v0L < this.minV) {
-					this.v0L.get(i).set(j, this.minV);
+				if (this.particlesPopulation.getPopulation().get(i).getVariables().get(j) == 0.0) {
+					vc = 1 / (1 + Math.pow(Math.E, -slope * v1));
 				} else {
-					this.v0L.get(i).set(j, v0L);
-				}
-
-				if (v1L > this.maxV) {
-					this.v1L.get(i).set(j, this.maxV);
-				} else if (v1L < this.minV) {
-					this.v1L.get(i).set(j, this.minV);
-				} else {
-					this.v1L.get(i).set(j, v1L);
-				}*/
-
-				// Incrementar linealmente u. Desde 0 hasta 1.
-				 //v1T = (1 - this.u) * v1L + this.u * v1;
-				 //v0T = (1 - this.u) * v0L + this.u * v0;
-
-				if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
-					//vc = 1/(1+ Math.pow(Math.E, -v1));
-					// vc = Math.abs(Math.tanh(v1));
-					// System.out.print(v1 + " ");
-					vc = 1 / (1 + Math.pow(Math.E, -pendiente * v1));
-					//vc = 1 / (1 + Math.pow(Math.E, -pendiente * v1T));
-					// vc = 1/(1+ Math.pow(Math.E, -v1/pendiente));
-					// System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v1)));
-				} else {
-					//vc = 1/(1+ Math.pow(Math.E, -v0));
-					// vc = Math.abs(Math.tanh(v0));
-					// System.out.print(v0 + " ");
-					vc = 1 / (1 + Math.pow(Math.E, -pendiente * v0));
-					//vc = 1 / (1 + Math.pow(Math.E, -pendiente * v0T));
-					// vc = 1/(1+ Math.pow(Math.E, -v0/pendiente));
-					// System.out.println(1/(1+ Math.pow(Math.E, -pendiente*v0)));
+					vc = 1 / (1 + Math.pow(Math.E, -slope * v0));
 				}
 				if (Utils.getRandNumber(0.0, 1.0) < vc) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j) == 0.0) {
-						this.poblacionPartículas.getPoblacion().get(i).modIVariable(j, 1.0);
+					if (this.particlesPopulation.getPopulation().get(i).getVariables().get(j) == 0.0) {
+						this.particlesPopulation.getPopulation().get(i).modIVariable(j, 1.0);
 					} else {
-						this.poblacionPartículas.getPoblacion().get(i).modIVariable(j, 0.0);
+						this.particlesPopulation.getPopulation().get(i).modIVariable(j, 0.0);
 					}
 				}
 
-				if (pendiente == this.minPendiente && this.params.getC2() > this.params.getC1()) {
-					// System.out.println("xxxxxx");
+				if (slope == this.minSlope && this.params.getC2() > this.params.getC1()) {
 					this.v0.get(i).set(j, 0.0);
 					this.v1.get(i).set(j, 0.0);
-					
-					//this.v0L.get(i).set(j, 0.0);
-					//this.v1L.get(i).set(j, 0.0);
 				}
 
 			}
-			// System.out.println();
-			this.problema.evaluate(this.poblacionPartículas.getPoblacion().get(i));
-			this.poblacionPartículas.getPoblacion().set(i, this.problema.repararMejorar(this.poblacionPartículas.getPoblacion().get(i)));
+			
+			this.problem.evaluate(this.particlesPopulation.getPopulation().get(i));
+			this.particlesPopulation.getPopulation().set(i, this.problem.repararMejorar(this.particlesPopulation.getPopulation().get(i)));
 			
 			// Actualizar PBest
 
-			if (this.poblacionPbest.getPoblacion().get(i).getObjetivos().size() == this.poblacionPartículas
-					.getPoblacion().get(i).getObjetivos().size()) {
-				if (this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					if (this.problema.getMinOMax().get(this.problema.getNumObjetivos() - 1)) {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) < this.poblacionPbest.getPoblacion().get(i)
-										.getObjetivos().get(this.problema.getNumObjetivos() - 1)) {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+			if (this.PbestPopulation.getPopulation().get(i).getObjectives().size() == this.particlesPopulation
+					.getPopulation().get(i).getObjectives().size()) {
+				if (this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.problem.getMinOMax().get(this.problem.getNumObjetivos() - 1)) {
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) < this.PbestPopulation.getPopulation().get(i)
+										.getObjectives().get(this.problem.getNumObjetivos() - 1)) {
+							Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						} else {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+							Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						}
 					} else {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) > this.poblacionPbest.getPoblacion().get(i)
-										.getObjetivos().get(this.problema.getNumObjetivos() - 1)) {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) > this.PbestPopulation.getPopulation().get(i)
+										.getObjectives().get(this.problem.getNumObjetivos() - 1)) {
+							Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						} else {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+							Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						}
 					}
 
-				} else if (!this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& !this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getConstraintViolation() < this.poblacionPbest
-							.getPoblacion().get(i).getConstraintViolation()) {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				} else if (!this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& !this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getConstraintViolation() < this.PbestPopulation
+							.getPopulation().get(i).getConstraintViolation()) {
+						Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					} else {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+						Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					}
 
-				} else if (this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& !this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				} else if (this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& !this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 					listaPBests.add(nuevo);
 				} else {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+					Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 					listaPBests.add(nuevo);
 				}
 
 			} else {
-				Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 				listaPBests.add(nuevo);
 			}
 
-			//listaLBests.add(obtenerLbest(this.poblacionPartículas.getPoblacion().get(i)));
+			//listaLBests.add(obtenerLbest(this.particlesPopulation.getPopulation().get(i)));
 
 			if (i == 0) {
-				Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 			} else {
-				if (Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					if (this.problema.getMinOMax().get(this.problema.getNumObjetivos() - 1)) {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) < Temp_GBest.getObjetivos()
-										.get(this.problema.getNumObjetivos() - 1)) {
-							Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				if (Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.problem.getMinOMax().get(this.problem.getNumObjetivos() - 1)) {
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) < Temp_GBest.getObjectives()
+										.get(this.problem.getNumObjetivos() - 1)) {
+							Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 						}
 					} else {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) > Temp_GBest.getObjetivos()
-										.get(this.problema.getNumObjetivos() - 1)) {
-							Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) > Temp_GBest.getObjectives()
+										.get(this.problem.getNumObjetivos() - 1)) {
+							Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 						}
 					}
 
-				} else if (!Temp_GBest.isFactible() && !this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getConstraintViolation() < Temp_GBest
+				} else if (!Temp_GBest.isFeasible() && !this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getConstraintViolation() < Temp_GBest
 							.getConstraintViolation()) {
-						Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+						Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 					}
 
-				} else if (!Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				} else if (!Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 				}
 			}
 		}
 
-		this.poblacionPbest.setPoblacion(listaPBests);
+		this.PbestPopulation.setPopulation(listaPBests);
 		//this.poblacionLbest.setPoblacion(listaLBests);
 
 		if (this.Gbest != null) {
-			if (this.Gbest.isFactible() && Temp_GBest.isFactible()) {
-				if (this.problema.getMinOMax().get(this.problema.getNumObjetivos() - 1)) {
-					if (Temp_GBest.getObjetivos().get(this.problema.getNumObjetivos() - 1) < this.Gbest.getObjetivos()
-							.get(this.problema.getNumObjetivos() - 1)) {
+			if (this.Gbest.isFeasible() && Temp_GBest.isFeasible()) {
+				if (this.problem.getMinOMax().get(this.problem.getNumObjetivos() - 1)) {
+					if (Temp_GBest.getObjectives().get(this.problem.getNumObjetivos() - 1) < this.Gbest.getObjectives()
+							.get(this.problem.getNumObjetivos() - 1)) {
 						this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 					}
 				} else {
-					if (Temp_GBest.getObjetivos().get(this.problema.getNumObjetivos() - 1) > this.Gbest.getObjetivos()
-							.get(this.problema.getNumObjetivos() - 1)) {
+					if (Temp_GBest.getObjectives().get(this.problem.getNumObjetivos() - 1) > this.Gbest.getObjectives()
+							.get(this.problem.getNumObjetivos() - 1)) {
 						this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 					}
 				}
 
-			} else if (!this.Gbest.isFactible() && !Temp_GBest.isFactible()) {
+			} else if (!this.Gbest.isFeasible() && !Temp_GBest.isFeasible()) {
 				if (Temp_GBest.getConstraintViolation() < this.Gbest.getConstraintViolation()) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 				}
@@ -633,31 +527,31 @@ public class BPSO {
 		// 2. Si se compara 1 solucion factible con otra infactible es mejor la factible
 		// 3. Si se comparan 2 soluciones infactibles es mejor la que tenga menor
 		// Contraint Violation
-		Individuo Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(0));
-		for (int i = 1; i < this.params.getNumIndividuos(); i++) {
-			if (Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-				if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos().get(this.problema.getNumObjetivos()
-						- 1) < Temp_GBest.getObjetivos().get(this.problema.getNumObjetivos() - 1)) {
-					Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+		Particle Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(0));
+		for (int i = 1; i < this.params.getnumParticles(); i++) {
+			if (Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+				if (this.particlesPopulation.getPopulation().get(i).getObjectives().get(this.problem.getNumObjetivos()
+						- 1) < Temp_GBest.getObjectives().get(this.problem.getNumObjetivos() - 1)) {
+					Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 				}
-			} else if (!Temp_GBest.isFactible() && !this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-				if (this.poblacionPartículas.getPoblacion().get(i).getConstraintViolation() < Temp_GBest
+			} else if (!Temp_GBest.isFeasible() && !this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+				if (this.particlesPopulation.getPopulation().get(i).getConstraintViolation() < Temp_GBest
 						.getConstraintViolation()) {
-					Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+					Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 				}
-			} else if (!Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-				Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+			} else if (!Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+				Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 			}
 
 		}
 
 		if (this.Gbest != null) {
-			if (this.Gbest.isFactible() && Temp_GBest.isFactible()) {
-				if (Temp_GBest.getObjetivos().get(this.problema.getNumObjetivos() - 1) < this.Gbest.getObjetivos()
-						.get(this.problema.getNumObjetivos() - 1)) {
+			if (this.Gbest.isFeasible() && Temp_GBest.isFeasible()) {
+				if (Temp_GBest.getObjectives().get(this.problem.getNumObjetivos() - 1) < this.Gbest.getObjectives()
+						.get(this.problem.getNumObjetivos() - 1)) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 				}
-			} else if (!this.Gbest.isFactible() && !Temp_GBest.isFactible()) {
+			} else if (!this.Gbest.isFeasible() && !Temp_GBest.isFeasible()) {
 				if (Temp_GBest.getConstraintViolation() < this.Gbest.getConstraintViolation()) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 				}
@@ -674,79 +568,79 @@ public class BPSO {
 		// 2. Si se compara 1 solucion factible con otra infactible es mejor la factible
 		// 3. Si se comparan 2 soluciones infactibles es mejor la que tenga menor
 		// Contraint Violation
-		List<Individuo> listaPBests = new ArrayList<>();
+		List<Particle> listaPBests = new ArrayList<>();
 
-		Individuo Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(0));
+		Particle Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(0));
 
-		for (int i = 0; i < this.params.getNumIndividuos(); i++) {
+		for (int i = 0; i < this.params.getnumParticles(); i++) {
 
 			// Cálculo de los Pbest
-			if (this.poblacionPbest.getPoblacion().get(i).getObjetivos().size() == this.poblacionPartículas
-					.getPoblacion().get(i).getObjetivos().size()) {
-				if (this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-							.get(this.problema.getNumObjetivos() - 1) < this.poblacionPbest.getPoblacion().get(i)
-									.getObjetivos().get(this.problema.getNumObjetivos() - 1)) {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+			if (this.PbestPopulation.getPopulation().get(i).getObjectives().size() == this.particlesPopulation
+					.getPopulation().get(i).getObjectives().size()) {
+				if (this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+							.get(this.problem.getNumObjetivos() - 1) < this.PbestPopulation.getPopulation().get(i)
+									.getObjectives().get(this.problem.getNumObjetivos() - 1)) {
+						Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					} else {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+						Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					}
-				} else if (!this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& !this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getConstraintViolation() < this.poblacionPbest
-							.getPoblacion().get(i).getConstraintViolation()) {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				} else if (!this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& !this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getConstraintViolation() < this.PbestPopulation
+							.getPopulation().get(i).getConstraintViolation()) {
+						Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					} else {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+						Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					}
-				} else if (this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& !this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				} else if (this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& !this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 					listaPBests.add(nuevo);
 				} else {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+					Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 					listaPBests.add(nuevo);
 				}
 
 			} else {
-				Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 				listaPBests.add(nuevo);
 			}
 
 			if (i >= 1) {
 				// Cálculo del Gbest
-				if (Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-							.get(this.problema.getNumObjetivos() - 1) < Temp_GBest.getObjetivos()
-									.get(this.problema.getNumObjetivos() - 1)) {
-						Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				if (Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+							.get(this.problem.getNumObjetivos() - 1) < Temp_GBest.getObjectives()
+									.get(this.problem.getNumObjetivos() - 1)) {
+						Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 					}
-				} else if (!Temp_GBest.isFactible() && !this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getConstraintViolation() < Temp_GBest
+				} else if (!Temp_GBest.isFeasible() && !this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getConstraintViolation() < Temp_GBest
 							.getConstraintViolation()) {
-						Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+						Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 					}
-				} else if (!Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				} else if (!Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 				}
 			}
 
 		}
 
-		this.poblacionPbest.setPoblacion(listaPBests);
+		this.PbestPopulation.setPopulation(listaPBests);
 
 		if (this.Gbest != null) {
-			if (this.Gbest.isFactible() && Temp_GBest.isFactible()) {
-				if (Temp_GBest.getObjetivos().get(this.problema.getNumObjetivos() - 1) < this.Gbest.getObjetivos()
-						.get(this.problema.getNumObjetivos() - 1)) {
+			if (this.Gbest.isFeasible() && Temp_GBest.isFeasible()) {
+				if (Temp_GBest.getObjectives().get(this.problem.getNumObjetivos() - 1) < this.Gbest.getObjectives()
+						.get(this.problem.getNumObjetivos() - 1)) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 				}
-			} else if (!this.Gbest.isFactible() && !Temp_GBest.isFactible()) {
+			} else if (!this.Gbest.isFeasible() && !Temp_GBest.isFeasible()) {
 				if (Temp_GBest.getConstraintViolation() < this.Gbest.getConstraintViolation()) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 				}
@@ -758,23 +652,23 @@ public class BPSO {
 	}
 
 	/*private void calcularAux() {
-		if (this.listaAux.size() == this.params.getNumIndividuos()) {
-			for (int i = 0; i < this.params.getNumIndividuos(); i++) {
+		if (this.listaAux.size() == this.params.getnumParticles()) {
+			for (int i = 0; i < this.params.getnumParticles(); i++) {
 				if (Utils.distanciaHamming(this.listaAux.get(i).getVariables(),
-						this.poblacionPartículas.getPoblacion().get(i).getVariables()) < 1) {
+						this.particlesPopulation.getPopulation().get(i).getVariables()) < 1) {
 					int timerAntes = this.timers.get(i);
 					if (timerAntes > 0) {
 						timerAntes--;
 						this.timers.set(i, timerAntes);
 					}
 				} else {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+					Individuo nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 					this.listaAux.set(i, nuevo);
 					this.timers.set(i, this.maxIterAux);
 				}
 			}
 		} else {
-			for (Individuo i : this.poblacionPartículas.getPoblacion()) {
+			for (Individuo i : this.particlesPopulation.getPopulation()) {
 				Individuo nuevo = Utils.copiarIndividuo(i);
 				this.timers.add(this.maxIterAux);
 				this.listaAux.add(nuevo);
@@ -783,11 +677,11 @@ public class BPSO {
 	}*/
 
 	/*private void calcularAux2() {
-		if (this.listaAux.size() == this.params.getNumIndividuos()) {
-			for (int i = 0; i < this.params.getNumIndividuos(); i++) {
-				for (int j = 0; j < this.poblacionPartículas.getPoblacion().get(i).getVariables().size(); j++) {
+		if (this.listaAux.size() == this.params.getnumParticles()) {
+			for (int i = 0; i < this.params.getnumParticles(); i++) {
+				for (int j = 0; j < this.particlesPopulation.getPopulation().get(i).getVariables().size(); j++) {
 					double a = this.listaAux.get(i).getVariables().get(j);
-					double b = this.poblacionPartículas.getPoblacion().get(i).getVariables().get(j);
+					double b = this.particlesPopulation.getPopulation().get(i).getVariables().get(j);
 					if (a == b) {
 						int timerAntes = this.timers2.get(i).get(j);
 						if (timerAntes > 0) {
@@ -800,21 +694,21 @@ public class BPSO {
 					}
 				}
 				if (Utils.distanciaHamming(this.listaAux.get(i).getVariables(),
-						this.poblacionPartículas.getPoblacion().get(i).getVariables()) >= 1) {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+						this.particlesPopulation.getPopulation().get(i).getVariables()) >= 1) {
+					Individuo nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 					this.listaAux.set(i, nuevo);
 				}
 				
 				 * if(Utils.distanciaHamming(this.listaAux.get(i).getVariables(),
-				 * this.poblacionPartículas.getPoblacion().get(i).getVariables()) < 1) { int
+				 * this.particlesPopulation.getPopulation().get(i).getVariables()) < 1) { int
 				 * timerAntes = this.timers.get(i); if(timerAntes > 0) { timerAntes--;
 				 * this.timers.set(i, timerAntes); } }else { Individuo nuevo =
-				 * Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				 * Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 				 * this.listaAux.set(i, nuevo); this.timers.set(i, this.maxIterAux); }
 				 
 			}
 		} else {
-			for (Individuo i : this.poblacionPartículas.getPoblacion()) {
+			for (Individuo i : this.particlesPopulation.getPopulation()) {
 				Individuo nuevo = Utils.copiarIndividuo(i);
 				// this.timers.add(this.maxIterAux);
 				List<Integer> timersBitsI = new ArrayList<>();
@@ -828,16 +722,16 @@ public class BPSO {
 	}*/
 
 	private void rellenarVelocidadesIniciales() {
-		Individuo Temp_GBest = new Individuo(0, 0);
-		List<Individuo> listaPBests = new ArrayList<>();
+		Particle Temp_GBest = new Particle(0, 0);
+		List<Particle> listaPBests = new ArrayList<>();
 		//List<Individuo> listaLBests = new ArrayList<>();
 
-		for (int i = 0; i < this.params.getNumIndividuos(); i++) {
+		for (int i = 0; i < this.params.getnumParticles(); i++) {
 			List<Double> v0_i = new ArrayList<>();
 			List<Double> v1_i = new ArrayList<>();
 			//List<Double> v0_iL = new ArrayList<>();
 			//List<Double> v1_iL = new ArrayList<>();
-			for (int j = 0; j < this.problema.getNumVariables(); j++) {
+			for (int j = 0; j < this.problem.getNumVariables(); j++) {
 				v0_i.add(0.0);
 				v1_i.add(0.0);
 				//v0_iL.add(0.0);
@@ -849,96 +743,96 @@ public class BPSO {
 			//this.v0L.add(v0_iL);
 			//this.v1L.add(v1_iL);
 
-			if (this.poblacionPbest.getPoblacion().get(i).getObjetivos().size() == this.poblacionPartículas
-					.getPoblacion().get(i).getObjetivos().size()) {
-				if (this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					if (this.problema.getMinOMax().get(this.problema.getNumObjetivos() - 1)) {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) < this.poblacionPbest.getPoblacion().get(i)
-										.getObjetivos().get(this.problema.getNumObjetivos() - 1)) {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+			if (this.PbestPopulation.getPopulation().get(i).getObjectives().size() == this.particlesPopulation
+					.getPopulation().get(i).getObjectives().size()) {
+				if (this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.problem.getMinOMax().get(this.problem.getNumObjetivos() - 1)) {
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) < this.PbestPopulation.getPopulation().get(i)
+										.getObjectives().get(this.problem.getNumObjetivos() - 1)) {
+							Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						} else {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+							Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						}
 					} else {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) > this.poblacionPbest.getPoblacion().get(i)
-										.getObjetivos().get(this.problema.getNumObjetivos() - 1)) {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) > this.PbestPopulation.getPopulation().get(i)
+										.getObjectives().get(this.problem.getNumObjetivos() - 1)) {
+							Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						} else {
-							Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+							Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 							listaPBests.add(nuevo);
 						}
 					}
-				} else if (!this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& !this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getConstraintViolation() < this.poblacionPbest
-							.getPoblacion().get(i).getConstraintViolation()) {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				} else if (!this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& !this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getConstraintViolation() < this.PbestPopulation
+							.getPopulation().get(i).getConstraintViolation()) {
+						Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					} else {
-						Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+						Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 						listaPBests.add(nuevo);
 					}
-				} else if (this.poblacionPartículas.getPoblacion().get(i).isFactible()
-						&& !this.poblacionPbest.getPoblacion().get(i).isFactible()) {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				} else if (this.particlesPopulation.getPopulation().get(i).isFeasible()
+						&& !this.PbestPopulation.getPopulation().get(i).isFeasible()) {
+					Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 					listaPBests.add(nuevo);
 				} else {
-					Individuo nuevo = Utils.copiarIndividuo(this.poblacionPbest.getPoblacion().get(i));
+					Particle nuevo = Utils.copiarIndividuo(this.PbestPopulation.getPopulation().get(i));
 					listaPBests.add(nuevo);
 				}
 
 			} else {
-				Individuo nuevo = Utils.copiarIndividuo(this.poblacionPartículas.getPoblacion().get(i));
+				Particle nuevo = Utils.copiarIndividuo(this.particlesPopulation.getPopulation().get(i));
 				listaPBests.add(nuevo);
 			}
 
-			//listaLBests.add(obtenerLbest(this.poblacionPartículas.getPoblacion().get(i)));
+			//listaLBests.add(obtenerLbest(this.particlesPopulation.getPopulation().get(i)));
 
 			if (i == 0) {
-				Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 			} else {
-				if (Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					if (this.problema.getMinOMax().get(this.problema.getNumObjetivos() - 1)) {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) < Temp_GBest.getObjetivos()
-										.get(this.problema.getNumObjetivos() - 1)) {
-							Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				if (Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.problem.getMinOMax().get(this.problem.getNumObjetivos() - 1)) {
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) < Temp_GBest.getObjectives()
+										.get(this.problem.getNumObjetivos() - 1)) {
+							Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 						}
 					} else {
-						if (this.poblacionPartículas.getPoblacion().get(i).getObjetivos()
-								.get(this.problema.getNumObjetivos() - 1) > Temp_GBest.getObjetivos()
-										.get(this.problema.getNumObjetivos() - 1)) {
-							Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+						if (this.particlesPopulation.getPopulation().get(i).getObjectives()
+								.get(this.problem.getNumObjetivos() - 1) > Temp_GBest.getObjectives()
+										.get(this.problem.getNumObjetivos() - 1)) {
+							Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 						}
 					}
-				} else if (!Temp_GBest.isFactible() && !this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					if (this.poblacionPartículas.getPoblacion().get(i).getConstraintViolation() < Temp_GBest
+				} else if (!Temp_GBest.isFeasible() && !this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					if (this.particlesPopulation.getPopulation().get(i).getConstraintViolation() < Temp_GBest
 							.getConstraintViolation()) {
-						Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+						Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 					}
-				} else if (!Temp_GBest.isFactible() && this.poblacionPartículas.getPoblacion().get(i).isFactible()) {
-					Temp_GBest = Utils.copiarIndividuo(poblacionPartículas.getPoblacion().get(i));
+				} else if (!Temp_GBest.isFeasible() && this.particlesPopulation.getPopulation().get(i).isFeasible()) {
+					Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 				}
 			}
 
 		}
 
-		this.poblacionPbest.setPoblacion(listaPBests);
+		this.PbestPopulation.setPopulation(listaPBests);
 		//this.poblacionLbest.setPoblacion(listaLBests);
 
 		if (this.Gbest != null) {
-			if (this.Gbest.isFactible() && Temp_GBest.isFactible()) {
-				if (Temp_GBest.getObjetivos().get(this.problema.getNumObjetivos() - 1) < this.Gbest.getObjetivos()
-						.get(this.problema.getNumObjetivos() - 1)) {
+			if (this.Gbest.isFeasible() && Temp_GBest.isFeasible()) {
+				if (Temp_GBest.getObjectives().get(this.problem.getNumObjetivos() - 1) < this.Gbest.getObjectives()
+						.get(this.problem.getNumObjetivos() - 1)) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 				}
-			} else if (!this.Gbest.isFactible() && !Temp_GBest.isFactible()) {
+			} else if (!this.Gbest.isFeasible() && !Temp_GBest.isFeasible()) {
 				if (Temp_GBest.getConstraintViolation() < this.Gbest.getConstraintViolation()) {
 					this.Gbest = Utils.copiarIndividuo(Temp_GBest);
 				}
@@ -953,18 +847,18 @@ public class BPSO {
 	/*private Double calcularPendienteFuncion() {
 		
 		 * List<Integer> distanciaParticulasGbest = new ArrayList<>(); for(int i = 0; i
-		 * < this.poblacionPartículas.getPoblacion().size(); i++) { int distH =
-		 * Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).
+		 * < this.particlesPopulation.getPopulation().size(); i++) { int distH =
+		 * Utils.distanciaHamming(this.particlesPopulation.getPopulation().get(i).
 		 * getVariables(), this.Gbest.getVariables());
 		 * distanciaParticulasGbest.add(distH); }
 		 * System.out.println("Distancia con Gbest: " + distanciaParticulasGbest);
 		 * 
 		 * List<Integer> distanciaParticulasPbest = new ArrayList<>();
 		 * 
-		 * for(int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) { int
+		 * for(int i = 0; i < this.particlesPopulation.getPopulation().size(); i++) { int
 		 * distH =
-		 * Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).
-		 * getVariables(), this.poblacionPbest.getPoblacion().get(i).getVariables());
+		 * Utils.distanciaHamming(this.particlesPopulation.getPopulation().get(i).
+		 * getVariables(), this.PbestPopulation.getPopulation().get(i).getVariables());
 		 * distanciaParticulasPbest.add(distH); }
 		 * System.out.println("Distancia con Pbest: " + distanciaParticulasPbest);
 		 
@@ -984,7 +878,7 @@ public class BPSO {
 		double distMaxMinPendientes = this.maxPendiente - this.minPendiente;
 
 		return this.minPendiente
-				+ distMaxMinPendientes * (1 - (sumaTimers0 / this.poblacionPartículas.getNumIndividuos()));
+				+ distMaxMinPendientes * (1 - (sumaTimers0 / this.particlesPopulation.getnumParticles()));
 	}*/
 
 	/*private Double calcularPendienteFuncion2(int id) {
@@ -1000,71 +894,35 @@ public class BPSO {
 		double distMaxMinPendientes = this.maxPendiente - this.minPendiente;
 
 		return this.minPendiente + distMaxMinPendientes
-				* (1 - (sumaTimers0 / this.poblacionPartículas.getPoblacion().get(id).getVariables().size()));
+				* (1 - (sumaTimers0 / this.particlesPopulation.getPopulation().get(id).getVariables().size()));
 	}*/
 
-	private Double calcularPendienteFuncion3() {
-		/*
-		 * List<Integer> distanciaParticulasGbest = new ArrayList<>(); for(int i = 0; i
-		 * < this.poblacionPartículas.getPoblacion().size(); i++) { int distH =
-		 * Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).
-		 * getVariables(), this.Gbest.getVariables());
-		 * distanciaParticulasGbest.add(distH); }
-		 * System.out.println("Distancia con Gbest: " + distanciaParticulasGbest);
-		 * 
-		 * List<Integer> distanciaParticulasPbest = new ArrayList<>();
-		 * 
-		 * for(int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) { int
-		 * distH =
-		 * Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).
-		 * getVariables(), this.poblacionPbest.getPoblacion().get(i).getVariables());
-		 * distanciaParticulasPbest.add(distH); }
-		 * System.out.println("Distancia con Pbest: " + distanciaParticulasPbest);
-		 */
+	private Double computeSlope() {
 
-		/*
-		 * if(this.params.getIteracionActual() < this.params.getMax_Num_Iteraciones()/5)
-		 * { 
-		 * 
-		 * int sumaDistL = 0;
-		 * 
-		 * for(int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) {
-		 * if(Utils.distanciaHamming(this.poblacionLbest.getPoblacion().get(i).
-		 * getVariables(),
-		 * this.poblacionPartículas.getPoblacion().get(i).getVariables()) <
-		 * this.maxDistH) { sumaDistL++; } } if(sumaDistL != 0) {
-		 * System.out.println("Local search: " + sumaDistL); }
-		 * //System.out.println(this.timers); double distMaxMinPendientes =
-		 * this.maxPendienteL - this.minPendienteL;
-		 * 
-		 * return this.minPendienteL + distMaxMinPendientes * (1 - (sumaDistL /
-		 * this.poblacionPartículas.getNumIndividuos())); }else {
-		 */
+		double sumDistH = 0;
 
-		double sumaDistH = 0;
-
-		for (int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) {
-			if (Utils.distanciaHamming(this.Gbest.getVariables(),
-					this.poblacionPartículas.getPoblacion().get(i).getVariables()) < this.maxDistH) {
-				sumaDistH++;
+		for (int i = 0; i < this.particlesPopulation.getPopulation().size(); i++) {
+			if (Utils.hammingDistance(this.Gbest.getVariables(),
+					this.particlesPopulation.getPopulation().get(i).getVariables()) < this.maxDistH) {
+				sumDistH++;
 			}
 		}
-		if (sumaDistH != 0.0) {
-			System.out.println("Global search: " + sumaDistH);
+		if (sumDistH != 0.0) {
+			System.out.println("Particles in Global Best: " + sumDistH);
 		}
-		// System.out.println(this.timers);
-		double distMaxMinPendientes = this.maxPendiente - this.minPendiente;
+		
+		double distMaxMinSlopes = this.maxSlope - this.minSlope;
 
-		return this.minPendiente
-				+ distMaxMinPendientes * (1.0 - (sumaDistH / (this.poblacionPartículas.getNumIndividuos() * 1.0)));
-		// }
+		return this.minSlope
+				+ distMaxMinSlopes * (1.0 - (sumDistH / (this.particlesPopulation.getnumParticles() * 1.0)));
+		
 	}
 
 	/*private Individuo obtenerLbest(Individuo ind) {
 		Individuo Lbest = Utils.copiarIndividuo(ind);
 
-		for (Individuo i : this.poblacionPartículas.getPoblacion()) {
-			if (i.getObjetivos().get(0) < Lbest.getObjetivos().get(0)
+		for (Individuo i : this.particlesPopulation.getPopulation()) {
+			if (i.getObjectives().get(0) < Lbest.getObjectives().get(0)
 					&& Utils.distanciaHamming(i.getVariables(), Lbest.getVariables()) < this.neighborhood) {
 				Lbest = Utils.copiarIndividuo(i);
 			}
@@ -1088,8 +946,8 @@ public class BPSO {
 
 	public List<Integer> DistanciasGbest() {
 		List<Integer> distanciaParticulasGbest = new ArrayList<>();
-		for (int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) {
-			int distH = Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).getVariables(),
+		for (int i = 0; i < this.particlesPopulation.getPopulation().size(); i++) {
+			int distH = Utils.hammingDistance(this.particlesPopulation.getPopulation().get(i).getVariables(),
 					this.Gbest.getVariables());
 			distanciaParticulasGbest.add(distH);
 		}
@@ -1099,9 +957,9 @@ public class BPSO {
 	public List<Integer> DistanciasPbest() {
 		List<Integer> distanciaParticulasPbest = new ArrayList<>();
 
-		for (int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) {
-			int distH = Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).getVariables(),
-					this.poblacionPbest.getPoblacion().get(i).getVariables());
+		for (int i = 0; i < this.particlesPopulation.getPopulation().size(); i++) {
+			int distH = Utils.hammingDistance(this.particlesPopulation.getPopulation().get(i).getVariables(),
+					this.PbestPopulation.getPopulation().get(i).getVariables());
 			distanciaParticulasPbest.add(distH);
 		}
 		return distanciaParticulasPbest;
@@ -1111,10 +969,10 @@ public class BPSO {
 	 * public List<Integer> DistanciasLbest() { List<Integer>
 	 * distanciaParticulasLbest = new ArrayList<>();
 	 * 
-	 * for (int i = 0; i < this.poblacionPartículas.getPoblacion().size(); i++) {
+	 * for (int i = 0; i < this.particlesPopulation.getPopulation().size(); i++) {
 	 * int distH =
-	 * Utils.distanciaHamming(this.poblacionPartículas.getPoblacion().get(i).
-	 * getVariables(), this.poblacionLbest.getPoblacion().get(i).getVariables());
+	 * Utils.distanciaHamming(this.particlesPopulation.getPopulation().get(i).
+	 * getVariables(), this.poblacionLbest.getPopulation().get(i).getVariables());
 	 * distanciaParticulasLbest.add(distH); } return distanciaParticulasLbest; }
 	 */
 
@@ -1126,35 +984,35 @@ public class BPSO {
 		this.params = params;
 	}
 
-	public Problem getProblema() {
-		return problema;
+	public Problem getproblem() {
+		return problem;
 	}
 
-	public void setProblema(Problem problema) {
-		this.problema = problema;
+	public void setproblem(Problem problem) {
+		this.problem = problem;
 	}
 
-	public Poblacion getPoblacionPartículas() {
-		return poblacionPartículas;
+	public Population getparticlesPopulation() {
+		return particlesPopulation;
 	}
 
-	public void setPoblacionPartículas(Poblacion poblacionPartículas) {
-		this.poblacionPartículas = poblacionPartículas;
+	public void setparticlesPopulation(Population particlesPopulation) {
+		this.particlesPopulation = particlesPopulation;
 	}
 
-	public Poblacion getPoblacionPbest() {
-		return poblacionPbest;
+	public Population getPbestPopulation() {
+		return PbestPopulation;
 	}
 
-	public void setPoblacionPbest(Poblacion poblacionPbest) {
-		this.poblacionPbest = poblacionPbest;
+	public void setPbestPopulation(Population PbestPopulation) {
+		this.PbestPopulation = PbestPopulation;
 	}
 
-	public Individuo getGbest() {
+	public Particle getGbest() {
 		return Gbest;
 	}
 
-	public void setGbest(Individuo gbest) {
+	public void setGbest(Particle gbest) {
 		Gbest = gbest;
 	}
 

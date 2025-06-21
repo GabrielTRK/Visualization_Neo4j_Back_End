@@ -3,7 +3,7 @@ package com.VisNeo4j.App.Problems;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class Rosenbrock extends Problem{
@@ -20,7 +20,7 @@ public class Rosenbrock extends Problem{
 	}
 	
 	@Override
-	 public Individuo evaluate(Individuo solution) {
+	 public Particle evaluate(Particle solution) {
 		//Convertir las variables a decimal y aplicar la fórmula
 		List<Double> variablesDecimales = Utils.decodificarBinario(this.bitsEnteros, 
 				this.bitsDecimales, solution.getVariables());
@@ -37,13 +37,13 @@ public class Rosenbrock extends Problem{
 		
 		objetivos.add(objetivo);
 		
-		solution.setObjetivos(objetivos);
+		solution.setObjectives(objetivos);
 		
 		return solution;
 	}
 	
 	@Override
-	 public Individuo inicializarValores(Individuo ind) {
+	 public Particle inicializarValores(Particle ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for(int i = 0; i < super.getNumVariables(); i++) {
 			//valores.add(Utils.getRandBinNumber());

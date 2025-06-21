@@ -14,7 +14,7 @@ import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Constantes.Constantes_Opt;
 import com.VisNeo4j.App.Constantes.Constantes_Sol;
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Modelo.Entrada.PreferencesConstraints;
 import com.VisNeo4j.App.Modelo.Entrada.Usuario;
 import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
@@ -629,7 +629,7 @@ class VisNeo4jController {
 		
 		Problem problema = new Knapsack01_S1();
 		
-		Individuo ind = new Individuo(problema.getNumVariables(), 1);
+		Particle ind = new Particle(problema.getNumVariables(), 1);
 		
 		problema.inicializarValores(ind);
 		problema.inicializarValores(ind);

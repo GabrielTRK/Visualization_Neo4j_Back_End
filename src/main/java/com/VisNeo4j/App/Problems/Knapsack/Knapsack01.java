@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 
@@ -33,7 +33,7 @@ public class Knapsack01 extends Problem {
 	}
 
 	@Override
-	public Individuo evaluate(Individuo solution) {
+	public Particle evaluate(Particle solution) {
 		double sumaW = 0.0;
 		double sumaP = 0.0;
 		for (int i = 0; i < super.getNumVariables(); i++) {
@@ -43,13 +43,13 @@ public class Knapsack01 extends Problem {
 			}
 			//sumaP += this.profits.get(i) * (1.0 - solution.getVariables().get(i));
 		}
-		solution.setObjetivos(Stream.of(sumaP).collect(Collectors.toList()));
-		solution.setRestricciones(Stream.of(sumaW).collect(Collectors.toList()));
+		solution.setObjectives(Stream.of(sumaP).collect(Collectors.toList()));
+		solution.setConstraints(Stream.of(sumaW).collect(Collectors.toList()));
 		if (sumaW > this.capacity) {
-			solution.setFactible(false);
+			solution.setFeasible(false);
 			solution.setConstraintViolation(Math.abs(sumaW - this.capacity));
 		} else {
-			solution.setFactible(true);
+			solution.setFeasible(true);
 			solution.setConstraintViolation(0.0);
 		}
 	
@@ -57,9 +57,9 @@ public class Knapsack01 extends Problem {
 	}
 	
 	@Override
-	public Individuo repararMejorar(Individuo solution) {
-		if(solution.getRestricciones().get(0) > this.capacity) {
-			while (solution.getRestricciones().get(0) > this.capacity) {
+	public Particle repararMejorar(Particle solution) {
+		if(solution.getConstraints().get(0) > this.capacity) {
+			while (solution.getConstraints().get(0) > this.capacity) {
 				if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
 					Double minRatio = Double.MAX_VALUE;
 					int minRatioPos = 0;
@@ -76,10 +76,10 @@ public class Knapsack01 extends Problem {
 				}
 				this.evaluate(solution);
 			}
-		}if(solution.getRestricciones().get(0) < this.capacity){
+		}if(solution.getConstraints().get(0) < this.capacity){
 			boolean terminate = false;
 			while (!terminate) {
-				Double dif = this.capacity - solution.getRestricciones().get(0);
+				Double dif = this.capacity - solution.getConstraints().get(0);
 				
 				List<Double> candidatos = new ArrayList<>();
 				Map<Double, Integer> candidatosRatio = new HashMap<>();
@@ -115,7 +115,7 @@ public class Knapsack01 extends Problem {
 	
 
 	@Override
-	public Individuo inicializarValores(Individuo ind) {
+	public Particle inicializarValores(Particle ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for (int i = 0; i < super.getNumVariables(); i++) {
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 
@@ -25,10 +25,10 @@ public class OperadorCruce {
 	}
 	
 	//Simulated Binary Crossover(SBX)
-	public List<Individuo> SBX (Individuo padre1, Individuo padre2, Problem prob){
-		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		List<Individuo> hijos = new ArrayList<Individuo>(2);
+	public List<Particle> SBX (Particle padre1, Particle padre2, Problem prob){
+		Particle hijo1 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		Particle hijo2 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		List<Particle> hijos = new ArrayList<Particle>(2);
 		hijos.add(padre1);
 		hijos.add(padre2);
 		double valorP1, valorP2, y1, y2, min, max, rand, beta, alpha, betaq, c1, c2;
@@ -98,10 +98,10 @@ public class OperadorCruce {
 	}
 	
 	//Cruce binario en un punto
-	public List<Individuo> cruceUnPunto (Individuo padre1, Individuo padre2, Problem prob){
-		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		List<Individuo> hijos = new ArrayList<Individuo>(2);
+	public List<Particle> cruceUnPunto (Particle padre1, Particle padre2, Problem prob){
+		Particle hijo1 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		Particle hijo2 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		List<Particle> hijos = new ArrayList<Particle>(2);
 		hijos.add(padre1);
 		hijos.add(padre2);
 		
@@ -130,10 +130,10 @@ public class OperadorCruce {
 		return hijos;
 	}
 	
-	public List<Individuo> cruceDosPuntos (Individuo padre1, Individuo padre2, Problem prob){
-		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		List<Individuo> hijos = new ArrayList<Individuo>(2);
+	public List<Particle> cruceDosPuntos (Particle padre1, Particle padre2, Problem prob){
+		Particle hijo1 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		Particle hijo2 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		List<Particle> hijos = new ArrayList<Particle>(2);
 		hijos.add(padre1);
 		hijos.add(padre2);
 		
@@ -171,10 +171,10 @@ public class OperadorCruce {
 		return hijos;
 	}
 	
-	public List<Individuo> cruceUniforme (Individuo padre1, Individuo padre2, Problem prob){
-		Individuo hijo1 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		Individuo hijo2 = new Individuo(prob.getNumVariables(), prob.getNumObjetivos());
-		List<Individuo> hijos = new ArrayList<Individuo>(2);
+	public List<Particle> cruceUniforme (Particle padre1, Particle padre2, Problem prob){
+		Particle hijo1 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		Particle hijo2 = new Particle(prob.getNumVariables(), prob.getNumObjetivos());
+		List<Particle> hijos = new ArrayList<Particle>(2);
 		hijos.add(padre1);
 		hijos.add(padre2);
 		List<Double> mascara = new ArrayList<>(prob.getNumVariables());

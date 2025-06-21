@@ -28,8 +28,8 @@ import org.springframework.util.FileSystemUtils;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
-import com.VisNeo4j.App.Modelo.Individuo;
-import com.VisNeo4j.App.Modelo.Poblacion;
+import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Modelo.Population;
 import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
 import com.VisNeo4j.App.Modelo.Salida.BPSOParamsSalida;
 import com.VisNeo4j.App.Modelo.Salida.Conexion;
@@ -128,7 +128,7 @@ public class Utils {
 		return valoresDecimales;
 	}
 
-	public static int distanciaHamming(List<Double> a, List<Double> b) {
+	public static int hammingDistance(List<Double> a, List<Double> b) {
 		int dist = 0;
 		for (int i = 0; i < a.size(); i++) {
 			double a1 = a.get(i);
@@ -140,52 +140,52 @@ public class Utils {
 		return dist;
 	}
 
-	public static Double calcularMenor(List<Individuo> lista) {
+	public static Double calcularMenor(List<Particle> lista) {
 		Double menor = Double.MAX_VALUE;
 
 		for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).getObjetivos().get(0) < menor) {
-				menor = lista.get(i).getObjetivos().get(0);
+			if (lista.get(i).getObjectives().get(0) < menor) {
+				menor = lista.get(i).getObjectives().get(0);
 			}
 		}
 
 		return menor;
 	}
 
-	public static Double calcularMayor(List<Individuo> lista) {
+	public static Double calcularMayor(List<Particle> lista) {
 		Double mayor = Double.MIN_VALUE;
 
 		for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).getObjetivos().get(0) > mayor) {
-				mayor = lista.get(i).getObjetivos().get(0);
+			if (lista.get(i).getObjectives().get(0) > mayor) {
+				mayor = lista.get(i).getObjectives().get(0);
 			}
 		}
 
 		return mayor;
 	}
 
-	public static Double calcularAVGF(List<Individuo> lista) {
+	public static Double calcularAVGF(List<Particle> lista) {
 		Double media = 0.0;
 
 		for (int i = 0; i < lista.size(); i++) {
-			media += lista.get(i).getObjetivos().get(0);
+			media += lista.get(i).getObjectives().get(0);
 		}
 
 		return media / lista.size();
 	}
 
-	public static Double calcularSTDF(List<Individuo> lista) {
+	public static Double calcularSTDF(List<Particle> lista) {
 		Double std = 0.0;
 		Double media = 0.0;
 
 		for (int i = 0; i < lista.size(); i++) {
-			media += lista.get(i).getObjetivos().get(0);
+			media += lista.get(i).getObjectives().get(0);
 		}
 
 		media /= lista.size();
 
 		for (int i = 0; i < lista.size(); i++) {
-			std += Math.pow(lista.get(i).getObjetivos().get(0) - media, 2);
+			std += Math.pow(lista.get(i).getObjectives().get(0) - media, 2);
 		}
 
 		std /= lista.size();
@@ -195,12 +195,12 @@ public class Utils {
 		return std;
 	}
 
-	public static Double calcularSR(List<Individuo> lista, Double opt) {
+	public static Double calcularSR(List<Particle> lista, Double opt) {
 		Double SR = 0.0;
 		Double cont = 0.0;
 
 		for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).getObjetivos().get(0).equals(opt)) {
+			if (lista.get(i).getObjectives().get(0).equals(opt)) {
 				cont++;
 			}
 		}
@@ -211,11 +211,11 @@ public class Utils {
 		return SR * 100.0;
 	}
 
-	public static Double calcularMinIter(List<Individuo> lista) {
+	public static Double calcularMinIter(List<Particle> lista) {
 		Double menor = Double.MAX_VALUE;
 
 		for (int i = 0; i < lista.size(); i++) {
-			Double valor = lista.get(i).getObjetivos().get(0);
+			Double valor = lista.get(i).getObjectives().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
 
 			if (pos < menor) {
@@ -226,11 +226,11 @@ public class Utils {
 		return menor;
 	}
 
-	public static Double calcularMaxIter(List<Individuo> lista) {
+	public static Double calcularMaxIter(List<Particle> lista) {
 		Double mayor = Double.MIN_VALUE;
 
 		for (int i = 0; i < lista.size(); i++) {
-			Double valor = lista.get(i).getObjetivos().get(0);
+			Double valor = lista.get(i).getObjectives().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
 
 			if (pos > mayor) {
@@ -241,11 +241,11 @@ public class Utils {
 		return mayor;
 	}
 
-	public static Double calcularAVGIter(List<Individuo> lista) {
+	public static Double calcularAVGIter(List<Particle> lista) {
 		Double media = 0.0;
 
 		for (int i = 0; i < lista.size(); i++) {
-			Double valor = lista.get(i).getObjetivos().get(0);
+			Double valor = lista.get(i).getObjectives().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
 
 			media += pos;
@@ -254,13 +254,13 @@ public class Utils {
 		return media / lista.size();
 	}
 
-	public static Double calcularSTDIter(List<Individuo> lista) {
+	public static Double calcularSTDIter(List<Particle> lista) {
 		Double std = 0.0;
 		Double media = 0.0;
 		List<Integer> posiciones = new ArrayList<>();
 
 		for (int i = 0; i < lista.size(); i++) {
-			Double valor = lista.get(i).getObjetivos().get(0);
+			Double valor = lista.get(i).getObjectives().get(0);
 			int pos = lista.get(i).getFitnessHist().indexOf(valor);
 			posiciones.add(pos);
 
@@ -280,34 +280,34 @@ public class Utils {
 		return std;
 	}
 
-	public static Poblacion juntarPoblaciones(Poblacion padres, Poblacion hijos, Problem problema) {
-		List<Individuo> lista = new ArrayList<>(2 * padres.getNumIndividuos());
-		for (int i = 0; i < padres.getNumIndividuos(); i++) {
-			lista.add(padres.getPoblacion().get(i));
+	public static Population juntarPoblaciones(Population padres, Population hijos, Problem problema) {
+		List<Particle> lista = new ArrayList<>(2 * padres.getnumParticles());
+		for (int i = 0; i < padres.getnumParticles(); i++) {
+			lista.add(padres.getPopulation().get(i));
 		}
-		for (int i = 0; i < padres.getNumIndividuos(); i++) {
-			lista.add(hijos.getPoblacion().get(i));
+		for (int i = 0; i < padres.getnumParticles(); i++) {
+			lista.add(hijos.getPopulation().get(i));
 		}
-		Poblacion total = new Poblacion(2 * padres.getNumIndividuos(), problema);
-		total.setPoblacion(lista);
+		Population total = new Population(2 * padres.getnumParticles(), problema);
+		total.setPopulation(lista);
 		return total;
 	}
 
-	public static List<Individuo> obtenerFrenteConIndice(Poblacion p, int pos) {
-		List<Individuo> frente = new ArrayList<>();
-		frente.add(p.getPoblacion().get(pos));
+	public static List<Particle> obtenerFrenteConIndice(Population p, int pos) {
+		List<Particle> frente = new ArrayList<>();
+		frente.add(p.getPopulation().get(pos));
 		pos++;
-		while (pos < p.getPoblacion().size()) {
-			if (frente.get(0).getdomina() == p.getPoblacion().get(pos).getdomina()) {
-				frente.add(p.getPoblacion().get(pos));
+		while (pos < p.getPopulation().size()) {
+			if (frente.get(0).getdomina() == p.getPopulation().get(pos).getdomina()) {
+				frente.add(p.getPopulation().get(pos));
 			}
 			pos++;
 		}
 		return frente;
 	}
 
-	public static List<Individuo> obtenerFrenteConIndice(List<Individuo> p, int pos) {
-		List<Individuo> frente = new ArrayList<>();
+	public static List<Particle> obtenerFrenteConIndice(List<Particle> p, int pos) {
+		List<Particle> frente = new ArrayList<>();
 		frente.add(p.get(pos));
 		pos++;
 		while (pos < p.size()) {
@@ -319,28 +319,28 @@ public class Utils {
 		return frente;
 	}
 
-	public static Poblacion borrarElementosDeLista(List<Individuo> lista, Poblacion p) {
-		List<Individuo> poblacionABorrar = p.getPoblacion();
+	public static Population borrarElementosDeLista(List<Particle> lista, Population p) {
+		List<Particle> poblacionABorrar = p.getPopulation();
 		for (int i = 0; i < lista.size(); i++) {
-			Individuo ind = lista.get(i);
+			Particle ind = lista.get(i);
 			poblacionABorrar.remove(ind);
 		}
-		p.setPoblacion(poblacionABorrar);
+		p.setPopulation(poblacionABorrar);
 		return p;
 	}
 
-	public static List<Individuo> borrarElementosDeLista(List<Individuo> lista, List<Individuo> p) {
-		List<Individuo> poblacionABorrar = p;
+	public static List<Particle> borrarElementosDeLista(List<Particle> lista, List<Particle> p) {
+		List<Particle> poblacionABorrar = p;
 		for (int i = 0; i < lista.size(); i++) {
-			Individuo ind = lista.get(i);
+			Particle ind = lista.get(i);
 			poblacionABorrar.remove(ind);
 		}
 		p = poblacionABorrar;
 		return p;
 	}
 
-	public static List<Individuo> juntarListas(List<Individuo> Alista, List<Individuo> frente) {
-		for (Individuo i : frente) {
+	public static List<Particle> juntarListas(List<Particle> Alista, List<Particle> frente) {
+		for (Particle i : frente) {
 			Alista.add(i);
 		}
 		return Alista;
@@ -375,16 +375,16 @@ public class Utils {
 		}
 	}
 
-	public static List<Individuo> leerCSV(String nombre) throws FileNotFoundException, IOException, CsvException {
+	public static List<Particle> leerCSV(String nombre) throws FileNotFoundException, IOException, CsvException {
 		try (CSVReader reader = new CSVReader(new FileReader(Constantes.rutaFicheros + nombre))) {
 			List<String[]> r = reader.readAll();
-			List<Individuo> frente = new ArrayList<>();
+			List<Particle> frente = new ArrayList<>();
 
 			int numVariables = Integer.valueOf((r.get(0)[0]));
 			int numObjetivos = Integer.valueOf((r.get(0)[1]));
 
 			for (int i = 1; i < r.size(); i++) {
-				Individuo ind = new Individuo(numVariables, numObjetivos);
+				Particle ind = new Particle(numVariables, numObjetivos);
 				List<Double> Var = new ArrayList<>();
 				List<Double> Fobj = new ArrayList<>();
 				for (int k = 0; k < numVariables; k++) {
@@ -394,7 +394,7 @@ public class Utils {
 					Fobj.add(Double.valueOf(r.get(i)[j]));
 				}
 				ind.setVariables(Var);
-				ind.setObjetivos(Fobj);
+				ind.setObjectives(Fobj);
 				frente.add(ind);
 			}
 			return frente;
@@ -696,7 +696,7 @@ public class Utils {
 
 	}
 
-	public static String modificarCSVproblemaRRPS_PAT(Individuo ind, DataRRPS_PAT datos, String nombre)
+	public static String modificarCSVproblemaRRPS_PAT(Particle ind, DataRRPS_PAT datos, String nombre)
 			throws IOException, CsvException {
 		int filaConexiones = modificarCSVconexiones(datos.getConexionesTotales(), nombre);
 		List<String> numConDia = new ArrayList<>();
@@ -741,14 +741,14 @@ public class Utils {
 		return String.valueOf(solucionesExistentes.size() - 1);
 	}
 
-	public static void crearFicheroPoblacionSolucionITemp(String nombre, String id, Poblacion poblacion)
+	public static void crearFicheroPoblacionSolucionITemp(String nombre, String id, Population poblacion)
 			throws IOException {
 		List<String[]> lista = new ArrayList<>();
 
-		for (int i = 0; i < poblacion.getPoblacion().size(); i++) {
-			String[] filaI = new String[poblacion.getPoblacion().get(i).getVariables().size()];
-			for (int j = 0; j < poblacion.getPoblacion().get(i).getVariables().size(); j++) {
-				filaI[j] = String.valueOf(poblacion.getPoblacion().get(i).getVariables().get(j));
+		for (int i = 0; i < poblacion.getPopulation().size(); i++) {
+			String[] filaI = new String[poblacion.getPopulation().get(i).getVariables().size()];
+			for (int j = 0; j < poblacion.getPopulation().get(i).getVariables().size(); j++) {
+				filaI[j] = String.valueOf(poblacion.getPopulation().get(i).getVariables().get(j));
 			}
 			lista.add(filaI);
 		}
@@ -762,14 +762,14 @@ public class Utils {
 		}
 	}
 
-	public static void crearFicheroPbestsSolucionITemp(String nombre, String id, Poblacion poblacion)
+	public static void crearFicheroPbestsSolucionITemp(String nombre, String id, Population poblacion)
 			throws IOException {
 		List<String[]> lista = new ArrayList<>();
 
-		for (int i = 0; i < poblacion.getPoblacion().size(); i++) {
-			String[] filaI = new String[poblacion.getPoblacion().get(i).getVariables().size()];
-			for (int j = 0; j < poblacion.getPoblacion().get(i).getVariables().size(); j++) {
-				filaI[j] = String.valueOf(poblacion.getPoblacion().get(i).getVariables().get(j));
+		for (int i = 0; i < poblacion.getPopulation().size(); i++) {
+			String[] filaI = new String[poblacion.getPopulation().get(i).getVariables().size()];
+			for (int j = 0; j < poblacion.getPopulation().get(i).getVariables().size(); j++) {
+				filaI[j] = String.valueOf(poblacion.getPopulation().get(i).getVariables().get(j));
 			}
 			lista.add(filaI);
 		}
@@ -869,7 +869,7 @@ public class Utils {
 		List<String[]> lista = new ArrayList<>();
 		String[] paramI = new String[2];
 		paramI[0] = Constantes.nombreParamNumIndividuos;
-		paramI[1] = String.valueOf(params.getNumIndividuos());
+		paramI[1] = String.valueOf(params.getnumParticles());
 		lista.add(paramI);
 
 		paramI = new String[2];
@@ -888,22 +888,22 @@ public class Utils {
 		lista.add(paramI);
 
 		paramI = new String[2];
-		if (params.getCondicionParada().getMethod().equals(Constantes.nombreCPGenerica)) {
+		if (params.getstopCondition().getMethod().equals(Constantes.nombreCPGenerica)) {
 			paramI[0] = Constantes.nombreParamCPNumIter;
-			paramI[1] = String.valueOf(params.getMax_Num_Iteraciones());
+			paramI[1] = String.valueOf(params.getMax_FEs());
 			lista.add(paramI);
 
 			paramI = new String[2];
 			paramI[0] = Constantes.nombreParamCPIterActualTemp;
-			paramI[1] = String.valueOf(params.getIteracionActual());
+			paramI[1] = String.valueOf(params.getcurrentFE());
 			lista.add(paramI);
-		} else if (params.getCondicionParada().getMethod().equals(Constantes.nombreCPMaxDistQuick)) {
+		} else if (params.getstopCondition().getMethod().equals(Constantes.nombreCPMaxDistQuick)) {
 			paramI[0] = Constantes.nombreParamCPM;
-			paramI[1] = String.valueOf(params.getCondicionParada().getM());
+			paramI[1] = String.valueOf(params.getstopCondition().getM());
 			lista.add(paramI);
 			paramI = new String[2];
 			paramI[0] = Constantes.nombreParamCPP;
-			paramI[1] = String.valueOf(params.getCondicionParada().getP());
+			paramI[1] = String.valueOf(params.getstopCondition().getP());
 			lista.add(paramI);
 		}
 
@@ -967,7 +967,7 @@ public class Utils {
 		List<String[]> lista = new ArrayList<>();
 		String[] paramI = new String[2];
 		paramI[0] = Constantes.nombreParamNumIndividuos;
-		paramI[1] = String.valueOf(params.getNumIndividuos());
+		paramI[1] = String.valueOf(params.getnumParticles());
 		lista.add(paramI);
 
 		paramI = new String[2];
@@ -986,17 +986,17 @@ public class Utils {
 		lista.add(paramI);
 
 		paramI = new String[2];
-		if (params.getCondicionParada().getMethod().equals(Constantes.nombreCPGenerica)) {
+		if (params.getstopCondition().getMethod().equals(Constantes.nombreCPGenerica)) {
 			paramI[0] = Constantes.nombreParamCPNumIter;
-			paramI[1] = String.valueOf(params.getMax_Num_Iteraciones());
+			paramI[1] = String.valueOf(params.getMax_FEs());
 			lista.add(paramI);
-		} else if (params.getCondicionParada().getMethod().equals(Constantes.nombreCPMaxDistQuick)) {
+		} else if (params.getstopCondition().getMethod().equals(Constantes.nombreCPMaxDistQuick)) {
 			paramI[0] = Constantes.nombreParamCPM;
-			paramI[1] = String.valueOf(params.getCondicionParada().getM());
+			paramI[1] = String.valueOf(params.getstopCondition().getM());
 			lista.add(paramI);
 			paramI = new String[2];
 			paramI[0] = Constantes.nombreParamCPP;
-			paramI[1] = String.valueOf(params.getCondicionParada().getP());
+			paramI[1] = String.valueOf(params.getstopCondition().getP());
 			lista.add(paramI);
 		}
 
@@ -1078,12 +1078,12 @@ public class Utils {
 				Double.valueOf(fichero.get(3).get(1)), Integer.valueOf(fichero.get(4).get(1)), 0.0, 0.0,
 				Constantes.nombreCPGenerica, Constantes.nombreIWDyanamicDecreasing);
 
-		params.getCondicionParada().setNumIteracionesActual(Integer.valueOf(fichero.get(5).get(1)));
+		params.getstopCondition().setcurrentFE(Integer.valueOf(fichero.get(5).get(1)));
 		return params;
 
 	}
 
-	public static Poblacion leerCSVPoblacionTemp(Problem problema, String nombre, int id, Poblacion poblacion)
+	public static Population leerCSVPoblacionTemp(Problem problema, String nombre, int id, Population poblacion)
 			throws FileNotFoundException, IOException, CsvException {
 
 		int numFilas;
@@ -1100,13 +1100,13 @@ public class Utils {
 					filaI.add(Double.valueOf(r.get(fila)[columna]));
 				}
 
-				poblacion.setIIndividuo(fila, filaI);
+				poblacion.setIParticle(fila, filaI);
 			}
 		}
 		return poblacion;
 	}
 
-	public static Poblacion leerCSVPbestsTemp(Problem problema, String nombre, int id, Poblacion pbests)
+	public static Population leerCSVPbestsTemp(Problem problema, String nombre, int id, Population pbests)
 			throws FileNotFoundException, IOException, CsvException {
 
 		int numFilas;
@@ -1123,7 +1123,7 @@ public class Utils {
 					filaI.add(Double.valueOf(r.get(fila)[columna]));
 				}
 
-				pbests.setIIndividuo(fila, filaI);
+				pbests.setIParticle(fila, filaI);
 			}
 		}
 		return pbests;
@@ -2126,40 +2126,40 @@ public class Utils {
 		Files.createDirectories(path);
 	}
 
-	public static List<Individuo> quitarDuplicados(List<Individuo> p) {
-		List<Individuo> indAQuitar = new ArrayList<Individuo>();
+	public static List<Particle> quitarDuplicados(List<Particle> p) {
+		List<Particle> indAQuitar = new ArrayList<Particle>();
 		for (int i = 0; i < p.size(); i++) {
-			Individuo target = p.get(i);
+			Particle target = p.get(i);
 			for (int j = i + 1; j < p.size(); j++) {
-				if (target.getObjetivos().equals(p.get(j).getObjetivos())) {
+				if (target.getObjectives().equals(p.get(j).getObjectives())) {
 					indAQuitar.add(p.get(j));
 				}
 			}
 		}
-		for (Individuo ind : indAQuitar) {
+		for (Particle ind : indAQuitar) {
 			p.remove(ind);
 		}
 		return p;
 	}
 
-	public static Individuo copiarIndividuo(Individuo ind) {
-		Individuo nuevo = new Individuo(ind.getVariables().size(), ind.getObjetivos().size());
+	public static Particle copiarIndividuo(Particle ind) {
+		Particle nuevo = new Particle(ind.getVariables().size(), ind.getObjectives().size());
 		List<Double> variables = ind.getVariables();
 		int domina = ind.getdomina();
-		List<Double> objetivos = ind.getObjetivos();
-		List<Double> objetivosNorm = ind.getObjetivosNorm();
-		List<Double> restricciones = ind.getRestricciones();
-		boolean factible = ind.isFactible();
+		List<Double> objetivos = ind.getObjectives();
+		List<Double> objetivosNorm = ind.getObjectivesNorm();
+		List<Double> restricciones = ind.getConstraints();
+		boolean factible = ind.isFeasible();
 		Double constraintViolation = ind.getConstraintViolation();
 		List<Double> fitnessHist = ind.getFitnessHist();
 		Map<String, List<Double>> extra = ind.getExtra();
 
 		nuevo.setConstraintViolation(constraintViolation);
 		nuevo.setdomina(domina);
-		nuevo.setFactible(factible);
-		nuevo.setObjetivos(copiarLista(objetivos));
-		nuevo.setObjetivosNorm(copiarLista(objetivosNorm));
-		nuevo.setRestricciones(copiarLista(restricciones));
+		nuevo.setFeasible(factible);
+		nuevo.setObjectives(copiarLista(objetivos));
+		nuevo.setObjectivesNorm(copiarLista(objetivosNorm));
+		nuevo.setConstraints(copiarLista(restricciones));
 		nuevo.setVariables(copiarLista(variables));
 		nuevo.setFitnessHist(fitnessHist);
 		nuevo.getExtra().putAll(extra);
@@ -2184,12 +2184,12 @@ public class Utils {
 		return lista;
 	}
 
-	public static void formatearIndividuo(Individuo ind) {
+	public static void formatearIndividuo(Particle ind) {
 		List<Double> objNormForm = new ArrayList<>();
 		List<Double> fitnessHistForm = new ArrayList<>();
 
-		for (int i = 0; i < ind.getObjetivosNorm().size(); i++) {
-			String format = Constantes.df.format(ind.getObjetivosNorm().get(i));
+		for (int i = 0; i < ind.getObjectivesNorm().size(); i++) {
+			String format = Constantes.df.format(ind.getObjectivesNorm().get(i));
 			format = format.replace(",", ".");
 			objNormForm.add(Double.valueOf(format));
 		}
@@ -2200,17 +2200,17 @@ public class Utils {
 			fitnessHistForm.add(Double.valueOf(format));
 		}
 
-		ind.setObjetivosNorm(objNormForm);
+		ind.setObjectivesNorm(objNormForm);
 		ind.setFitnessHist(fitnessHistForm);
 	}
 
-	public static Individuo crearIndividuoConAtributos(List<Objetivo> obj, List<FitnessI> fit) {
-		Individuo ind = new Individuo(0, obj.size());
+	public static Particle crearIndividuoConAtributos(List<Objetivo> obj, List<FitnessI> fit) {
+		Particle ind = new Particle(0, obj.size());
 		List<Double> objLista = new ArrayList<>();
 		for (Objetivo o : obj) {
 			objLista.add(o.getValor());
 		}
-		ind.setObjetivosNorm(objLista);
+		ind.setObjectivesNorm(objLista);
 
 		List<Double> fitLista = new ArrayList<>();
 		for (FitnessI f : fit) {

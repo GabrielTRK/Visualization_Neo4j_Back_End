@@ -12,7 +12,7 @@ public class ReferencePoint {
 
 	public List<Double> position ;
 	private int memberSize ;
-	private List<Pair<Individuo, Double>> potentialMembers ;
+	private List<Pair<Particle, Double>> potentialMembers ;
 
 	public ReferencePoint() {
 	}
@@ -68,8 +68,8 @@ public class ReferencePoint {
 	public boolean HasPotentialMember() { return potentialMembers.size()>0; }
 	public void clear(){ memberSize=0; this.potentialMembers.clear();}
 	public void AddMember(){this.memberSize++;}
-	public void AddPotentialMember(Individuo member_ind, double distance){
-	  this.potentialMembers.add(new ImmutablePair<Individuo,Double>(member_ind,distance) );
+	public void AddPotentialMember(Particle member_ind, double distance){
+	  this.potentialMembers.add(new ImmutablePair<Particle,Double>(member_ind,distance) );
 	}
 
 	@Override
@@ -78,18 +78,18 @@ public class ReferencePoint {
 				+ potentialMembers + "]";
 	}
 	
-	public List<Pair<Individuo, Double>> getPotentialMembers() {
+	public List<Pair<Particle, Double>> getPotentialMembers() {
 		return potentialMembers;
 	}
 
-	public void setPotentialMembers(List<Pair<Individuo, Double>> potentialMembers) {
+	public void setPotentialMembers(List<Pair<Particle, Double>> potentialMembers) {
 		this.potentialMembers = potentialMembers;
 	}
 
 	public void sort() {
-		this.potentialMembers.sort(new Comparator<Pair<Individuo, Double>>() {
+		this.potentialMembers.sort(new Comparator<Pair<Particle, Double>>() {
 	        @Override
-	        public int compare(Pair<Individuo, Double> o1, Pair<Individuo, Double> o2) {
+	        public int compare(Pair<Particle, Double> o1, Pair<Particle, Double> o2) {
 	            if (o1.getRight() > o2.getRight()) {
 	                return -1;
 	            } else if (o1.getRight().equals(o2.getRight())) {
@@ -101,12 +101,12 @@ public class ReferencePoint {
 	    });
 	}
 
-	public Individuo FindClosestMember() {
+	public Particle FindClosestMember() {
 	  return this.potentialMembers.remove(this.potentialMembers.size() - 1)
 	            .getLeft();
 	}
 	  
-	public Individuo RandomMember() {
+	public Particle RandomMember() {
 	  int index = this.potentialMembers.size()>1 ? Utils.nextInt(0, this.potentialMembers.size()-1):0;
 	  return this.potentialMembers.remove(index).getLeft();
 	}

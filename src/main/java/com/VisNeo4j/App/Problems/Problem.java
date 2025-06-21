@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Individuo;
+import com.VisNeo4j.App.Modelo.Particle;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
@@ -104,22 +104,22 @@ public class Problem {
 	}
 
 	//Metodo por defecto de cálculo de objetivos
-	public Individuo evaluate(Individuo solution) throws FileNotFoundException, IOException, CsvException {
+	public Particle evaluate(Particle solution) throws FileNotFoundException, IOException, CsvException {
 		List<Double> objetivos = new ArrayList<>(this.numObjetivos);
 		
 		for (int i = 0; i < this.numObjetivos; i++) {
 			objetivos.add(i, Utils.getRandNumber(0.0, 10.0));
 		}
-		solution.setObjetivos(objetivos);
+		solution.setObjectives(objetivos);
 		return solution;
 	}
 	
-	public Individuo repararMejorar(Individuo solucion) {
+	public Particle repararMejorar(Particle solucion) {
 		return solucion;
 	}
 	
 	//Metodo por defecto de inicialización de variables
-	public Individuo inicializarValores(Individuo ind) {
+	public Particle inicializarValores(Particle ind) {
 		List<Double> variables = new ArrayList<>(this.numVariables);
 		
 		for (int i = 0; i < this.numVariables; i++) {
@@ -130,19 +130,19 @@ public class Problem {
 		return ind;
 	}
 	
-	public Individuo extra(Individuo ind) {
+	public Particle extra(Particle ind) {
 		return ind;
 	}
 	
-	public Individuo devolverSolucionCompleta(Individuo ind) {
+	public Particle devolverSolucionCompleta(Particle ind) {
 		return ind;
 	}
 	
-	public Individuo comprobarRestricciones(Individuo ind) {
+	public Particle comprobarRestricciones(Particle ind) {
 		return ind;
 	}
 	
-	public Map<String, String> calcularValoresAdicionales(Individuo ind){
+	public Map<String, String> calcularValoresAdicionales(Particle ind){
 		return new HashMap<>();
 	}
 	
