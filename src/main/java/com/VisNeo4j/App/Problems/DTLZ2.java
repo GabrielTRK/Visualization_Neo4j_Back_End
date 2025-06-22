@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Model.Particle;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class DTLZ2 extends Problem{
@@ -67,7 +67,7 @@ public class DTLZ2 extends Problem{
 	
 	//Inicializar de forma aleatoria los valores de las variables según los límites
 	@Override
-	 public Particle inicializarValores(Particle ind) {
+	 public Particle initializeValues(Particle ind) {
 		 List<Double> valores = new ArrayList<>(super.getNumVariables());
 		 for(int i = 0; i < super.getNumVariables(); i++) {
 			 valores.add(i, Utils.getRandNumber(super.getLimitesInferiores().get(i),

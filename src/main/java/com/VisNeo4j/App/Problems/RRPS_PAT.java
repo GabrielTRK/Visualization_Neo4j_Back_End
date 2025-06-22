@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Model.Particle;
 import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class RRPS_PAT extends Problem {
 	
-	private Double SRate = 0.0;
+	private Double SRate = 0.5;
 
 	private Double resInf = 0.0;
 	private Double resSup;
@@ -447,7 +447,7 @@ public class RRPS_PAT extends Problem {
 	}
 
 	@Override
-	public Particle inicializarValores(Particle ind) {
+	public Particle initializeValues(Particle ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for (int i = 0; i < super.getNumVariables(); i++) {
 
@@ -707,7 +707,7 @@ public class RRPS_PAT extends Problem {
 	}
 	
 	@Override
-	public Particle repararMejorar(Particle solucion) {
+	public Particle repairImprove(Particle solucion) {
 		this.calcularEvalKP();
 		//Se debe intentar reparar la solución quitando conexiones y añadiendo.
 		//Se debe intentar mejorar la solución quitando conexiones y añadiendo.

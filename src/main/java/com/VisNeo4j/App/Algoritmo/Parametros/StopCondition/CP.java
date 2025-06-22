@@ -1,8 +1,8 @@
 package com.VisNeo4j.App.Algoritmo.Parametros.StopCondition;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Particle;
-import com.VisNeo4j.App.Modelo.Population;
+import com.VisNeo4j.App.Model.Particle;
+import com.VisNeo4j.App.Model.Population;
 
 public class CP {
 

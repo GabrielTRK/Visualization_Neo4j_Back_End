@@ -11,8 +11,8 @@ import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Algoritmo.Parametros.AccelerationCoefficientsUpdate.C1_C2;
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Particle;
-import com.VisNeo4j.App.Modelo.Population;
+import com.VisNeo4j.App.Model.Particle;
+import com.VisNeo4j.App.Model.Population;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
@@ -81,7 +81,7 @@ public class BPSO {
 			// this.calcularAux();
 
 			// this.compararFitness();
-			this.rellenarVelocidadesIniciales();
+			this.initialVelocities();
 
 			Utils.leerCSVV0Temp(proyecto, opciones.getId(), this.v0);
 			Utils.leerCSVV1Temp(proyecto, opciones.getId(), this.v1);
@@ -94,7 +94,7 @@ public class BPSO {
 			// Calcular Pbest
 			this.PbestPopulation = new Population(this.params.getnumParticles(), problem);
 
-			this.rellenarVelocidadesIniciales();
+			this.initialVelocities();
 
 			this.fitnessHist.add(this.Gbest.getObjectives().get(0));
 		}
@@ -340,8 +340,10 @@ public class BPSO {
 
 		Particle Temp_GBest = new Particle(0, 0);
 		List<Particle> listaPBests = new ArrayList<>();
-
+//-----------------------Compute slope------------------------------------------------------
 		double slope = this.computeSlope();
+		
+//-----------------------Update velocity for each particle in each dimension----------------
 		for (int i = 0; i < this.params.getnumParticles(); i++) {
 			double vc;
 
@@ -389,6 +391,8 @@ public class BPSO {
 				} else {
 					vc = 1 / (1 + Math.pow(Math.E, -slope * v0));
 				}
+				
+//---------------------------Update position of particle i on dimension j---------------------
 				if (Utils.getRandNumber(0.0, 1.0) < vc) {
 					if (this.particlesPopulation.getPopulation().get(i).getVariables().get(j) == 0.0) {
 						this.particlesPopulation.getPopulation().get(i).modIVariable(j, 1.0);
@@ -403,11 +407,11 @@ public class BPSO {
 				}
 
 			}
-			
+//-------------------------Compute objective function values and repair/improve solution--------
 			this.problem.evaluate(this.particlesPopulation.getPopulation().get(i));
-			this.particlesPopulation.getPopulation().set(i, this.problem.repararMejorar(this.particlesPopulation.getPopulation().get(i)));
+			this.particlesPopulation.getPopulation().set(i, this.problem.repairImprove(this.particlesPopulation.getPopulation().get(i)));
 			
-			// Actualizar PBest
+//----------------------------------Update PBest---------------------------------------------
 
 			if (this.PbestPopulation.getPopulation().get(i).getObjectives().size() == this.particlesPopulation
 					.getPopulation().get(i).getObjectives().size()) {
@@ -460,8 +464,8 @@ public class BPSO {
 				listaPBests.add(nuevo);
 			}
 
-			//listaLBests.add(obtenerLbest(this.particlesPopulation.getPopulation().get(i)));
-
+//---------------------------------Update Gbest---------------------------------------
+			
 			if (i == 0) {
 				Temp_GBest = Utils.copiarIndividuo(particlesPopulation.getPopulation().get(i));
 			} else {
@@ -493,7 +497,6 @@ public class BPSO {
 		}
 
 		this.PbestPopulation.setPopulation(listaPBests);
-		//this.poblacionLbest.setPoblacion(listaLBests);
 
 		if (this.Gbest != null) {
 			if (this.Gbest.isFeasible() && Temp_GBest.isFeasible()) {
@@ -721,7 +724,7 @@ public class BPSO {
 		}
 	}*/
 
-	private void rellenarVelocidadesIniciales() {
+	private void initialVelocities() {
 		Particle Temp_GBest = new Particle(0, 0);
 		List<Particle> listaPBests = new ArrayList<>();
 		//List<Individuo> listaLBests = new ArrayList<>();

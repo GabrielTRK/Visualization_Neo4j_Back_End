@@ -3,7 +3,7 @@ package com.VisNeo4j.App.Problems;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Model.Particle;
 import com.VisNeo4j.App.Utils.Utils;
 
 public class Rosenbrock extends Problem{
@@ -43,7 +43,7 @@ public class Rosenbrock extends Problem{
 	}
 	
 	@Override
-	 public Particle inicializarValores(Particle ind) {
+	 public Particle initializeValues(Particle ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for(int i = 0; i < super.getNumVariables(); i++) {
 			//valores.add(Utils.getRandBinNumber());

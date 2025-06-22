@@ -2,8 +2,8 @@ package com.VisNeo4j.App.Algoritmo.Parametros;
 
 import com.VisNeo4j.App.Algoritmo.Parametros.InertiaWUpdate.InertiaW;
 import com.VisNeo4j.App.Algoritmo.Parametros.StopCondition.CP;
-import com.VisNeo4j.App.Modelo.Particle;
-import com.VisNeo4j.App.Modelo.Population;
+import com.VisNeo4j.App.Model.Particle;
+import com.VisNeo4j.App.Model.Population;
 
 public class BPSOParams {
 	

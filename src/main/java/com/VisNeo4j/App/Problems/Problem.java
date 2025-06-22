@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Model.Particle;
 import com.VisNeo4j.App.Utils.Utils;
 import com.opencsv.exceptions.CsvException;
 
@@ -30,6 +30,7 @@ public class Problem {
     private String nombre;
     private List<Boolean> MinOMax;
     private int numInicializaciones = 0;
+    private Double SRate = 0.5;
 	
 	public Problem(int numVariables, int numObjetivos) {
 		this.numObjetivos = numObjetivos;
@@ -114,12 +115,12 @@ public class Problem {
 		return solution;
 	}
 	
-	public Particle repararMejorar(Particle solucion) {
+	public Particle repairImprove(Particle solucion) {
 		return solucion;
 	}
 	
 	//Metodo por defecto de inicialización de variables
-	public Particle inicializarValores(Particle ind) {
+	public Particle initializeValues(Particle ind) {
 		List<Double> variables = new ArrayList<>(this.numVariables);
 		
 		for (int i = 0; i < this.numVariables; i++) {
@@ -148,6 +149,14 @@ public class Problem {
 	
 	public void sumarNumInicializaciones() {
 		this.numInicializaciones++;
+	}
+
+	public Double getSRate() {
+		return SRate;
+	}
+
+	public void setSRate(Double sRate) {
+		SRate = sRate;
 	}
 	
 }

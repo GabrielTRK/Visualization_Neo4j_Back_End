@@ -1,0 +1,12 @@
+This is the back-end code for the RRPS_PAT system, which contains the Enhanced BPSO implementation written in Java 8.
+
+You can find the 'MainApp' file in the 'com.VisNeo4j.App package'.
+This file contains the declaration of EBPSO and the declaration of a sample Knapsack problem as well as the Air traffic management problem.
+
+You can tune the parameters of the metaheuristic and run the MainApp file as a Java application to solve either of these problems.
+During the optimization, the console will print the global best (variables, objectives, constraints etc) after each function evaluation.
+
+The 'com.VisNeo4j.App.Problems.Knapsack' package contains all the available Knapsack problem instances to choose from.
+
+For the Air traffic management problem con also specify the specific conditions of the problem, 
+    such as the time-window to consider, objectives priorization and constraints.

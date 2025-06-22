@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Model.Particle;
 
 public class DataRRPS_PAT {
 	
@@ -13,7 +13,7 @@ public class DataRRPS_PAT {
 	private String fechaInicio;
 	private String fechaFinal;
 	
-	private List<DatosRRPS_PATDiaI> datosPorDia;
+	private List<DataRRPS_PATDayI> datosPorDia;
 	private List<List<String>> conexionesTotales;
 	private List<List<String>> conexionesNombresTotales;
 	private List<List<String>> conexionesNombresTotalesSeparadas;
@@ -47,7 +47,7 @@ public class DataRRPS_PAT {
 	private List<String> continentesTotales;
 	private List<Boolean> capitalesTotales;
 
-	public DataRRPS_PAT(int numDias, String fechaInicio, String fechaFinal, List<DatosRRPS_PATDiaI> datosPorDia) {
+	public DataRRPS_PAT(int numDias, String fechaInicio, String fechaFinal, List<DataRRPS_PATDayI> datosPorDia) {
 		this.numDias = numDias;
 		this.fechaInicio = fechaInicio;
 		this.fechaFinal = fechaFinal;
@@ -196,11 +196,11 @@ public class DataRRPS_PAT {
 		this.fechaFinal = fechaFinal;
 	}
 
-	public List<DatosRRPS_PATDiaI> getDatosPorDia() {
+	public List<DataRRPS_PATDayI> getDatosPorDia() {
 		return datosPorDia;
 	}
 
-	public void setDatosPorDia(List<DatosRRPS_PATDiaI> datosPorDia) {
+	public void setDatosPorDia(List<DataRRPS_PATDayI> datosPorDia) {
 		this.datosPorDia = datosPorDia;
 	}
 

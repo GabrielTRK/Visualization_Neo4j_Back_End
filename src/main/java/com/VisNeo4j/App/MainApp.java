@@ -14,10 +14,11 @@ import com.VisNeo4j.App.Algoritmo.BPSO;
 import com.VisNeo4j.App.Algoritmo.Opciones.BPSOOpciones;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
-import com.VisNeo4j.App.Modelo.Entrada.PreferencesConstraints;
+import com.VisNeo4j.App.Model.Inbound.PreferencesConstraints;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Problems.RRPS_PAT;
 import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
+import com.VisNeo4j.App.Problems.Knapsack.Knapsack01;
 import com.VisNeo4j.App.Problems.Knapsack.Knapsack01_Ks_8a;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
@@ -38,8 +39,8 @@ public class MainApp {
 //--------------------------------------BPSO Params------------------------------------------
 		int numParticles = 50;
 		double inertiaW = 0.9;
-		double c1 = 1.0;
-		double c2 = 1.0;
+		double c1_i = 1.0;
+		double c2_f = 1.0;
 		int maxFunctionEv = 5000;
 		double SRate = 0.5;
 		
@@ -47,14 +48,15 @@ public class MainApp {
 		
 		//Choose any knapsack problem from the Problems.Knapsack package
 		Problem p = new Knapsack01_Ks_8a();
-		
+		p.setSRate(SRate);
 		
 //--------------------------Air traffic management problem declaration--------------------------------
 		
+		/*
 		//Specify the start date(inclusive) and the end date(inclusive) that should be considered.
 		//All the flights from that time window will be added to the problem
 		//The date format is yyyy-MM-DD
-		/*String startDate = "2020-09-30";
+		String startDate = "2020-09-30";
 		String endDate = "2020-09-30";
 		
 		DataRRPS_PAT data = Utils.getDataRRPS_PAT(startDate, endDate);
@@ -78,11 +80,11 @@ public class MainApp {
 		DMPreferences preferences = new DMPreferences(new ObjectivesOrder(preferencesConstraints.getOrdenObj(), preferencesConstraints.getRestricciones()), Constantes.nombreQDMPSR);
 		preferences.generateWeightsVector(preferencesConstraints.getOrdenObj().size());
 		
-		//Problem p = new RRPS_PAT(data, preferencesConstraints.getPol(), preferences, SRate);
-		
+		Problem p = new RRPS_PAT(data, preferencesConstraints.getPol(), preferences, SRate);
 		*/
 		
-		BPSOParams params = new BPSOParams(numParticles, inertiaW, c1, c2, 
+		
+		BPSOParams params = new BPSOParams(numParticles, inertiaW, c1_i, c2_f, 
 						maxFunctionEv, Constantes.nombreCPGenerica, 
 						Constantes.nombreIWLinearDecreasing);
 		

@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.VisNeo4j.App.Modelo.Particle;
+import com.VisNeo4j.App.Model.Particle;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Utils.Utils;
 
@@ -57,7 +57,7 @@ public class Knapsack01 extends Problem {
 	}
 	
 	@Override
-	public Particle repararMejorar(Particle solution) {
+	public Particle repairImprove(Particle solution) {
 		if(solution.getConstraints().get(0) > this.capacity) {
 			while (solution.getConstraints().get(0) > this.capacity) {
 				if(Utils.getRandNumber(0.0, 1.0) >= this.SRate) {
@@ -115,7 +115,7 @@ public class Knapsack01 extends Problem {
 	
 
 	@Override
-	public Particle inicializarValores(Particle ind) {
+	public Particle initializeValues(Particle ind) {
 		List<Double> valores = new ArrayList<>(super.getNumVariables());
 		for (int i = 0; i < super.getNumVariables(); i++) {
 
@@ -166,5 +166,7 @@ public class Knapsack01 extends Problem {
 	public void setProfits(List<Double> profits) {
 		this.profits = profits;
 	}
+	
+	
 
 }

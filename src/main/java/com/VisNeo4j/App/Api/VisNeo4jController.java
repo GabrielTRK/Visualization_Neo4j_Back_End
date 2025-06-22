@@ -14,18 +14,18 @@ import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Constantes.Constantes_Opt;
 import com.VisNeo4j.App.Constantes.Constantes_Sol;
-import com.VisNeo4j.App.Modelo.Particle;
-import com.VisNeo4j.App.Modelo.Entrada.PreferencesConstraints;
-import com.VisNeo4j.App.Modelo.Entrada.Usuario;
-import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
-import com.VisNeo4j.App.Modelo.Salida.FitnessI;
-import com.VisNeo4j.App.Modelo.Salida.Histogramas;
-import com.VisNeo4j.App.Modelo.Salida.Objetivo;
-import com.VisNeo4j.App.Modelo.Salida.Proyecto;
-import com.VisNeo4j.App.Modelo.Salida.Rangos;
-import com.VisNeo4j.App.Modelo.Salida.Respuesta;
-import com.VisNeo4j.App.Modelo.Salida.Solucion;
-import com.VisNeo4j.App.Modelo.Salida.TooltipTexts;
+import com.VisNeo4j.App.Model.Particle;
+import com.VisNeo4j.App.Model.Inbound.PreferencesConstraints;
+import com.VisNeo4j.App.Model.Inbound.Usuario;
+import com.VisNeo4j.App.Model.Outbound.DatosConexiones;
+import com.VisNeo4j.App.Model.Outbound.FitnessI;
+import com.VisNeo4j.App.Model.Outbound.Histogramas;
+import com.VisNeo4j.App.Model.Outbound.Objetivo;
+import com.VisNeo4j.App.Model.Outbound.Proyecto;
+import com.VisNeo4j.App.Model.Outbound.Rangos;
+import com.VisNeo4j.App.Model.Outbound.Respuesta;
+import com.VisNeo4j.App.Model.Outbound.Solucion;
+import com.VisNeo4j.App.Model.Outbound.TooltipTexts;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Problems.RRPS_PAT;
 import com.VisNeo4j.App.Problems.RRPS_PAT_ALT;
@@ -631,9 +631,9 @@ class VisNeo4jController {
 		
 		Particle ind = new Particle(problema.getNumVariables(), 1);
 		
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
-		problema.inicializarValores(ind);
+		problema.initializeValues(ind);
+		problema.initializeValues(ind);
+		problema.initializeValues(ind);
 		problema.evaluate(ind);
 		System.out.println(ind);
 		

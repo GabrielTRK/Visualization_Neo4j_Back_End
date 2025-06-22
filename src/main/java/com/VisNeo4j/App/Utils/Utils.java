@@ -28,21 +28,21 @@ import org.springframework.util.FileSystemUtils;
 import com.VisNeo4j.App.Algoritmo.Parametros.BPSOParams;
 import com.VisNeo4j.App.Constantes.Constantes;
 import com.VisNeo4j.App.Lectura.LecturaDeDatos;
-import com.VisNeo4j.App.Modelo.Particle;
-import com.VisNeo4j.App.Modelo.Population;
-import com.VisNeo4j.App.Modelo.Salida.Aeropuerto;
-import com.VisNeo4j.App.Modelo.Salida.BPSOParamsSalida;
-import com.VisNeo4j.App.Modelo.Salida.Conexion;
-import com.VisNeo4j.App.Modelo.Salida.DatosConexiones;
-import com.VisNeo4j.App.Modelo.Salida.FechasProyecto;
-import com.VisNeo4j.App.Modelo.Salida.FitnessI;
-import com.VisNeo4j.App.Modelo.Salida.Objetivo;
-import com.VisNeo4j.App.Modelo.Salida.OrdenObjSalida;
-import com.VisNeo4j.App.Modelo.Salida.Restricciones;
-import com.VisNeo4j.App.Modelo.Salida.TraducirSalida;
+import com.VisNeo4j.App.Model.Particle;
+import com.VisNeo4j.App.Model.Population;
+import com.VisNeo4j.App.Model.Outbound.Aeropuerto;
+import com.VisNeo4j.App.Model.Outbound.BPSOParamsSalida;
+import com.VisNeo4j.App.Model.Outbound.Conexion;
+import com.VisNeo4j.App.Model.Outbound.DatosConexiones;
+import com.VisNeo4j.App.Model.Outbound.FechasProyecto;
+import com.VisNeo4j.App.Model.Outbound.FitnessI;
+import com.VisNeo4j.App.Model.Outbound.Objetivo;
+import com.VisNeo4j.App.Model.Outbound.OrdenObjSalida;
+import com.VisNeo4j.App.Model.Outbound.Restricciones;
+import com.VisNeo4j.App.Model.Outbound.TraducirSalida;
 import com.VisNeo4j.App.Problems.Problem;
 import com.VisNeo4j.App.Problems.Data.DataRRPS_PAT;
-import com.VisNeo4j.App.Problems.Data.DatosRRPS_PATDiaI;
+import com.VisNeo4j.App.Problems.Data.DataRRPS_PATDayI;
 import com.VisNeo4j.App.QDMP.DMPreferences;
 import com.VisNeo4j.App.QDMP.ObjectivesOrder;
 import com.opencsv.CSVReader;
@@ -700,7 +700,7 @@ public class Utils {
 			throws IOException, CsvException {
 		int filaConexiones = modificarCSVconexiones(datos.getConexionesTotales(), nombre);
 		List<String> numConDia = new ArrayList<>();
-		for (DatosRRPS_PATDiaI dato : datos.getDatosPorDia()) {
+		for (DataRRPS_PATDayI dato : datos.getDatosPorDia()) {
 			numConDia.add(String.valueOf(dato.getConexiones().size()));
 		}
 		int filaNumDiasYCon = modificarCSVNumConYDias(numConDia, nombre);
@@ -2236,7 +2236,7 @@ public class Utils {
 	// Obtiene los datos del problema entre las fechas indicadas, ambas incluidas
 	public static DataRRPS_PAT getDataRRPS_PAT(String fecha_I, String fecha_F)
 			throws ParseException, IOException {
-		List<DatosRRPS_PATDiaI> datosPorDia = new ArrayList<>();
+		List<DataRRPS_PATDayI> datosPorDia = new ArrayList<>();
 
 		Date fechaInicio = Constantes.formatoFechaRRPS_PAT.parse(fecha_I);
 		Date fechaFinal = Constantes.formatoFechaRRPS_PAT.parse(fecha_F);
@@ -2274,7 +2274,7 @@ public class Utils {
 
 	// Obtiene los datos del dia indicado. Si existen en el fichero, se leen, si no,
 	// se buscan en la BBDD.
-	public static DatosRRPS_PATDiaI getDataRRPS_PATDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
+	public static DataRRPS_PATDayI getDataRRPS_PATDiaI(String dia_I, String dia_F, String mes_I, String mes_F,
 			String año_I, String año_F, String ruta) throws IOException {
 		List<Double> riesgos = new ArrayList<>();
 		List<Double> riesgos_KP = new ArrayList<>();
@@ -2320,7 +2320,7 @@ public class Utils {
 					conexionesNombres, dia_I, dia_F, mes_I, mes_F, año_I, año_F, ruta);
 		}
 
-		return new DatosRRPS_PATDiaI(riesgos, riesgos_KP, conexiones, conexionesTotal, pasajeros, pasajeros_KP,
+		return new DataRRPS_PATDayI(riesgos, riesgos_KP, conexiones, conexionesTotal, pasajeros, pasajeros_KP,
 				dineroMedioT, dineroMedioT_KP, dineroMedioN, dineroMedioN_KP, companyias, pasajerosCompanyias_KP,
 				companyias_KP, areasInf, areasInf_KP, continentes, capital, vuelosSalientes, vuelosEntrantesConexion,
 				vuelosSalientesAEspanya, conectividades, tasasAeropuertos, tasasAeropuertos_KP, vuelosSalientesDeOrigen,
