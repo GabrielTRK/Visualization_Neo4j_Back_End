@@ -55,8 +55,6 @@ public class BPSO {
 			throws FileNotFoundException, IOException, CsvException {
 		this.params = params;
 		this.problem = problem;
-		this.r1 = Utils.getRandNumber(0.0, 1.0);
-		this.r2 = Utils.getRandNumber(0.0, 1.0);
 		this.v0 = new ArrayList<>();
 		this.v1 = new ArrayList<>();
 		//this.v0L = new ArrayList<>();
@@ -109,13 +107,12 @@ public class BPSO {
 			this.params
 					.setC2(this.c1c2.updateC2(this.params.getMax_FEs(), this.params.getcurrentFE()));
 
+			this.params.updateInertiaW();
 			
-			this.updatePositionsAndPbestGbest();
-
 			this.r1 = Utils.getRandNumber(0.0, 1.0);
 			this.r2 = Utils.getRandNumber(0.0, 1.0);
-
-			this.params.updateInertiaW();
+			
+			this.updatePositionsAndPbestGbest();
 			
 			System.out.println(this.params.getcurrentFE() + ": " + Gbest);
 			

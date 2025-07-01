@@ -430,12 +430,12 @@ class VisNeo4jController {
 			@RequestParam("fecha_final") String fecha_F,
 			@RequestBody PreferencesConstraints resPolPref) throws FileNotFoundException, IOException, CsvException, ParseException {
 		
-		String string = "004,034556";
+		/*String string = "004,034556";
 		String[] parts = string.split(",");
 		
 		for(int i = 0; i < parts.length; i++) {
 			System.out.println(parts[i]);
-		}
+		}*/
 		
 		/*DMPreferences preferencias = new DMPreferences(new ObjectivesOrder(resPolPref.getOrdenObj(), resPolPref.getRestricciones()), Constantes.nombreQDMPSR);
 		preferencias.generateWeightsVector(resPolPref.getOrdenObj().size());
